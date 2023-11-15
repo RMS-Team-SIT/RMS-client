@@ -2,7 +2,7 @@
 import { onMounted } from 'vue';
 import { currentTheme, initTheme, switchTheme } from '@/composables/theme.js';
 import Button from '@/components/button.vue';
-import { ArrowRightIcon } from '@/components/icons.js';
+import { ArrowRightIcon } from 'heroicons/';
 
 onMounted(() => {
   initTheme();

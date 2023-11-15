@@ -11,6 +11,7 @@ export default ({ mode }) => {
   return defineConfig({
     base: process.env.VITE_BASE_PUBLIC_PATH,
     plugins: [
+      // disale eslint
       // eslint({ cache: false }), 
       // stylelint(), 
       svgLoader(), 
