@@ -3,6 +3,9 @@ import { projectName } from '@/constant';
 import Button from './button.vue';
 import { ArrowRightIcon } from '@heroicons/vue/24/outline';
 import Logo from './logo.vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 </script>
 
 <template>
@@ -11,7 +14,7 @@ import Logo from './logo.vue';
   >
     <div class="w-full p-6 m-auto bg-white rounded-md lg:max-w-xl">
       <h1 class="text-3xl font-semibold text-dark-blue-200 px-10 mb-5">
-        Start Signing Up <br /> 
+        Start Signing Up <br />
         for Free
       </h1>
       <p class="text-sm px-10 mb-5">Create your account to get started.</p>
@@ -87,13 +90,11 @@ import Logo from './logo.vue';
             Sign Up
           </Button>
         </div>
-        <span
-          >Already have an account ?
-          <a href="#" class="text-blue-600 hover:text-blue-800 hover:underline"
-            >Login</a
-          ></span
-        >
       </form>
+      <span class="mt-10 p-10">
+        Already have an account?
+        <span class="text-blue-500 hover:underline" @click="router.push('signin')">Sign in</span></span
+      >
     </div>
   </div>
 </template>

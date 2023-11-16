@@ -4,6 +4,7 @@
 
 html {
   @apply antialiased min-h-full;
+  scroll-behavior: smooth;
 }
 
 html,

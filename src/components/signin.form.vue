@@ -3,6 +3,9 @@ import { projectName } from '@/constant';
 import Button from './button.vue';
 import { ArrowRightIcon } from '@heroicons/vue/24/outline';
 import Logo from './logo.vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 </script>
 
 <template>
@@ -13,7 +16,7 @@ import Logo from './logo.vue';
       <h1 class="text-3xl font-semibold text-dark-blue-200 px-10 mb-5">
         Welcome Back !<br />
       </h1>
-      <p class="text-sm px-10 mb-5"></p>
+      <p class="text-sm px-10 mb-5">Sign in and start managing your resident.</p>
       <form class="space-y-4 px-10 mb-5">
         <div>
           <label class="label">
@@ -44,7 +47,7 @@ import Logo from './logo.vue';
       </form>
       <span class="mt-10 p-10">
         No account yet?
-        <a href="#" class="text-blue-500 hover:underline">Sign up</a></span
+        <span class="text-blue-500 hover:underline" @click="router.push('signup')">Sign up</span></span
       >
     </div>
   </div>

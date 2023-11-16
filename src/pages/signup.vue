@@ -1,12 +1,13 @@
 <script setup>
-import SigninForm from '@/components/signin.form.vue';
+import SignupForm from '@/components/signup.form.vue';
+
 </script>
 
 <template>
   <div class="flex h-screen">
     <div class="flex-1 bg-cover flex flex-row">
       <div class="basis-1/2">
-        <SigninForm />
+        <SignupForm />
       </div>
     </div>
   </div>
