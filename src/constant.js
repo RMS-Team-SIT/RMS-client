@@ -1,1 +1,2 @@
-export const projectName = 'RMS Project';
+export const projectName = 'RMS';
+export const projectFullName = 'Resident Management System';

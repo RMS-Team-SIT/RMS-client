@@ -1,19 +1,7 @@
 <script setup>
-import { computed } from '@vue/runtime-core';
+import { computed } from 'vue';
 
 const props = defineProps({
-  icon: {
-    type: Object,
-    default: null,
-  },
-  iconClass: {
-    type: String,
-    default: '',
-  },
-  text: {
-    type: String,
-    default: '',
-  },
   btnType: {
     type: String,
     default: 'primary',
@@ -21,30 +9,24 @@ const props = defineProps({
 });
 
 const classes = computed(() => {
-  console.log(props.btnType);
-  let classes = [];
+  let buttonClasses = [];
   switch (props.btnType) {
     case 'primary':
-      classes.push('bg-dark-blue');
-      classes.push('hover:bg-blue-700');
+      buttonClasses.push('bg-dark-blue-200', 'hover:bg-dark-blue-100');
       break;
     case 'secondary':
-      classes.push('bg-light-red');
-      classes.push('hover:bg-red-700');
+      buttonClasses.push('bg-light-red', 'hover:bg-red-700');
       break;
     default:
       break;
   }
-  return classes;
+  return buttonClasses;
 });
 </script>
 
 <template>
   <button class="btn text-white rounded-md" :class="classes">
-    <span v-if="icon" class="w-5 h-5">
-      <component :is="icon" :class="iconClass" />
-    </span>
-    <span>{{ text }}</span>
+    <slot></slot>
   </button>
 </template>
 
