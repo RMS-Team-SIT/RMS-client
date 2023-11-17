@@ -4,8 +4,19 @@ import Button from './button.vue';
 import { ArrowRightIcon } from '@heroicons/vue/24/outline';
 import Logo from './logo.vue';
 import { useRouter } from 'vue-router';
+import { reactive } from 'vue';
 
 const router = useRouter();
+
+const data = reactive({
+  firstname: '',
+  lastname: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+  phoneNumber: '',
+});
+
 </script>
 
 <template>
@@ -86,14 +97,18 @@ const router = useRouter();
         </div>
         <div>
           <Button class="btn btn-block">
-            <ArrowRightIcon class="w-5 h-5" />
+            <!-- <ArrowRightIcon class="w-5 h-5" /> -->
             Sign Up
           </Button>
         </div>
       </form>
       <span class="mt-10 p-10">
         Already have an account?
-        <span class="text-blue-500 hover:underline" @click="router.push('signin')">Sign in</span></span
+        <span
+          class="text-blue-500 hover:underline"
+          @click="router.push('signin')"
+          >Sign in</span
+        ></span
       >
     </div>
   </div>
