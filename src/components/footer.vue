@@ -1,18 +1,33 @@
 <script setup>
 import { projectFullName } from '@/constaint';
+import Logo from './logo.vue';
 
 const thisYear = new Date().getFullYear();
 </script>
 
 <template>
-  <!-- Footer -->
-  <footer class="bg-dark-blue-200 text-white p-4 mt-8">
-    <div class="container mx-auto text-center">
-      <p class="text-sm">
-        &copy; {{thisYear}} {{projectFullName}}. All rights reserved.
-      </p>
-    </div>
-  </footer>
+ <footer class="footer p-10 bg-base-200 text-base-content">
+  <aside>
+    <Logo />
+    <p>{{projectFullName}}<br/>&copf; {{thisYear}}. All rights reserved.</p>
+  </aside> 
+  <nav>
+    <header class="footer-title">Services</header> 
+    <a class="link link-hover">Manage</a>
+    <a class="link link-hover">Dashboard</a>
+  </nav> 
+  <nav>
+    <header class="footer-title">Company</header> 
+    <a class="link link-hover">About us</a>
+    <a class="link link-hover">Contact</a>
+  </nav> 
+  <nav>
+    <header class="footer-title">Legal</header> 
+    <a class="link link-hover">Terms of use</a>
+    <a class="link link-hover">Privacy policy</a>
+    <a class="link link-hover">Cookie policy</a>
+  </nav>
+</footer>
 </template>
 
 <style scoped>

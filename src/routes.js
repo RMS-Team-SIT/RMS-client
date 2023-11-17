@@ -1,12 +1,13 @@
-import Index from '@/pages/index.vue';
+import indexVue from '@/pages/index.vue';
 import NotFound from '@/pages/not-found.vue';
 import signupVue from './pages/signup.vue';
 import signinVue from './pages/signin.vue';
+import manageVue from './pages/manage.vue';
 
 export const routes = [
   {
     path: '/',
-    component: Index,
+    component: indexVue,
     meta: {
       title: `Home`,
     },
@@ -25,7 +26,15 @@ export const routes = [
       title: `Sign In`,
     },
   },
+  {
+    path: '/manage',
+    component: manageVue,
+    meta: {
+      title: `Manage`,
+    },
+  },
   { path: '/:path(.*)', component: NotFound },
 ];
+
 
 export default routes;
