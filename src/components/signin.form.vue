@@ -1,5 +1,5 @@
 <script setup>
-import { projectName } from '@/constant';
+import { projectName } from '@/constaint';
 import Button from './button.vue';
 import { ArrowRightIcon } from '@heroicons/vue/24/outline';
 import Logo from './logo.vue';

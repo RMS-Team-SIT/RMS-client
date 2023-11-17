@@ -1,14 +1,13 @@
 <script setup>
-import { projectName } from '@/constant';
 import Button from './button.vue';
-import { ArrowRightIcon } from '@heroicons/vue/24/outline';
-import Logo from './logo.vue';
 import { useRouter } from 'vue-router';
-import { reactive } from 'vue';
+import { computed, reactive } from 'vue';
+import { useVuelidate } from '@vuelidate/core';
+import { required, email, minLength, maxLength, sameAs } from '@vuelidate/validators';
 
 const router = useRouter();
 
-const data = reactive({
+const formData = reactive({
   firstname: '',
   lastname: '',
   email: '',
@@ -17,6 +16,33 @@ const data = reactive({
   phoneNumber: '',
 });
 
+const rules = computed(() => {
+  return {
+    firstname: { required, maxLength: maxLength(500) },
+    lastname: { required, maxLength: maxLength(500) },
+    email: { required, email },
+    password: { required, minLength: minLength(6) },
+    confirmPassword: { required, minLength: minLength(6), sameAs: sameAs(formData.password) },
+    phoneNumber: { required },
+  };
+});
+
+const validator = useVuelidate(rules, formData);
+
+const submitForm = async () => {
+  const result = await validator.value.$validate();
+  if (result) {
+    alert('Form submitted');
+  } else {
+    alert('Form not submitted');
+  }
+};
+
+const validateErrorMsg = (field) => {
+  return validator.value[field].$error
+    ? '* ' + validator.value[field].$errors[0].$message
+    : '';
+};
 </script>
 
 <template>
@@ -29,7 +55,7 @@ const data = reactive({
         for Free
       </h1>
       <p class="text-sm px-10 mb-5">Create your account to get started.</p>
-      <form class="space-y-4 px-10 mb-5">
+      <form @submit.prevent="submitForm" class="space-y-4 px-10 mb-5">
         <div class="flex gap-2">
           <div class="w-full">
             <label class="label">
@@ -39,8 +65,13 @@ const data = reactive({
               type="text"
               placeholder="Firstname"
               class="w-full input-sm input input-bordered rounded-sm"
+              v-model="formData.firstname"
             />
+            <span class="text-sm text-red-500">
+              {{ validateErrorMsg('firstname') }}</span
+            >
           </div>
+
           <div class="w-full">
             <label class="label">
               <span class="text-base label-text">Lastname</span>
@@ -49,7 +80,11 @@ const data = reactive({
               type="text"
               placeholder="Lastname"
               class="w-full input input-bordered input-sm rounded-sm"
+              v-model="formData.lastname"
             />
+            <span class="text-sm text-red-500">{{
+              validateErrorMsg('lastname')
+            }}</span>
           </div>
         </div>
         <div>
@@ -60,7 +95,11 @@ const data = reactive({
             type="text"
             placeholder="Phone number"
             class="w-full input input-bordered input-sm rounded-sm"
+            v-model="formData.phoneNumber"
           />
+          <span class="text-sm text-red-500">{{
+            validateErrorMsg('phoneNumber')
+          }}</span>
         </div>
         <div>
           <label class="label">
@@ -70,9 +109,11 @@ const data = reactive({
             type="email"
             placeholder="Email Address"
             class="w-full input input-bordered input-sm rounded-sm"
+            v-model="formData.email"
           />
+          <span class="text-sm text-red-500">{{ validateErrorMsg('email') }}</span>
           <p class="text-sm text-gray-500">
-            * Please use a real email address for future correspondence
+            Please use a real email address for future correspondence
           </p>
         </div>
         <div>
@@ -83,7 +124,9 @@ const data = reactive({
             type="password"
             placeholder="Enter Password"
             class="w-full input input-bordered input-sm rounded-sm"
+            v-model="formData.password"
           />
+          <span class="text-sm text-red-500">{{ validateErrorMsg('password') }}</span>
         </div>
         <div>
           <label class="label">
@@ -93,11 +136,14 @@ const data = reactive({
             type="password"
             placeholder="Confirm Password"
             class="w-full input input-bordered input-sm rounded-sm"
+            v-model="formData.confirmPassword"
           />
+          <span class="text-sm text-red-500">{{
+            validateErrorMsg('confirmPassword')
+          }}</span>
         </div>
         <div>
           <Button class="btn btn-block">
-            <!-- <ArrowRightIcon class="w-5 h-5" /> -->
             Sign Up
           </Button>
         </div>

@@ -1,5 +1,5 @@
 <script setup>
-import { projectName, projectFullName } from '@/constant';
+import { projectName, projectFullName } from '@/constaint';
 import { useRouter } from 'vue-router';
 import Button from './button.vue';
 

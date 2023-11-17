@@ -7,7 +7,7 @@ import SignupForm from '@/components/signup.form.vue';
   <div class="flex h-screen">
     <div class="flex-1 bg-cover flex flex-row">
       <div class="basis-1/2">
-        <SignupForm />
+        <SignupForm  />
       </div>
     </div>
   </div>

@@ -2,7 +2,7 @@
 import { watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import navbar from './components/navbar.vue';
-import { projectName } from './constant';
+import { projectName } from './constaint';
 const router = useRouter();
 const route = useRoute();
 
