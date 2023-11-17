@@ -1,4 +1,4 @@
-export const baseUrl = 'http://localhost:3000/api';
+import { baseUrl } from './constants';
 
 export const signUp = (data) => {
   return fetch(`${baseUrl}/users/signup`, {

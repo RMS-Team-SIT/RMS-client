@@ -4,7 +4,6 @@ import { useRoute, useRouter } from 'vue-router';
 import Navbar from '@/components/navbar.vue';
 import { themeChange } from 'theme-change';
 import Footer from '@/components/footer.vue';
-import NavbarLoggedin from '@/components/navbar-loggedin.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -15,8 +14,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <Navbar/>
-  <NavbarLoggedin/>
+  <Navbar :isLoggedIn="true"/>
+  <Navbar :isLoggedIn="false"/>
   <div>
     <!-- Main Content -->
     <main class="container mx-auto mt-8">

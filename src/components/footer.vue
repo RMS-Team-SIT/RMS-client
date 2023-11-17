@@ -31,9 +31,9 @@ const thisYear = new Date().getFullYear();
 </template>
 
 <style scoped>
-  footer {
+  /* footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-  }
+  } */
 </style>
