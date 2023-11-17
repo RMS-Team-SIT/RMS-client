@@ -1,7 +1,7 @@
-export const baseUrl = 'http://localhost:3000/api/v1';
+export const baseUrl = 'http://localhost:3000/api';
 
-export const signup = (data) => {
-  return fetch(`${baseUrl}/user/signup`, {
+export const signUp = (data) => {
+  return fetch(`${baseUrl}/users/signup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ export const signIn = (data) => {
 };
 
 export const me = (token) => {
-  return fetch(`${baseUrl}/user/me`, {
+  return fetch(`${baseUrl}/users/me`, {
     headers: {
       Authorization: token,
     },

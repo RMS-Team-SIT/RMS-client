@@ -3,8 +3,19 @@ import Button from './button.vue';
 import { useRouter } from 'vue-router';
 import { computed, reactive } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
-import { required, email, minLength, maxLength, sameAs } from '@vuelidate/validators';
+import {
+  required,
+  email,
+  minLength,
+  maxLength,
+  sameAs,
+  alpha,
+  numeric,
+  helpers,
+} from '@vuelidate/validators';
+import { CheckIcon, XMarkIcon } from '@heroicons/vue/24/outline';
 
+const emit = defineEmits(['form-data']);
 const router = useRouter();
 
 const formData = reactive({
@@ -13,23 +24,65 @@ const formData = reactive({
   email: '',
   password: '',
   confirmPassword: '',
-  phoneNumber: '',
+  phone: '',
 });
+
+const passwordRules = computed(() => [
+  {
+    text: 'Contain 8 Letters',
+    valid: computed(() => formData.password.length >= 8),
+  },
+  {
+    text: 'Contain Upper Letter',
+    valid: computed(() => new RegExp(`[A-Z]`).test(formData.password)),
+  },
+  {
+    text: 'Contain Lower Letter',
+    valid: computed(() => new RegExp(`[a-z]`).test(formData.password)),
+  },
+  {
+    text: 'Contain Number',
+    valid: computed(() => new RegExp(`[0-9]`).test(formData.password)),
+  },
+  {
+    text: 'Contain Symbol',
+    valid: computed(() => new RegExp(`[^A-Za-z0-9]`).test(formData.password)),
+  },
+]);
+
+const strongPassword = () => {
+  return passwordRules.value.every((rule) => rule.valid.value);
+};
 
 const rules = computed(() => {
   return {
     firstname: { required, maxLength: maxLength(500) },
     lastname: { required, maxLength: maxLength(500) },
     email: { required, email },
-    password: { required, minLength: minLength(6) },
-    confirmPassword: { required, minLength: minLength(6), sameAs: sameAs(formData.password) },
-    phoneNumber: { required },
+    password: {
+      required,
+      strongPassword: helpers.withMessage(
+        "Password doen't meet the rules",
+        strongPassword
+      ),
+    },
+    confirmPassword: {
+      required,
+      minLength: minLength(6),
+      sameAs: sameAs(formData.password),
+    },
+    phone: { required },
   };
 });
 
 const validator = useVuelidate(rules, formData);
 
 const submitForm = async () => {
+  const result = await validator.value.$validate();
+  if (result) emit('form-data', formData);
+};
+
+const submitForm2 = async () => {
   const result = await validator.value.$validate();
   if (result) {
     alert('Form submitted');
@@ -95,10 +148,10 @@ const validateErrorMsg = (field) => {
             type="text"
             placeholder="Phone number"
             class="w-full input input-bordered input-sm rounded-sm"
-            v-model="formData.phoneNumber"
+            v-model="formData.phone"
           />
           <span class="text-sm text-red-500">{{
-            validateErrorMsg('phoneNumber')
+            validateErrorMsg('phone')
           }}</span>
         </div>
         <div>
@@ -111,7 +164,9 @@ const validateErrorMsg = (field) => {
             class="w-full input input-bordered input-sm rounded-sm"
             v-model="formData.email"
           />
-          <span class="text-sm text-red-500">{{ validateErrorMsg('email') }}</span>
+          <span class="text-sm text-red-500">{{
+            validateErrorMsg('email')
+          }}</span>
           <p class="text-sm text-gray-500">
             Please use a real email address for future correspondence
           </p>
@@ -126,7 +181,29 @@ const validateErrorMsg = (field) => {
             class="w-full input input-bordered input-sm rounded-sm"
             v-model="formData.password"
           />
-          <span class="text-sm text-red-500">{{ validateErrorMsg('password') }}</span>
+          <span class="text-sm text-red-500"
+            >{{ validateErrorMsg('password') }}
+          </span>
+          <div class="card w-full bg-base-100 shadow-xl mt-2">
+            <div class="p-5">
+              <h2 class="text-base font-bold">Password Rules</h2>
+              <ul class="text-sm">
+                <li
+                  v-for="(rule, index) in passwordRules"
+                  :key="index"
+                  :class="[
+                    rule.valid.value ? 'text-green-500' : 'text-red-500',
+                  ]"
+                >
+                  <p class="flex">
+                    <CheckIcon class="w-5 h-5" v-if=" rule.valid.value" />
+                    <XMarkIcon class="w-5 h-5" v-else />
+                    {{ rule.text }}
+                  </p>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
         <div>
           <label class="label">
@@ -143,9 +220,7 @@ const validateErrorMsg = (field) => {
           }}</span>
         </div>
         <div>
-          <Button class="btn btn-block">
-            Sign Up
-          </Button>
+          <Button class="btn btn-block"> Sign Up </Button>
         </div>
       </form>
       <span class="mt-10 p-10">

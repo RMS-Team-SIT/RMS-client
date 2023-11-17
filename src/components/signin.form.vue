@@ -16,7 +16,9 @@ const router = useRouter();
       <h1 class="text-3xl font-semibold text-dark-blue-200 px-10 mb-5">
         Welcome Back !<br />
       </h1>
-      <p class="text-sm px-10 mb-5">Sign in and start managing your resident.</p>
+      <p class="text-sm px-10 mb-5">
+        Sign in and start managing your resident.
+      </p>
       <form class="space-y-4 px-10 mb-5">
         <div>
           <label class="label">
@@ -38,6 +40,14 @@ const router = useRouter();
             class="w-full input input-bordered input-sm rounded-sm"
           />
         </div>
+
+        <div>
+          <span
+            class="text-dark-blue-200 hover:underline"
+            @click="router.push('signup')"
+            >Forget your password?</span
+          >
+        </div>
         <div>
           <Button class="btn btn-block">
             <ArrowRightIcon class="w-5 h-5" />
@@ -47,7 +57,11 @@ const router = useRouter();
       </form>
       <span class="mt-10 p-10">
         No account yet?
-        <span class="text-blue-500 hover:underline" @click="router.push('signup')">Sign up</span></span
+        <span
+          class="text-blue-500 hover:underline"
+          @click="router.push('signup')"
+          >Sign up now</span
+        ></span
       >
     </div>
   </div>
