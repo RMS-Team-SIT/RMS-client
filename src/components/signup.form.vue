@@ -107,8 +107,8 @@ const validateErrorMsg = (field) => {
         Start Signing Up <br />
         for Free
       </h1>
-      <p class="text-sm px-10 mb-5">Create your account to get started.</p>
-      <form @submit.prevent="submitForm" class="space-y-4 px-10 mb-5">
+      <p class="text-xs px-10 mb-5">Create your account to get started.</p>
+      <form @submit.prevent="submitForm" class="space-y-0 px-10 mb-5">
         <div class="flex gap-2">
           <div class="w-full">
             <label class="label">
@@ -120,7 +120,7 @@ const validateErrorMsg = (field) => {
               class="w-full input-sm input input-bordered rounded-sm"
               v-model="formData.firstname"
             />
-            <span class="text-sm text-red-500">
+            <span class="text-xs text-red-500">
               {{ validateErrorMsg('firstname') }}</span
             >
           </div>
@@ -135,7 +135,7 @@ const validateErrorMsg = (field) => {
               class="w-full input input-bordered input-sm rounded-sm"
               v-model="formData.lastname"
             />
-            <span class="text-sm text-red-500">{{
+            <span class="text-xs text-red-500">{{
               validateErrorMsg('lastname')
             }}</span>
           </div>
@@ -150,7 +150,7 @@ const validateErrorMsg = (field) => {
             class="w-full input input-bordered input-sm rounded-sm"
             v-model="formData.phone"
           />
-          <span class="text-sm text-red-500">{{
+          <span class="text-xs text-red-500">{{
             validateErrorMsg('phone')
           }}</span>
         </div>
@@ -164,11 +164,11 @@ const validateErrorMsg = (field) => {
             class="w-full input input-bordered input-sm rounded-sm"
             v-model="formData.email"
           />
-          <span class="text-sm text-red-500">{{
+          <span class="text-xs text-red-500">{{
             validateErrorMsg('email')
           }}</span>
-          <p class="text-sm text-gray-500">
-            Please use a real email address for future correspondence
+          <p class="text-xs text-gray-500">
+            Please use a real email address for future correspondence.
           </p>
         </div>
         <div>
@@ -181,13 +181,13 @@ const validateErrorMsg = (field) => {
             class="w-full input input-bordered input-sm rounded-sm"
             v-model="formData.password"
           />
-          <span class="text-sm text-red-500"
+          <span class="text-xs text-red-500"
             >{{ validateErrorMsg('password') }}
           </span>
-          <div class="card w-full bg-base-100 shadow-xl mt-2">
+          <div class="card w-full bg-base-100 shadow-sm mt-2">
             <div class="p-5">
-              <h2 class="text-base font-bold">Password Rules</h2>
-              <ul class="text-sm">
+              <h2 class="text-sm font-semibold">Password Rules</h2>
+              <ul class="text-xs">
                 <li
                   v-for="(rule, index) in passwordRules"
                   :key="index"
@@ -196,7 +196,7 @@ const validateErrorMsg = (field) => {
                   ]"
                 >
                   <p class="flex">
-                    <CheckIcon class="w-5 h-5" v-if=" rule.valid.value" />
+                    <CheckIcon class="w-5 h-5" v-if="rule.valid.value" />
                     <XMarkIcon class="w-5 h-5" v-else />
                     {{ rule.text }}
                   </p>
@@ -215,12 +215,12 @@ const validateErrorMsg = (field) => {
             class="w-full input input-bordered input-sm rounded-sm"
             v-model="formData.confirmPassword"
           />
-          <span class="text-sm text-red-500">{{
+          <span class="text-xs text-red-500">{{
             validateErrorMsg('confirmPassword')
           }}</span>
         </div>
-        <div>
-          <Button class="btn btn-block"> Sign Up </Button>
+        <div class="py-1">
+          <Button class="btn btn-block mt-2" type="submit"> Sign Up </Button>
         </div>
       </form>
       <span class="mt-10 p-10">
