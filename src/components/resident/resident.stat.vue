@@ -14,18 +14,6 @@ const props = defineProps({
       <div class="stat-value">{{ props.numberOfRoom }}</div>
       <div class="stat-desc">Total</div>
     </div>
-
-    <!-- <div class="stat">
-      <div class="stat-title">New Users</div>
-      <div class="stat-value">4,200</div>
-      <div class="stat-desc">↗︎ 400 (22%)</div>
-    </div> -->
-
-    <!-- <div class="stat">
-      <div class="stat-title">New Registers</div>
-      <div class="stat-value">1,200</div>
-      <div class="stat-desc">↘︎ 90 (14%)</div>
-    </div> -->
   </div>
 </template>
 

@@ -1,5 +1,5 @@
 <script setup>
-import { projectFullName } from '@/constaint';
+import { projectFullName } from '@/constants';
 import Logo from './logo.vue';
 
 const thisYear = new Date().getFullYear();

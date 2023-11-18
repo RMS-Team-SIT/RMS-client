@@ -1,5 +1,5 @@
 <script setup>
-import { projectName, projectFullName } from '@/constaint';
+import { projectName, projectFullName } from '@/constants';
 import { useRouter } from 'vue-router';
 import Button from './button.vue';
 
@@ -20,7 +20,7 @@ const goto = (path) => {
 <template>
   <div class="navbar bg-base-100 shadow-lg px-8">
     <div class="flex-1 gap-4">
-      <img class="w-12 h-12" src="logo.png" alt="" />
+      <img class="w-12 h-12" src="/logo.png" alt="" />
       <a class="text-xl">
         <span class="font-bold text-dark-blue-200">{{ projectName }}</span>
       </a>
@@ -40,13 +40,13 @@ const goto = (path) => {
         class="menu menu-horizontal px-1 text-center align-middle items-center"
       >
         <li><a>Home</a></li>
-        <li><a>Manage</a></li>
+        <li><p @click="goto('manage')">Manage</p></li>
         <div class="dropdown dropdown-end">
           <label tabindex="0" class="btn btn-ghost btn-circle avatar">
             <div class="w-10 rounded-full">
               <img
                 alt="Tailwind CSS Navbar component"
-                src="blank-profile.webp"
+                src="/blank-profile.webp"
               />
             </div>
           </label>

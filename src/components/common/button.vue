@@ -17,6 +17,14 @@ const classes = computed(() => {
     case 'secondary':
       buttonClasses.push('bg-light-red', 'hover:bg-red-700');
       break;
+    case 'square-primary':
+      buttonClasses.push(
+        'bg-dark-blue-200',
+        'hover:bg-dark-blue-100',
+        'btn-square',
+        'btn-outline'
+      );
+      break;
     default:
       break;
   }

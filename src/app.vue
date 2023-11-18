@@ -1,8 +1,8 @@
 <script setup>
 import { watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import navbar from './components/navbar.vue';
-import { projectName } from './constaint';
+import navbar from './components/common/navbar.vue';
+import { projectName } from './constants';
 const router = useRouter();
 const route = useRoute();
 

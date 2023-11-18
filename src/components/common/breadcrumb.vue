@@ -11,7 +11,7 @@ const props = defineProps({
   <div class="text-sm breadcrumbs">
     <ul>
       <li v-for="(val, index) in props.pathList" :key="index">
-        <a>{{ val }}</a>
+        <p>{{ val }}</p>
       </li>
     </ul>
   </div>

@@ -1,9 +1,9 @@
 <script setup>
 import { onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import Navbar from '@/components/navbar.vue';
+import Navbar from '@/components/common/navbar.vue';
 import { themeChange } from 'theme-change';
-import Footer from '@/components/footer.vue';
+import Footer from '@/components/common/footer.vue';
 
 const router = useRouter();
 const route = useRoute();

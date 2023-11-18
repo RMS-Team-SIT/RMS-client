@@ -1,5 +1,5 @@
 <script setup>
-import SignupForm from '@/components/signup.form.vue';
+import SignupForm from '@/components/form/signup.form.vue';
 import { signUp } from '@/services/userServices';
 import { reactive } from 'vue';
 

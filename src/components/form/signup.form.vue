@@ -1,5 +1,5 @@
 <script setup>
-import Button from './button.vue';
+import Button from '../common/button.vue';
 import { useRouter } from 'vue-router';
 import { computed, reactive } from 'vue';
 import { useVuelidate } from '@vuelidate/core';

@@ -1,8 +1,8 @@
 <script setup>
-import { projectName } from '@/constaint';
-import Button from './button.vue';
+import { projectName } from '@/constants';
+import Button from '../common/button.vue';
 import { ArrowRightIcon } from '@heroicons/vue/24/outline';
-import Logo from './logo.vue';
+import Logo from '../common/logo.vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
