@@ -59,7 +59,7 @@ const clearImages = () => {
 
 const getImage = () => {
   emits('getImage', imagePreviews.value);
-  console.log("GetImage Emit called", imagePreviews.value);
+  console.log('GetImage Emit called', imagePreviews.value);
   return imagePreviews.value;
 };
 </script>
@@ -111,7 +111,7 @@ const getImage = () => {
       multiple
       class="file-input file-input-bordered w-full max-w-xs file-input-ghost"
     />
-    <Button btnType="secondary" @click="clearImages" class="mt-5"
+    <Button btnType="secondary" @click="clearImages" class="mt-5 rounded-full"
       >Clear Image</Button
     >
 
@@ -138,7 +138,3 @@ const getImage = () => {
     </div>
   </div>
 </template>
-
-<style scoped>
-/* Add your styles here */
-</style>

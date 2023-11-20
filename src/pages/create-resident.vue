@@ -5,12 +5,12 @@ import Footer from '@/components/common/footer.vue';
 import { onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Steps from '@/components/common/steps.vue';
-import ImageUploadForm from '@/components/common/image.upload.form.vue';
 import ResidentBasicInfoForm from '@/components/resident/form/resident.basic.info.form.vue';
 import ResidentContactForm from '@/components/resident/form/resident.contact.form.vue';
 import ResidentSettingForm from '@/components/resident/form/resident.setting.form.vue';
 import ResidentImagesForm from '@/components/resident/form/resident.images.form.vue';
 import Button from '@/components/common/button.vue';
+import ResidentSummarizeForm from '@/components/resident/form/resident.summarize.form.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 
 const router = useRouter();
@@ -22,13 +22,13 @@ const currentStep = ref(1);
 const residentData = reactive({
   name: '',
   description: '',
+  address: '',
   images: [],
   contact: {
     facebook: '',
     line: '',
     phone: '',
     email: '',
-    address: '',
   },
   defaultWaterPriceRate: 0.0,
   defaultLightPriceRate: 0.0,
@@ -38,17 +38,23 @@ const residentData = reactive({
 const changeStep = (action) => {
   switch (action) {
     case 'next':
-      currentStep.value = Math.min(currentStep + 1, numberOfSteps);
+      currentStep.value = Math.min(currentStep.value + 1, numberOfSteps);
       break;
     case 'back':
-      currentStep.value = Math.max(currentStep - 1, numberOfSteps);
+      currentStep.value = Math.max(currentStep.value - 1, 1);
       break;
     default:
+      console.warn('Invalid action');
       break;
   }
 };
 
-onMounted(async () => {});
+const getChildData = (data) => {
+  console.log('Received data from child', data);
+  for (const key in data) {
+    residentData[key] = data[key];
+  }
+};
 </script>
 
 <template>
@@ -69,22 +75,25 @@ onMounted(async () => {});
             :currentStep="currentStep"
           />
         </div>
-
+        {{ residentData }}
         <!-- step 1 -->
         <div v-if="currentStep == 1" class="flex gap-4">
-          <ResidentBasicInfoForm class="basis-1/3" />
-          <ResidentContactForm class="basis-1/3" />
-          <ResidentSettingForm class="basis-1/3" />
+          <ResidentBasicInfoForm class="basis-1/3" @getData="getChildData" />
+          <ResidentContactForm class="basis-1/3" @getData="getChildData" />
+          <ResidentSettingForm class="basis-1/3" @getData="getChildData" />
         </div>
-        
+
         <!-- step 2 -->
         <div v-if="currentStep == 2" class="flex gap-4">
-          <ResidentImagesForm class="basis-full" />
+          <ResidentImagesForm class="basis-full" @getData="getChildData" />
         </div>
-        
+
         <!-- step 3 -->
         <div v-if="currentStep == 3" class="flex gap-4">
-          <!-- <ResidentImagesForm class="basis-full" /> -->
+          <ResidentSummarizeForm
+            class="basis-full"
+            :residentData="residentData"
+          />
         </div>
 
         <!-- button control -->
@@ -97,7 +106,15 @@ onMounted(async () => {});
             <ArrowLeftIcon class="w-4 h-4" />
             Back
           </Button>
-          <Button @click="changeStep('next')" class="rounded-badge">
+          <Button
+            v-if="currentStep == numberOfSteps"
+            @click="changeStep('next')"
+            class="rounded-badge"
+            btnType="secondary"
+          >
+            Submit
+          </Button>
+          <Button @click="changeStep('next')" class="rounded-badge" v-else>
             Next Step
             <ArrowRightIcon class="w-4 h-4" />
           </Button>

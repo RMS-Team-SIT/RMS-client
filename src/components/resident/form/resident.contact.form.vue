@@ -1,16 +1,28 @@
 <script setup>
 import { reactive } from 'vue';
 
+const emit = defineEmits(['getData']);
+
 const residentContact = reactive({
-  facebook: '',
-  line: '',
-  phone: '',
-  email: '',
+  contact: {
+    facebook: '',
+    line: '',
+    phone: '',
+    email: '',
+  },
 });
+
+const emitData = () => {
+  emit('getData', residentContact);
+  console.log('Emitted residentContact', residentContact);
+};
 </script>
 
 <template>
-  <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
+  <form
+    @change="emitData"
+    class="relative bg-white p-10 space-y-4 shadow-md rounded"
+  >
     <h1 class="text-3xl font-semibold text-dark-blue-200">Resident Contact</h1>
     <p class="text-xs">Please input resident contact information.</p>
     {{ residentContact }}
@@ -22,7 +34,7 @@ const residentContact = reactive({
         type="text"
         placeholder="Facebook"
         class="w-full input input-bordered input-sm rounded-sm"
-        v-model="residentContact.facebook"
+        v-model="residentContact.contact.facebook"
       />
     </div>
     <div>
@@ -33,7 +45,7 @@ const residentContact = reactive({
         type="text"
         placeholder="Line"
         class="w-full input input-bordered input-sm rounded-sm"
-        v-model="residentContact.line"
+        v-model="residentContact.contact.line"
       />
     </div>
     <div>
@@ -44,7 +56,7 @@ const residentContact = reactive({
         type="text"
         placeholder="Phone"
         class="w-full input input-bordered input-sm rounded-sm"
-        v-model="residentContact.phone"
+        v-model="residentContact.contact.phone"
       />
     </div>
     <div>
@@ -55,10 +67,10 @@ const residentContact = reactive({
         type="email"
         placeholder="Email Address"
         class="w-full input input-bordered input-sm rounded-sm"
-        v-model="residentContact.email"
+        v-model="residentContact.contact.email"
       />
     </div>
-  </div>
+  </form>
 </template>
 
 <style scoped></style>

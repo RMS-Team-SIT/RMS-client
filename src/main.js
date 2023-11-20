@@ -5,12 +5,16 @@ import '@/assets/styles/main.css';
 import '@/assets/styles/tailwind.css';
 import App from '@/app.vue';
 import { routes } from '@/routes.js';
+import { createPinia } from 'pinia';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.VITE_BASE_PUBLIC_PATH),
   routes,
 });
 
+const pinia = createPinia();
 const app = createApp(App);
+
+app.use(pinia);
 app.use(router);
 app.mount('#app');

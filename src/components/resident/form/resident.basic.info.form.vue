@@ -1,15 +1,22 @@
 <script setup>
 import { reactive } from 'vue';
 
+const emit = defineEmits(['getData']);
+
 const residentInfo = reactive({
   name: '',
   description: '',
   address: '',
 });
+
+const emitData = () => {
+  emit('getData', residentInfo);
+  console.log('Emitted residentInfo', residentInfo);
+};
 </script>
 
 <template>
-  <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
+  <form @change="emitData" class="relative bg-white p-10 space-y-4 shadow-md rounded">
     <h1 class="text-3xl font-semibold text-dark-blue-200">
       Resident Information
     </h1>
@@ -17,7 +24,9 @@ const residentInfo = reactive({
     {{ residentInfo }}
     <div>
       <label class="label">
-        <span class="text-base label-text">Resident Name</span>
+        <span class="text-base label-text"
+          >Resident Name <span class="text-red-500">*</span>
+        </span>
       </label>
       <input
         type="text"
@@ -48,7 +57,7 @@ const residentInfo = reactive({
         v-model="residentInfo.address"
       />
     </div>
-  </div>
+  </form>
 </template>
 
 <style scoped></style>
