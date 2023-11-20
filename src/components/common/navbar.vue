@@ -11,10 +11,6 @@ const props = defineProps({
     default: false,
   },
 });
-
-const goto = (path) => {
-  router.push(path);
-};
 </script>
 
 <template>
@@ -29,10 +25,11 @@ const goto = (path) => {
       <ul
         class="menu menu-horizontal px-1 text-center align-middle items-center"
       >
-        <li c><a>Home</a></li>
+        <li><a>Home</a></li>
         <li><a>About</a></li>
-
-        <Button btnType="primary" @click="goto('/signin')">Sign In</Button>
+        <router-link to="/signin">
+          <Button btnType="primary-pill">Sign In</Button>
+        </router-link>
       </ul>
     </div>
     <div class="flex-none" v-else>
@@ -40,7 +37,7 @@ const goto = (path) => {
         class="menu menu-horizontal px-1 text-center align-middle items-center"
       >
         <li><a>Home</a></li>
-        <li><p @click="goto('manage')">Manage</p></li>
+        <li><router-link :to="{ name: 'manage' }">Manage</router-link></li>
         <div class="dropdown dropdown-end">
           <label tabindex="0" class="btn btn-ghost btn-circle avatar">
             <div class="w-10 rounded-full">
@@ -58,7 +55,7 @@ const goto = (path) => {
               <a class="justify-between"> Profile </a>
             </li>
             <li><a>Settings</a></li>
-            <li><p @click="goto('signout')">Logout</p></li>
+            <li><router-link :to="{ name: 'signout' }">Signout</router-link></li>
           </ul>
         </div>
       </ul>

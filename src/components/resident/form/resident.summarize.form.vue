@@ -1,17 +1,4 @@
 <script setup>
-import Breadcrumb from '@/components/common/breadcrumb.vue';
-import Nabvar from '@/components/common/navbar.vue';
-import Footer from '@/components/common/footer.vue';
-import { onMounted, reactive, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import Steps from '@/components/common/steps.vue';
-import ImageUploadForm from '@/components/common/image.upload.form.vue';
-import ResidentBasicInfoForm from '@/components/resident/form/resident.basic.info.form.vue';
-import ResidentContactForm from '@/components/resident/form/resident.contact.form.vue';
-import ResidentSettingForm from '@/components/resident/form/resident.setting.form.vue';
-import ResidentImagesForm from '@/components/resident/form/resident.images.form.vue';
-import Button from '@/components/common/button.vue';
-import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 
 const router = useRouter();
 const route = useRoute();

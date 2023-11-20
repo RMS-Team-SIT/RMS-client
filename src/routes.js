@@ -12,7 +12,7 @@ export const routes = [
     path: '/',
     component: indexVue,
     meta: {
-      title: `Home`,
+      title: 'Home',
     },
   },
   {
@@ -20,7 +20,7 @@ export const routes = [
     path: '/signup',
     component: signupVue,
     meta: {
-      title: `Sign Up`,
+      title: 'Sign Up',
     },
   },
   {
@@ -28,7 +28,15 @@ export const routes = [
     path: '/signin',
     component: signinVue,
     meta: {
-      title: `Sign In`,
+      title: 'Sign In',
+    },
+  },
+  {
+    name: 'signout',
+    path: '/signout',
+    component: signinVue,
+    meta: {
+      title: 'Sign Out',
     },
   },
   {
@@ -36,7 +44,7 @@ export const routes = [
     path: '/manage',
     component: manageVue,
     meta: {
-      title: `Manage`,
+      title: 'Manage',
     },
   },
   {
@@ -44,7 +52,7 @@ export const routes = [
     path: '/dashboard/resident/:id',
     component: dashboardVue,
     meta: {
-      title: `Dashboard`,
+      title: 'Dashboard',
     },
   },
   {
@@ -52,11 +60,10 @@ export const routes = [
     path: '/create/resident',
     component: createResidentVue,
     meta: {
-      title: `Create Resident`,
+      title: 'Create Resident',
     },
   },
   { path: '/:path(.*)', component: NotFound },
 ];
-
 
 export default routes;

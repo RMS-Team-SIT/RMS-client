@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { isImage } from '@/utils';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
-import Button from './button.vue';
+import Button from '@/components/common/button.vue'
 
 const isModalOpen = ref(false);
 const selectedImage = ref(null);
@@ -57,7 +57,7 @@ const clearImages = () => {
   imagePreviews.value = [];
 };
 
-const getImage = () => {
+const emitData = () => {
   emits('getImage', imagePreviews.value);
   console.log('GetImage Emit called', imagePreviews.value);
   return imagePreviews.value;
@@ -111,7 +111,7 @@ const getImage = () => {
       multiple
       class="file-input file-input-bordered w-full max-w-xs file-input-ghost"
     />
-    <Button btnType="secondary" @click="clearImages" class="mt-5 rounded-full"
+    <Button btnType="secondary-pill" @click="clearImages" class="mt-5 rounded-full"
       >Clear Image</Button
     >
 

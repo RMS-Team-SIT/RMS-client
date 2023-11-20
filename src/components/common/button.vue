@@ -12,18 +12,24 @@ const classes = computed(() => {
   let buttonClasses = [];
   switch (props.btnType) {
     case 'primary':
-      buttonClasses.push('bg-dark-blue-200', 'hover:bg-dark-blue-100');
-      break;
-    case 'secondary':
-      buttonClasses.push('bg-light-red', 'hover:bg-red-700');
-      break;
-    case 'square-primary':
       buttonClasses.push(
         'bg-dark-blue-200',
         'hover:bg-dark-blue-100',
-        'btn-square',
-        'btn-outline'
+        'rounded-md'
       );
+      break;
+    case 'secondary':
+      buttonClasses.push('bg-light-red', 'hover:bg-red-700', 'rounded-md');
+      break;
+    case 'primary-pill':
+      buttonClasses.push(
+        'bg-dark-blue-200',
+        'hover:bg-dark-blue-100',
+        'rounded-full'
+      );
+      break;
+    case 'secondary-pill':
+      buttonClasses.push('bg-light-red', 'hover:bg-red-700', 'rounded-full');
       break;
     default:
       break;
@@ -33,7 +39,7 @@ const classes = computed(() => {
 </script>
 
 <template>
-  <button class="btn text-white rounded-md" :class="classes">
+  <button class="btn text-white" :class="classes">
     <slot></slot>
   </button>
 </template>

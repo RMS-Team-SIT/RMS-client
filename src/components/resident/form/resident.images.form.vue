@@ -1,5 +1,5 @@
 <script setup>
-import ImageUploadForm from '@/components/common/image.upload.form.vue';
+import ImageUploadForm from '@/components/form/image.upload.form.vue';
 import { reactive, ref } from 'vue';
 
 const residentImages = reactive({
