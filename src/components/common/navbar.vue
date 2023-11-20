@@ -36,7 +36,7 @@ const props = defineProps({
       <ul
         class="menu menu-horizontal px-1 text-center align-middle items-center"
       >
-        <li><a>Home</a></li>
+        <li><router-link :to="{ name: 'home' }">Home</router-link></li>
         <li><router-link :to="{ name: 'manage' }">Manage</router-link></li>
         <div class="dropdown dropdown-end">
           <label tabindex="0" class="btn btn-ghost btn-circle avatar">

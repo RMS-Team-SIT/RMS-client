@@ -61,7 +61,7 @@ const getChildData = (data) => {
 const submitData = async () => {
   const response = await createResident(residentData);
   console.log(response);
-  if (response == 201) {
+  if (response.status == 201) {
     alert('Resident created successfully');
     router.push({ name: 'manage' });
   } else {

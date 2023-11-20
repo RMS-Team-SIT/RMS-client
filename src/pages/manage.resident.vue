@@ -18,6 +18,7 @@ const resident = reactive({
 
 onMounted(async () => {
   const response = await fetchResident(residentId);
+  console.log(response);
   if (response.status === 200) {
     let result = await response.json();
     resident.data = result;
