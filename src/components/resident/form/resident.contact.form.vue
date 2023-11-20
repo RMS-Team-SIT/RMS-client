@@ -49,7 +49,6 @@ watch(residentContact, () => {
   >
     <h1 class="text-3xl font-semibold text-dark-blue-200">Resident Contact</h1>
     <p class="text-xs">Please input resident contact information.</p>
-    {{ residentContact }}
     <div>
       <label class="label">
         <span class="text-base label-text">Facebook</span>

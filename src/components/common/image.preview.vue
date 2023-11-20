@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { isImage } from '@/utils';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
 import Button from '@/components/common/button.vue';
@@ -33,7 +33,6 @@ const previewImages = (files) => {
   console.log(imagePreviews.value);
 };
 
-
 const openModal = (index) => {
   selectedImage.value = imagePreviews.value[index];
   isModalOpen.value = true;
@@ -44,12 +43,17 @@ const closeModal = () => {
   isModalOpen.value = false;
 };
 
-
+onMounted(() => {
+  imagePreviews.value = props.images;
+});
 </script>
 
 <template>
-  <div>
-    <!-- preview -->
+  <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
+    <h1 class="text-3xl font-semibold text-dark-blue-200">
+      Image Preview
+    </h1>
+    <p class="text-xs">Please check your images.</p>
     <div
       v-if="imagePreviews.length > 0"
       class="mt-4 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
@@ -70,7 +74,6 @@ const closeModal = () => {
     <p class="text-sm flex gap-2 text-gray-500" v-if="imagePreviews.length > 0">
       * Click the image to view full size
     </p>
-
 
     <!-- modal -->
     <div

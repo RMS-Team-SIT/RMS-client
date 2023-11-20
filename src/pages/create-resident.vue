@@ -13,6 +13,7 @@ import Button from '@/components/common/button.vue';
 import ResidentSummarizeForm from '@/components/resident/form/resident.summarize.form.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 import ImagePreview from '@/components/common/image.preview.vue';
+import { createResident } from '@/services/residentServices';
 
 const router = useRouter();
 const route = useRoute();
@@ -56,6 +57,17 @@ const getChildData = (data) => {
     residentData[key] = data[key];
   }
 };
+
+const submitData = async () => {
+  const response = await createResident(residentData);
+  console.log(response);
+  if (response == 201) {
+    alert('Resident created successfully');
+    router.push({ name: 'manage' });
+  } else {
+    alert('Failed to create resident');
+  }
+};
 </script>
 
 <template>
@@ -63,7 +75,13 @@ const getChildData = (data) => {
   <div class="card w-full glass">
     <div class="card-body px-40">
       <div class="flex flex-row justify-between">
-        <Breadcrumb :pathList="['Home', 'Manage', 'Create Resident']" />
+        <Breadcrumb
+          :pathList="[
+            { name: 'Home', pathName: 'home' },
+            { name: 'Manage', pathName: 'manage' },
+            { name: 'Create Resident', pathName: 'create-resident' },
+          ]"
+        />
       </div>
       <div>
         <div class="p-4 mb-4 card shadow-xl bg-white">
@@ -76,7 +94,6 @@ const getChildData = (data) => {
             :currentStep="currentStep"
           />
         </div>
-        {{ residentData }}
         <!-- step 1 -->
         <div v-if="currentStep == 1" class="flex gap-4">
           <ResidentBasicInfoForm
@@ -106,26 +123,28 @@ const getChildData = (data) => {
         </div>
 
         <!-- step 3 -->
-        <div v-if="currentStep == 3" class="flex gap-4">
-          <ResidentBasicInfoForm
-            class="basis-1/3"
-            @getData="getChildData"
-            :residentData="residentData"
-            :viewOnly="true"
-          />
-          <ResidentContactForm
-            class="basis-1/3"
-            @getData="getChildData"
-            :residentData="residentData"
-            :viewOnly="true"
-          />
-          <ResidentSettingForm
-            class="basis-1/3"
-            @getData="getChildData"
-            :residentData="residentData"
-            :viewOnly="true"
-          />
-          <!-- <ImagePreview class="basis-full" :images="residentData.images" /> -->
+        <div v-if="currentStep == 3" class="flex gap-4 flex-col">
+          <div class="flex gap-4">
+            <ResidentBasicInfoForm
+              class="basis-1/3"
+              @getData="getChildData"
+              :residentData="residentData"
+              :viewOnly="true"
+            />
+            <ResidentContactForm
+              class="basis-1/3"
+              @getData="getChildData"
+              :residentData="residentData"
+              :viewOnly="true"
+            />
+            <ResidentSettingForm
+              class="basis-1/3"
+              @getData="getChildData"
+              :residentData="residentData"
+              :viewOnly="true"
+            />
+          </div>
+          <ImagePreview class="basis-full" :images="residentData.images" />
         </div>
 
         <!-- button control -->
@@ -140,7 +159,7 @@ const getChildData = (data) => {
           </Button>
           <Button
             v-if="currentStep == numberOfSteps"
-            @click="changeStep('next')"
+            @click="submitData"
             class="rounded-badge"
             btnType="secondary"
           >

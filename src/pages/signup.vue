@@ -1,12 +1,16 @@
 <script setup>
 import SignupForm from '@/components/form/signup.form.vue';
 import { signUp } from '@/services/userServices';
-import { reactive } from 'vue';
 
 const handleFormData = async (formData) => {
-  console.log('API call with form data:', formData);
-  const result = await signUp(formData);
-  console.log(result);
+  const response = await signUp(formData);
+  if (response.status === 200) {
+    alert('Sign Up success');
+    let data = await response.json();
+    localStorage.setItem('token', data.access_token);
+  } else {
+    alert('Sign Up failed');
+  }
 };
 </script>
 

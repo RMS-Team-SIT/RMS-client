@@ -1,8 +1,15 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { isImage } from '@/utils';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
 import Button from '@/components/common/button.vue';
+
+const props = defineProps({
+  images: {
+    type: Array,
+    default: () => [],
+  },
+});
 
 const isModalOpen = ref(false);
 const selectedImage = ref(null);
@@ -36,7 +43,6 @@ const previewImages = (files) => {
       console.warn(`${file.name} is not a valid image file.`);
     }
   });
-  console.log(imagePreviews.value);
 };
 
 const removeImage = (index) => {
@@ -66,6 +72,7 @@ watch(imagePreviews.value, () => {
   console.log('Image previews changed', 'emitData', imagePreviews.value);
   emitData();
 });
+
 </script>
 
 <template>

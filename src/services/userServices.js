@@ -1,29 +1,32 @@
 import { baseUrl } from './constants';
 
-export const signUp = (data) => {
-  return fetch(`${baseUrl}/users/signup`, {
+export const signUp = async (data) => {
+  let response = await fetch(`${baseUrl}/users/signup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
   });
+  return response;
 };
 
-export const signIn = (data) => {
-  return fetch(`${baseUrl}/auth/signin`, {
+export const signIn = async (data) => {
+  let response = await fetch(`${baseUrl}/auth/signin`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
   });
+  return response;
 };
 
-export const me = (token) => {
-  return fetch(`${baseUrl}/users/me`, {
+export const me = async () => {
+  let response = await fetch(`${baseUrl}/auth/me`, {
     headers: {
-      Authorization: token,
+      Authorization: localStorage.getItem('token'),
     },
   });
+  return response;
 };

@@ -82,15 +82,6 @@ const submitForm = async () => {
   if (result) emit('form-data', formData);
 };
 
-const submitForm2 = async () => {
-  const result = await validator.value.$validate();
-  if (result) {
-    alert('Form submitted');
-  } else {
-    alert('Form not submitted');
-  }
-};
-
 const validateErrorMsg = (field) => {
   return validator.value[field].$error
     ? '* ' + validator.value[field].$errors[0].$message

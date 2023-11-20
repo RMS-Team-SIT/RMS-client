@@ -46,7 +46,6 @@ watch(residentInfo, () => {
       Resident Information
     </h1>
     <p class="text-xs">Please input resident basic information.</p>
-    {{ residentInfo }}
     <div>
       <label class="label">
         <span class="text-base label-text"

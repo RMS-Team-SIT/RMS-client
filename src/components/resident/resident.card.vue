@@ -14,7 +14,7 @@ const props = defineProps({
 });
 
 const goToResidentDashboard = (residentId) => {
-  router.push(`/dashboard/resident/${residentId}`);
+  router.push(`/manage/resident/${residentId}`);
 };
 </script>
 

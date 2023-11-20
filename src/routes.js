@@ -3,12 +3,12 @@ import NotFound from '@/pages/not-found.vue';
 import signupVue from './pages/signup.vue';
 import signinVue from './pages/signin.vue';
 import manageVue from './pages/manage.vue';
-import dashboardVue from './pages/dashboard.vue';
+import manageResident from './pages/manage.resident.vue';
 import createResidentVue from './pages/create-resident.vue';
 
 export const routes = [
   {
-    name: 'index',
+    name: 'home',
     path: '/',
     component: indexVue,
     meta: {
@@ -48,11 +48,11 @@ export const routes = [
     },
   },
   {
-    name: 'dashboard',
-    path: '/dashboard/resident/:id',
-    component: dashboardVue,
+    name: 'manage-resident',
+    path: '/manage/resident/:id',
+    component: manageResident,
     meta: {
-      title: 'Dashboard',
+      title: 'Manage Resident',
     },
   },
   {

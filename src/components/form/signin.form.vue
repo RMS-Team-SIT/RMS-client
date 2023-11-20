@@ -1,11 +1,20 @@
 <script setup>
-import { projectName } from '@/constants';
 import Button from '../common/button.vue';
 import { ArrowRightIcon } from '@heroicons/vue/24/outline';
-import Logo from '../common/logo.vue';
 import { useRouter } from 'vue-router';
+import { reactive } from 'vue';
 
 const router = useRouter();
+const emit = defineEmits(['submit-form']);
+
+const formData = reactive({
+  email: '',
+  password: '',
+});
+
+const submitForm = async () => {
+  emit('submit-form', formData);
+};
 </script>
 
 <template>
@@ -19,7 +28,7 @@ const router = useRouter();
       <p class="text-sm px-10 mb-5">
         Sign in and start managing your resident.
       </p>
-      <form class="space-y-4 px-10 mb-5">
+      <form @submit.prevent="submitForm" class="space-y-4 px-10 mb-5">
         <div>
           <label class="label">
             <span class="text-base label-text">Email</span>
@@ -28,6 +37,7 @@ const router = useRouter();
             type="email"
             placeholder="Email Address"
             class="w-full input input-bordered input-sm rounded-sm"
+            v-model="formData.email"
           />
         </div>
         <div>
@@ -38,6 +48,7 @@ const router = useRouter();
             type="password"
             placeholder="Enter Password"
             class="w-full input input-bordered input-sm rounded-sm"
+            v-model="formData.password"
           />
         </div>
 
@@ -49,7 +60,7 @@ const router = useRouter();
           >
         </div>
         <div>
-          <Button class="btn btn-block">
+          <Button class="btn btn-block" type="submit">
             <ArrowRightIcon class="w-5 h-5" />
             Sign In
           </Button>

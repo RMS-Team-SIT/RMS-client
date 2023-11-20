@@ -55,7 +55,9 @@ const props = defineProps({
               <a class="justify-between"> Profile </a>
             </li>
             <li><a>Settings</a></li>
-            <li><router-link :to="{ name: 'signout' }">Signout</router-link></li>
+            <li>
+              <router-link :to="{ name: 'signout' }">Signout</router-link>
+            </li>
           </ul>
         </div>
       </ul>
