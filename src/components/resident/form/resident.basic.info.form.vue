@@ -1,7 +1,14 @@
 <script setup>
-import { reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 
 const emit = defineEmits(['getData']);
+
+const props = defineProps({
+  residentData: {
+    type: Object,
+    default: () => ({}),
+  },
+});
 
 const residentInfo = reactive({
   name: '',
@@ -13,10 +20,23 @@ const emitData = () => {
   emit('getData', residentInfo);
   console.log('Emitted residentInfo', residentInfo);
 };
+
+const setDataFromProps = () => {
+  for (const key in props.residentData) {
+    if (key in residentInfo) residentInfo[key] = props.residentData[key];
+  }
+};
+
+onMounted(() => {
+  setDataFromProps();
+});
 </script>
 
 <template>
-  <form @change="emitData" class="relative bg-white p-10 space-y-4 shadow-md rounded">
+  <form
+    @change="emitData"
+    class="relative bg-white p-10 space-y-4 shadow-md rounded"
+  >
     <h1 class="text-3xl font-semibold text-dark-blue-200">
       Resident Information
     </h1>

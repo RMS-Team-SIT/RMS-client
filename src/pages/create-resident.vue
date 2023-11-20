@@ -20,7 +20,7 @@ const numberOfSteps = 3;
 const currentStep = ref(1);
 
 const residentData = reactive({
-  name: '',
+  name: 'D',
   description: '',
   address: '',
   images: [],
@@ -78,7 +78,7 @@ const getChildData = (data) => {
         {{ residentData }}
         <!-- step 1 -->
         <div v-if="currentStep == 1" class="flex gap-4">
-          <ResidentBasicInfoForm class="basis-1/3" @getData="getChildData" />
+          <ResidentBasicInfoForm class="basis-1/3" @getData="getChildData" :residentData="residentData" />
           <ResidentContactForm class="basis-1/3" @getData="getChildData" />
           <ResidentSettingForm class="basis-1/3" @getData="getChildData" />
         </div>

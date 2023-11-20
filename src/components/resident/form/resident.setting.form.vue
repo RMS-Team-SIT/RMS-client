@@ -1,7 +1,14 @@
 <script setup>
-import { reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 
 const emit = defineEmits(['getData']);
+
+const props = defineProps({
+  residentData: {
+    type: Object,
+    default: () => ({}),
+  },
+});
 
 const residentSettings = reactive({
   defaultWaterPriceRate: 0.0,
@@ -12,6 +19,17 @@ const emitData = () => {
   emit('getData', residentSettings);
   console.log('Emitted residentSettings', residentSettings);
 };
+
+const setDataFromProps = () => {
+  for (const key in props.residentData) {
+    if (key in residentInfo) residentInfo[key] = props.residentData[key];
+  }
+};
+
+onMounted(() => {
+  setDataFromProps();
+});
+
 </script>
 
 <template>

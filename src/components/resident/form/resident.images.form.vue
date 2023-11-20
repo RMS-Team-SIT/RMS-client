@@ -1,6 +1,13 @@
 <script setup>
 import ImageUploadForm from '@/components/form/image.upload.form.vue';
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
+
+const props = defineProps({
+  residentData: {
+    type: Object,
+    default: () => ({}),
+  },
+});
 
 const residentImages = reactive({
   images: [],
@@ -9,6 +16,16 @@ const residentImages = reactive({
 const getImage = (images) => {
   residentImages.images = images;
 };
+
+const setDataFromProps = () => {
+  for (const key in props.residentData) {
+    if (key in residentInfo) residentInfo[key] = props.residentData[key];
+  }
+};
+
+onMounted(() => {
+  setDataFromProps();
+});
 </script>
 
 <template>

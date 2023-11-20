@@ -1,7 +1,14 @@
 <script setup>
-import { reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 
 const emit = defineEmits(['getData']);
+
+const props = defineProps({
+  residentData: {
+    type: Object,
+    default: () => ({}),
+  },
+});
 
 const residentContact = reactive({
   contact: {
@@ -16,6 +23,16 @@ const emitData = () => {
   emit('getData', residentContact);
   console.log('Emitted residentContact', residentContact);
 };
+
+const setDataFromProps = () => {
+  for (const key in props.residentData) {
+    if (key in residentInfo) residentInfo[key] = props.residentData[key];
+  }
+};
+
+onMounted(() => {
+  setDataFromProps();
+});
 </script>
 
 <template>

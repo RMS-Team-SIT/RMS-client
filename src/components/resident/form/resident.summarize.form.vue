@@ -1,7 +1,7 @@
 <script setup>
-
 const router = useRouter();
 const route = useRoute();
+
 
 const props = defineProps({
   residentData: {
