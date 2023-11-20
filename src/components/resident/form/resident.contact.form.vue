@@ -8,6 +8,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  viewOnly: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const residentContact = reactive({
@@ -26,7 +30,7 @@ const emitData = () => {
 
 const setDataFromProps = () => {
   for (const key in props.residentData) {
-    if (key in residentInfo) residentInfo[key] = props.residentData[key];
+    if (key in residentContact) residentContact[key] = props.residentData[key];
   }
 };
 
@@ -52,6 +56,7 @@ onMounted(() => {
         placeholder="Facebook"
         class="w-full input input-bordered input-sm rounded-sm"
         v-model="residentContact.contact.facebook"
+        :disabled="viewOnly"
       />
     </div>
     <div>
@@ -63,6 +68,7 @@ onMounted(() => {
         placeholder="Line"
         class="w-full input input-bordered input-sm rounded-sm"
         v-model="residentContact.contact.line"
+        :disabled="viewOnly"
       />
     </div>
     <div>
@@ -74,6 +80,7 @@ onMounted(() => {
         placeholder="Phone"
         class="w-full input input-bordered input-sm rounded-sm"
         v-model="residentContact.contact.phone"
+        :disabled="viewOnly"
       />
     </div>
     <div>
@@ -85,6 +92,7 @@ onMounted(() => {
         placeholder="Email Address"
         class="w-full input input-bordered input-sm rounded-sm"
         v-model="residentContact.contact.email"
+        :disabled="viewOnly"
       />
     </div>
   </form>

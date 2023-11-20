@@ -8,6 +8,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  viewOnly: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const residentInfo = reactive({
@@ -53,6 +57,7 @@ onMounted(() => {
         placeholder="Resident Name"
         class="w-full input input-bordered input-sm rounded-sm"
         v-model="residentInfo.name"
+        :disabled="viewOnly"
       />
     </div>
     <div>
@@ -64,6 +69,7 @@ onMounted(() => {
         placeholder="Resident Description"
         class="w-full textarea textarea-bordered rounded-sm"
         v-model="residentInfo.description"
+        :disabled="viewOnly"
       />
     </div>
     <div>
@@ -75,6 +81,7 @@ onMounted(() => {
         placeholder="Address"
         class="w-full textarea textarea-bordered rounded-sm"
         v-model="residentInfo.address"
+        :disabled="viewOnly"
       />
     </div>
   </form>

@@ -7,6 +7,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  viewOnly: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const residentImages = reactive({
@@ -19,7 +23,7 @@ const getImage = (images) => {
 
 const setDataFromProps = () => {
   for (const key in props.residentData) {
-    if (key in residentInfo) residentInfo[key] = props.residentData[key];
+    if (key in residentImages) residentImages[key] = props.residentData[key];
   }
 };
 

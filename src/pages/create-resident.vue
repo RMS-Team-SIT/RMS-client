@@ -20,7 +20,7 @@ const numberOfSteps = 3;
 const currentStep = ref(1);
 
 const residentData = reactive({
-  name: 'D',
+  name: '',
   description: '',
   address: '',
   images: [],
@@ -78,21 +78,51 @@ const getChildData = (data) => {
         {{ residentData }}
         <!-- step 1 -->
         <div v-if="currentStep == 1" class="flex gap-4">
-          <ResidentBasicInfoForm class="basis-1/3" @getData="getChildData" :residentData="residentData" />
-          <ResidentContactForm class="basis-1/3" @getData="getChildData" />
-          <ResidentSettingForm class="basis-1/3" @getData="getChildData" />
+          <ResidentBasicInfoForm
+            class="basis-1/3"
+            @getData="getChildData"
+            :residentData="residentData"
+          />
+          <ResidentContactForm
+            class="basis-1/3"
+            @getData="getChildData"
+            :residentData="residentData"
+          />
+          <ResidentSettingForm
+            class="basis-1/3"
+            @getData="getChildData"
+            :residentData="residentData"
+          />
         </div>
 
         <!-- step 2 -->
         <div v-if="currentStep == 2" class="flex gap-4">
-          <ResidentImagesForm class="basis-full" @getData="getChildData" />
+          <ResidentImagesForm
+            class="basis-full"
+            @getData="getChildData"
+            :residentData="residentData"
+          />
         </div>
 
         <!-- step 3 -->
         <div v-if="currentStep == 3" class="flex gap-4">
-          <ResidentSummarizeForm
-            class="basis-full"
+          <ResidentBasicInfoForm
+            class="basis-1/3"
+            @getData="getChildData"
             :residentData="residentData"
+            :viewOnly="true"
+          />
+          <ResidentContactForm
+            class="basis-1/3"
+            @getData="getChildData"
+            :residentData="residentData"
+            :viewOnly="true"
+          />
+          <ResidentSettingForm
+            class="basis-1/3"
+            @getData="getChildData"
+            :residentData="residentData"
+            :viewOnly="true"
           />
         </div>
 

@@ -8,6 +8,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  viewOnly: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const residentSettings = reactive({
@@ -22,7 +26,7 @@ const emitData = () => {
 
 const setDataFromProps = () => {
   for (const key in props.residentData) {
-    if (key in residentInfo) residentInfo[key] = props.residentData[key];
+    if (key in residentSettings) residentSettings[key] = props.residentData[key];
   }
 };
 
@@ -46,6 +50,7 @@ onMounted(() => {
         placeholder="Default Light Price Rate"
         class="w-full input input-bordered input-sm rounded-sm"
         v-model="residentSettings.defaultLightPriceRate"
+        :disabled="viewOnly"
       />
     </div>
     <div>
@@ -58,6 +63,7 @@ onMounted(() => {
         placeholder="Email Address"
         class="w-full input input-bordered input-sm rounded-sm"
         v-model="residentSettings.defaultWaterPriceRate"
+        :disabled="viewOnly"
       />
     </div>
   </form>
