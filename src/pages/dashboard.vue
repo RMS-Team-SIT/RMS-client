@@ -1,8 +1,6 @@
 <script setup>
 import Breadcrumb from '@/components/common/breadcrumb.vue';
-import ResidentCard from '@/components/resident-form/resident.card.vue';
 import Nabvar from '@/components/common/navbar.vue';
-import Button from '@/components/common/button.vue';
 import Footer from '@/components/common/footer.vue';
 import { onMounted, reactive } from 'vue';
 import { fetchResident } from '@/services/residentServices';
