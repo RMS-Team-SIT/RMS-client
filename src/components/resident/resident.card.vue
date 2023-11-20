@@ -1,5 +1,5 @@
 <script setup>
-import ResidentStat from '@/components/resident.stat.vue';
+import ResidentStat from '@/components/resident/resident.stat.vue';
 import Button from '@/components/common/button.vue';
 import { useRoute, useRouter } from 'vue-router';
 

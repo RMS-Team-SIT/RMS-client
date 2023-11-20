@@ -32,7 +32,7 @@ const goto = (path) => {
         <li c><a>Home</a></li>
         <li><a>About</a></li>
 
-        <Button btnType="primary" @click="goto('/signup')">Sign In</Button>
+        <Button btnType="primary" @click="goto('/signin')">Sign In</Button>
       </ul>
     </div>
     <div class="flex-none" v-else>
