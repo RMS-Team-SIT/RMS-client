@@ -12,6 +12,7 @@ import ResidentImagesForm from '@/components/resident/form/resident.images.form.
 import Button from '@/components/common/button.vue';
 import ResidentSummarizeForm from '@/components/resident/form/resident.summarize.form.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
+import ImagePreview from '@/components/common/image.preview.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -124,6 +125,7 @@ const getChildData = (data) => {
             :residentData="residentData"
             :viewOnly="true"
           />
+          <!-- <ImagePreview class="basis-full" :images="residentData.images" /> -->
         </div>
 
         <!-- button control -->

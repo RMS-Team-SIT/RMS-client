@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive } from 'vue';
+import { onMounted, reactive, watch } from 'vue';
 
 const emit = defineEmits(['getData']);
 
@@ -37,11 +37,14 @@ const setDataFromProps = () => {
 onMounted(() => {
   setDataFromProps();
 });
+
+watch(residentContact, () => {
+  emitData();
+});
 </script>
 
 <template>
   <form
-    @change="emitData"
     class="relative bg-white p-10 space-y-4 shadow-md rounded"
   >
     <h1 class="text-3xl font-semibold text-dark-blue-200">Resident Contact</h1>

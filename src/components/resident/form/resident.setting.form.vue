@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive } from 'vue';
+import { onMounted, reactive, watch } from 'vue';
 
 const emit = defineEmits(['getData']);
 
@@ -32,6 +32,10 @@ const setDataFromProps = () => {
 
 onMounted(() => {
   setDataFromProps();
+});
+
+watch(residentSettings, () => {
+  emitData();
 });
 
 </script>

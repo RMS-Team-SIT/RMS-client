@@ -1,15 +1,15 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { isImage } from '@/utils';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
-import Button from '@/components/common/button.vue'
+import Button from '@/components/common/button.vue';
 
 const isModalOpen = ref(false);
 const selectedImage = ref(null);
 const imagePreviews = ref([]);
 const fileInputTemp = ref(null);
 
-const emits = defineEmits(['getImage']);
+const emits = defineEmits(['getImages']);
 
 const handleFileChange = () => {
   const fileInput = fileInputTemp.value;
@@ -58,10 +58,14 @@ const clearImages = () => {
 };
 
 const emitData = () => {
-  emits('getImage', imagePreviews.value);
-  console.log('GetImage Emit called', imagePreviews.value);
-  return imagePreviews.value;
+  emits('getImages', imagePreviews.value);
+  console.log('getImages Emit called', imagePreviews.value);
 };
+
+watch(imagePreviews.value, () => {
+  console.log('Image previews changed', 'emitData', imagePreviews.value);
+  emitData();
+});
 </script>
 
 <template>
@@ -111,7 +115,10 @@ const emitData = () => {
       multiple
       class="file-input file-input-bordered w-full max-w-xs file-input-ghost"
     />
-    <Button btnType="secondary-pill" @click="clearImages" class="mt-5 rounded-full"
+    <Button
+      btnType="secondary-pill"
+      @click="clearImages"
+      class="mt-5 rounded-full"
       >Clear Image</Button
     >
 
@@ -132,7 +139,7 @@ const emitData = () => {
           v-if="selectedImage"
           :src="selectedImage"
           alt="Full Size"
-          class="w-full h-full"
+          class="w-full h-full max-h-96"
         />
       </div>
     </div>
