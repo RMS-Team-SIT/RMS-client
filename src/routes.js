@@ -2,11 +2,15 @@ import indexVue from '@/pages/index.vue';
 import NotFound from '@/pages/not-found.vue';
 import signupVue from './pages/signup.vue';
 import signinVue from './pages/signin.vue';
+import signoutVue from './pages/signout.vue';
 import manageVue from './pages/manage.vue';
 import manageResident from './pages/manage.resident.vue';
 import createResidentVue from './pages/create-resident.vue';
+import { createRouter, createWebHistory } from 'vue-router';
 
-export const routes = [
+const publicPathNames = ['home', 'signup', 'signin', 'signout'];
+
+const routes = [
   {
     name: 'home',
     path: '/',
@@ -34,7 +38,7 @@ export const routes = [
   {
     name: 'signout',
     path: '/signout',
-    component: signinVue,
+    component: signoutVue,
     meta: {
       title: 'Sign Out',
     },
@@ -66,4 +70,24 @@ export const routes = [
   { path: '/:path(.*)', component: NotFound },
 ];
 
-export default routes;
+const router = createRouter({
+  history: createWebHistory(import.meta.env.VITE_BASE_PUBLIC_PATH),
+  routes,
+});
+
+router.beforeEach((to, from, next) => {
+  // check if the route is public
+  if (publicPathNames.includes(to.name)) {
+    return next();
+  } else {
+    // check if the user is logged in
+    const user = localStorage.getItem('token');
+    if (!user) {
+      return next({ name: 'signin' });
+    } else {
+      return next();
+    }
+  }
+});
+
+export default router;

@@ -1,16 +1,10 @@
 import { createApp } from 'vue';
-import { createRouter, createWebHistory } from 'vue-router';
 import '@/assets/styles/fonts.css';
 import '@/assets/styles/main.css';
 import '@/assets/styles/tailwind.css';
 import App from '@/app.vue';
-import { routes } from '@/routes.js';
+import router from '@/routes.js';
 import { createPinia } from 'pinia';
-
-const router = createRouter({
-  history: createWebHistory(import.meta.env.VITE_BASE_PUBLIC_PATH),
-  routes,
-});
 
 const pinia = createPinia();
 const app = createApp(App);
