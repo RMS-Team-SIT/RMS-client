@@ -1,31 +1,33 @@
 <script setup>
 import Breadcrumb from '@/components/common/breadcrumb.vue';
-import Nabvar from '@/components/common/navbar.vue';
 import Button from '@/components/common/button.vue';
-import Footer from '@/components/common/footer.vue';
-import { onMounted, reactive } from 'vue';
+import { onBeforeMount, onMounted, reactive } from 'vue';
 import { fetchMyResidents } from '@/services/residentServices';
 import ResidentCard from '@/components/resident/resident.card.vue';
+import { useUserStore } from '@/stores/user.store';
 
+const userStore = useUserStore();
 const residents = reactive({
   data: null,
 });
 
-onMounted(async () => {
+const fetch = async () => {
   const response = await fetchMyResidents();
   if (response.status === 200) {
     let result = await response.json();
-    console.log(result);
     residents.data = result;
   } else {
     alert('Failed to fetch residents');
   }
   console.log(residents.data);
+};
+
+onBeforeMount(async () => {
+  await fetch();
 });
 </script>
 
 <template>
-  <Nabvar :isLoggedIn="true" />
   <div class="card w-full glass">
     <div class="card-body px-40">
       <div class="flex flex-row justify-between">
@@ -56,8 +58,6 @@ onMounted(async () => {
       </div>
     </div>
   </div>
-
-  <Footer />
 </template>
 
 <style scoped></style>

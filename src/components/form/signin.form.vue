@@ -38,6 +38,7 @@ const submitForm = async () => {
             placeholder="Email Address"
             class="w-full input input-bordered input-sm rounded-sm"
             v-model="formData.email"
+            required
           />
         </div>
         <div>
@@ -49,6 +50,7 @@ const submitForm = async () => {
             placeholder="Enter Password"
             class="w-full input input-bordered input-sm rounded-sm"
             v-model="formData.password"
+            required
           />
         </div>
 

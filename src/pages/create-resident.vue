@@ -1,7 +1,5 @@
 <script setup>
 import Breadcrumb from '@/components/common/breadcrumb.vue';
-import Nabvar from '@/components/common/navbar.vue';
-import Footer from '@/components/common/footer.vue';
 import { onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Steps from '@/components/common/steps.vue';
@@ -71,7 +69,6 @@ const submitData = async () => {
 </script>
 
 <template>
-  <Nabvar :isLoggedIn="true" />
   <div class="card w-full glass">
     <div class="card-body px-40">
       <div class="flex flex-row justify-between">
@@ -173,8 +170,6 @@ const submitData = async () => {
       </div>
     </div>
   </div>
-
-  <Footer />
 </template>
 
 <style scoped></style>

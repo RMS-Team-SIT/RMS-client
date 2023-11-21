@@ -9,7 +9,7 @@ const props = defineProps({
 });
 
 const classes = computed(() => {
-  let buttonClasses = [];
+  let buttonClasses = ['text-xs', 'md:text-md', 'lg:text-sm'];
   switch (props.btnType) {
     case 'primary':
       buttonClasses.push(

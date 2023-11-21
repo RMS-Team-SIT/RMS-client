@@ -1,16 +1,25 @@
 <script setup>
 import SigninForm from '@/components/form/signin.form.vue';
 import { signIn } from '@/services/userServices';
+import { useUserStore } from '@/stores/user.store';
+import { useRouter } from 'vue-router';
+
+const store = useUserStore();
+const router = useRouter();
 
 const handleFormData = async (formData) => {
   const response = await signIn(formData);
   if (response.status === 200) {
     alert('Sign In success');
     let data = await response.json();
-    // save to local storage
+    
     localStorage.setItem('token', data.access_token);
+    store.fetchMe();
+
+    router.push({ name: 'manage' });
   } else {
     alert('Sign In failed');
+    store.clearUser();
   }
 };
 </script>

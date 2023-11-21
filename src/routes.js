@@ -78,10 +78,12 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   // check if the route is public
   if (publicPathNames.includes(to.name)) {
+    console.log('public path');
     return next();
   } else {
     // check if the user is logged in
     const user = localStorage.getItem('token');
+    console.log('loggedIn', user);
     if (!user) {
       return next({ name: 'signin' });
     } else {

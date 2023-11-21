@@ -1,7 +1,6 @@
 <script setup>
 import Breadcrumb from '@/components/common/breadcrumb.vue';
 import Nabvar from '@/components/common/navbar.vue';
-import Footer from '@/components/common/footer.vue';
 import { onMounted, reactive } from 'vue';
 import { fetchMyResidents, fetchResident } from '@/services/residentServices';
 import { useRoute, useRouter } from 'vue-router';
@@ -30,7 +29,6 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Nabvar :isLoggedIn="true" />
   <div class="card w-full glass" v-if="resident.data">
     <div class="card-body px-40">
       <div class="flex flex-row justify-between">
@@ -95,8 +93,6 @@ onMounted(async () => {
       </div>
     </div>
   </div>
-
-  <Footer />
 </template>
 
 <style scoped></style>

@@ -1,12 +1,12 @@
 <script setup>
 import { onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import Navbar from '@/components/common/navbar.vue';
 import { themeChange } from 'theme-change';
-import Footer from '@/components/common/footer.vue';
+import { useUserStore } from '@/stores/user.store';
 
 const router = useRouter();
 const route = useRoute();
+const userStore = useUserStore();
 
 onMounted(() => {
   themeChange('light', 'dark');
@@ -14,27 +14,28 @@ onMounted(() => {
 </script>
 
 <template>
-  <Navbar :isLoggedIn="true"/>
-  <Navbar :isLoggedIn="false"/>
   <div>
     <!-- Main Content -->
     <main class="container mx-auto mt-8">
       <!-- About Section -->
       <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
         <div>
-          <img
-            src="6.jpg"
-            class="w-full h-auto rounded-lg shadow-lg"
-          />
+          <img src="6.jpg" class="w-full h-auto rounded-lg shadow-lg" />
         </div>
         <div>
-          <h1 class="text-6xl font-semibold mb-4 text-dark-blue-200">Manage your <span class="text-light-red">resident</span></h1>
+          <h1 class="text-6xl font-semibold mb-4 text-dark-blue-200">
+            Manage your <span class="text-light-red">resident</span>
+          </h1>
           <p class="text-lg leading-relaxed">
-            Resident Management System is a system that helps you to manage your resident.
-
+            Resident Management System is a system that helps you to manage your
+            resident.
           </p>
           <p class="mt-4 text-gray-700">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, diam id tincidunt dapibus, velit diam vulputate augue, eget lacinia ipsum nisi eget velit. Sed euismod, diam id tincidunt dapibus, velit diam vulputate augue, eget lacinia ipsum nisi eget velit.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+            euismod, diam id tincidunt dapibus, velit diam vulputate augue, eget
+            lacinia ipsum nisi eget velit. Sed euismod, diam id tincidunt
+            dapibus, velit diam vulputate augue, eget lacinia ipsum nisi eget
+            velit.
           </p>
         </div>
       </section>
@@ -46,26 +47,30 @@ onMounted(() => {
           <!-- Service Card -->
           <div class="p-6 bg-white rounded-lg shadow-md">
             <h3 class="text-xl font-semibold mb-2">Manage your resident</h3>
-            <p class="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p class="text-gray-700">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </p>
           </div>
 
           <!-- Service Card -->
           <div class="p-6 bg-white rounded-lg shadow-md">
             <h3 class="text-xl font-semibold mb-2">Service 2</h3>
-            <p class="text-gray-700">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+            <p class="text-gray-700">
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco
+              laboris.
+            </p>
           </div>
 
           <!-- Service Card -->
           <div class="p-6 bg-white rounded-lg shadow-md">
             <h3 class="text-xl font-semibold mb-2">Service 3</h3>
-            <p class="text-gray-700">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p class="text-gray-700">
+              Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
           </div>
         </div>
       </section>
     </main>
-
-    <Footer/>
-    
   </div>
 </template>
 
