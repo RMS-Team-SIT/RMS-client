@@ -1,10 +1,12 @@
 <script setup>
 import Breadcrumb from '@/components/common/breadcrumb.vue';
-import Nabvar from '@/components/common/navbar.vue';
 import { onMounted, reactive } from 'vue';
-import { fetchMyResidents, fetchResident } from '@/services/residentServices';
+import { fetchResident } from '@/services/residentServices';
 import { useRoute, useRouter } from 'vue-router';
 import Divider from '@/components/common/divider.vue';
+import ImagePreview from '@/components/common/image.preview.vue';
+import RoomSection from '@/components/room/room.section.vue';
+import RentalSection from '@/components/rental/rental.section.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -37,35 +39,37 @@ onMounted(async () => {
             { name: 'Home', pathName: 'home' },
             { name: 'Manage', pathName: 'manage' },
             { name: 'Resident' },
-            { name: residentId },
+            { name: resident.data.name },
           ]"
         />
       </div>
       <div>
         <div class="p-4 mb-4 card shadow-xl bg-white">
-          <h1 class="text-2xl font-semibold">Dashboard</h1>
+          <h1 class="text-2xl font-semibold text-dark-blue-200">
+            {{ route.meta.title }} | {{ resident.data.name }}
+          </h1>
         </div>
-        {{ resident.data }}
-        <div class="grid grid-cols-2 gap-4">
+        <!-- {{ resident.data }} -->
+        <div class="grid grid-cols-2 gap-4 mb-2">
           <div>
             <div class="bg-white p-4 shadow rounded-lg">
               <div class="mb-4">
                 <Divider>Resident Infomation</Divider>
-                <p>
+                <!-- <p>
                   <span class="font-bold">Resident ID</span> :
                   {{ resident.data._id }}
-                </p>
+                </p> -->
                 <p>
                   <span class="font-bold">Resident Name</span> :
                   {{ resident.data.name }}
                 </p>
                 <p>
-                  <span class="font-bold">description</span> :
-                  {{ resident.data.description }}
+                  <span class="font-bold">Description</span> :
+                  {{ resident.data.description ?? 'No description' }}
                 </p>
                 <Divider>contact</Divider>
                 <p v-for="(val, index) in resident.data.contact" :key="index">
-                  <span class="font-bold">{{ index }}</span> : {{ val }}
+                  <span class="font-bold">{{ index }}</span> : {{ val || '-' }}
                 </p>
                 <Divider>Other Setting</Divider>
                 <p>
@@ -81,14 +85,14 @@ onMounted(async () => {
           </div>
 
           <div>
-            <div class="bg-white p-4 shadow rounded-lg">
-              <!-- Bar Chart Component -->
-              <div class="mb-4">
-                <!-- Add your bar chart component here -->
-                <p>Bar Chart</p>
-              </div>
-            </div>
+            <ImagePreview :images="resident.data.images" class="min-h-full" />
           </div>
+        </div>
+        <div class="grid grid-cols-1">
+          <RoomSection :rooms="resident.data.rooms" />
+        </div>
+        <div class="grid grid-cols-1">
+          <RentalSection :rentals="resident.data.rentals" />
         </div>
       </div>
     </div>

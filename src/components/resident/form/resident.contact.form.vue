@@ -13,6 +13,14 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  userPersonalData: {
+    type: Object,
+    default: () => ({
+      email: 'test@test.com',
+      phone: '0812345678',
+    }),
+    required: false,
+  },
 });
 
 const residentContact = reactive({
@@ -45,9 +53,7 @@ watch(residentContact, () => {
 </script>
 
 <template>
-  <form
-    class="relative bg-white p-10 space-y-4 shadow-md rounded"
-  >
+  <form class="relative bg-white p-10 space-y-4 shadow-md rounded">
     <h1 class="text-3xl font-semibold text-dark-blue-200">Resident Contact</h1>
     <p class="text-xs">Please input resident contact information.</p>
     <div>
@@ -85,7 +91,13 @@ watch(residentContact, () => {
         v-model="residentContact.contact.phone"
         :disabled="viewOnly"
       />
-      <LabelCheckbox label="Use same as your phone number" />
+      <p
+        class="text-sm hover:underline text-dark-blue-100"
+        @click="residentContact.contact.phone = userPersonalData.phone"
+      >
+        Fill with your phone number.
+      </p>
+      <!-- <LabelCheckbox label="Use same as your phone number" /> -->
     </div>
     <div>
       <label class="label">
@@ -98,6 +110,12 @@ watch(residentContact, () => {
         v-model="residentContact.contact.email"
         :disabled="viewOnly"
       />
+      <p
+        class="text-sm hover:underline text-dark-blue-100"
+        @click="residentContact.contact.email = userPersonalData.email"
+      >
+        Fill with your email.
+      </p>
     </div>
   </form>
 </template>

@@ -25,8 +25,8 @@ const props = defineProps({
       <ul
         class="menu menu-horizontal px-1 text-center align-middle items-center"
       >
-        <li><a>Home</a></li>
-        <li><a>About</a></li>
+        <li><router-link :to="{ name: 'home' }">Home</router-link></li>
+        <li><router-link :to="{ name: 'home' }">About</router-link></li>
         <router-link to="/signin">
           <Button btnType="primary-pill">Sign In</Button>
         </router-link>

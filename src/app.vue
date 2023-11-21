@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, watchEffect } from 'vue';
+import { computed, onMounted, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import navbar from './components/common/navbar.vue';
 import Footer from './components/common/footer.vue';
@@ -14,6 +14,16 @@ watchEffect(
   () => (document.title = `${projectName} | ${route.meta.title || ''}`)
 );
 
+const shouldShowFooter = computed(() => {
+  const excludedRoutes = ['signup', 'signin'];
+  return !excludedRoutes.includes(route.name);
+});
+
+const shouldShowNavbar = computed(() => {
+  const excludedRoutes = ['signup', 'signin'];
+  return !excludedRoutes.includes(route.name);
+});
+
 onMounted(async () => {
   await userStore.fetchMe();
 });
@@ -21,9 +31,9 @@ onMounted(async () => {
 
 <template>
   <div>
-    <navbar :isLoggedIn="userStore.isLoggedIn" />
+    <navbar :isLoggedIn="userStore.isLoggedIn" v-if="shouldShowNavbar" />
     <router-view />
-    <Footer />
+    <Footer v-if="shouldShowFooter" />
   </div>
 </template>
 

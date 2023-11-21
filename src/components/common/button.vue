@@ -5,41 +5,55 @@ const props = defineProps({
   btnType: {
     type: String,
     default: 'primary',
+    validator: (value) =>
+      [
+        'primary',
+        'secondary',
+        'primary-pill',
+        'secondary-pill',
+        'ghost-pill',
+      ].includes(value),
   },
 });
 
 const classes = computed(() => {
-  let buttonClasses = ['text-xs', 'md:text-md', 'lg:text-sm'];
-  switch (props.btnType) {
-    case 'primary':
-      buttonClasses.push(
-        'bg-dark-blue-200',
-        'hover:bg-dark-blue-100',
-        'rounded-md'
-      );
-      break;
-    case 'secondary':
-      buttonClasses.push('bg-light-red', 'hover:bg-red-700', 'rounded-md');
-      break;
-    case 'primary-pill':
-      buttonClasses.push(
-        'bg-dark-blue-200',
-        'hover:bg-dark-blue-100',
-        'rounded-full'
-      );
-      break;
-    case 'secondary-pill':
-      buttonClasses.push('bg-light-red', 'hover:bg-red-700', 'rounded-full');
-      break;
-    default:
-      break;
-  }
-  return buttonClasses;
+  const buttonClasses = [
+    'btn',
+    // 'text-white',
+    'text-xs',
+    'md:text-md',
+    'lg:text-sm',
+  ];
+
+  const typeToClasses = {
+    primary: [
+      'bg-dark-blue-200',
+      'hover:bg-dark-blue-100',
+      'rounded-md',
+      'text-white',
+    ],
+    secondary: ['bg-light-red', 'hover:bg-red-700', 'rounded-md', 'text-white'],
+    'primary-pill': [
+      'bg-dark-blue-200',
+      'hover:bg-dark-blue-100',
+      'rounded-full',
+      'text-white',
+    ],
+    'secondary-pill': [
+      'bg-light-red',
+      'hover:bg-red-700',
+      'rounded-full',
+      'text-white',
+    ],
+    'ghost-pill': ['btn-ghost', 'rounded-full'],
+  };
+
+  return [...buttonClasses, ...(typeToClasses[props.btnType] || [])];
 });
 </script>
 
 <template>
-  <button class="btn text-white" :class="classes">
+  <button :class="classes">
     <slot></slot>
   </button>
 </template>

@@ -51,9 +51,8 @@ onMounted(() => {
 <template>
   <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
     <h1 class="text-3xl font-semibold text-dark-blue-200">
-      Image Preview
+      Images
     </h1>
-    <p class="text-xs">Please check your images.</p>
     <div
       v-if="imagePreviews.length > 0"
       class="mt-4 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
@@ -73,6 +72,10 @@ onMounted(() => {
     </div>
     <p class="text-sm flex gap-2 text-gray-500" v-if="imagePreviews.length > 0">
       * Click the image to view full size
+    </p>
+
+    <p v-else>
+      No images uploaded
     </p>
 
     <!-- modal -->

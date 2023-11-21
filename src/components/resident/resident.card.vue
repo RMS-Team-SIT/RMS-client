@@ -13,7 +13,7 @@ const props = defineProps({
   },
 });
 
-const goToResidentDashboard = (residentId) => {
+const gotoManage = (residentId) => {
   router.push(`/manage/resident/${residentId}`);
 };
 </script>
@@ -21,7 +21,10 @@ const goToResidentDashboard = (residentId) => {
 <template>
   <div class="card card-side bg-base-100 shadow-xl mt-5">
     <figure>
-      <img class="w-full h-60 rounded-lg shadow-xl" src="/4.jpg" alt="Movie" />
+      <img
+        class="w-60 h-60 rounded-lg shadow-xl"
+        :src="props.resident.images[0] ?? '/4.jpg'"
+      />
     </figure>
     <div class="card-body">
       <h2 class="card-title">Resident Name : {{ props.resident?.name }}</h2>
@@ -30,12 +33,17 @@ const goToResidentDashboard = (residentId) => {
         Address : {{ props.resident.contact.address }}
       </p>
       <div class="card-actions justify-between items-center">
-        <ResidentStat />
+        <ResidentStat
+          :stats="{
+            numberOfRoom: props.resident?.rooms?.length ?? 0,
+            numberOfFloor: props.resident?.floors?.length ?? 0,
+          }"
+        />
         <Button
           class="btn"
           btnType="secondary"
-          @click="goToResidentDashboard(props.resident._id)"
-          >Dashboard</Button
+          @click="gotoManage(props.resident._id)"
+          >Manage</Button
         >
       </div>
     </div>
