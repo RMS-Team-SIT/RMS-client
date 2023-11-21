@@ -7,6 +7,7 @@ import manageVue from './pages/manage.vue';
 import manageResident from './pages/manage.resident.vue';
 import createResidentVue from './pages/create-resident.vue';
 import { createRouter, createWebHistory } from 'vue-router';
+import profileVue from './pages/profile.vue';
 
 const publicPathNames = ['home', 'signup', 'signin', 'signout'];
 
@@ -65,6 +66,14 @@ const routes = [
     component: createResidentVue,
     meta: {
       title: 'Create Resident',
+    },
+  },
+  {
+    name: 'profile',
+    path: '/profile',
+    component: profileVue,
+    meta: {
+      title: 'Profile',
     },
   },
   { path: '/:path(.*)', component: NotFound },

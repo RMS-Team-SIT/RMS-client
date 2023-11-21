@@ -55,10 +55,6 @@ onMounted(async () => {
             <div class="bg-white p-4 shadow rounded-lg">
               <div class="mb-4">
                 <Divider>Resident Infomation</Divider>
-                <!-- <p>
-                  <span class="font-bold">Resident ID</span> :
-                  {{ resident.data._id }}
-                </p> -->
                 <p>
                   <span class="font-bold">Resident Name</span> :
                   {{ resident.data.name }}
