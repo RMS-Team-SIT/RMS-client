@@ -2,6 +2,7 @@
 import { onMounted, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import navbar from './components/common/navbar.vue';
+import Footer from './components/common/footer.vue';
 import { projectName } from './constants';
 import { useUserStore } from './stores/user.store';
 
@@ -20,11 +21,10 @@ onMounted(async () => {
 
 <template>
   <div>
-    
+    <navbar :isLoggedIn="userStore.isLoggedIn" />
+    <router-view />
+    <Footer />
   </div>
-  <navbar :isLoggedIn="userStore.isLoggedIn" />
-  <router-view />
-  <Footer />
 </template>
 
 <style scoped></style>
