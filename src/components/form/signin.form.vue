@@ -19,7 +19,7 @@ const submitForm = async () => {
 
 <template>
   <div
-    class="relative flex flex-col justify-center h-screen overflow-hidden bg-white"
+    class="relative flex flex-col justify-center min-h-screen overflow-hidden bg-white"
   >
     <div class="w-full p-6 m-auto bg-white rounded-md lg:max-w-xl">
       <h1 class="text-3xl font-semibold text-dark-blue-200 px-10 mb-5">

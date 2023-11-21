@@ -4,7 +4,7 @@ import { signUp } from '@/services/userServices';
 
 const handleFormData = async (formData) => {
   const response = await signUp(formData);
-  if (response.status === 200) {
+  if (response.status === 201) {
     alert('Sign Up success');
     let data = await response.json();
     localStorage.setItem('token', data.access_token);
@@ -15,7 +15,7 @@ const handleFormData = async (formData) => {
 </script>
 
 <template>
-  <div class="flex h-screen">
+  <div class="flex">
     <div class="flex-1 bg-cover flex flex-row">
       <div class="basis-1/2">
         <SignupForm @form-data="handleFormData" />
