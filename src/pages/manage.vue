@@ -1,12 +1,14 @@
 <script setup>
 import Breadcrumb from '@/components/common/breadcrumb.vue';
 import Button from '@/components/common/button.vue';
-import { onBeforeMount, onMounted, reactive } from 'vue';
+import { onBeforeMount, onMounted, reactive, ref } from 'vue';
 import { fetchMyResidents } from '@/services/residentServices';
 import ResidentCard from '@/components/resident/resident.card.vue';
 import { useUserStore } from '@/stores/user.store';
+import Loading from '@/components/common/loading.vue';
 
 const userStore = useUserStore();
+const isLoading = ref(true);
 const residents = reactive({
   data: null,
 });
@@ -19,6 +21,7 @@ const fetch = async () => {
   } else {
     alert('Failed to fetch residents');
   }
+  isLoading.value = false;
   console.log(residents.data);
 };
 
@@ -44,6 +47,7 @@ onBeforeMount(async () => {
       <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
         <h1 class="text-3xl font-semibold text-dark-blue-200">My Residents</h1>
         <p class="text-xs">This page will show all of your resident.</p>
+        <Loading v-if="isLoading"/>
         <ResidentCard
           v-for="(resident, index) in residents.data"
           :key="index"

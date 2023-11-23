@@ -1,4 +1,4 @@
-import { authHeader } from '@/utils';
+import { authHeader } from '@/utils/index';
 import { baseUrl } from './constants';
 
 export const signUp = async (data) => {

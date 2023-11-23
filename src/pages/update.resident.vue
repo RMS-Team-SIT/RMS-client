@@ -31,6 +31,9 @@ onMounted(async () => {
       alert('Failed to fetch residents');
     }
     console.log(residentData.data);
+  } catch (error) {
+    console.log(error);
+    alert('Failed to fetch user data');
   } finally {
     isLoading.value = false;
   }

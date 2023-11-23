@@ -1,7 +1,9 @@
 <script setup></script>
 
 <template>
-  <span class="loading loading-dots loading-lg"></span>
+  <div class="flex justify-center p-5 items-center">
+    <span class="loading loading-infinity loading-lg"></span>
+  </div>
 </template>
 
 <style scoped></style>

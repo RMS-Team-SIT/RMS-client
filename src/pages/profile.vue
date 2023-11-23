@@ -1,32 +1,56 @@
 <script setup>
 import Breadcrumb from '@/components/common/breadcrumb.vue';
 import UserDataForm from '@/components/form/user.data.form.vue';
-import { reactive } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useUserStore } from '../stores/user.store';
 import { getDate } from '@/utils';
+import { me } from '@/services/userServices';
+import Loading from '@/components/common/loading.vue';
 
 const route = useRoute();
 const router = useRouter();
+const isLoading = ref(true);
 
 const formData = reactive({
-  firstname: '',
-  lastname: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-  phone: '',
+  data: {
+    firstname: '',
+    lastname: '',
+    email: '',
+    oldPassword: '',
+    newPassword: '',
+    phone: '',
+  },
 });
-
-const userStore = useUserStore();
 
 const submitForm = async () => {
   console.log(formData);
 };
+
+onMounted(async () => {
+  try {
+    const response = await me();
+    console.log(response);
+    if (response.status === 200) {
+      let user = await response.json();
+      formData.data = user;
+    } else {
+      alert('Failed to fetch user');
+    }
+  } catch (error) {
+    console.log(error);
+    alert('Failed to fetch user data');
+  } finally {
+    console.log(formData.data);
+    isLoading.value = false;
+  }
+});
 </script>
 
 <template>
-  <div class="card w-full glass">
+
+  <Loading v-if="isLoading" />
+  <div v-else class="card w-full glass">
     <div class="card-body px-40">
       <div class="flex flex-row justify-between">
         <Breadcrumb
@@ -45,11 +69,11 @@ const submitForm = async () => {
               <img src="/blank-profile.webp" />
             </div>
           </div>
-          <p>Member since : {{ getDate(userStore.user.created_at) }}</p>
+          <!-- <p>Member since : {{ getDate(formData.data.) }}</p> -->
         </div>
         <div class="bg-white basis-2/3 p-10 shadow-lg rounded-lg">
           <p class="font-bold text-2xl">Edit Profile</p>
-          <UserDataForm :userData="userStore.user" />
+          <UserDataForm :userData="formData.data" />
         </div>
       </div>
     </div>
