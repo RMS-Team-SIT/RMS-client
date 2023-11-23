@@ -51,9 +51,9 @@ onBeforeMount(async () => {
         />
         <p
           v-if="residents.data && residents.data.length == 0"
-          class="text-center"
+          class="text-center text-sm p-10"
         >
-          You don't have any resident yet. Please create one.
+          No resident found. Please create new resident.
         </p>
       </div>
     </div>

@@ -5,9 +5,10 @@ import signinVue from './pages/signin.vue';
 import signoutVue from './pages/signout.vue';
 import manageVue from './pages/manage.vue';
 import manageResident from './pages/manage.resident.vue';
-import createResidentVue from './pages/create-resident.vue';
+import createResidentVue from './pages/create.resident.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import profileVue from './pages/profile.vue';
+import updateResidentVue from './pages/update.resident.vue';
 
 const publicPathNames = ['home', 'signup', 'signin', 'signout'];
 
@@ -66,6 +67,14 @@ const routes = [
     component: createResidentVue,
     meta: {
       title: 'Create Resident',
+    },
+  },
+  {
+    name: 'update-resident',
+    path: '/update/resident/:id',
+    component: updateResidentVue,
+    meta: {
+      title: 'Update Resident',
     },
   },
   {
