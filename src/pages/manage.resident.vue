@@ -7,6 +7,7 @@ import Divider from '@/components/common/divider.vue';
 import ImagePreview from '@/components/common/image.preview.vue';
 import RoomSection from '@/components/room/room.section.vue';
 import RentalSection from '@/components/rental/rental.section.vue';
+import Button from '@/components/common/button.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -44,12 +45,19 @@ onMounted(async () => {
         />
       </div>
       <div>
-        <div class="p-4 mb-4 card shadow-xl bg-white">
+        <div class="p-4 card shadow-xl bg-white">
           <h1 class="text-2xl font-semibold text-dark-blue-200">
             {{ route.meta.title }} | {{ resident.data.name }}
           </h1>
         </div>
         <!-- {{ resident.data }} -->
+        <div class="flex justify-end p-4">
+          <router-link
+            :to="{ name: 'update-resident', params: { id: resident.data._id } }"
+          >
+            <Button btnType="secondary-pill">Edit Resident</Button>
+          </router-link>
+        </div>
         <div class="grid grid-cols-2 gap-4 mb-2">
           <div>
             <div class="bg-white p-4 shadow rounded-lg">

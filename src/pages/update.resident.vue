@@ -1,6 +1,6 @@
 <script setup>
 import Breadcrumb from '@/components/common/breadcrumb.vue';
-import { onMounted, reactive, ref } from 'vue';
+import { onBeforeMount, onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Steps from '@/components/common/steps.vue';
 import ResidentBasicInfoForm from '@/components/resident/form/resident.basic.info.form.vue';
@@ -11,28 +11,50 @@ import Button from '@/components/common/button.vue';
 import ResidentSummarizeForm from '@/components/resident/form/resident.summarize.form.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 import ImagePreview from '@/components/common/image.preview.vue';
-import { createResident } from '@/services/residentServices';
+import { createResident, fetchResident } from '@/services/residentServices';
+import Loading from '@/components/common/loading.vue';
 
 const router = useRouter();
 const route = useRoute();
+
+const residentId = route.params.id;
+const isLoading = ref(true);
+
+onBeforeMount(async () => {
+  try {
+    const response = await fetchResident(residentId);
+    console.log(response);
+    if (response.status === 200) {
+      let result = await response.json();
+      residentData.data = result;
+    } else {
+      alert('Failed to fetch residents');
+    }
+    console.log(residentData.data);
+  } finally {
+    isLoading.value = false;
+  }
+});
 
 const numberOfSteps = 3;
 const currentStep = ref(1);
 
 const residentData = reactive({
-  name: '',
-  description: '',
-  address: '',
-  images: [],
-  contact: {
-    facebook: '',
-    line: '',
-    phone: '',
-    email: '',
+  data: {
+    name: '',
+    description: '',
+    address: '',
+    images: [],
+    contact: {
+      facebook: '',
+      line: '',
+      phone: '',
+      email: '',
+    },
+    defaultWaterPriceRate: 0.0,
+    defaultLightPriceRate: 0.0,
+    rooms: [],
   },
-  defaultWaterPriceRate: 0.0,
-  defaultLightPriceRate: 0.0,
-  rooms: [],
 });
 
 const changeStep = (action) => {
@@ -52,7 +74,7 @@ const changeStep = (action) => {
 const getChildData = (data) => {
   console.log('Received data from child', data);
   for (const key in data) {
-    residentData[key] = data[key];
+    residentData.data[key] = data[key];
   }
 };
 
@@ -70,13 +92,16 @@ const submitData = async () => {
 
 <template>
   <div class="card w-full glass">
-    <div class="card-body px-40">
+    <div v-if="isLoading" class="flex justify-center items-center h-96">
+      <Loading />
+    </div>
+    <div v-else class="card-body px-40">
       <div class="flex flex-row justify-between">
         <Breadcrumb
           :pathList="[
             { name: 'Home', pathName: 'home' },
             { name: 'Manage', pathName: 'manage' },
-            { name: 'Create Resident', pathName: 'create-resident' },
+            { name: 'Update Resident' },
           ]"
         />
       </div>
@@ -96,17 +121,17 @@ const submitData = async () => {
           <ResidentBasicInfoForm
             class="basis-1/3"
             @getData="getChildData"
-            :residentData="residentData"
+            :residentData="residentData.data"
           />
           <ResidentContactForm
             class="basis-1/3"
             @getData="getChildData"
-            :residentData="residentData"
+            :residentData="residentData.data"
           />
           <ResidentSettingForm
             class="basis-1/3"
             @getData="getChildData"
-            :residentData="residentData"
+            :residentData="residentData.data"
           />
         </div>
 
@@ -115,7 +140,7 @@ const submitData = async () => {
           <ResidentImagesForm
             class="basis-full"
             @getData="getChildData"
-            :residentData="residentData"
+            :residentData="residentData.data"
           />
         </div>
 
@@ -125,23 +150,23 @@ const submitData = async () => {
             <ResidentBasicInfoForm
               class="basis-1/3"
               @getData="getChildData"
-              :residentData="residentData"
+              :residentData="residentData.data"
               :viewOnly="true"
             />
             <ResidentContactForm
               class="basis-1/3"
               @getData="getChildData"
-              :residentData="residentData"
+              :residentData="residentData.data"
               :viewOnly="true"
             />
             <ResidentSettingForm
               class="basis-1/3"
               @getData="getChildData"
-              :residentData="residentData"
+              :residentData="residentData.data"
               :viewOnly="true"
             />
           </div>
-          <ImagePreview class="basis-full" :images="residentData.images" />
+          <ImagePreview class="basis-full" :images="residentData.data.images" />
         </div>
 
         <!-- button control -->
