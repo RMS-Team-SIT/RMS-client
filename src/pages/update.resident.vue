@@ -20,7 +20,7 @@ const route = useRoute();
 const residentId = route.params.id;
 const isLoading = ref(true);
 
-onBeforeMount(async () => {
+onMounted(async () => {
   try {
     const response = await fetchResident(residentId);
     console.log(response);
