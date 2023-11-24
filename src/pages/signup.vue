@@ -1,15 +1,28 @@
 <script setup>
 import SignupForm from '@/components/form/signup.form.vue';
 import { signUp } from '@/services/userServices';
+import { useNotification } from '@kyvg/vue3-notification';
+
+const { notify } = useNotification();
 
 const handleFormData = async (formData) => {
   const response = await signUp(formData);
   if (response.status === 201) {
-    alert('Sign Up success');
     let data = await response.json();
     localStorage.setItem('token', data.access_token);
+    notify({
+      group: 'tr',
+      title: 'Success',
+      text: 'Sign Up successful',
+      type: 'success',
+    });
   } else {
-    alert('Sign Up failed');
+    notify({
+      group: 'tr',
+      title: 'Error',
+      text: 'Sign Up failed, Please try again',
+      type: 'error',
+    });
   }
 };
 </script>

@@ -8,11 +8,12 @@ import { getDate } from '@/utils';
 import { me } from '@/services/userServices';
 import Loading from '@/components/common/loading.vue';
 import blankprofileImg from '@/assets/img/blank-profile.webp';
-
+import { useNotification } from '@kyvg/vue3-notification';
 
 const route = useRoute();
 const router = useRouter();
 const isLoading = ref(true);
+const { notify } = useNotification();
 
 const formData = reactive({
   data: {
@@ -30,27 +31,23 @@ const submitForm = async () => {
 };
 
 onMounted(async () => {
-  try {
-    const response = await me();
-    console.log(response);
-    if (response.status === 200) {
-      let user = await response.json();
-      formData.data = user;
-    } else {
-      alert('Failed to fetch user');
-    }
-  } catch (error) {
-    console.log(error);
-    alert('Failed to fetch user data');
-  } finally {
-    console.log(formData.data);
-    isLoading.value = false;
+  const response = await me();
+  if (response.status === 200) {
+    let user = await response.json();
+    formData.data = user;
+  } else {
+    notify({
+      group: 'tr',
+      title: 'Error',
+      text: 'Failed to fetch user data',
+      type: 'error',
+    });
   }
+  isLoading.value = false;
 });
 </script>
 
 <template>
-
   <Loading v-if="isLoading" />
   <div v-else class="card w-full glass">
     <div class="card-body px-40">

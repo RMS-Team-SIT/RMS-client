@@ -1,6 +1,5 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue';
-import { isImage } from '@/utils';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
 import Button from '@/components/common/button.vue';
 
@@ -14,24 +13,6 @@ const props = defineProps({
     default: () => [],
   },
 });
-
-const previewImages = (files) => {
-  Array.from(files).forEach((file) => {
-    if (isImage(file)) {
-      const reader = new FileReader();
-
-      reader.onload = (e) => {
-        imagePreviews.value.push(e.target.result);
-      };
-
-      reader.readAsDataURL(file);
-    } else {
-      alert(`${file.name} is not a valid image file.`);
-      console.warn(`${file.name} is not a valid image file.`);
-    }
-  });
-  console.log(imagePreviews.value);
-};
 
 const openModal = (index) => {
   selectedImage.value = imagePreviews.value[index];

@@ -2,23 +2,36 @@
 import SigninForm from '@/components/form/signin.form.vue';
 import { signIn } from '@/services/userServices';
 import { useUserStore } from '@/stores/user.store';
+import { useNotification } from '@kyvg/vue3-notification';
 import { useRouter } from 'vue-router';
 
 const store = useUserStore();
 const router = useRouter();
+const { notify } = useNotification();
 
 const handleFormData = async (formData) => {
   const response = await signIn(formData);
   if (response.status === 200) {
-    alert('Sign In success');
     let data = await response.json();
-    
+
     localStorage.setItem('token', data.access_token);
     store.fetchMe();
 
+    notify({
+      group: 'tr',
+      title: 'Success',
+      text: 'Sign In successful',
+      type: 'success',
+    });
+    
     router.push({ name: 'manage' });
   } else {
-    alert('Sign In failed');
+    notify({
+      group: 'tr',
+      title: 'Error',
+      text: 'Sign In failed, Please try again',
+      type: 'error',
+    });
     store.clearUser();
   }
 };

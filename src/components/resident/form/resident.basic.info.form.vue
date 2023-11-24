@@ -41,7 +41,7 @@ watch(residentInfo, () => {
 </script>
 
 <template>
-  <form class="relative bg-white p-10 space-y-4 shadow-md rounded">
+  <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
     <h1 class="text-3xl font-semibold text-dark-blue-200">
       Resident Information
     </h1>
@@ -84,7 +84,7 @@ watch(residentInfo, () => {
         :disabled="viewOnly"
       />
     </div>
-  </form>
+  </div>
 </template>
 
 <style scoped></style>

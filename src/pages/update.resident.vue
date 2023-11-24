@@ -11,14 +11,19 @@ import Button from '@/components/common/button.vue';
 import ResidentSummarizeForm from '@/components/resident/form/resident.summarize.form.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 import ImagePreview from '@/components/common/image.preview.vue';
-import { createResident, fetchResident, updateResident } from '@/services/residentServices';
+import {
+  createResident,
+  fetchResident,
+  updateResident,
+} from '@/services/residentServices';
 import Loading from '@/components/common/loading.vue';
+import { useNotification } from '@kyvg/vue3-notification';
 
 const router = useRouter();
 const route = useRoute();
-
 const residentId = route.params.id;
 const isLoading = ref(true);
+const { notify } = useNotification();
 
 onMounted(async () => {
   try {
@@ -28,12 +33,21 @@ onMounted(async () => {
       let result = await response.json();
       residentData.data = result;
     } else {
-      alert('Failed to fetch residents');
+      notify({
+        group: 'tr',
+        title: 'Error',
+        text: 'Failed to fetch resident data',
+        type: 'error',
+      });
     }
-    console.log(residentData.data);
   } catch (error) {
-    console.log(error);
-    alert('Failed to fetch user data');
+    console.error(error);
+    notify({
+      group: 'tr',
+      title: 'Error',
+      text: 'Failed to fetch resident data',
+      type: 'error',
+    });
   } finally {
     isLoading.value = false;
   }

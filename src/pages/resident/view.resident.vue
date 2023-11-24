@@ -9,11 +9,12 @@ import RoomSection from '@/components/room/room.section.vue';
 import RentalSection from '@/components/rental/rental.section.vue';
 import Button from '@/components/common/button.vue';
 import { PencilSquareIcon } from '@heroicons/vue/24/outline';
+import { useNotification } from '@kyvg/vue3-notification';
 
 const router = useRouter();
 const route = useRoute();
-
 const residentId = route.params.id;
+const { notify } = useNotification();
 
 const resident = reactive({
   data: null,
@@ -25,7 +26,12 @@ onMounted(async () => {
     let result = await response.json();
     resident.data = result;
   } else {
-    alert('Failed to fetch residents');
+    notify({
+      group: 'tr',
+      title: 'Error',
+      text: 'Failed to fetch resident data',
+      type: 'error',
+    });
   }
 });
 </script>
@@ -52,47 +58,46 @@ onMounted(async () => {
         </div>
 
         <div class="grid grid-cols-2 gap-4 mb-2 mt-2">
-          
-            <div class="bg-white p-4 shadow-md rounded">
-              <div class="mb-4">
-                <div class="flex justify-between items-center">
-                  <Divider>Resident Infomation</Divider>
+          <div class="bg-white p-4 shadow-md rounded">
+            <div class="mb-4">
+              <div class="flex justify-between items-center">
+                <Divider>Resident Infomation</Divider>
 
-                  <PencilSquareIcon
-                    id="edit-resident-link"
-                    @click="
-                      () =>
-                        router.push({
-                          name: 'update-resident',
-                          params: { id: residentId },
-                        })
-                    "
-                    class="text-dark-blue-200 w-5 h-5 flex justify-end"
-                  />
-                </div>
-                <p>
-                  <span class="font-bold">Resident Name</span> :
-                  {{ resident.data.name }}
-                </p>
-                <p>
-                  <span class="font-bold">Description</span> :
-                  {{ resident.data.description ?? 'No description' }}
-                </p>
-                <Divider>contact</Divider>
-                <p v-for="(val, index) in resident.data.contact" :key="index">
-                  <span class="font-bold">{{ index }}</span> : {{ val || '-' }}
-                </p>
-                <Divider>Other Setting</Divider>
-                <p>
-                  <span class="font-bold">Default Water Price Rate</span> :
-                  {{ resident.data.defaultWaterPriceRate }} Baht per unit
-                </p>
-                <p>
-                  <span class="font-bold">Default Light Price Rate</span> :
-                  {{ resident.data.defaultLightPriceRate }} Baht per unit
-                </p>
+                <PencilSquareIcon
+                  id="edit-resident-link"
+                  @click="
+                    () =>
+                      router.push({
+                        name: 'update-resident',
+                        params: { id: residentId },
+                      })
+                  "
+                  class="text-dark-blue-200 w-5 h-5 flex justify-end"
+                />
               </div>
+              <p>
+                <span class="font-bold">Resident Name</span> :
+                {{ resident.data.name }}
+              </p>
+              <p>
+                <span class="font-bold">Description</span> :
+                {{ resident.data.description ?? 'No description' }}
+              </p>
+              <Divider>contact</Divider>
+              <p v-for="(val, index) in resident.data.contact" :key="index">
+                <span class="font-bold">{{ index }}</span> : {{ val || '-' }}
+              </p>
+              <Divider>Other Setting</Divider>
+              <p>
+                <span class="font-bold">Default Water Price Rate</span> :
+                {{ resident.data.defaultWaterPriceRate }} Baht per unit
+              </p>
+              <p>
+                <span class="font-bold">Default Light Price Rate</span> :
+                {{ resident.data.defaultLightPriceRate }} Baht per unit
+              </p>
             </div>
+          </div>
 
           <div>
             <ImagePreview :images="resident.data.images" class="min-h-full" />

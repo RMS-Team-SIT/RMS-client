@@ -6,12 +6,14 @@ import { fetchMyResidents } from '@/services/residentServices';
 import ResidentCard from '@/components/resident/resident.card.vue';
 import { useUserStore } from '@/stores/user.store';
 import Loading from '@/components/common/loading.vue';
+import { useNotification } from '@kyvg/vue3-notification';
 
 const userStore = useUserStore();
 const isLoading = ref(true);
 const residents = reactive({
   data: null,
 });
+const { notify } = useNotification();
 
 const fetch = async () => {
   const response = await fetchMyResidents();
@@ -19,10 +21,14 @@ const fetch = async () => {
     let result = await response.json();
     residents.data = result;
   } else {
-    alert('Failed to fetch residents');
+    notify({
+      group: 'tr',
+      title: 'Error',
+      text: 'Failed to fetch residents',
+      type: 'error',
+    });
   }
   isLoading.value = false;
-  console.log(residents.data);
 };
 
 onBeforeMount(async () => {
@@ -47,7 +53,7 @@ onBeforeMount(async () => {
       <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
         <h1 class="text-3xl font-semibold text-dark-blue-200">My Residents</h1>
         <p class="text-xs">This page will show all of your resident.</p>
-        <Loading v-if="isLoading"/>
+        <Loading v-if="isLoading" />
         <ResidentCard
           v-for="(resident, index) in residents.data"
           :key="index"

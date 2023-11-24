@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, watchEffect } from 'vue';
+import { computed, inject, onMounted, ref, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import navbar from './components/common/navbar.vue';
 import Footer from './components/common/footer.vue';
@@ -37,6 +37,12 @@ onMounted(async () => {
   <div v-else>
     <navbar :isLoggedIn="userStore.isLoggedIn" v-if="shouldShowNavbar" />
     <router-view />
+    <div>
+      <notifications group="tc" position="top center" class="text-md" />
+      <notifications group="tr" position="top right" class="text-md" />
+      <notifications group="bl" position="bottom left" class="text-md" />
+      <notifications group="br" position="bottom right" class="text-md" />
+    </div>
     <Footer v-if="shouldShowFooter" />
   </div>
 </template>

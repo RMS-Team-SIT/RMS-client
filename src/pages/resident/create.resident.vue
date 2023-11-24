@@ -12,12 +12,13 @@ import ResidentSummarizeForm from '@/components/resident/form/resident.summarize
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 import ImagePreview from '@/components/common/image.preview.vue';
 import { createResident } from '@/services/residentServices';
+import { useNotification } from '@kyvg/vue3-notification';
 
 const router = useRouter();
 const route = useRoute();
-
 const numberOfSteps = 3;
 const currentStep = ref(1);
+const { notify } = useNotification();
 
 const residentData = reactive({
   name: '',
@@ -59,10 +60,20 @@ const getChildData = (data) => {
 const submitData = async () => {
   const response = await createResident(residentData);
   if (response.status == 201) {
-    alert('Resident created successfully');
+    notify({
+      group: 'tr',
+      title: 'Success',
+      text: 'Resident created successfully',
+      type: 'success',
+    });
     router.push({ name: 'manage' });
   } else {
-    alert('Failed to create resident');
+    notify({
+      group: 'tr',
+      title: 'Error',
+      text: 'Failed to create resident',
+      type: 'error',
+    });
   }
 };
 </script>

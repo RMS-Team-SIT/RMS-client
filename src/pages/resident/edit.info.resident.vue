@@ -17,12 +17,13 @@ import {
   updateResident,
 } from '@/services/residentServices';
 import Loading from '@/components/common/loading.vue';
+import { useNotification } from '@kyvg/vue3-notification';
 
 const router = useRouter();
 const route = useRoute();
-
 const residentId = route.params.id;
 const isLoading = ref(true);
+const { notify } = useNotification();
 
 onMounted(async () => {
   try {
@@ -31,12 +32,24 @@ onMounted(async () => {
       let result = await response.json();
       residentData.data = result;
     } else {
-      alert('Failed to fetch residents');
+      notify({
+        group: 'tr',
+        title: 'Error',
+        text: 'Failed to fetch resident data',
+        type: 'error',
+      });
     }
   } catch (error) {
-    alert('Failed to fetch user data');
+    console.error(error);
+    notify({
+      group: 'tr',
+      title: 'Error',
+      text: 'Failed to fetch resident data',
+      type: 'error',
+    });
+  } finally {
+    isLoading.value = false;
   }
-  isLoading.value = false;
 });
 
 const residentData = reactive({
@@ -63,13 +76,23 @@ const getChildData = (data) => {
 };
 
 const submitData = async () => {
-  console.log('Submit data', residentData.data);
   const response = await updateResident(residentId, residentData.data);
+
   if (response.status == 200) {
-    alert('Resident update successfully');
+    notify({
+      group: 'tr',
+      title: 'Success',
+      text: 'Resident updated successfully',
+      type: 'success',
+    });
     goBack();
   } else {
-    alert('Failed to update resident');
+    notify({
+      group: 'tr',
+      title: 'Error',
+      text: 'Failed to update resident',
+      type: 'error',
+    });
   }
 };
 const goBack = () => {

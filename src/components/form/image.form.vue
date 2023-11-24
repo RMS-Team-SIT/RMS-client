@@ -3,6 +3,7 @@ import { onMounted, ref, watch } from 'vue';
 import { isImage } from '@/utils';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
 import Button from '@/components/common/button.vue';
+import { useNotification } from '@kyvg/vue3-notification';
 
 const props = defineProps({
   images: {
@@ -21,6 +22,7 @@ const isModalOpen = ref(false);
 const selectedImage = ref(null);
 const imagePreviews = ref([]);
 const fileInputTemp = ref(null);
+const { notify } = useNotification();
 
 const emits = defineEmits(['getImages']);
 
@@ -45,7 +47,12 @@ const previewImages = (files) => {
 
       reader.readAsDataURL(file);
     } else {
-      alert(`${file.name} is not a valid image file.`);
+      notify({
+        group: 'tc',
+        title: 'Error',
+        text: `${file.name} is not a valid image file.`,
+        type: 'error',
+      });
       console.warn(`${file.name} is not a valid image file.`);
     }
   });
