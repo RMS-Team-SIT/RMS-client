@@ -11,13 +11,9 @@ import Button from '@/components/common/button.vue';
 import ResidentSummarizeForm from '@/components/resident/form/resident.summarize.form.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 import ImagePreview from '@/components/common/image.preview.vue';
-import {
-  createResident,
-  fetchResident,
-  updateResident,
-} from '@/services/residentServices';
 import Loading from '@/components/common/loading.vue';
 import { useNotification } from '@kyvg/vue3-notification';
+import ResidentServices from '@/services/ResidentServices';
 
 const router = useRouter();
 const route = useRoute();
@@ -27,7 +23,7 @@ const { notify } = useNotification();
 
 onMounted(async () => {
   try {
-    const response = await fetchResident(residentId);
+    const response = await ResidentServices.fetchResident(residentId);
     console.log(response);
     if (response.status === 200) {
       let result = await response.json();
@@ -97,13 +93,6 @@ const getChildData = (data) => {
 
 const submitData = async () => {
   console.log('Submit data', residentData.data);
-  // const response = await updateResident(residentId, residentData.data);
-  // if (response.status == 200) {
-  //   alert('Resident update successfully');
-  //   router.push({ name: 'manage' });
-  // } else {
-  //   alert('Failed to update resident');
-  // }
 };
 </script>
 

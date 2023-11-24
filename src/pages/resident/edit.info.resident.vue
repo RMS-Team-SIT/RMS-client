@@ -2,22 +2,14 @@
 import Breadcrumb from '@/components/common/breadcrumb.vue';
 import { onBeforeMount, onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import Steps from '@/components/common/steps.vue';
 import ResidentBasicInfoForm from '@/components/resident/form/resident.basic.info.form.vue';
 import ResidentContactForm from '@/components/resident/form/resident.contact.form.vue';
 import ResidentSettingForm from '@/components/resident/form/resident.setting.form.vue';
-import ResidentImagesForm from '@/components/resident/form/resident.images.form.vue';
 import Button from '@/components/common/button.vue';
-import ResidentSummarizeForm from '@/components/resident/form/resident.summarize.form.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
-import ImagePreview from '@/components/common/image.preview.vue';
-import {
-  createResident,
-  fetchResident,
-  updateResident,
-} from '@/services/residentServices';
 import Loading from '@/components/common/loading.vue';
 import { useNotification } from '@kyvg/vue3-notification';
+import ResidentServices from '@/services/ResidentServices';
 
 const router = useRouter();
 const route = useRoute();
@@ -27,7 +19,7 @@ const { notify } = useNotification();
 
 onMounted(async () => {
   try {
-    const response = await fetchResident(residentId);
+    const response = await ResidentServices.fetchResident(residentId);
     if (response.status === 200) {
       let result = await response.json();
       residentData.data = result;

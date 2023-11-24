@@ -1,14 +1,13 @@
 <script setup>
 import Breadcrumb from '@/components/common/breadcrumb.vue';
 import { onMounted, reactive, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { me } from '@/services/userServices';
 import Loading from '@/components/common/loading.vue';
 import blankprofileImg from '@/assets/img/blank-profile.webp';
 import { useNotification } from '@kyvg/vue3-notification';
 import UserInfoForm from '@/components/form/user.info.form.vue';
 import UserPasswordFormVue from '@/components/form/user.password.form.vue';
 import { getDate } from '@/utils';
+import UserService from '@/services/UserServices';
 
 const isLoading = ref(true);
 const { notify } = useNotification();
@@ -23,12 +22,29 @@ const userData = reactive({
 });
 
 const updateUser = async (data) => {
-  console.log(data);
+  const response = await UserService.update(data);
+  if (response.status === 200) {
+    let user = await response.json();
+    userData.data = user;
+    notify({
+      group: 'tr',
+      title: 'Success',
+      text: 'Update user data successful',
+      type: 'success',
+    });
+  } else {
+    notify({
+      group: 'tr',
+      title: 'Error',
+      text: 'Update user data failed, Please try again',
+      type: 'error',
+    });
+  }
 };
 
 
 onMounted(async () => {
-  const response = await me();
+  const response = await UserService.me();
   if (response.status === 200) {
     let user = await response.json();
     userData.data = user;
@@ -77,3 +93,4 @@ onMounted(async () => {
 </template>
 
 <style scoped></style>
+@/services/UserServices

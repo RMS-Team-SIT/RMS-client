@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { me } from '@/services/userServices';
+import UserService from '@/services/UserServices';
 
 export const useUserStore = defineStore({
   id: 'user',
@@ -25,13 +25,14 @@ export const useUserStore = defineStore({
   },
   actions: {
     async fetchMe() {
-      const response = await me();
+      const response = await UserService.me();
       if (response.status === 200) {
         const data = await response.json();
         this.user = data;
         this.isLoggedIn = true;
       }
     },
+
     async clearUser() {
       this.isLoggedIn = false;
       this.user = {

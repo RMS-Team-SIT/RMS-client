@@ -1,7 +1,6 @@
 <script setup>
 import Breadcrumb from '@/components/common/breadcrumb.vue';
 import { onMounted, reactive } from 'vue';
-import { fetchResident } from '@/services/residentServices';
 import { useRoute, useRouter } from 'vue-router';
 import Divider from '@/components/common/divider.vue';
 import ImagePreview from '@/components/common/image.preview.vue';
@@ -10,6 +9,7 @@ import RentalSection from '@/components/rental/rental.section.vue';
 import Button from '@/components/common/button.vue';
 import { PencilSquareIcon } from '@heroicons/vue/24/outline';
 import { useNotification } from '@kyvg/vue3-notification';
+import ResidentServices from '@/services/ResidentServices';
 
 const router = useRouter();
 const route = useRoute();
@@ -21,7 +21,7 @@ const resident = reactive({
 });
 
 onMounted(async () => {
-  const response = await fetchResident(residentId);
+  const response = await ResidentServices.fetchResident(residentId);
   if (response.status === 200) {
     let result = await response.json();
     resident.data = result;

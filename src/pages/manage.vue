@@ -2,11 +2,11 @@
 import Breadcrumb from '@/components/common/breadcrumb.vue';
 import Button from '@/components/common/button.vue';
 import { onBeforeMount, onMounted, reactive, ref } from 'vue';
-import { fetchMyResidents } from '@/services/residentServices';
 import ResidentCard from '@/components/resident/resident.card.vue';
 import { useUserStore } from '@/stores/user.store';
 import Loading from '@/components/common/loading.vue';
 import { useNotification } from '@kyvg/vue3-notification';
+import ResidentServices from '@/services/ResidentServices';
 
 const userStore = useUserStore();
 const isLoading = ref(true);
@@ -16,7 +16,7 @@ const residents = reactive({
 const { notify } = useNotification();
 
 const fetch = async () => {
-  const response = await fetchMyResidents();
+  const response = await ResidentServices.fetchMyResidents();
   if (response.status === 200) {
     let result = await response.json();
     residents.data = result;

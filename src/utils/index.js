@@ -20,3 +20,13 @@ export const getDate = (str) => {
 
   return `${day}/${month}/${year}`;
 };
+
+export const sendRequest = async (baseUrl, endpoint, method, data) => {
+  const url = `${baseUrl}${endpoint}`;
+  const headers = authHeader();
+  const body = data ? JSON.stringify(data) : undefined;
+
+  const response = await fetch(url, { method, headers, body });
+
+  return response;
+};

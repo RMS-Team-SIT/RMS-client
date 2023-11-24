@@ -1,27 +1,18 @@
-import { authHeader } from '@/utils/index';
+import { sendRequest } from '@/utils/index';
 import { baseUrl } from './constants';
 
-export const signUp = async (data) => {
-  let response = await fetch(`${baseUrl}/users/signup`, {
-    method: 'POST',
-    headers: authHeader(),
-    body: JSON.stringify(data),
-  });
-  return response;
-};
+class UserService {
+  constructor() {
+    this.baseUrl = baseUrl;
+  }
 
-export const signIn = async (data) => {
-  let response = await fetch(`${baseUrl}/auth/signin`, {
-    method: 'POST',
-    headers: authHeader(),
-    body: JSON.stringify(data),
-  });
-  return response;
-};
+  signUp = async (data) => sendRequest(this.baseUrl, '/users/signup', 'POST', data);
 
-export const me = async () => {
-  let response = await fetch(`${baseUrl}/users/me`, {
-    headers: authHeader(),
-  });
-  return response;
-};
+  signIn = async (data) => sendRequest(this.baseUrl, '/auth/signin', 'POST', data);
+
+  me = async () => sendRequest(this.baseUrl, '/users/me', 'GET');
+
+  update = async (data) => sendRequest(this.baseUrl, '/users', 'PUT', data);
+}
+
+export default new UserService();

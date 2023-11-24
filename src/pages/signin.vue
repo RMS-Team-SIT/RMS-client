@@ -1,16 +1,16 @@
 <script setup>
 import SigninForm from '@/components/form/signin.form.vue';
-import { signIn } from '@/services/userServices';
 import { useUserStore } from '@/stores/user.store';
 import { useNotification } from '@kyvg/vue3-notification';
 import { useRouter } from 'vue-router';
+import UserService from '@/services/UserServices';
 
 const store = useUserStore();
 const router = useRouter();
 const { notify } = useNotification();
 
 const handleFormData = async (formData) => {
-  const response = await signIn(formData);
+  const response = await UserService.signIn(formData);
   if (response.status === 200) {
     let data = await response.json();
 
@@ -53,3 +53,4 @@ const handleFormData = async (formData) => {
   background-position: center;
 }
 </style>
+@/services/UserServices

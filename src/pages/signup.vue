@@ -1,12 +1,12 @@
 <script setup>
 import SignupForm from '@/components/form/signup.form.vue';
-import { signUp } from '@/services/userServices';
 import { useNotification } from '@kyvg/vue3-notification';
+import UserService from '@/services/UserServices';
 
 const { notify } = useNotification();
 
 const handleFormData = async (formData) => {
-  const response = await signUp(formData);
+  const response = await UserService.signUp(formData);
   if (response.status === 201) {
     let data = await response.json();
     localStorage.setItem('token', data.access_token);
@@ -43,3 +43,4 @@ const handleFormData = async (formData) => {
   background-position: center;
 }
 </style>
+@/services/UserServices

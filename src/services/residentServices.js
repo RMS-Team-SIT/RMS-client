@@ -1,41 +1,20 @@
-import { authHeader } from '@/utils';
+import { sendRequest } from '@/utils';
 import { baseUrl } from './constants';
 
-export const fetchResidents = async () => {
-  let response = await fetch(`${baseUrl}/resident`, {
-    headers: authHeader(),
-  });
-  return response;
-};
+class ResidentService {
+  constructor() {
+    this.baseUrl = baseUrl;
+  }
 
-export const fetchMyResidents = async () => {
-  let response = await fetch(`${baseUrl}/resident/my`, {
-    headers: authHeader(),
-  });
-  return response;
-};
+  fetchResidents = async () => sendRequest(this.baseUrl, '/resident', 'GET');
 
-export const fetchResident = async (id) => {
-  let response = await fetch(`${baseUrl}/resident/${id}`, {
-    headers: authHeader(),
-  });
-  return response;
-};
+  fetchMyResidents = async () => sendRequest(this.baseUrl, '/resident/my', 'GET');
 
-export const createResident = async (resident) => {
-  let response = await fetch(`${baseUrl}/resident`, {
-    method: 'POST',
-    headers: authHeader(),
-    body: JSON.stringify(resident),
-  });
-  return response;
-};
+  fetchResident = async (id) => sendRequest(this.baseUrl, `/resident/${id}`, 'GET');
 
-export const updateResident = async (id, resident) => {
-  let response = await fetch(`${baseUrl}/resident/${id}`, {
-    method: 'PUT',
-    headers: authHeader(),
-    body: JSON.stringify(resident),
-  });
-  return response;
-};
+  createResident = async (resident) => sendRequest(this.baseUrl, '/resident', 'POST', resident);
+
+  updateResident = async (id, resident) => sendRequest(this.baseUrl, `/resident/${id}`, 'PUT', resident);
+}
+
+export default new ResidentService();

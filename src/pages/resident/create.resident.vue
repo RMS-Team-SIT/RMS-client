@@ -11,7 +11,6 @@ import Button from '@/components/common/button.vue';
 import ResidentSummarizeForm from '@/components/resident/form/resident.summarize.form.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 import ImagePreview from '@/components/common/image.preview.vue';
-import { createResident } from '@/services/residentServices';
 import { useNotification } from '@kyvg/vue3-notification';
 
 const router = useRouter();
