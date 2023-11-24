@@ -17,11 +17,11 @@ const props = defineProps({
       <div class="stat-value">{{ stats.numberOfRoom }}</div>
       <div class="stat-desc">Total</div>
     </div>
-    <div class="stat">
+    <!-- <div class="stat">
       <div class="stat-title">Floor</div>
       <div class="stat-value">{{ stats.numberOfFloor }}</div>
       <div class="stat-desc">Total</div>
-    </div>
+    </div> -->
   </div>
 </template>
 

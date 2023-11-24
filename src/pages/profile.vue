@@ -1,40 +1,37 @@
 <script setup>
 import Breadcrumb from '@/components/common/breadcrumb.vue';
-import UserDataForm from '@/components/form/user.data.form.vue';
 import { onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useUserStore } from '../stores/user.store';
-import { getDate } from '@/utils';
 import { me } from '@/services/userServices';
 import Loading from '@/components/common/loading.vue';
 import blankprofileImg from '@/assets/img/blank-profile.webp';
 import { useNotification } from '@kyvg/vue3-notification';
+import UserInfoForm from '@/components/form/user.info.form.vue';
+import UserPasswordFormVue from '@/components/form/user.password.form.vue';
+import { getDate } from '@/utils';
 
-const route = useRoute();
-const router = useRouter();
 const isLoading = ref(true);
 const { notify } = useNotification();
 
-const formData = reactive({
+const userData = reactive({
   data: {
     firstname: '',
     lastname: '',
     email: '',
-    oldPassword: '',
-    newPassword: '',
     phone: '',
   },
 });
 
-const submitForm = async () => {
-  console.log(formData);
+const updateUser = async (data) => {
+  console.log(data);
 };
+
 
 onMounted(async () => {
   const response = await me();
   if (response.status === 200) {
     let user = await response.json();
-    formData.data = user;
+    userData.data = user;
   } else {
     notify({
       group: 'tr',
@@ -68,11 +65,11 @@ onMounted(async () => {
               <img :src="blankprofileImg" />
             </div>
           </div>
-          <!-- <p>Member since : {{ getDate(formData.data.) }}</p> -->
+          <p>Member since : {{ getDate(userData.data.created_at) }}</p>
         </div>
-        <div class="bg-white basis-2/3 p-10 shadow-lg rounded-lg">
-          <p class="font-bold text-2xl">Edit Profile</p>
-          <UserDataForm :userData="formData.data" />
+        <div class="basis-2/3">
+          <UserInfoForm :userData="userData.data" @submit-data="updateUser" />
+          <UserPasswordFormVue @submit-data="updateUser" />
         </div>
       </div>
     </div>

@@ -90,7 +90,6 @@ const submitData = async () => {
           ]"
         />
       </div>
-      {{ residentData.images.length }}
       <div>
         <div class="p-4 mb-4 card shadow-xl bg-white">
           <Steps
