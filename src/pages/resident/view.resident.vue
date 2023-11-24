@@ -8,6 +8,7 @@ import ImagePreview from '@/components/common/image.preview.vue';
 import RoomSection from '@/components/room/room.section.vue';
 import RentalSection from '@/components/rental/rental.section.vue';
 import Button from '@/components/common/button.vue';
+import { PencilSquareIcon } from '@heroicons/vue/24/outline';
 
 const router = useRouter();
 const route = useRoute();
@@ -20,14 +21,12 @@ const resident = reactive({
 
 onMounted(async () => {
   const response = await fetchResident(residentId);
-  console.log(response);
   if (response.status === 200) {
     let result = await response.json();
     resident.data = result;
   } else {
     alert('Failed to fetch residents');
   }
-  console.log(resident.data);
 });
 </script>
 
@@ -44,13 +43,14 @@ onMounted(async () => {
           ]"
         />
       </div>
+
       <div>
         <div class="p-4 card shadow-xl bg-white">
           <h1 class="text-2xl font-semibold text-dark-blue-200">
             {{ route.meta.title }} | {{ resident.data.name }}
           </h1>
         </div>
-        <!-- {{ resident.data }} -->
+
         <div class="flex justify-end p-4">
           <router-link
             :to="{ name: 'update-resident', params: { id: resident.data._id } }"
@@ -58,11 +58,18 @@ onMounted(async () => {
             <Button btnType="secondary-pill">Edit Resident</Button>
           </router-link>
         </div>
+
         <div class="grid grid-cols-2 gap-4 mb-2">
           <div>
             <div class="bg-white p-4 shadow rounded-lg">
               <div class="mb-4">
-                <Divider>Resident Infomation</Divider>
+                <div class="flex justify-between items-center">
+                  <Divider>Resident Infomation</Divider>
+
+                  <PencilSquareIcon
+                    class="text-dark-blue-200 w-5 h-5 flex justify-end"
+                  />
+                </div>
                 <p>
                   <span class="font-bold">Resident Name</span> :
                   {{ resident.data.name }}
@@ -92,9 +99,11 @@ onMounted(async () => {
             <ImagePreview :images="resident.data.images" class="min-h-full" />
           </div>
         </div>
+
         <div class="grid grid-cols-1">
           <RoomSection :rooms="resident.data.rooms" />
         </div>
+
         <div class="grid grid-cols-1">
           <RentalSection :rentals="resident.data.rentals" />
         </div>

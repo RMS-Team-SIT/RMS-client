@@ -1,14 +1,14 @@
-import indexVue from '@/pages/index.vue';
-import NotFound from '@/pages/not-found.vue';
-import signupVue from './pages/signup.vue';
-import signinVue from './pages/signin.vue';
-import signoutVue from './pages/signout.vue';
-import manageVue from './pages/manage.vue';
-import manageResident from './pages/manage.resident.vue';
-import createResidentVue from './pages/create.resident.vue';
 import { createRouter, createWebHistory } from 'vue-router';
-import profileVue from './pages/profile.vue';
-import updateResidentVue from './pages/update.resident.vue';
+import index from '@/pages/index.vue';
+import NotFound from '@/pages/not-found.vue';
+import signup from '@/pages/signup.vue';
+import signin from '@/pages/signin.vue';
+import signout from '@/pages/signout.vue';
+import manage from '@/pages/manage.vue';
+import viewResident from '@/pages/resident/view.resident.vue';
+import createResident from '@/pages/resident/create.resident.vue';
+import profile from './pages/profile.vue';
+import editResidentInfo from './pages/resident/edit.info.resident.vue';
 
 const publicPathNames = ['home', 'signup', 'signin', 'signout'];
 
@@ -16,7 +16,7 @@ const routes = [
   {
     name: 'home',
     path: '/',
-    component: indexVue,
+    component: index,
     meta: {
       title: 'Home',
     },
@@ -24,7 +24,7 @@ const routes = [
   {
     name: 'signup',
     path: '/signup',
-    component: signupVue,
+    component: signup,
     meta: {
       title: 'Sign Up',
     },
@@ -32,7 +32,7 @@ const routes = [
   {
     name: 'signin',
     path: '/signin',
-    component: signinVue,
+    component: signin,
     meta: {
       title: 'Sign In',
     },
@@ -40,7 +40,7 @@ const routes = [
   {
     name: 'signout',
     path: '/signout',
-    component: signoutVue,
+    component: signout,
     meta: {
       title: 'Sign Out',
     },
@@ -48,7 +48,7 @@ const routes = [
   {
     name: 'manage',
     path: '/manage',
-    component: manageVue,
+    component: manage,
     meta: {
       title: 'Manage',
     },
@@ -56,7 +56,7 @@ const routes = [
   {
     name: 'manage-resident',
     path: '/manage/resident/:id',
-    component: manageResident,
+    component: viewResident,
     meta: {
       title: 'Manage Resident',
     },
@@ -64,7 +64,7 @@ const routes = [
   {
     name: 'create-resident',
     path: '/create/resident',
-    component: createResidentVue,
+    component: createResident,
     meta: {
       title: 'Create Resident',
     },
@@ -72,7 +72,15 @@ const routes = [
   {
     name: 'update-resident',
     path: '/update/resident/:id',
-    component: updateResidentVue,
+    component: editResidentInfo,
+    meta: {
+      title: 'Update Resident Info',
+    },
+  },
+  {
+    name: 'update-resident-info',
+    path: '/update/resident/info/:id',
+    component: editResidentInfo,
     meta: {
       title: 'Update Resident',
     },
@@ -80,7 +88,7 @@ const routes = [
   {
     name: 'profile',
     path: '/profile',
-    component: profileVue,
+    component: profile,
     meta: {
       title: 'Profile',
     },
@@ -96,12 +104,10 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   // check if the route is public
   if (publicPathNames.includes(to.name)) {
-    console.log('public path');
     return next();
   } else {
     // check if the user is logged in
     const user = localStorage.getItem('token');
-    console.log('loggedIn', user);
     if (!user) {
       return next({ name: 'signin' });
     } else {

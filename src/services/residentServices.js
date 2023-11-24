@@ -1,28 +1,23 @@
+import { authHeader } from '@/utils';
 import { baseUrl } from './constants';
 
 export const fetchResidents = async () => {
   let response = await fetch(`${baseUrl}/resident`, {
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    },
+    headers: authHeader(),
   });
   return response;
 };
 
 export const fetchMyResidents = async () => {
   let response = await fetch(`${baseUrl}/resident/my`, {
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    },
+    headers: authHeader(),
   });
   return response;
 };
 
 export const fetchResident = async (id) => {
   let response = await fetch(`${baseUrl}/resident/${id}`, {
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    },
+    headers: authHeader(),
   });
   return response;
 };
@@ -30,10 +25,16 @@ export const fetchResident = async (id) => {
 export const createResident = async (resident) => {
   let response = await fetch(`${baseUrl}/resident`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    },
+    headers: authHeader(),
+    body: JSON.stringify(resident),
+  });
+  return response;
+};
+
+export const updateResident = async (id, resident) => {
+  let response = await fetch(`${baseUrl}/resident/${id}`, {
+    method: 'PUT',
+    headers: authHeader(),
     body: JSON.stringify(resident),
   });
   return response;

@@ -11,6 +11,12 @@ const props = defineProps({
   },
 });
 
+onMounted(() => {
+  if (props.images.length > 0) {
+    imagePreviews.value = props.images;
+  }
+});
+
 const isModalOpen = ref(false);
 const selectedImage = ref(null);
 const imagePreviews = ref([]);
@@ -68,11 +74,14 @@ const emitData = () => {
   console.log('getImages Emit called', imagePreviews.value);
 };
 
-watch(imagePreviews.value, () => {
-  console.log('Image previews changed', 'emitData', imagePreviews.value);
-  emitData();
-});
-
+watch(
+  imagePreviews.value,
+  () => {
+    console.log('Image previews changed', 'emitData', imagePreviews.value);
+    emitData();
+  },
+  { deep: true }
+);
 </script>
 
 <template>

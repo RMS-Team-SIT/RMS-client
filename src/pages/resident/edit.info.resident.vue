@@ -11,7 +11,11 @@ import Button from '@/components/common/button.vue';
 import ResidentSummarizeForm from '@/components/resident/form/resident.summarize.form.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 import ImagePreview from '@/components/common/image.preview.vue';
-import { createResident, fetchResident, updateResident } from '@/services/residentServices';
+import {
+  createResident,
+  fetchResident,
+  updateResident,
+} from '@/services/residentServices';
 import Loading from '@/components/common/loading.vue';
 
 const router = useRouter();
@@ -23,31 +27,24 @@ const isLoading = ref(true);
 onMounted(async () => {
   try {
     const response = await fetchResident(residentId);
-    console.log(response);
     if (response.status === 200) {
       let result = await response.json();
       residentData.data = result;
     } else {
       alert('Failed to fetch residents');
     }
-    console.log(residentData.data);
   } catch (error) {
-    console.log(error);
     alert('Failed to fetch user data');
   } finally {
     isLoading.value = false;
   }
 });
 
-const numberOfSteps = 3;
-const currentStep = ref(1);
-
 const residentData = reactive({
   data: {
     name: '',
     description: '',
     address: '',
-    images: [],
     contact: {
       facebook: '',
       line: '',
@@ -56,23 +53,8 @@ const residentData = reactive({
     },
     defaultWaterPriceRate: 0.0,
     defaultLightPriceRate: 0.0,
-    rooms: [],
   },
 });
-
-const changeStep = (action) => {
-  switch (action) {
-    case 'next':
-      currentStep.value = Math.min(currentStep.value + 1, numberOfSteps);
-      break;
-    case 'back':
-      currentStep.value = Math.max(currentStep.value - 1, 1);
-      break;
-    default:
-      console.warn('Invalid action');
-      break;
-  }
-};
 
 const getChildData = (data) => {
   console.log('Received data from child', data);
@@ -104,24 +86,13 @@ const submitData = async () => {
           :pathList="[
             { name: 'Home', pathName: 'home' },
             { name: 'Manage', pathName: 'manage' },
-            { name: 'Update Resident' },
+            { name: 'Update Resident Info' },
             { name: residentId },
           ]"
         />
       </div>
       <div>
-        <div class="p-4 mb-4 card shadow-xl bg-white">
-          <Steps
-            :stepList="[
-              'Resident Infomation',
-              'Resident Images',
-              'Review Information',
-            ]"
-            :currentStep="currentStep"
-          />
-        </div>
-        <!-- step 1 -->
-        <div v-if="currentStep == 1" class="flex gap-4">
+        <div class="flex gap-4">
           <ResidentBasicInfoForm
             class="basis-1/3"
             @getData="getChildData"
@@ -139,61 +110,10 @@ const submitData = async () => {
           />
         </div>
 
-        <!-- step 2 -->
-        <div v-if="currentStep == 2" class="flex gap-4">
-          <ResidentImagesForm
-            class="basis-full"
-            @getData="getChildData"
-            :residentData="residentData.data"
-          />
-        </div>
-
-        <!-- step 3 -->
-        <div v-if="currentStep == 3" class="flex gap-4 flex-col">
-          <div class="flex gap-4">
-            <ResidentBasicInfoForm
-              class="basis-1/3"
-              @getData="getChildData"
-              :residentData="residentData.data"
-              :viewOnly="true"
-            />
-            <ResidentContactForm
-              class="basis-1/3"
-              @getData="getChildData"
-              :residentData="residentData.data"
-              :viewOnly="true"
-            />
-            <ResidentSettingForm
-              class="basis-1/3"
-              @getData="getChildData"
-              :residentData="residentData.data"
-              :viewOnly="true"
-            />
-          </div>
-          <ImagePreview class="basis-full" :images="residentData.data.images" />
-        </div>
-
         <!-- button control -->
         <div class="flex justify-center gap-2 mt-10">
-          <Button
-            @click="changeStep('back')"
-            v-if="currentStep > 1"
-            class="rounded-badge"
-          >
-            <ArrowLeftIcon class="w-4 h-4" />
-            Back
-          </Button>
-          <Button
-            v-if="currentStep == numberOfSteps"
-            @click="submitData"
-            class="rounded-badge"
-            btnType="secondary"
-          >
+          <Button @click="submitData" class="rounded-badge" btnType="secondary">
             Update
-          </Button>
-          <Button @click="changeStep('next')" class="rounded-badge" v-else>
-            Next Step
-            <ArrowRightIcon class="w-4 h-4" />
           </Button>
         </div>
       </div>

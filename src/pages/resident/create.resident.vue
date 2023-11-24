@@ -58,7 +58,6 @@ const getChildData = (data) => {
 
 const submitData = async () => {
   const response = await createResident(residentData);
-  console.log(response);
   if (response.status == 201) {
     alert('Resident created successfully');
     router.push({ name: 'manage' });
@@ -80,6 +79,7 @@ const submitData = async () => {
           ]"
         />
       </div>
+      {{ residentData.images.length }}
       <div>
         <div class="p-4 mb-4 card shadow-xl bg-white">
           <Steps
