@@ -2,22 +2,23 @@
 import SigninForm from '@/components/form/signin.form.vue';
 import { useUserStore } from '@/stores/user.store';
 import { useNotification } from '@kyvg/vue3-notification';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import UserService from '@/services/UserServices';
-import ForgetPasswordForm from '@/components/form/forget.password.form.vue';
+import ResetPasswordForm from '@/components/form/reset.password.form.vue';
 
-const store = useUserStore();
-const router = useRouter();
+const route = useRoute();
+const token = route.params.token;
 const { notify } = useNotification();
 
 const handleFormData = async (formData) => {
-  const response = await UserService.forgetPassword(formData);
+  console.log('handleFormData',formData);
+  const response = await UserService.resetPassword(token, formData);
   if (response.status === 200) {
     let data = await response.json();
     notify({
       group: 'tr',
       title: 'Success',
-      text: `Email sent to ${formData.email} successful`,
+      text: `Reset password successful`,
       type: 'success',
     });
   } else {
@@ -25,7 +26,7 @@ const handleFormData = async (formData) => {
     notify({
       group: 'tr',
       title: 'Error',
-      text: 'Email sent failed, ' + data.message + ' Please try again',
+      text: 'Reset failed, ' + data.message + ' Please try again',
       type: 'error',
     });
   }
@@ -33,12 +34,8 @@ const handleFormData = async (formData) => {
 </script>
 
 <template>
-  <div class="flex h-screen">
-    <div class="flex-1 bg-cover flex flex-row">
-      <div class="basis-1/2">
-        <UserPasswordForm @submit-form="handleFormData" />
-      </div>
-    </div>
+  <div class="h-screen flex justify-center w-full">
+    <ResetPasswordForm @submitData="handleFormData" />
   </div>
 </template>
 

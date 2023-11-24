@@ -10,6 +10,7 @@ import createResident from '@/pages/resident/create.resident.vue';
 import profile from './pages/profile.vue';
 import editResidentInfo from './pages/resident/edit.info.resident.vue';
 import forgetPassword from './pages/forget-password.vue';
+import resetPassword from './pages/reset-password.vue';
 
 const publicPathNames = ['home', 'signup', 'signin', 'signout', 'forget-password'];
 
@@ -100,6 +101,14 @@ const routes = [
     component: forgetPassword,
     meta: {
       title: 'Forget Password',
+    },
+  },
+  {
+    name: 'reset-password',
+    path: '/reset-password/:token',
+    component: resetPassword,
+    meta: {
+      title: 'Reset Password',
     },
   },
   { path: '/:path(.*)', component: NotFound },
