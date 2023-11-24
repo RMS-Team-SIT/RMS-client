@@ -12,7 +12,11 @@ class UserService {
 
   me = async () => sendRequest(this.baseUrl, '/users/me', 'GET');
 
-  update = async (data) => sendRequest(this.baseUrl, '/users', 'PUT', data);
+  update = async (id, data) => sendRequest(this.baseUrl, `/users/${id}`, 'PUT', data);
+
+  forgetPassword = async (data) => sendRequest(this.baseUrl, '/users/forget-password', 'POST', data);
+
+  resetPassword = async (token, data) => sendRequest(this.baseUrl, `/users/reset-password/${token}`, 'POST', data);
 }
 
 export default new UserService();

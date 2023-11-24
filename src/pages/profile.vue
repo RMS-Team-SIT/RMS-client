@@ -14,6 +14,7 @@ const { notify } = useNotification();
 
 const userData = reactive({
   data: {
+    _id: '',
     firstname: '',
     lastname: '',
     email: '',
@@ -22,26 +23,40 @@ const userData = reactive({
 });
 
 const updateUser = async (data) => {
-  const response = await UserService.update(data);
-  if (response.status === 200) {
-    let user = await response.json();
-    userData.data = user;
-    notify({
-      group: 'tr',
-      title: 'Success',
-      text: 'Update user data successful',
-      type: 'success',
-    });
-  } else {
+  console.log(data);
+  const { _id } = userData.data;
+
+  try {
+    const response = await UserService.update(_id, data);
+
+    if (response.ok) {
+      const result = await response.json();
+      userData.data = result;
+      notify({
+        group: 'tr',
+        title: 'Success',
+        text: 'Update user data successful',
+        type: 'success',
+      });
+    } else {
+      const result = await response.json();
+      notify({
+        group: 'tr',
+        title: 'Error',
+        text: `Update user data failed (${response.status}), ${result.message}`,
+        type: 'error',
+      });
+    }
+  } catch (error) {
+    console.error('An error occurred during the update:', error);
     notify({
       group: 'tr',
       title: 'Error',
-      text: 'Update user data failed, Please try again',
+      text: 'An unexpected error occurred during the update',
       type: 'error',
     });
   }
 };
-
 
 onMounted(async () => {
   const response = await UserService.me();
@@ -75,7 +90,9 @@ onMounted(async () => {
 
       <div class="flex gap-4 mb-2">
         <div class="bg-white basis-1/3 p-10 shadow-lg rounded-lg">
-          <p class="text-center font-bold text-lg">Siriwat Jaiyungyuen</p>
+          <p class="text-center font-bold text-lg">
+            {{ userData.data.firstname }} {{ userData.data.lastname }}
+          </p>
           <div class="avatar">
             <div class="w-[50%] rounded-full">
               <img :src="blankprofileImg" />
@@ -93,4 +110,3 @@ onMounted(async () => {
 </template>
 
 <style scoped></style>
-@/services/UserServices

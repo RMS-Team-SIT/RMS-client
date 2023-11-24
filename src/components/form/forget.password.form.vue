@@ -9,7 +9,6 @@ const emit = defineEmits(['submit-form']);
 
 const formData = reactive({
   email: '',
-  password: '',
 });
 
 const submitForm = async () => {
@@ -23,12 +22,12 @@ const submitForm = async () => {
   >
     <div class="w-full p-6 m-auto bg-white rounded-md lg:max-w-xl">
       <h1 class="text-3xl font-semibold text-dark-blue-200 px-10 mb-5">
-        Welcome Back !<br />
+        Forget Password<br />
       </h1>
       <p class="text-sm px-10 mb-5">
-        Sign in and start managing your resident.
+        Enter your email address to reset your password.
       </p>
-      <form @submit.prevent="submitForm" class="space-y-4 px-10 mb-5">
+      <form @submit.prevent="submitForm" class="space-y-4 px-10">
         <div>
           <label class="label">
             <span class="text-base label-text">Email</span>
@@ -42,40 +41,12 @@ const submitForm = async () => {
           />
         </div>
         <div>
-          <label class="label">
-            <span class="text-base label-text">Password</span>
-          </label>
-          <input
-            type="password"
-            placeholder="Enter Password"
-            class="w-full input input-bordered input-sm rounded-sm"
-            v-model="formData.password"
-            required
-          />
-        </div>
-
-        <div>
-          <p
-            class="text-dark-blue-200 hover:underline"
-            @click="router.push('forget-password')"
-            >Forget your password?</p
-          >
-        </div>
-        <div>
           <Button class="btn btn-block" type="submit">
             <ArrowRightIcon class="w-5 h-5" />
-            Sign In
+            <p>Sent</p>
           </Button>
         </div>
       </form>
-      <span class="mt-10 p-10">
-        No account yet?
-        <span
-          class="text-blue-500 hover:underline"
-          @click="router.push('signup')"
-          >Sign up now</span
-        ></span
-      >
     </div>
   </div>
 </template>

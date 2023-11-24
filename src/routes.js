@@ -9,8 +9,9 @@ import viewResident from '@/pages/resident/view.resident.vue';
 import createResident from '@/pages/resident/create.resident.vue';
 import profile from './pages/profile.vue';
 import editResidentInfo from './pages/resident/edit.info.resident.vue';
+import forgetPassword from './pages/forget-password.vue';
 
-const publicPathNames = ['home', 'signup', 'signin', 'signout'];
+const publicPathNames = ['home', 'signup', 'signin', 'signout', 'forget-password'];
 
 const routes = [
   {
@@ -91,6 +92,14 @@ const routes = [
     component: profile,
     meta: {
       title: 'Profile',
+    },
+  },
+  {
+    name: 'forget-password',
+    path: '/forget-password',
+    component: forgetPassword,
+    meta: {
+      title: 'Forget Password',
     },
   },
   { path: '/:path(.*)', component: NotFound },
