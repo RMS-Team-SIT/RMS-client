@@ -1,6 +1,7 @@
 <script setup>
 import ResidentStat from '@/components/resident/resident.stat.vue';
 import Button from '@/components/common/button.vue';
+import img4 from '@/assets/img/4.jpg';
 import { useRoute, useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -23,7 +24,7 @@ const gotoManage = (residentId) => {
     <figure>
       <img
         class="w-60 h-60 rounded-lg shadow-xl"
-        :src="props.resident.images[0] ?? '/4.jpg'"
+        :src="props.resident.images[0] ?? img4"
       />
     </figure>
     <div class="card-body">

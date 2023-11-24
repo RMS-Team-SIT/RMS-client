@@ -3,6 +3,7 @@ import { onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { themeChange } from 'theme-change';
 import { useUserStore } from '@/stores/user.store';
+import img6 from '@/assets/img/6.jpg';
 
 const router = useRouter();
 const route = useRoute();
@@ -20,7 +21,7 @@ onMounted(() => {
       <!-- About Section -->
       <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
         <div>
-          <img src="6.jpg" class="w-full h-auto rounded-lg shadow-lg" />
+          <img :src="img6" class="w-full h-auto rounded-lg shadow-lg" />
         </div>
         <div>
           <h1 class="text-6xl font-semibold mb-4 text-dark-blue-200">

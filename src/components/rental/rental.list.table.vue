@@ -1,6 +1,8 @@
 <script setup>
 import Badge from '../common/badge.vue';
 import Button from '@/components/common/button.vue';
+import blankprofileImg from '@/assets/img/blank-profile.webp';
+
 
 const props = defineProps({
   rentals: {
@@ -40,7 +42,7 @@ const props = defineProps({
               <div class="avatar">
                 <div class="w-12 h-12 rounded-full">
                   <img
-                    src="/blank-profile.webp"
+                    :src="blankprofileImg"
                     alt="Avatar"
                   />
                 </div>

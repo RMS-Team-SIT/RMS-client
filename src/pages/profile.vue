@@ -7,6 +7,8 @@ import { useUserStore } from '../stores/user.store';
 import { getDate } from '@/utils';
 import { me } from '@/services/userServices';
 import Loading from '@/components/common/loading.vue';
+import blankprofileImg from '@/assets/img/blank-profile.webp';
+
 
 const route = useRoute();
 const router = useRouter();
@@ -66,7 +68,7 @@ onMounted(async () => {
           <p class="text-center font-bold text-lg">Siriwat Jaiyungyuen</p>
           <div class="avatar">
             <div class="w-[50%] rounded-full">
-              <img src="/blank-profile.webp" />
+              <img :src="blankprofileImg" />
             </div>
           </div>
           <!-- <p>Member since : {{ getDate(formData.data.) }}</p> -->

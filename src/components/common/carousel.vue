@@ -1,10 +1,13 @@
-<script setup></script>
+<!-- <script setup>
+import img2 from '@/assets/img/2.jpg';
+import img3 from '@/assets/img/2.jpg';
+</script>
 
 <template>
   <div class="carousel w-full h-60">
     <div id="slide1" class="carousel-item relative w-full">
       <img
-        src="/2.jpg"
+        :src="img2"
         class="w-full"
       />
       <div
@@ -53,4 +56,4 @@
   </div>
 </template>
 
-<style scoped></style>
+<style scoped></style> -->
