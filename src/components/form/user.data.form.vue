@@ -16,6 +16,7 @@ import {
 } from '@vuelidate/validators';
 import useVuelidate from '@vuelidate/core';
 import { CheckIcon, XMarkIcon } from '@heroicons/vue/24/outline';
+// import Button from '@/components/common/button.vue';
 
 const props = defineProps({
   userData: {
@@ -207,7 +208,7 @@ const validateErrorMsg = (field) => {
       </div>
     </div>
     <div class="py-1">
-      <Button class="btn btn-block mt-2" type="submit"> Update Profile </Button>
+      <button class="btn btn-block mt-2" type="submit"> Update Profile </button>
     </div>
   </form>
 </template>

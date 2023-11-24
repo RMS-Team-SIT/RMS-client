@@ -14,8 +14,8 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="navbar bg-base-100 shadow-lg px-8">
-    <div class="flex-1 gap-4">
+  <div class="navbar bg-base-100 shadow-lg px-40">
+    <div class="flex-1 gap-4" @click="router.push({ name: 'home' })">
       <img class="w-12 h-12" src="/logo.png" alt="" />
       <a class="text-xl">
         <span class="font-bold text-dark-blue-200">{{ projectName }}</span>
