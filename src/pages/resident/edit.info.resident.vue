@@ -35,9 +35,8 @@ onMounted(async () => {
     }
   } catch (error) {
     alert('Failed to fetch user data');
-  } finally {
-    isLoading.value = false;
   }
+  isLoading.value = false;
 });
 
 const residentData = reactive({
@@ -65,13 +64,16 @@ const getChildData = (data) => {
 
 const submitData = async () => {
   console.log('Submit data', residentData.data);
-  // const response = await updateResident(residentId, residentData.data);
-  // if (response.status == 200) {
-  //   alert('Resident update successfully');
-  //   router.push({ name: 'manage' });
-  // } else {
-  //   alert('Failed to update resident');
-  // }
+  const response = await updateResident(residentId, residentData.data);
+  if (response.status == 200) {
+    alert('Resident update successfully');
+    goBack();
+  } else {
+    alert('Failed to update resident');
+  }
+};
+const goBack = () => {
+  router.go(-1);
 };
 </script>
 
@@ -86,13 +88,13 @@ const submitData = async () => {
           :pathList="[
             { name: 'Home', pathName: 'home' },
             { name: 'Manage', pathName: 'manage' },
-            { name: 'Update Resident Info' },
+            { name: 'Update Resident' },
             { name: residentId },
           ]"
         />
       </div>
       <div>
-        <div class="flex gap-4">
+        <div class="flex gap-2">
           <ResidentBasicInfoForm
             class="basis-1/3"
             @getData="getChildData"
@@ -111,9 +113,12 @@ const submitData = async () => {
         </div>
 
         <!-- button control -->
-        <div class="flex justify-center gap-2 mt-10">
-          <Button @click="submitData" class="rounded-badge" btnType="secondary">
-            Update
+        <div class="flex justify-end gap-2 mt-2">
+          <Button @click="goBack" class="rounded-badge" btnType="secondary">
+            Discard changes
+          </Button>
+          <Button @click="submitData" class="rounded-badge" btnType="primary">
+            Save changes
           </Button>
         </div>
       </div>

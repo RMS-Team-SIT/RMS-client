@@ -45,28 +45,28 @@ onMounted(async () => {
       </div>
 
       <div>
-        <div class="p-4 card shadow-xl bg-white">
+        <div class="p-4 card shadow-xs bg-white">
           <h1 class="text-2xl font-semibold text-dark-blue-200">
-            {{ route.meta.title }} | {{ resident.data.name }}
+            {{ route.meta.title }}: {{ resident.data.name }}
           </h1>
         </div>
 
-        <div class="flex justify-end p-4">
-          <router-link
-            :to="{ name: 'update-resident', params: { id: resident.data._id } }"
-          >
-            <Button btnType="secondary-pill">Edit Resident</Button>
-          </router-link>
-        </div>
-
-        <div class="grid grid-cols-2 gap-4 mb-2">
-          <div>
-            <div class="bg-white p-4 shadow rounded-lg">
+        <div class="grid grid-cols-2 gap-4 mb-2 mt-2">
+          
+            <div class="bg-white p-4 shadow-md rounded">
               <div class="mb-4">
                 <div class="flex justify-between items-center">
                   <Divider>Resident Infomation</Divider>
 
                   <PencilSquareIcon
+                    id="edit-resident-link"
+                    @click="
+                      () =>
+                        router.push({
+                          name: 'update-resident',
+                          params: { id: residentId },
+                        })
+                    "
                     class="text-dark-blue-200 w-5 h-5 flex justify-end"
                   />
                 </div>
@@ -93,7 +93,6 @@ onMounted(async () => {
                 </p>
               </div>
             </div>
-          </div>
 
           <div>
             <ImagePreview :images="resident.data.images" class="min-h-full" />
