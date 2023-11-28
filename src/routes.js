@@ -11,6 +11,7 @@ import profile from './pages/profile.vue';
 import editResidentInfo from './pages/resident/edit.info.resident.vue';
 import forgetPassword from './pages/forget-password.vue';
 import resetPassword from './pages/reset-password.vue';
+import createRental from './pages/rental/create.rental.vue';
 
 const publicPathNames = ['home', 'signup', 'signin', 'signout', 'forget-password', 'reset-password'];
 
@@ -73,7 +74,7 @@ const routes = [
   },
   {
     name: 'update-resident',
-    path: '/update/resident/:id',
+    path: '/manage/resident/:id/update',
     component: editResidentInfo,
     meta: {
       title: 'Update Resident Info',
@@ -109,6 +110,14 @@ const routes = [
     component: resetPassword,
     meta: {
       title: 'Reset Password',
+    },
+  },
+  {
+    name: 'create-rental',
+    path: '/manage/resident/:residentId/rental/create',
+    component: createRental,
+    meta: {
+      title: 'Create Rental',
     },
   },
   { path: '/:path(.*)', component: NotFound },

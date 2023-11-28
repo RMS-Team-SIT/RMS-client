@@ -15,6 +15,13 @@ class ResidentService {
   createResident = async (resident) => sendRequest(this.baseUrl, '/resident', 'POST', resident);
 
   updateResident = async (id, resident) => sendRequest(this.baseUrl, `/resident/${id}`, 'PUT', resident);
+
+  fetchRentalByResident = async (id) => sendRequest(this.baseUrl, `/resident/${id}/rental`, 'GET');
+  
+  updateRentalByResidentIdAndRentalId = async (residentId, rentalId, rental) => sendRequest(this.baseUrl, `/resident/${residentId}/rental/${rentalId}`, 'PUT', rental);
+
+  createRental = async (residentId, rental) => sendRequest(this.baseUrl, `/resident/${residentId}/rental`, 'POST', rental);
+
 }
 
 export default new ResidentService();

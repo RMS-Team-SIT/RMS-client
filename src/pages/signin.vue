@@ -26,10 +26,11 @@ const handleFormData = async (formData) => {
     
     router.push({ name: 'manage' });
   } else {
+    let data = await response.json();
     notify({
       group: 'tr',
       title: 'Error',
-      text: 'Sign In failed, Please try again',
+      text: `Sign In failed, ${data.message}`,
       type: 'error',
     });
     store.clearUser();

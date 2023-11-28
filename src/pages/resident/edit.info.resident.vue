@@ -68,7 +68,7 @@ const getChildData = (data) => {
 };
 
 const submitData = async () => {
-  const response = await updateResident(residentId, residentData.data);
+  const response = await ResidentServices.updateResident(residentId, residentData.data);
 
   if (response.status == 200) {
     notify({

@@ -2,7 +2,7 @@
 import Badge from '../common/badge.vue';
 import Button from '@/components/common/button.vue';
 import blankprofileImg from '@/assets/img/blank-profile.webp';
-
+import dayjs from 'dayjs';
 
 const props = defineProps({
   rentals: {
@@ -20,11 +20,15 @@ const props = defineProps({
       <thead>
         <tr>
           <th>#</th>
+          <th>Image</th>
+          <th>Email</th>
           <th>Name</th>
-          <th>Rental</th>
-          <th>Floor</th>
-          <th>Available</th>
-          <th>Paid Status</th>
+          <th>Phone</th>
+          <th>Active</th>
+          <th>Copy Of ID Card</th>
+          <th>Rental contract</th>
+          <th>Created At</th>
+          <th>Updated At</th>
           <th></th>
         </tr>
       </thead>
@@ -35,32 +39,25 @@ const props = defineProps({
             {{ index + 1 }}
           </td>
           <td>
-            {{ rental.name }}
+            {{ rental.image }}
           </td>
           <td>
-            <div class="flex items-center gap-3">
-              <div class="avatar">
-                <div class="w-12 h-12 rounded-full">
-                  <img
-                    :src="blankprofileImg"
-                    alt="Avatar"
-                  />
-                </div>
-              </div>
-              <div>
-                <div class="font-bold">Hart Hagerty</div>
-                <div class="text-sm opacity-50">United States</div>
-              </div>
-            </div>
+            {{ rental.email }}
           </td>
-          <td>1</td>
+          <td class="flex gap-2">
+            {{ rental.firstname }} {{ rental.lastname }}
+          </td>
+          <td>{{ rental.phone }}</td>
           <td>
-            <Badge type="success">Available</Badge>
-            <Badge type="error">Available</Badge>
+            <Badge v-if="rental.isActive" type="success">Active</Badge>
+            <Badge v-else type="error">Deactive</Badge>
           </td>
-          <td>Purple</td>
+          <td><Button btnType="ghost-pill">Download</Button></td>
+          <td><Button btnType="ghost-pill">Download</Button></td>
+          <td>{{ dayjs(rental.created_at, 'DD-MM-YYYY', 'es') }}</td>
+          <td>{{ dayjs(rental.updated_at, 'DD-MM-YYYY') }}</td>
           <th>
-            <Button btnType="ghost-pill">manage room</Button>
+            <Button btnType="ghost-pill">Edit rental</Button>
           </th>
         </tr>
       </tbody>
