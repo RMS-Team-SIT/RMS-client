@@ -2,7 +2,7 @@
 import Breadcrumb from '@/components/common/breadcrumb.vue';
 import { onMounted, reactive, ref } from 'vue';
 import Loading from '@/components/common/loading.vue';
-import blankprofileImg from '@/assets/img/blank-profile.webp';
+import blankprofileImg from '@/assets/img/bp.webp';
 import { useNotification } from '@kyvg/vue3-notification';
 import UserInfoForm from '@/components/form/user.info.form.vue';
 import UserPasswordFormVue from '@/components/form/user.password.form.vue';

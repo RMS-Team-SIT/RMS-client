@@ -57,7 +57,7 @@ const submitData = async () => {
       text: 'Rental created successfully',
       type: 'success',
     });
-    router.push({ name: 'manage' });
+    router.push({ name: 'manage-resident', params: { residentId } });
   } else {
     notify({
       group: 'tr',

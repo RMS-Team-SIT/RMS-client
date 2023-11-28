@@ -1,7 +1,7 @@
 <script setup>
 import Badge from '../common/badge.vue';
 import Button from '@/components/common/button.vue';
-import blankprofileImg from '@/assets/img/blank-profile.webp';
+import blankprofileImg from '@/assets/img/bp.webp';
 
 
 const props = defineProps({

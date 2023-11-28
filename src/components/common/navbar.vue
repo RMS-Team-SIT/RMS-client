@@ -2,7 +2,7 @@
 import { projectName, projectFullName } from '@/constants';
 import { useRouter } from 'vue-router';
 import Button from './button.vue';
-import blankprofileImg from '@/assets/img/blank-profile.webp';
+import blankprofileImg from '@/assets/img/bp.webp';
 import logoImg from '@/assets/img/logo.png';
 
 const router = useRouter();

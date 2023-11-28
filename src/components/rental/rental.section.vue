@@ -1,6 +1,9 @@
 <script setup>
+import Datatable from '../common/datatable.vue';
 import RentalListTable from './rental.list.table.vue';
 import Button from '@/components/common/button.vue';
+import dayjs from 'dayjs';
+import blankprofile from '@/assets/img/bp.webp';
 
 const props = defineProps({
   residentId: {
@@ -11,6 +14,28 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+});
+const rentalDataTableHeader = [
+  { text: 'Image', value: 'image' },
+  { text: 'Email', value: 'email' },
+  { text: 'firstname', value: 'firstname' },
+  { text: 'lastname', value: 'lastname' },
+  { text: 'Phone', value: 'phone' },
+  { text: 'Active', value: 'isActive' },
+  { text: 'Copy Of ID Card', value: 'copyOfIDCard' },
+  { text: 'Rental contract', value: 'rentalContract' },
+  { text: 'Created At', value: 'created_at', sortable: true },
+  { text: 'Updated At', value: 'updated_at', sortable: true },
+];
+
+// parse the date
+const rentalData = props.rentals.map((rental) => {
+  return {
+    ...rental,
+    image: rental.image ?? blankprofile,
+    created_at: dayjs(rental.created_at).format('MM-DD-YYYY'),
+    updated_at: dayjs(rental.updated_at).format('MM-DD-YYYY'),
+  };
 });
 </script>
 
@@ -29,7 +54,8 @@ const props = defineProps({
         <Button btnType="primary">Add Rental</Button>
       </router-link>
     </div>
-    <RentalListTable :rentals="rentals" />
+    <!-- <RentalListTable :rentals="rentals" /> -->
+    <Datatable :headers="rentalDataTableHeader" :items="rentalData" />
   </div>
 </template>
 

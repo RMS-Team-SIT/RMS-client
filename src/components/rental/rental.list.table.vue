@@ -1,7 +1,7 @@
 <script setup>
 import Badge from '../common/badge.vue';
 import Button from '@/components/common/button.vue';
-import blankprofileImg from '@/assets/img/blank-profile.webp';
+import blankprofileImg from '@/assets/img/bp.webp';
 import dayjs from 'dayjs';
 
 const props = defineProps({
@@ -44,8 +44,8 @@ const props = defineProps({
           <td>
             {{ rental.email }}
           </td>
-          <td class="flex gap-2">
-            {{ rental.firstname }} {{ rental.lastname }}
+          <td>
+            <span> {{ rental.firstname }} {{ rental.lastname }}</span>
           </td>
           <td>{{ rental.phone }}</td>
           <td>
