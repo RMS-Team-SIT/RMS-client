@@ -7,6 +7,7 @@ import UserService from '@/services/UserServices';
 import ResetPasswordForm from '@/components/form/reset.password.form.vue';
 
 const route = useRoute();
+const router = useRouter();
 const token = route.params.token;
 const { notify } = useNotification();
 
@@ -15,12 +16,14 @@ const handleFormData = async (formData) => {
   const response = await UserService.resetPassword(token, formData);
   if (response.status === 200) {
     let data = await response.json();
+    console.log(data);
     notify({
       group: 'tr',
       title: 'Success',
       text: `Reset password successful`,
       type: 'success',
     });
+    router.push({ name: 'signin' });
   } else {
     let data = await response.json();
     notify({
