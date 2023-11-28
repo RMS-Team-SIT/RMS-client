@@ -12,7 +12,7 @@ import editResidentInfo from './pages/resident/edit.info.resident.vue';
 import forgetPassword from './pages/forget-password.vue';
 import resetPassword from './pages/reset-password.vue';
 
-const publicPathNames = ['home', 'signup', 'signin', 'signout', 'forget-password'];
+const publicPathNames = ['home', 'signup', 'signin', 'signout', 'forget-password', 'reset-password'];
 
 const routes = [
   {
@@ -125,6 +125,7 @@ router.beforeEach((to, from, next) => {
     return next();
   } else {
     // check if the user is logged in
+    // assume that the user is logged in if there is a token
     const user = localStorage.getItem('token');
     if (!user) {
       return next({ name: 'signin' });

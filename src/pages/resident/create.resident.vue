@@ -12,6 +12,7 @@ import ResidentSummarizeForm from '@/components/resident/form/resident.summarize
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 import ImagePreview from '@/components/common/image.preview.vue';
 import { useNotification } from '@kyvg/vue3-notification';
+import ResidentServices from '@/services/ResidentServices';
 
 const router = useRouter();
 const route = useRoute();
@@ -57,7 +58,7 @@ const getChildData = (data) => {
 };
 
 const submitData = async () => {
-  const response = await createResident(residentData);
+  const response = await ResidentServices.createResident(residentData);
   if (response.status == 201) {
     notify({
       group: 'tr',
