@@ -26,6 +26,7 @@ const rentalDataTableHeader = [
   { text: 'Rental contract', value: 'rentalContract' },
   { text: 'Created At', value: 'created_at', sortable: true },
   { text: 'Updated At', value: 'updated_at', sortable: true },
+  { text: 'Actions', value: 'actions', sortable: false },
 ];
 
 // parse the date
@@ -33,8 +34,9 @@ const rentalData = props.rentals.map((rental) => {
   return {
     ...rental,
     image: rental.image ?? blankprofile,
-    created_at: dayjs(rental.created_at).format('MM-DD-YYYY'),
-    updated_at: dayjs(rental.updated_at).format('MM-DD-YYYY'),
+    created_at: dayjs(rental.created_at).format('MM-DD-YYYY HH:mm:ss'),
+    updated_at: dayjs(rental.updated_at).format('MM-DD-YYYY HH:mm:ss'),
+    actions: rental.id,
   };
 });
 </script>
@@ -54,8 +56,9 @@ const rentalData = props.rentals.map((rental) => {
         <Button btnType="primary">Add Rental</Button>
       </router-link>
     </div>
-    <!-- <RentalListTable :rentals="rentals" /> -->
+
     <Datatable :headers="rentalDataTableHeader" :items="rentalData" />
+
   </div>
 </template>
 
