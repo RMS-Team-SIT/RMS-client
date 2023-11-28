@@ -13,7 +13,7 @@ import ResidentServices from '@/services/ResidentServices';
 
 const router = useRouter();
 const route = useRoute();
-const residentId = route.params.id;
+const residentId = route.params.residentId;
 const isLoading = ref(true);
 const { notify } = useNotification();
 

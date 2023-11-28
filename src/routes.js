@@ -58,7 +58,7 @@ const routes = [
   },
   {
     name: 'manage-resident',
-    path: '/manage/resident/:id',
+    path: '/manage/resident/:residentId',
     component: viewResident,
     meta: {
       title: 'Manage Resident',
@@ -74,7 +74,7 @@ const routes = [
   },
   {
     name: 'update-resident',
-    path: '/manage/resident/:id/update',
+    path: '/manage/resident/:residentId/update',
     component: editResidentInfo,
     meta: {
       title: 'Update Resident Info',
@@ -82,7 +82,7 @@ const routes = [
   },
   {
     name: 'update-resident-info',
-    path: '/update/resident/info/:id',
+    path: '/update/resident/info/:residentId',
     component: editResidentInfo,
     meta: {
       title: 'Update Resident',
