@@ -3,8 +3,9 @@ const props = defineProps({
   stats: {
     type: Object,
     default: {
-      numberOfRoom: 0,
-      numberOfFloor: 0,
+      numberOfRooms: 0,
+      numberOfFloors: 0,
+      numberOfRentals: 0,
     },
   },
 });
@@ -14,14 +15,14 @@ const props = defineProps({
   <div class="stats stats-vertical lg:stats-horizontal shadow">
     <div class="stat">
       <div class="stat-title">Rooms</div>
-      <div class="stat-value">{{ stats.numberOfRoom }}</div>
+      <div class="stat-value">{{ stats.numberOfRooms }}</div>
       <div class="stat-desc">Total</div>
     </div>
-    <!-- <div class="stat">
-      <div class="stat-title">Floor</div>
-      <div class="stat-value">{{ stats.numberOfFloor }}</div>
+    <div class="stat">
+      <div class="stat-title">Rentals</div>
+      <div class="stat-value">{{ stats.numberOfRentals }}</div>
       <div class="stat-desc">Total</div>
-    </div> -->
+    </div>
   </div>
 </template>
 

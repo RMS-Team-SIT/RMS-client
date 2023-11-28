@@ -11,7 +11,10 @@ const props = defineProps({
   <div class="text-sm breadcrumbs">
     <ul>
       <li v-for="(val, index) in props.pathList" :key="index">
-        <router-link :to="{ name: val.pathName }" v-if="val.pathName">
+        <router-link
+          :to="{ name: val.pathName, params: val.params }"
+          v-if="val.pathName"
+        >
           <p>{{ val.name }}</p>
         </router-link>
         <p v-else>{{ val.name }}</p>

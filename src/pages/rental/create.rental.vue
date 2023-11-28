@@ -77,7 +77,11 @@ const submitData = async () => {
           :pathList="[
             { name: 'Home', pathName: 'home' },
             { name: 'Manage', pathName: 'manage' },
-            { name: 'Resident', pathName: 'create-resident' },
+            {
+              name: 'Resident',
+              pathName: 'manage-resident',
+              params: { residentId },
+            },
             { name: 'Create Rental' },
           ]"
         />

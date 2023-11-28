@@ -36,8 +36,9 @@ const gotoManage = (residentId) => {
       <div class="card-actions justify-between items-center">
         <ResidentStat
           :stats="{
-            numberOfRoom: props.resident?.rooms?.length ?? 0,
-            numberOfFloor: props.resident?.floors?.length ?? 0,
+            numberOfRooms: props.resident?.rooms?.length ?? 0,
+            numberOfFloors: props.resident?.floors?.length ?? 0,
+            numberOfRentals: props.resident?.rentals?.length ?? 0,
           }"
         />
         <Button

@@ -32,6 +32,7 @@ onMounted(async () => {
       text: 'Failed to fetch resident data',
       type: 'error',
     });
+    router.push({ name: 'manage' });
   }
 });
 </script>
