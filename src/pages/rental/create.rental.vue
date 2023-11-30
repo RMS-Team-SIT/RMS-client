@@ -77,10 +77,11 @@ const submitData = async () => {
       rentalData.rentalContract
     );
     if (uploadFileResponse.status != 201) {
+      const data = await response.json();
       notify({
         group: 'tr',
         title: 'Error',
-        text: 'Failed to upload files',
+        text: 'Failed to upload files, '+ data?.message,
         type: 'error',
       });
       return;
@@ -129,8 +130,6 @@ const submitData = async () => {
         />
       </div>
       <div>
-        {{ residentId }}
-        {{ rentalData }}
         <div class="p-4 mb-4 card shadow-xl bg-white">
           <Steps
             :stepList="['Rental Infomation', 'Review Rental']"

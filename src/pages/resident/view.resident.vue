@@ -113,6 +113,7 @@ onMounted(async () => {
           <div>
             <ImagePreview
               :imageUrls="resident.data.images"
+              preview-from="url"
               class="min-h-full"
             />
           </div>
