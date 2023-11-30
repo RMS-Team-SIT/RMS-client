@@ -17,7 +17,10 @@ const props = defineProps({
 
 <template>
   <div class="navbar bg-base-100 shadow-lg px-40">
-    <div class="flex-1 gap-4" @click="router.push()">
+    <div
+      class="flex-1 gap-4 cursor-pointer"
+      @click="router.push({ name: 'home' })"
+    >
       <img class="w-12 h-12" :src="logoImg" alt="" />
       <a class="text-xl">
         <span class="font-bold text-dark-blue-200">{{ projectName }}</span>
@@ -43,10 +46,7 @@ const props = defineProps({
         <div class="dropdown dropdown-end">
           <label tabindex="0" class="btn btn-ghost btn-circle avatar">
             <div class="w-10 rounded-full">
-              <img
-                alt="Tailwind CSS Navbar component"
-                :src="blankprofileImg"
-              />
+              <img alt="Tailwind CSS Navbar component" :src="blankprofileImg" />
             </div>
           </label>
           <ul

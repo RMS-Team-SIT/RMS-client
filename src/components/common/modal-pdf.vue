@@ -21,7 +21,7 @@ const { pdf, pages } = usePDF(FileService.getFile(props.fileName));
 </script>
 
 <template>
-  <label :for="`pdf-preview-modal-${randomId}`">View</label>
+  <label :for="`pdf-preview-modal-${randomId}`" class="underline text-dark-blue-200 cursor-pointer">View File</label>
 
   <input
     type="checkbox"
