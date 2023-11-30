@@ -5,26 +5,29 @@ import { XMarkIcon } from '@heroicons/vue/24/outline';
 import Button from '@/components/common/button.vue';
 import { useNotification } from '@kyvg/vue3-notification';
 
+const { notify } = useNotification();
 const props = defineProps({
-  images: {
+  imageFiles: {
     type: Array,
     default: () => [],
   },
-});
-
-onMounted(() => {
-  if (props.images.length > 0) {
-    imagePreviews.value = props.images;
-  }
+  viewOnly: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const isModalOpen = ref(false);
 const selectedImage = ref(null);
-const imagePreviews = ref([]);
 const fileInputTemp = ref(null);
-const { notify } = useNotification();
 
-const emits = defineEmits(['getImages']);
+// Note imagePreviews and imageFiles are the same file
+// but imagePreviews is used to display the preview and imageFiles
+// is used to send to the server
+const imagePreviews = ref([]);
+const imageFiles = ref([]);
+
+const emits = defineEmits(['getImageFiles']);
 
 const handleFileChange = () => {
   const fileInput = fileInputTemp.value;
@@ -39,6 +42,7 @@ const handleFileChange = () => {
 const previewImages = (files) => {
   Array.from(files).forEach((file) => {
     if (isImage(file)) {
+      // preview image by reading the file and convert it to base64
       const reader = new FileReader();
 
       reader.onload = (e) => {
@@ -46,9 +50,12 @@ const previewImages = (files) => {
       };
 
       reader.readAsDataURL(file);
+
+      // push the file to imageFiles
+      imageFiles.value.push(file);
     } else {
       notify({
-        group: 'tc',
+        group: 'tr',
         title: 'Error',
         text: `${file.name} is not a valid image file.`,
         type: 'error',
@@ -60,6 +67,7 @@ const previewImages = (files) => {
 
 const removeImage = (index) => {
   imagePreviews.value.splice(index, 1);
+  imageFiles.value.splice(index, 1);
 };
 
 const openModal = (index) => {
@@ -74,21 +82,25 @@ const closeModal = () => {
 
 const clearImages = () => {
   imagePreviews.value = [];
+  imageFiles.value = [];
 };
 
 const emitData = () => {
-  emits('getImages', imagePreviews.value);
-  console.log('getImages Emit called', imagePreviews.value);
+  emits('getImageFiles', { imageFiles: imageFiles.value });
 };
 
 watch(
-  imagePreviews.value,
+  imageFiles.value,
   () => {
-    console.log('Image previews changed', 'emitData', imagePreviews.value);
+    console.log('imageFiles changed');
     emitData();
   },
   { deep: true }
 );
+
+onMounted(() => {
+  previewImages(props.imageFiles);
+});
 </script>
 
 <template>
@@ -110,6 +122,7 @@ watch(
           class="w-full h-40 object-cover rounded-md"
         />
         <button
+          v-if="!viewOnly"
           @click="removeImage(index)"
           class="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none focus:ring focus:border-blue-300"
         >
@@ -119,7 +132,7 @@ watch(
     </div>
     <p
       class="text-sm flex gap-2 text-gray-500 mt-2"
-      v-if="imagePreviews.length > 0"
+      v-if="imagePreviews.length > 0 && !viewOnly"
     >
       * Click
       <XMarkIcon class="w-4 h-4 bg-red-500 rounded-full p-1 text-white" />
@@ -131,6 +144,7 @@ watch(
 
     <!-- input -->
     <input
+      v-if="!viewOnly"
       type="file"
       id="imageUpload"
       ref="fileInputTemp"
@@ -139,6 +153,7 @@ watch(
       class="file-input file-input-bordered w-full max-w-xs file-input-ghost"
     />
     <Button
+      v-if="!viewOnly"
       btnType="secondary-pill"
       @click="clearImages"
       class="mt-5 rounded-full"

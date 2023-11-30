@@ -13,6 +13,7 @@ import forgetPassword from './pages/forget-password.vue';
 import resetPassword from './pages/reset-password.vue';
 import createRental from './pages/rental/create.rental.vue';
 import Temp from './pages/temp.vue';
+import PdfPreview from './pages/pdf-preview.vue';
 
 const publicPathNames = [
   'home',
@@ -136,6 +137,15 @@ const routes = [
       title: 'Create Rental',
     },
   },
+  {
+    name: 'pdf-preview',
+    path: '/preview/pdf',
+    component: PdfPreview,
+    meta: {
+      title: 'Create Rental',
+    },
+  },
+
   { path: '/:path(.*)', component: NotFound },
 ];
 

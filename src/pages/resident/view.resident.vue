@@ -24,6 +24,7 @@ onMounted(async () => {
   const response = await ResidentServices.fetchResident(residentId);
   if (response.status === 200) {
     let result = await response.json();
+    console.log(result);
     resident.data = result;
   } else {
     notify({
@@ -101,7 +102,7 @@ onMounted(async () => {
           </div>
 
           <div>
-            <ImagePreview :images="resident.data.images" class="min-h-full" />
+            <ImagePreview :imageFiles="resident.data.images" class="min-h-full" />
           </div>
         </div>
 
@@ -110,7 +111,10 @@ onMounted(async () => {
         </div>
 
         <div class="grid grid-cols-1">
-          <RentalSection :residentId="residentId" :rentals="resident.data.rentals" />
+          <RentalSection
+            :residentId="residentId"
+            :rentals="resident.data.rentals"
+          />
         </div>
       </div>
     </div>

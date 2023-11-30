@@ -21,10 +21,18 @@ export const getDate = (str) => {
   return `${day}/${month}/${year}`;
 };
 
-export const sendRequest = async (baseUrl, endpoint, method, data) => {
+export const sendRequest = async (
+  baseUrl,
+  endpoint,
+  method,
+  data,
+  useFormData = false
+) => {
   const url = `${baseUrl}${endpoint}`;
-  const headers = authHeader();
-  const body = data ? JSON.stringify(data) : undefined;
+  // note: headers are not needed for FormData
+  const headers = !useFormData ? authHeader() : undefined;
+
+  const body = data ? (!useFormData ? JSON.stringify(data) : data) : undefined;
 
   const response = await fetch(url, { method, headers, body });
 

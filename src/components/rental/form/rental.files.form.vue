@@ -14,20 +14,19 @@ const props = defineProps({
   },
 });
 
-const rentalInfo = reactive({
-  firstname: '',
-  lastname: '',
-  email: '',
-  phone: '',
+const rentalFiles = reactive({
+  imageFile: null,
+  copyOfIdCard: null,
+  rentalContract: null,
 });
 
 const emitData = () => {
-  emit('getData', rentalInfo);
+  emit('getData', rentalFiles);
 };
 
 const setDataFromProps = () => {
   for (const key in props.rentalData) {
-    if (key in rentalInfo) rentalInfo[key] = props.rentalData[key];
+    if (key in rentalFiles) rentalFiles[key] = props.rentalData[key];
   }
 };
 
@@ -35,7 +34,8 @@ onMounted(() => {
   setDataFromProps();
 });
 
-watch(rentalInfo, () => {
+watch(rentalFiles, () => {
+  console.log('Rental info changed');
   emitData();
 });
 </script>
@@ -50,34 +50,34 @@ watch(rentalInfo, () => {
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Rental Firstname <span class="text-red-500">*</span>
+          >Rental Copy Of Id Card <span class="text-red-500">*</span>
         </span>
       </label>
       <input
-        type="text"
-        placeholder="Rental Firstname"
-        class="w-full input input-bordered input-sm rounded-sm"
-        v-model="rentalInfo.firstname"
-        :disabled="viewOnly"
+        v-if="!viewOnly"
+        type="file"
+        @change="(e) => (rentalFiles.copyOfIdCard = e.target.files[0])"
+        multiple
+        class="file-input file-input-bordered w-full max-w-xs file-input-ghost"
       />
     </div>
 
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Rental Lastname <span class="text-red-500">*</span>
+          >Rental Contract <span class="text-red-500">*</span>
         </span>
       </label>
       <input
-        type="text"
-        placeholder="Rental Lastname"
-        class="w-full input input-bordered input-sm rounded-sm"
-        v-model="rentalInfo.lastname"
-        :disabled="viewOnly"
+        v-if="!viewOnly"
+        type="file"
+        @change="(e) => (rentalFiles.rentalContract = e.target.files[0])"
+        multiple
+        class="file-input file-input-bordered w-full max-w-xs file-input-ghost"
       />
     </div>
 
-    <div>
+    <!-- <div>
       <label class="label">
         <span class="text-base label-text"
           >Rental Email <span class="text-red-500">*</span>
@@ -87,7 +87,7 @@ watch(rentalInfo, () => {
         type="email"
         placeholder="Rental Email"
         class="w-full input input-bordered input-sm rounded-sm"
-        v-model="rentalInfo.email"
+        v-model="rentalFiles.email"
         :disabled="viewOnly"
       />
     </div>
@@ -102,10 +102,10 @@ watch(rentalInfo, () => {
         type="text"
         placeholder="Rental Phone"
         class="w-full input input-bordered input-sm rounded-sm"
-        v-model="rentalInfo.phone"
+        v-model="rentalFiles.phone"
         :disabled="viewOnly"
       />
-    </div>
+    </div> -->
   </div>
 </template>
 

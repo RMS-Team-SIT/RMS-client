@@ -1,54 +1,50 @@
 <script setup>
-const headers = [
-  { text: 'PLAYER', value: 'player' },
-  { text: 'TEAM', value: 'team' },
-  { text: 'NUMBER', value: 'number' },
-  { text: 'POSITION', value: 'position' },
-  { text: 'HEIGHT', value: 'indicator.height' },
-  { text: 'WEIGHT (lbs)', value: 'indicator.weight', sortable: true },
-  { text: 'LAST ATTENDED', value: 'lastAttended', width: 200 },
-  { text: 'COUNTRY', value: 'country' },
-];
+import FileService from '@/services/FileService';
+import { isImage } from '@/utils';
+import { reactive, ref } from 'vue';
 
-const items = [
-  {
-    player: 'Stephen Curry',
-    team: 'GSW',
-    number: 30,
-    position: 'G',
-    indicator: { height: '6-2', weight: 185 },
-    lastAttended: 'Davidson',
-    country: 'USA',
-  },
-  {
-    player: 'Lebron James',
-    team: 'LAL',
-    number: 6,
-    position: 'F',
-    indicator: { height: '6-9', weight: 250 },
-    lastAttended: 'St. Vincent-St. Mary HS (OH)',
-    country: 'USA',
-  },
-  {
-    player: 'Kevin Durant',
-    team: 'BKN',
-    number: 7,
-    position: 'F',
-    indicator: { height: '6-10', weight: 240 },
-    lastAttended: 'Texas-Austin',
-    country: 'USA',
-  },
-  {
-    player: 'Giannis Antetokounmpo',
-    team: 'MIL',
-    number: 34,
-    position: 'F',
-    indicator: { height: '6-11', weight: 242 },
-    lastAttended: 'Filathlitikos',
-    country: 'Greece',
-  },
-];
+const fileInputTemp = ref(null);
+const images = ref([]);
+const outputfilename = ref(null);
+
+const handleFileChange = () => {
+  const fileTemp = fileInputTemp.value;
+  const files = fileTemp.files;
+  if (files.length > 0) {
+    saveFileToState(files);
+  }
+};
+
+const saveFileToState = (files) => {
+  Array.from(files).forEach((file) => {
+    if (isImage(file)) {
+      images.value.push(file);
+    }
+  });
+};
+
+const submit = async () => {
+  console.log(images.value);
+  if (images.value.length > 0) {
+    const response = await FileService.uploadImage(images.value[0]);
+    console.log(response);
+    const data = await response.json();
+    console.log(data);
+    outputfilename.value = data.filename;
+  }
+};
+const getFile = async (filename) => {
+  return FileService.getFile(filename);
+};
 </script>
+
 <template>
-  <EasyDataTable :headers="headers" :items="items" />
+  <form @submit.prevent="submit" method="post">
+    {{ images }}
+    <input type="file" ref="fileInputTemp" @change="handleFileChange" id="" />
+    <button type="submit">submit</button>
+  </form>
+  <img src="http://localhost:3000/upload/image-1701246401740-906541029.png" />
 </template>
+
+<style scoped></style>

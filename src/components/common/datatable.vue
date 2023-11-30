@@ -28,13 +28,30 @@ const props = defineProps({
       <router-link :to="{}"> Edit </router-link>
     </template>
 
-    <template #item-copyOfIDCard="{ actions }">
-      <router-link :to="{}"> Download </router-link>
+    <template #item-copyOfIDCard="{ copyOfIdCard }">
+      <div v-if="copyOfIdCard">
+        <router-link
+          :to="{ name: 'pdf-preview', query: { filename: copyOfIdCard } }"
+        >
+          View
+        </router-link>
+      </div>
+      <div v-else>
+        <span class="text-red-500">No file</span>
+      </div>
     </template>
 
-    <template #item-rentalContract="{ actions }">
-      <router-link :to="{}"> Download </router-link>
+    <template #item-rentalContract="{ rentalContract }">
+      <div v-if="rentalContract">
+        <router-link
+          :to="{ name: 'pdf-preview', query: { filename: rentalContract } }"
+        >
+          View
+        </router-link>
+      </div>
+      <div v-else>
+        <span class="text-red-500">No file</span>
+      </div>
     </template>
-
   </EasyDataTable>
 </template>

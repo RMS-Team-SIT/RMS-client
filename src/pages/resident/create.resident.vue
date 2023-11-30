@@ -6,13 +6,13 @@ import Steps from '@/components/common/steps.vue';
 import ResidentBasicInfoForm from '@/components/resident/form/resident.basic.info.form.vue';
 import ResidentContactForm from '@/components/resident/form/resident.contact.form.vue';
 import ResidentSettingForm from '@/components/resident/form/resident.setting.form.vue';
-import ResidentImagesForm from '@/components/resident/form/resident.images.form.vue';
 import Button from '@/components/common/button.vue';
-import ResidentSummarizeForm from '@/components/resident/form/resident.summarize.form.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 import ImagePreview from '@/components/common/image.preview.vue';
 import { useNotification } from '@kyvg/vue3-notification';
 import ResidentServices from '@/services/ResidentServices';
+import FileService from '@/services/FileService';
+import ImageUploadForm from '@/components/form/image.form.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -33,7 +33,7 @@ const residentData = reactive({
   },
   defaultWaterPriceRate: 0.0,
   defaultLightPriceRate: 0.0,
-  rooms: [],
+  imageFiles: [],
 });
 
 const changeStep = (action) => {
@@ -58,6 +58,26 @@ const getChildData = (data) => {
 };
 
 const submitData = async () => {
+  // Upload images if imageFiles not empty
+  if (residentData.imageFiles.length) {
+    const response = await FileService.uploadImages(residentData.imageFiles);
+    if (response.status == 201) {
+      const data = await response.json();
+      Array.from(data.files).forEach((file) => {
+        residentData.images.push(file.fileName);
+      });
+    } else {
+      const data = await response.json();
+      console.log(data);
+      notify({
+        group: 'tr',
+        title: 'Error',
+        text: 'Failed to upload images ' + data?.message,
+        type: 'error',
+      });
+      return;
+    }
+  }
   const response = await ResidentServices.createResident(residentData);
   if (response.status == 201) {
     notify({
@@ -80,6 +100,7 @@ const submitData = async () => {
 
 <template>
   <div class="card w-full glass">
+    {{ residentData.imageFiles }}
     <div class="card-body px-40">
       <div class="flex flex-row justify-between">
         <Breadcrumb
@@ -122,11 +143,21 @@ const submitData = async () => {
 
         <!-- step 2 -->
         <div v-if="currentStep == 2" class="flex gap-4">
-          <ResidentImagesForm
+          <!-- <ResidentImagesForm
             class="basis-full"
             @getData="getChildData"
             :residentData="residentData"
-          />
+          /> -->
+          <div class="relative bg-white p-10 space-y-4 shadow-md rounded basis-full">
+            <h1 class="text-3xl font-semibold text-dark-blue-200">
+              Resident Images
+            </h1>
+            <p class="text-xs">Please upload your resident images.</p>
+            <ImageUploadForm
+              @getImageFiles="getChildData"
+              :imageFiles="residentData.imageFiles"
+            />
+          </div>
         </div>
 
         <!-- step 3 -->
@@ -151,7 +182,16 @@ const submitData = async () => {
               :viewOnly="true"
             />
           </div>
-          <ImagePreview class="basis-full" :images="residentData.images" />
+          <ImagePreview
+            class="basis-full"
+            :imageFiles="residentData.imageFiles"
+          />
+          <ImageUploadForm
+              @getImages="getChildData"
+              :imagePreviews="residentData.imagePreviews"
+              :imageFiles="residentData.imageFiles"
+              :viewOnly="true"
+            />
         </div>
 
         <!-- button control -->

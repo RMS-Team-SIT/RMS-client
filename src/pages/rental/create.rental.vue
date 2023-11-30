@@ -9,6 +9,8 @@ import ImagePreview from '@/components/common/image.preview.vue';
 import { useNotification } from '@kyvg/vue3-notification';
 import ResidentServices from '@/services/ResidentServices';
 import RentalInfoForm from '@/components/rental/form/rental.info.form.vue';
+import RentalFilesForm from '@/components/rental/form/rental.files.form.vue';
+import FileService from '@/services/FileService';
 
 const router = useRouter();
 const route = useRoute();
@@ -49,6 +51,45 @@ const getChildData = (data) => {
 };
 
 const submitData = async () => {
+  // Upload files
+  if (rentalData.copyOfIdCard) {
+    // upload file
+    const uploadFileResponse = await FileService.uploadPdf(
+      rentalData.copyOfIdCard
+    );
+    if (uploadFileResponse.status != 201) {
+      notify({
+        group: 'tr',
+        title: 'Error',
+        text: 'Failed to upload files',
+        type: 'error',
+      });
+      return;
+    } else {
+      const data = await uploadFileResponse.json();
+      rentalData.copyOfIdCard = data.fileName;
+    }
+  }
+
+  if(rentalData.rentalContract) {
+    // upload file
+    const uploadFileResponse = await FileService.uploadPdf(
+      rentalData.rentalContract
+    );
+    if (uploadFileResponse.status != 201) {
+      notify({
+        group: 'tr',
+        title: 'Error',
+        text: 'Failed to upload files',
+        type: 'error',
+      });
+      return;
+    } else {
+      const data = await uploadFileResponse.json();
+      rentalData.rentalContract = data.fileName;
+    }
+  }
+
   const response = await ResidentServices.createRental(residentId, rentalData);
   if (response.status == 201) {
     notify({
@@ -59,10 +100,11 @@ const submitData = async () => {
     });
     router.push({ name: 'manage-resident', params: { residentId } });
   } else {
+    const data = await response.json();
     notify({
       group: 'tr',
       title: 'Error',
-      text: 'Failed to create Rental',
+      text: 'Failed to create Rental: ' + data?.message,
       type: 'error',
     });
   }
@@ -102,11 +144,11 @@ const submitData = async () => {
             @getData="getChildData"
             :rentalData="rentalData"
           />
-          <!-- <RentalInfoForm
+          <RentalFilesForm
             class="basis-1/2"
             @getData="getChildData"
             :rentalData="rentalData"
-          /> -->
+          />
         </div>
 
         <!-- step 2 -->

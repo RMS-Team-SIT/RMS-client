@@ -2,17 +2,42 @@
 import { onMounted, ref, watch } from 'vue';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
 import Button from '@/components/common/button.vue';
+import { isImage } from '@/utils';
 
 const isModalOpen = ref(false);
 const selectedImage = ref(null);
 const imagePreviews = ref([]);
 
 const props = defineProps({
-  images: {
+  imageFiles: {
     type: Array,
     default: () => [],
   },
 });
+
+const previewImages = (files) => {
+  console.log(files);
+  Array.from(files).forEach((file) => {
+    if (isImage(file)) {
+      // preview image by reading the file and convert it to base64
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        imagePreviews.value.push(e.target.result);
+      };
+
+      reader.readAsDataURL(file);
+    } else {
+      notify({
+        group: 'tr',
+        title: 'Error',
+        text: `${file.name} is not a valid image file.`,
+        type: 'error',
+      });
+      console.warn(`${file.name} is not a valid image file.`);
+    }
+  });
+};
 
 const openModal = (index) => {
   selectedImage.value = imagePreviews.value[index];
@@ -25,15 +50,13 @@ const closeModal = () => {
 };
 
 onMounted(() => {
-  imagePreviews.value = props.images;
+  previewImages(props.imageFiles);
 });
 </script>
 
 <template>
   <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
-    <h1 class="text-3xl font-semibold text-dark-blue-200">
-      Images
-    </h1>
+    <h1 class="text-3xl font-semibold text-dark-blue-200">Images</h1>
     <div
       v-if="imagePreviews.length > 0"
       class="mt-4 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
@@ -55,9 +78,7 @@ onMounted(() => {
       * Click the image to view full size
     </p>
 
-    <p v-else>
-      No images uploaded
-    </p>
+    <p v-else>No images uploaded</p>
 
     <!-- modal -->
     <div
