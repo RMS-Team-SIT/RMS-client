@@ -1,5 +1,7 @@
 <script setup>
 import Button from './button.vue';
+import ModalPdf from './modal-pdf.vue';
+import Badge from './badge.vue';
 
 const props = defineProps({
   headers: {
@@ -24,17 +26,18 @@ const props = defineProps({
       <img :src="image" alt="" class="w-10 h-10 rounded-full" />
     </template>
 
+    <template #item-isActive="{ isActive }">
+        <Badge v-if="isActive" type="success">Active</Badge>
+        <Badge v-else type="error">Deactive</Badge>
+    </template>
+
     <template #item-actions="{ actions }">
       <router-link :to="{}"> Edit </router-link>
     </template>
 
     <template #item-copyOfIDCard="{ copyOfIdCard }">
       <div v-if="copyOfIdCard">
-        <router-link
-          :to="{ name: 'pdf-preview', query: { filename: copyOfIdCard } }"
-        >
-          View
-        </router-link>
+        <ModalPdf :fileName="copyOfIdCard" />
       </div>
       <div v-else>
         <span class="text-red-500">No file</span>
@@ -43,11 +46,7 @@ const props = defineProps({
 
     <template #item-rentalContract="{ rentalContract }">
       <div v-if="rentalContract">
-        <router-link
-          :to="{ name: 'pdf-preview', query: { filename: rentalContract } }"
-        >
-          View
-        </router-link>
+        <ModalPdf :fileName="rentalContract" />
       </div>
       <div v-else>
         <span class="text-red-500">No file</span>

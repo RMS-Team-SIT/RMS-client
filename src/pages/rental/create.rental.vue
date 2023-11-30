@@ -71,7 +71,7 @@ const submitData = async () => {
     }
   }
 
-  if(rentalData.rentalContract) {
+  if (rentalData.rentalContract) {
     // upload file
     const uploadFileResponse = await FileService.uploadPdf(
       rentalData.rentalContract
@@ -155,6 +155,12 @@ const submitData = async () => {
         <div v-if="currentStep == 2" class="flex gap-4 flex-col">
           <div class="flex gap-4">
             <RentalInfoForm
+              class="basis-1/2"
+              @getData="getChildData"
+              :rentalData="rentalData"
+              :viewOnly="true"
+            />
+            <RentalFilesForm
               class="basis-1/2"
               @getData="getChildData"
               :rentalData="rentalData"

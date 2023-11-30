@@ -100,7 +100,6 @@ const submitData = async () => {
 
 <template>
   <div class="card w-full glass">
-    {{ residentData.imageFiles }}
     <div class="card-body px-40">
       <div class="flex flex-row justify-between">
         <Breadcrumb

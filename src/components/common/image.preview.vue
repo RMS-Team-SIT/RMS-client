@@ -13,10 +13,17 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  imageUrls: {
+    type: Array,
+    default: () => [],
+  },
+  previewFrom: {
+    type: String,
+    default: 'files',
+  },
 });
 
 const previewImages = (files) => {
-  console.log(files);
   Array.from(files).forEach((file) => {
     if (isImage(file)) {
       // preview image by reading the file and convert it to base64
@@ -50,7 +57,11 @@ const closeModal = () => {
 };
 
 onMounted(() => {
-  previewImages(props.imageFiles);
+  if (props.previewFrom === 'files') {
+    previewImages(props.imageFiles);
+  } else {
+    imagePreviews.value = props.imageUrls;
+  }
 });
 </script>
 

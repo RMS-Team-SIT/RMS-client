@@ -10,6 +10,7 @@ import Button from '@/components/common/button.vue';
 import { PencilSquareIcon } from '@heroicons/vue/24/outline';
 import { useNotification } from '@kyvg/vue3-notification';
 import ResidentServices from '@/services/ResidentServices';
+import FileService from '@/services/FileService';
 
 const router = useRouter();
 const route = useRoute();
@@ -20,12 +21,16 @@ const resident = reactive({
   data: null,
 });
 
-onMounted(async () => {
+const fetchData = async () => {
   const response = await ResidentServices.fetchResident(residentId);
   if (response.status === 200) {
     let result = await response.json();
-    console.log(result);
     resident.data = result;
+    // parse residentImage by adding base url
+    resident.data.images = resident.data.images.map((imageName) => {
+      return FileService.getFile(imageName);
+    });
+    console.log(resident.data);
   } else {
     notify({
       group: 'tr',
@@ -35,6 +40,10 @@ onMounted(async () => {
     });
     router.push({ name: 'manage' });
   }
+};
+
+onMounted(async () => {
+  await fetchData();
 });
 </script>
 
@@ -102,7 +111,10 @@ onMounted(async () => {
           </div>
 
           <div>
-            <ImagePreview :imageFiles="resident.data.images" class="min-h-full" />
+            <ImagePreview
+              :imageUrls="resident.data.images"
+              class="min-h-full"
+            />
           </div>
         </div>
 

@@ -5,26 +5,30 @@ import { useRoute, useRouter } from 'vue-router';
 import FileService from '@/services/FileService';
 import Button from '@/components/common/button.vue';
 
-const router = useRouter();
-const route = useRoute();
+const props = defineProps({
+  fileName: {
+    type: String,
+    required: true,
+  },
+});
 
-const fileName = route.query.filename;
-if (!fileName) {
-  router.push({ name: 'home' });
-}
+const random = () => Math.random().toString(36).substr(2, 9);
+const randomId = random();
 
 const page = ref(1);
 const scale = ref(0.5);
-const { pdf, pages } = usePDF(FileService.getFile(fileName));
+const { pdf, pages } = usePDF(FileService.getFile(props.fileName));
 </script>
 
 <template>
-  <!-- The button to open modal -->
-  <label for="my_modal_7" class="btn">open modal</label>
+  <label :for="`pdf-preview-modal-${randomId}`">View</label>
 
-  <!-- Put this part before </body> tag -->
-  <input type="checkbox" id="my_modal_7" class="modal-toggle" />
-  <div class="modal" role="dialog">
+  <input
+    type="checkbox"
+    :id="`pdf-preview-modal-${randomId}`"
+    class="modal-toggle"
+  />
+  <div class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 modal" role="dialog">
     <div class="modal-box">
       <h3 class="text-lg font-bold">Preview: {{ fileName }}</h3>
 
@@ -50,7 +54,7 @@ const { pdf, pages } = usePDF(FileService.getFile(fileName));
         </div>
       </div>
     </div>
-    <label class="modal-backdrop" for="my_modal_7">Close</label>
+    <label class="modal-backdrop text-black" :for="`pdf-preview-modal-${randomId}`" >Close</label>
   </div>
 </template>
 

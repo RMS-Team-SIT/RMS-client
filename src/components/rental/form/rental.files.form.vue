@@ -60,6 +60,15 @@ watch(rentalFiles, () => {
         multiple
         class="file-input file-input-bordered w-full max-w-xs file-input-ghost"
       />
+      <!-- Preview file name if exist -->
+      <div v-if="rentalFiles.copyOfIdCard" class="mt-2">
+        <span class="text-sm text-gray-500">{{
+          rentalFiles.copyOfIdCard.name
+        }}</span>
+      </div>
+      <div v-else>
+        <span class="text-sm text-gray-500">No file selected.</span>
+      </div>
     </div>
 
     <div>
@@ -75,37 +84,16 @@ watch(rentalFiles, () => {
         multiple
         class="file-input file-input-bordered w-full max-w-xs file-input-ghost"
       />
+      <!-- Preview file name if exist -->
+      <div v-if="rentalFiles.rentalContract" class="mt-2">
+        <span class="text-sm text-gray-500">{{
+          rentalFiles.rentalContract.name
+        }}</span>
+      </div>
+      <div v-else>
+        <span class="text-sm text-gray-500">No file selected.</span>
+      </div>
     </div>
-
-    <!-- <div>
-      <label class="label">
-        <span class="text-base label-text"
-          >Rental Email <span class="text-red-500">*</span>
-        </span>
-      </label>
-      <input
-        type="email"
-        placeholder="Rental Email"
-        class="w-full input input-bordered input-sm rounded-sm"
-        v-model="rentalFiles.email"
-        :disabled="viewOnly"
-      />
-    </div>
-
-    <div>
-      <label class="label">
-        <span class="text-base label-text"
-          >Rental Phone <span class="text-red-500">*</span>
-        </span>
-      </label>
-      <input
-        type="text"
-        placeholder="Rental Phone"
-        class="w-full input input-bordered input-sm rounded-sm"
-        v-model="rentalFiles.phone"
-        :disabled="viewOnly"
-      />
-    </div> -->
   </div>
 </template>
 
