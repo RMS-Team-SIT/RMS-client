@@ -49,7 +49,7 @@ watch(rentalFiles, () => {
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Rental Copy Of Id Card <span class="text-red-500">*</span>
+          >Rental Copy Of Id Card <span class="text-red-500">(pdf only)*</span>
         </span>
       </label>
       <input
@@ -60,9 +60,17 @@ watch(rentalFiles, () => {
         class="file-input file-input-bordered w-full max-w-xs file-input-ghost"
       />
       <!-- Preview file name if exist -->
-      <div v-if="rentalFiles.copyOfIdCard?.file || rentalFiles.copyOfIdCard?.fileName" class="mt-2">
+      <div
+        v-if="
+          rentalFiles.copyOfIdCard?.file || rentalFiles.copyOfIdCard?.fileName
+        "
+        class="mt-2"
+      >
         <span class="text-sm text-gray-500">
-          {{ rentalFiles.copyOfIdCard.file?.name || rentalFiles.copyOfIdCard?.fileName }}
+          {{
+            rentalFiles.copyOfIdCard.file?.name ||
+            rentalFiles.copyOfIdCard?.fileName
+          }}
         </span>
       </div>
       <div v-else>
@@ -73,7 +81,7 @@ watch(rentalFiles, () => {
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Rental Contract <span class="text-red-500">*</span>
+          >Rental Contract <span class="text-red-500">(pdf only)*</span>
         </span>
       </label>
       <input
@@ -84,9 +92,18 @@ watch(rentalFiles, () => {
         class="file-input file-input-bordered w-full max-w-xs file-input-ghost"
       />
       <!-- Preview file name if exist -->
-      <div v-if="rentalFiles.rentalContract?.file || rentalFiles.rentalContract?.fileName" class="mt-2">
+      <div
+        v-if="
+          rentalFiles.rentalContract?.file ||
+          rentalFiles.rentalContract?.fileName
+        "
+        class="mt-2"
+      >
         <span class="text-sm text-gray-500">
-          {{ rentalFiles.rentalContract.file?.name || rentalFiles.rentalContract?.fileName }}
+          {{
+            rentalFiles.rentalContract.file?.name ||
+            rentalFiles.rentalContract?.fileName
+          }}
         </span>
       </div>
       <div v-else>

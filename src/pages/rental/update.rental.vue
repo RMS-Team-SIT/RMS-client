@@ -81,6 +81,7 @@ const fetchData = async () => {
 const submitData = async () => {
   // Upload files if file changes or exist
   console.log('rentalData.copyOfIdCard.file', rentalData.copyOfIdCard.file);
+  console.log('rentalData.copyOfIdCard.file', rentalData.copyOfIdCard.file);
   if (rentalData.copyOfIdCard.file) {
     // upload file
     const uploadFileResponse = await FileService.uploadPdf(
@@ -99,7 +100,7 @@ const submitData = async () => {
       rentalData.copyOfIdCard.fileName = data.fileName;
     }
   }
-  if (rentalData.copyOfIdCard.file) {
+  if (rentalData.rentalContract.file) {
     const uploadFileResponse = await FileService.uploadPdf(
       rentalData.rentalContract.file
     );
@@ -178,7 +179,6 @@ onMounted(async () => {
             :stepList="['Rental Infomation', 'Review Rental']"
             :currentStep="currentStep"
           />
-          {{ rentalData }}
         </div>
         <!-- step 1 -->
         <div v-if="currentStep == 1" class="flex gap-4">
