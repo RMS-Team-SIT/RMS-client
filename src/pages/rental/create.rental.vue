@@ -176,7 +176,9 @@ const submitData = async () => {
         <div class="flex justify-end gap-2 mt-10">
           <Button
             btn-type="secondary"
-            @click="changeStep('back')"
+            @click="
+              router.push({ name: 'manage-resident', params: { residentId } })
+            "
             v-if="currentStep == 1"
             class="rounded-badge"
           >

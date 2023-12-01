@@ -215,6 +215,17 @@ onMounted(async () => {
         <!-- button control -->
         <div class="flex justify-end gap-2 mt-10">
           <Button
+            v-if="currentStep == 1"
+            @click="
+              router.push({ name: 'manage-resident', params: { residentId } })
+            "
+            class="rounded-badge"
+            btnType="secondary"
+          >
+            Cancel
+          </Button>
+          <Button
+            btnType="secondary"
             @click="changeStep('back')"
             v-if="currentStep > 1"
             class="rounded-badge"
@@ -226,7 +237,7 @@ onMounted(async () => {
             v-if="currentStep == numberOfSteps"
             @click="submitData"
             class="rounded-badge"
-            btnType="secondary"
+            btnType="primary"
           >
             Submit
           </Button>
