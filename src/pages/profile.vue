@@ -23,7 +23,6 @@ const userData = reactive({
 });
 
 const updateUser = async (data) => {
-  console.log(data);
   const { _id } = userData.data;
 
   try {

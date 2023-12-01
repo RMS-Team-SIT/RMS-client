@@ -61,7 +61,6 @@ const residentData = reactive({
 });
 
 const getChildData = (data) => {
-  console.log('Received data from child', data);
   for (const key in data) {
     residentData.data[key] = data[key];
   }

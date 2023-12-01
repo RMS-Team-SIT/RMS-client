@@ -21,7 +21,6 @@ const residentSettings = reactive({
 
 const emitData = () => {
   emit('getData', residentSettings);
-  console.log('Emitted residentSettings', residentSettings);
 };
 
 const setDataFromProps = () => {

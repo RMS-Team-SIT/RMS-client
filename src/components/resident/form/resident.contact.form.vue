@@ -34,7 +34,6 @@ const residentContact = reactive({
 
 const emitData = () => {
   emit('getData', residentContact);
-  console.log('Emitted residentContact', residentContact);
 };
 
 const setDataFromProps = () => {

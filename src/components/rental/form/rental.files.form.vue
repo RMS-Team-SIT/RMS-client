@@ -15,9 +15,9 @@ const props = defineProps({
 });
 
 const rentalFiles = reactive({
-  imageFile: null,
-  copyOfIdCard: null,
-  rentalContract: null,
+  image: { fileName: null, file: null, isEdited: false },
+  copyOfIdCard: { fileName: null, file: null, isEdited: false },
+  rentalContract: { fileName: null, file: null, isEdited: false },
 });
 
 const emitData = () => {
@@ -35,7 +35,6 @@ onMounted(() => {
 });
 
 watch(rentalFiles, () => {
-  console.log('Rental info changed');
   emitData();
 });
 </script>
@@ -56,14 +55,14 @@ watch(rentalFiles, () => {
       <input
         v-if="!viewOnly"
         type="file"
-        @change="(e) => (rentalFiles.copyOfIdCard = e.target.files[0])"
+        @change="(e) => (rentalFiles.copyOfIdCard.file = e.target.files[0])"
         multiple
         class="file-input file-input-bordered w-full max-w-xs file-input-ghost"
       />
       <!-- Preview file name if exist -->
-      <div v-if="rentalFiles.copyOfIdCard" class="mt-2">
+      <div v-if="rentalFiles.copyOfIdCard?.file || rentalFiles.copyOfIdCard?.fileName" class="mt-2">
         <span class="text-sm text-gray-500">
-          {{ rentalFiles.copyOfIdCard.name || rentalFiles.copyOfIdCard }}
+          {{ rentalFiles.copyOfIdCard.file?.name || rentalFiles.copyOfIdCard?.fileName }}
         </span>
       </div>
       <div v-else>
@@ -80,14 +79,14 @@ watch(rentalFiles, () => {
       <input
         v-if="!viewOnly"
         type="file"
-        @change="(e) => (rentalFiles.rentalContract = e.target.files[0])"
+        @change="(e) => (rentalFiles.rentalContract.file = e.target.files[0])"
         multiple
         class="file-input file-input-bordered w-full max-w-xs file-input-ghost"
       />
       <!-- Preview file name if exist -->
-      <div v-if="rentalFiles.rentalContract" class="mt-2">
+      <div v-if="rentalFiles.rentalContract?.file || rentalFiles.rentalContract?.fileName" class="mt-2">
         <span class="text-sm text-gray-500">
-          {{ rentalFiles.rentalContract.name || rentalFiles.rentalContract }}
+          {{ rentalFiles.rentalContract.file?.name || rentalFiles.rentalContract?.fileName }}
         </span>
       </div>
       <div v-else>

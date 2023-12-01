@@ -92,7 +92,6 @@ const emitData = () => {
 watch(
   imageFiles.value,
   () => {
-    console.log('imageFiles changed');
     emitData();
   },
   { deep: true }

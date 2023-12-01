@@ -20,7 +20,6 @@ const formData = reactive({
 });
 
 const setDataFromProps = () => {
-  console.log(props.userData);
   for (const key in props.userData) {
     if (key in formData) formData[key] = props.userData[key];
   }

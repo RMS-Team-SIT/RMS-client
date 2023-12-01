@@ -43,7 +43,6 @@ onMounted(() => {
       edit: rental._id,
     };
   });
-  console.log('rental section', rentalData.value);
 });
 </script>
 

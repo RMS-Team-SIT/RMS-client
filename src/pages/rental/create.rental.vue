@@ -44,7 +44,6 @@ const changeStep = (action) => {
 };
 
 const getChildData = (data) => {
-  console.log('Received data from child', data);
   for (const key in data) {
     rentalData[key] = data[key];
   }

@@ -22,7 +22,6 @@ const residentImages = reactive({
 
 const emitData = () => {
   emit('getData', residentImages);
-  console.log('Emitted residentContact', residentImages);
 };
 
 const getImageFiles = (imageFiles) => {

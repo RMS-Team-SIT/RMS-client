@@ -30,7 +30,6 @@ const fetchData = async () => {
     resident.data.images = resident.data.images.map((imageName) => {
       return FileService.getFile(imageName);
     });
-    console.log(resident.data);
   } else {
     notify({
       group: 'tr',

@@ -47,7 +47,6 @@ const changeStep = (action) => {
 };
 
 const getChildData = (data) => {
-  console.log('Received data from child', data);
   for (const key in data) {
     rentalData[key] = data[key];
   }
@@ -60,14 +59,13 @@ const fetchData = async () => {
   );
   if (response.status == 200) {
     const data = await response.json();
-    console.log(data);
     rentalData.firstname = data.firstname;
     rentalData.lastname = data.lastname;
     rentalData.email = data.email;
     rentalData.phone = data.phone;
     rentalData.image = data.image;
-    rentalData.copyOfIdCard = data.copyOfIdCard;
-    rentalData.rentalContract = data.rentalContract;
+    rentalData.copyOfIdCard.fileName = data.copyOfIdCard;
+    rentalData.rentalContract.fileName = data.rentalContract;
   } else {
     const data = await response.json();
     notify({
@@ -75,18 +73,18 @@ const fetchData = async () => {
       title: 'Error',
       text: 'Failed to fetch rental data: ' + data?.message,
       type: 'error',
-      d,
     });
     router.push({ name: 'manage-resident', params: { residentId } });
   }
 };
 
 const submitData = async () => {
-  // Upload files if file changes
-  if (rentalData.copyOfIdCard) {
+  // Upload files if file changes or exist
+  console.log('rentalData.copyOfIdCard.file', rentalData.copyOfIdCard.file);
+  if (rentalData.copyOfIdCard.file) {
     // upload file
     const uploadFileResponse = await FileService.uploadPdf(
-      rentalData.copyOfIdCard
+      rentalData.copyOfIdCard.file
     );
     if (uploadFileResponse.status != 201) {
       notify({
@@ -98,12 +96,12 @@ const submitData = async () => {
       return;
     } else {
       const data = await uploadFileResponse.json();
-      rentalData.copyOfIdCard = data.fileName;
+      rentalData.copyOfIdCard.fileName = data.fileName;
     }
   }
-  if (rentalData.rentalContract) {
+  if (rentalData.copyOfIdCard.file) {
     const uploadFileResponse = await FileService.uploadPdf(
-      rentalData.rentalContract
+      rentalData.rentalContract.file
     );
     if (uploadFileResponse.status != 201) {
       const data = await response.json();
@@ -116,18 +114,25 @@ const submitData = async () => {
       return;
     } else {
       const data = await uploadFileResponse.json();
-      rentalData.rentalContract = data.fileName;
+      rentalData.rentalContract.fileName = data.fileName;
     }
   }
   // end of upload files
 
-
-  const response = await ResidentServices.createRental(residentId, rentalData);
-  if (response.status == 201) {
+  const response = await ResidentServices.updateRentalByResidentIdAndRentalId(
+    residentId,
+    rentalId,
+    {
+      ...rentalData,
+      copyOfIdCard: rentalData.copyOfIdCard.fileName,
+      rentalContract: rentalData.rentalContract.fileName,
+    }
+  );
+  if (response.status == 200) {
     notify({
       group: 'tr',
       title: 'Success',
-      text: 'Rental created successfully',
+      text: 'Rental update successfully',
       type: 'success',
     });
     router.push({ name: 'manage-resident', params: { residentId } });
@@ -136,7 +141,7 @@ const submitData = async () => {
     notify({
       group: 'tr',
       title: 'Error',
-      text: 'Failed to create Rental: ' + data?.message,
+      text: 'Failed to update Rental: ' + data?.message,
       type: 'error',
     });
   }
@@ -208,7 +213,7 @@ onMounted(async () => {
         </div>
 
         <!-- button control -->
-        <div class="flex justify-center gap-2 mt-10">
+        <div class="flex justify-end gap-2 mt-10">
           <Button
             @click="changeStep('back')"
             v-if="currentStep > 1"

@@ -51,7 +51,6 @@ const changeStep = (action) => {
 };
 
 const getChildData = (data) => {
-  console.log('Received data from child', data);
   for (const key in data) {
     residentData[key] = data[key];
   }
@@ -68,7 +67,6 @@ const submitData = async () => {
       });
     } else {
       const data = await response.json();
-      console.log(data);
       notify({
         group: 'tr',
         title: 'Error',
@@ -194,8 +192,9 @@ const submitData = async () => {
         </div>
 
         <!-- button control -->
-        <div class="flex justify-center gap-2 mt-10">
+        <div class="flex justify-end gap-2 mt-10">
           <Button
+            btn-type="secondary"
             @click="changeStep('back')"
             v-if="currentStep > 1"
             class="rounded-badge"
@@ -207,7 +206,7 @@ const submitData = async () => {
             v-if="currentStep == numberOfSteps"
             @click="submitData"
             class="rounded-badge"
-            btnType="secondary"
+            btnType="primary"
           >
             Submit
           </Button>

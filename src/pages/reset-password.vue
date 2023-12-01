@@ -12,11 +12,9 @@ const token = route.params.token;
 const { notify } = useNotification();
 
 const handleFormData = async (formData) => {
-  console.log('handleFormData',formData);
   const response = await UserService.resetPassword(token, formData);
   if (response.status === 200) {
     let data = await response.json();
-    console.log(data);
     notify({
       group: 'tr',
       title: 'Success',

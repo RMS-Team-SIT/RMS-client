@@ -24,7 +24,6 @@ const { notify } = useNotification();
 onMounted(async () => {
   try {
     const response = await ResidentServices.fetchResident(residentId);
-    console.log(response);
     if (response.status === 200) {
       let result = await response.json();
       residentData.data = result;
@@ -85,14 +84,12 @@ const changeStep = (action) => {
 };
 
 const getChildData = (data) => {
-  console.log('Received data from child', data);
   for (const key in data) {
     residentData.data[key] = data[key];
   }
 };
 
 const submitData = async () => {
-  console.log('Submit data', residentData.data);
 };
 </script>
 

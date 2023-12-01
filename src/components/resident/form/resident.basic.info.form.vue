@@ -22,7 +22,6 @@ const residentInfo = reactive({
 
 const emitData = () => {
   emit('getData', residentInfo);
-  console.log('Emitted residentInfo', residentInfo);
 };
 
 const setDataFromProps = () => {
