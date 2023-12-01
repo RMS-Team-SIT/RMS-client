@@ -14,6 +14,7 @@ import resetPassword from './pages/reset-password.vue';
 import createRental from './pages/rental/create.rental.vue';
 import Temp from './pages/temp.vue';
 import PdfPreview from './pages/pdf-preview.vue';
+import updateRentalVue from './pages/rental/update.rental.vue';
 
 const publicPathNames = [
   'home',
@@ -127,6 +128,14 @@ const routes = [
     component: createRental,
     meta: {
       title: 'Create Rental',
+    },
+  },
+  {
+    name: 'update-rental',
+    path: '/manage/resident/:residentId/rental/update/:rentalId',
+    component: updateRentalVue,
+    meta: {
+      title: 'Update Rental',
     },
   },
   {

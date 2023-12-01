@@ -62,9 +62,9 @@ watch(rentalFiles, () => {
       />
       <!-- Preview file name if exist -->
       <div v-if="rentalFiles.copyOfIdCard" class="mt-2">
-        <span class="text-sm text-gray-500">{{
-          rentalFiles.copyOfIdCard.name
-        }}</span>
+        <span class="text-sm text-gray-500">
+          {{ rentalFiles.copyOfIdCard.name || rentalFiles.copyOfIdCard }}
+        </span>
       </div>
       <div v-else>
         <span class="text-sm text-gray-500">No file selected.</span>
@@ -86,9 +86,9 @@ watch(rentalFiles, () => {
       />
       <!-- Preview file name if exist -->
       <div v-if="rentalFiles.rentalContract" class="mt-2">
-        <span class="text-sm text-gray-500">{{
-          rentalFiles.rentalContract.name
-        }}</span>
+        <span class="text-sm text-gray-500">
+          {{ rentalFiles.rentalContract.name || rentalFiles.rentalContract }}
+        </span>
       </div>
       <div v-else>
         <span class="text-sm text-gray-500">No file selected.</span>

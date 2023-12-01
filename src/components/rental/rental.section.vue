@@ -4,6 +4,7 @@ import RentalListTable from './rental.list.table.vue';
 import Button from '@/components/common/button.vue';
 import dayjs from 'dayjs';
 import blankprofile from '@/assets/img/bp.webp';
+import { onMounted, ref } from 'vue';
 
 const props = defineProps({
   residentId: {
@@ -26,18 +27,23 @@ const rentalDataTableHeader = [
   { text: 'Rental contract', value: 'rentalContract' },
   { text: 'Created At', value: 'created_at', sortable: true },
   { text: 'Updated At', value: 'updated_at', sortable: true },
-  { text: 'Actions', value: 'actions', sortable: false },
+  { text: 'Edit', value: 'edit', sortable: false },
 ];
 
-// parse the date
-const rentalData = props.rentals.map((rental) => {
-  return {
-    ...rental,
-    image: rental.image ?? blankprofile,
-    created_at: dayjs(rental.created_at).format('MM-DD-YYYY HH:mm:ss'),
-    updated_at: dayjs(rental.updated_at).format('MM-DD-YYYY HH:mm:ss'),
-    actions: rental.id,
-  };
+const rentalData = ref([]);
+
+onMounted(() => {
+  // parse the date
+  rentalData.value = props.rentals.map((rental) => {
+    return {
+      ...rental,
+      image: rental.image ?? blankprofile,
+      created_at: dayjs(rental.created_at).format('MM-DD-YYYY HH:mm:ss'),
+      updated_at: dayjs(rental.updated_at).format('MM-DD-YYYY HH:mm:ss'),
+      edit: rental._id,
+    };
+  });
+  console.log('rental section', rentalData.value);
 });
 </script>
 
@@ -58,7 +64,6 @@ const rentalData = props.rentals.map((rental) => {
     </div>
 
     <Datatable :headers="rentalDataTableHeader" :items="rentalData" />
-
   </div>
 </template>
 

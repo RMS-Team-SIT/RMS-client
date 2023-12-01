@@ -27,12 +27,21 @@ const props = defineProps({
     </template>
 
     <template #item-isActive="{ isActive }">
-        <Badge v-if="isActive" type="success">Active</Badge>
-        <Badge v-else type="error">Deactive</Badge>
+      <Badge v-if="isActive" type="success">Active</Badge>
+      <Badge v-else type="error">Deactive</Badge>
     </template>
 
-    <template #item-actions="{ actions }">
-      <router-link :to="{}"> Edit </router-link>
+    <template #item-edit="{ edit }">
+      <router-link
+        :to="{
+          name: 'update-rental',
+          params: {
+            rentalId: edit,
+          },
+        }"
+      >
+        Edit
+      </router-link>
     </template>
 
     <template #item-copyOfIDCard="{ copyOfIdCard }">

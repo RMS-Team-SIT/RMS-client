@@ -11,20 +11,23 @@ import ResidentServices from '@/services/ResidentServices';
 import RentalInfoForm from '@/components/rental/form/rental.info.form.vue';
 import RentalFilesForm from '@/components/rental/form/rental.files.form.vue';
 import FileService from '@/services/FileService';
+import Loading from '@/components/common/loading.vue';
 
 const router = useRouter();
 const route = useRoute();
 const residentId = route.params.residentId;
+const rentalId = route.params.rentalId;
 const numberOfSteps = 2;
 const currentStep = ref(1);
 const { notify } = useNotification();
+const isLoading = ref(true);
 
 const rentalData = reactive({
   firstname: '',
   lastname: '',
   email: '',
   phone: '',
-  image: { fileName: null, file: null, isEdited: false },
+  image: null,
   copyOfIdCard: { fileName: null, file: null, isEdited: false },
   rentalContract: { fileName: null, file: null, isEdited: false },
 });
@@ -50,11 +53,40 @@ const getChildData = (data) => {
   }
 };
 
+const fetchData = async () => {
+  const response = await ResidentServices.fetchOneRentalInResident(
+    residentId,
+    rentalId
+  );
+  if (response.status == 200) {
+    const data = await response.json();
+    console.log(data);
+    rentalData.firstname = data.firstname;
+    rentalData.lastname = data.lastname;
+    rentalData.email = data.email;
+    rentalData.phone = data.phone;
+    rentalData.image = data.image;
+    rentalData.copyOfIdCard = data.copyOfIdCard;
+    rentalData.rentalContract = data.rentalContract;
+  } else {
+    const data = await response.json();
+    notify({
+      group: 'tr',
+      title: 'Error',
+      text: 'Failed to fetch rental data: ' + data?.message,
+      type: 'error',
+      d,
+    });
+    router.push({ name: 'manage-resident', params: { residentId } });
+  }
+};
+
 const submitData = async () => {
-  // Upload files
-  if (rentalData.copyOfIdCard.file) {
+  // Upload files if file changes
+  if (rentalData.copyOfIdCard) {
+    // upload file
     const uploadFileResponse = await FileService.uploadPdf(
-      rentalData.copyOfIdCard.file
+      rentalData.copyOfIdCard
     );
     if (uploadFileResponse.status != 201) {
       notify({
@@ -66,13 +98,12 @@ const submitData = async () => {
       return;
     } else {
       const data = await uploadFileResponse.json();
-      rentalData.copyOfIdCard.fileName = data.fileName;
+      rentalData.copyOfIdCard = data.fileName;
     }
   }
-
-  if (rentalData.rentalContract.file) {
+  if (rentalData.rentalContract) {
     const uploadFileResponse = await FileService.uploadPdf(
-      rentalData.rentalContract.file
+      rentalData.rentalContract
     );
     if (uploadFileResponse.status != 201) {
       const data = await response.json();
@@ -85,18 +116,13 @@ const submitData = async () => {
       return;
     } else {
       const data = await uploadFileResponse.json();
-      rentalData.rentalContract.fileName = data.fileName;
+      rentalData.rentalContract = data.fileName;
     }
   }
-  // End upload files
+  // end of upload files
 
-  // Create rental
-  const response = await ResidentServices.createRental(residentId, {
-    ...rentalData,
-    image: rentalData.image.fileName,
-    rentalContract: rentalData.rentalContract.fileName,
-    copyOfIdCard: rentalData.copyOfIdCard.fileName,
-  });
+
+  const response = await ResidentServices.createRental(residentId, rentalData);
   if (response.status == 201) {
     notify({
       group: 'tr',
@@ -115,10 +141,16 @@ const submitData = async () => {
     });
   }
 };
+
+onMounted(async () => {
+  await fetchData();
+  isLoading.value = false;
+});
 </script>
 
 <template>
-  <div class="card w-full glass">
+  <Loading v-if="isLoading" />
+  <div class="card w-full glass" v-else>
     <div class="card-body px-40">
       <div class="flex flex-row justify-between">
         <Breadcrumb
@@ -130,7 +162,8 @@ const submitData = async () => {
               pathName: 'manage-resident',
               params: { residentId },
             },
-            { name: 'Create Rental' },
+            { name: 'Update Rental' },
+            { name: rentalId },
           ]"
         />
       </div>
@@ -140,6 +173,7 @@ const submitData = async () => {
             :stepList="['Rental Infomation', 'Review Rental']"
             :currentStep="currentStep"
           />
+          {{ rentalData }}
         </div>
         <!-- step 1 -->
         <div v-if="currentStep == 1" class="flex gap-4">
