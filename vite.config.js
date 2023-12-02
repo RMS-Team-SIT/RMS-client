@@ -5,9 +5,10 @@ import { resolve } from "path";
 
 export default ({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
-
+  console.log('mode', mode);
+  console.log(process.env);
   return defineConfig({
-    base: '/',
+    base: process.env.VITE_BASE,
     plugins: [
       svgLoader(), 
       vue()],
@@ -17,7 +18,7 @@ export default ({ mode }) => {
       },
     },
     server: {
-      port: 8080,
+      port: process.env.VITE_PORT,
     },
   });
 };
