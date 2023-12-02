@@ -1,4 +1,4 @@
-import { sendRequest } from '@/utils.js';
+import { sendRequest } from '@/utils/index.js';
 import { baseUrl } from './constants.js';
 
 class ResidentService {
