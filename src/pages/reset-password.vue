@@ -3,7 +3,7 @@ import SigninForm from '@/components/form/signin.form.vue';
 import { useUserStore } from '@/stores/user.store';
 import { useNotification } from '@kyvg/vue3-notification';
 import { useRoute, useRouter } from 'vue-router';
-import UserService from '@/services/UserServices';
+import UserService from '@/services/UserServices.js';
 import ResetPasswordForm from '@/components/form/reset.password.form.vue';
 
 const route = useRoute();

@@ -3,7 +3,7 @@ import SigninForm from '@/components/form/signin.form.vue';
 import { useUserStore } from '@/stores/user.store';
 import { useNotification } from '@kyvg/vue3-notification';
 import { useRouter } from 'vue-router';
-import UserService from '@/services/UserServices';
+import UserService from '@/services/UserServices.js';
 
 const store = useUserStore();
 const router = useRouter();

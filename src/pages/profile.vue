@@ -7,7 +7,7 @@ import { useNotification } from '@kyvg/vue3-notification';
 import UserInfoForm from '@/components/form/user.info.form.vue';
 import UserPasswordFormVue from '@/components/form/user.password.form.vue';
 import { getDate } from '@/utils';
-import UserService from '@/services/UserServices';
+import UserService from '@/services/UserServices.js';
 
 const isLoading = ref(true);
 const { notify } = useNotification();

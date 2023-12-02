@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import UserService from '@/services/UserServices';
+import UserService from '@/services/UserServices.js';
 
 export const useUserStore = defineStore({
   id: 'user',

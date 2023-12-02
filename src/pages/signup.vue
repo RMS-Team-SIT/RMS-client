@@ -1,7 +1,7 @@
 <script setup>
 import SignupForm from '@/components/form/signup.form.vue';
 import { useNotification } from '@kyvg/vue3-notification';
-import UserService from '@/services/UserServices';
+import UserService from '@/services/UserServices.js';
 
 const { notify } = useNotification();
 
