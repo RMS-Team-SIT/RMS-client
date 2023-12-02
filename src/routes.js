@@ -1,20 +1,22 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import index from '@/pages/index.vue';
-import NotFound from '@/pages/not-found.vue';
-import signup from '@/pages/signup.vue';
-import signin from '@/pages/signin.vue';
-import signout from '@/pages/signout.vue';
-import manage from '@/pages/manage.vue';
-import viewResident from '@/pages/resident/view.resident.vue';
-import createResident from '@/pages/resident/create.resident.vue';
-import profile from './pages/profile.vue';
-import editResidentInfo from './pages/resident/edit.info.resident.vue';
-import forgetPassword from './pages/forget-password.vue';
-import resetPassword from './pages/reset-password.vue';
-import createRental from './pages/rental/create.rental.vue';
-import Temp from './pages/temp.vue';
-import PdfPreview from './pages/pdf-preview.vue';
-import updateRentalVue from './pages/rental/update.rental.vue';
+
+const index = () => import('@/pages/index.vue');
+const NotFound = () => import('@/pages/not-found.vue');
+const signup = () => import('@/pages/signup.vue');
+const signin = () => import('@/pages/signin.vue');
+const signout = () => import('@/pages/signout.vue');
+const manage = () => import('@/pages/manage.vue');
+const viewResident = () => import('@/pages/resident/view.resident.vue');
+const createResident = () => import('@/pages/resident/create.resident.vue');
+const profile = () => import('./pages/profile.vue');
+const editResidentInfo = () => import('./pages/resident/edit.info.resident.vue');
+const forgetPassword = () => import('./pages/forget-password.vue');
+const resetPassword = () => import('./pages/reset-password.vue');
+const createRental = () => import('./pages/rental/create.rental.vue');
+const Temp = () => import('./pages/temp.vue');
+const PdfPreview = () => import('./pages/pdf-preview.vue');
+const updateRentalVue = () => import('./pages/rental/update.rental.vue');
+
 
 const publicPathNames = [
   'home',
