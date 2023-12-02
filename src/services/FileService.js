@@ -1,5 +1,5 @@
-import { sendRequest } from '@/utils';
-import { baseGetFileUrl, baseUrl } from './constants';
+import { sendRequest } from '@/utils.js';
+import { baseGetFileUrl, baseUrl } from './constants.js';
 
 class FileService {
   constructor() {

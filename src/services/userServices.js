@@ -1,5 +1,5 @@
-import { sendRequest } from '@/utils/index';
-import { baseUrl } from './constants';
+import { sendRequest } from '@/utils/index.js';
+import { baseUrl } from './constants.js';
 
 class UserService {
   constructor() {

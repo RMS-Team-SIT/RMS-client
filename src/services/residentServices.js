@@ -1,5 +1,5 @@
-import { sendRequest } from '@/utils';
-import { baseUrl } from './constants';
+import { sendRequest } from '@/utils.js';
+import { baseUrl } from './constants.js';
 
 class ResidentService {
   constructor() {
