@@ -42,7 +42,7 @@ const handleFormData = async (formData) => {
 
 <style scoped>
 .bg-cover {
-  background-image: url('5.jpg');
+  background-image: url('/5.jpg');
   background-position: center;
 }
 </style>
