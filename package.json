@@ -3,8 +3,11 @@
   "version": "0.0.0",
   "scripts": {
     "build": "vite build",
+    "build:local": "vite build --mode localdev",
+    "build:dev": "vite build --mode dev",
+    "build:prod": "vite build --mode prod",
     "dev": "vite --host --mode dev",
-    "local": "vite --host --mode local",
+    "local": "vite --host --mode localdev",
     "prod": "vite --host --mode prod",
     "lint": "pnpm run lint:js && pnpm run lint:style",
     "lint:fix": "pnpm run lint:js -- --fix && pnpm run lint:style -- --fix",
