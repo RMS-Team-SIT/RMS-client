@@ -4,6 +4,7 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite --host",
+    "local": "VITE_ENV=local vite --host",
     "lint": "pnpm run lint:js && pnpm run lint:style",
     "lint:fix": "pnpm run lint:js -- --fix && pnpm run lint:style -- --fix",
     "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore src",
