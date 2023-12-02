@@ -19,10 +19,11 @@ const handleFormData = async (formData) => {
     });
     router.push({ name: 'signin' });
   } else {
+    let data = await response.json();
     notify({
       group: 'tr',
       title: 'Error',
-      text: 'Sign Up failed, Please try again',
+      text: 'Sign Up failed, Please try again:' + data?.message,
       type: 'error',
     });
   }
