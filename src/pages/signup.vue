@@ -2,6 +2,7 @@
 import SignupForm from '@/components/form/signup.form.vue';
 import { useNotification } from '@kyvg/vue3-notification';
 import UserService from '@/services/UserServices.js';
+import router from '@/routes';
 
 const { notify } = useNotification();
 
@@ -16,6 +17,7 @@ const handleFormData = async (formData) => {
       text: 'Sign Up successful',
       type: 'success',
     });
+    router.push({ name: 'signin' });
   } else {
     notify({
       group: 'tr',
