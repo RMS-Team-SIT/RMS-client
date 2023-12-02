@@ -183,12 +183,6 @@ const submitData = async () => {
             class="basis-full"
             :imageFiles="residentData.imageFiles"
           />
-          <ImageUploadForm
-              @getImages="getChildData"
-              :imagePreviews="residentData.imagePreviews"
-              :imageFiles="residentData.imageFiles"
-              :viewOnly="true"
-            />
         </div>
 
         <!-- button control -->
