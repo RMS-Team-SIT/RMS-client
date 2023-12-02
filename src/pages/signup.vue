@@ -43,4 +43,3 @@ const handleFormData = async (formData) => {
   background-position: center;
 }
 </style>
-@/services/UserServices
