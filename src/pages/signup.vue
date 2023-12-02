@@ -23,7 +23,7 @@ const handleFormData = async (formData) => {
     notify({
       group: 'tr',
       title: 'Error',
-      text: 'Sign Up failed, Please try again:' + data?.message,
+      text: 'Sign Up failed, Please try again, ' + data?.message,
       type: 'error',
     });
   }
