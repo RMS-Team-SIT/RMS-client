@@ -1,2 +1,2 @@
-export const baseUrl = 'http://localhost:3000/api/v1';
-export const baseGetFileUrl = 'http://localhost:3000/upload';
+export const baseUrl = '/api/v1';
+export const baseGetFileUrl = '/upload';
