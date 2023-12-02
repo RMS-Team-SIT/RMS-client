@@ -1,4 +1,4 @@
-import { sendRequest } from '@/utils.js';
+import { sendRequest } from '@/utils/index.js';
 import { baseGetFileUrl, baseUrl } from './constants.js';
 
 class FileService {
