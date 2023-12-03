@@ -27,7 +27,7 @@ const randomId = random();
     <label
       class="modal-backdrop text-black"
       :for="`modal-${randomId}`"
-      >Close</label
+      ></label
     >
   </div>
 </template>

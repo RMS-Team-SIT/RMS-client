@@ -53,7 +53,6 @@ const submit = async () => {
   const result = await validator.value.$validate();
   if (result) emit('submitData', formData);
 };
-
 </script>
 
 <template>
@@ -114,11 +113,12 @@ const submit = async () => {
         placeholder="Email Address"
         class="w-full input input-bordered input-sm rounded-sm"
         v-model="formData.email"
+        :disabled="userData.isEmailVerified"
       />
+      <span class="text-xs text-red-500" v-if="!userData.isEmailVerified">
+        * Please verify your email address
+      </span>
       <span class="text-xs text-red-500">{{ validateErrorMsg('email') }}</span>
-      <p class="text-xs text-gray-500">
-        Please use a real email address for future correspondence.
-      </p>
     </div>
     <div class="py-1">
       <button class="btn btn-block mt-2" type="submit">

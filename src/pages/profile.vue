@@ -8,6 +8,8 @@ import UserInfoForm from '@/components/form/user.info.form.vue';
 import UserPasswordFormVue from '@/components/form/user.password.form.vue';
 import { getDate } from '@/utils';
 import UserService from '@/services/UserServices.js';
+import { CameraIcon } from '@heroicons/vue/24/outline';
+import Modal from '@/components/common/modal.vue';
 
 const isLoading = ref(true);
 const { notify } = useNotification();
@@ -88,16 +90,21 @@ onMounted(async () => {
       </div>
 
       <div class="flex gap-4 mb-2">
-        <div class="bg-white basis-1/3 p-10 shadow-lg rounded-lg">
+        <div class="bg-white basis-1/3 p-10 shadow-lg rounded-lg space-y-4">
           <p class="text-center font-bold text-lg">
             {{ userData.data.firstname }} {{ userData.data.lastname }}
           </p>
-          <div class="avatar">
-            <div class="w-[50%] rounded-full">
-              <img :src="blankprofileImg" />
-            </div>
+          <div class="flex justify-center relative" id="profile-img">
+            <button
+              class="absolute bottom-0 right-10 bg-dark-blue-200 rounded-full p-2 text-white"
+            >
+              <CameraIcon class="w-6 h-6" />
+            </button>
+            <img :src="blankprofileImg" class="w-44 rounded-full" />
           </div>
-          <p>Member since : {{ getDate(userData.data.created_at) }}</p>
+          <p class="text-center text-gray-500">
+            Member since : {{ getDate(userData.data.created_at) }}
+          </p>
         </div>
         <div class="basis-2/3">
           <UserInfoForm :userData="userData.data" @submit-data="updateUser" />
