@@ -20,9 +20,6 @@ const { pdf, pages } = usePDF(FileService.getFile(fileName));
 
 <template>
   <div class="relative bg-white p-10 shadow-md rounded">
-    <div class="flex justify-start">
-      <Button @click="router.back()">Back</Button>
-    </div>
     <div v-if="pdf">
       <h1 class="text-xl font-semibold text-dark-blue-200 text-center">
         {{ fileName }}

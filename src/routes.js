@@ -153,7 +153,7 @@ const routes = [
     path: '/preview/pdf',
     component: PdfPreview,
     meta: {
-      title: 'Create Rental',
+      title: 'Preview Pdf',
     },
   },
 

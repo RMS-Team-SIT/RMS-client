@@ -54,24 +54,26 @@ const visiblePages = computed(() => {
     <p class="text-base" v-if="!props.rentals.length">No rental</p>
     <div v-else>
       <!-- show number of rental -->
-      <p class="text-xs text-gray-500">Total: {{ props.rentals.length }} rentals</p>
+      <p class="text-xs text-gray-500">
+        Total: {{ props.rentals.length }} rentals
+      </p>
 
-      <table class="table">
+      <table class="table table-xs">
         <!-- head -->
         <!-- show number of rental -->
         <thead>
           <tr>
             <th>#</th>
-            <th>Image</th>
-            <th>Email</th>
+            <!-- <th>Image</th> -->
             <th>Name</th>
+            <th>Email</th>
             <th>Phone</th>
             <th>Active</th>
             <th>Copy Of ID Card</th>
             <th>Rental contract</th>
             <th>Created At</th>
             <th>Updated At</th>
-            <th>Edit</th>
+            <th>action</th>
           </tr>
         </thead>
         <tbody>
@@ -80,22 +82,56 @@ const visiblePages = computed(() => {
             <td>
               {{ rental.index + 1 }}
             </td>
-            <td>
+            <!-- <td>
               {{ rental.image }}
+            </td> -->
+            <td class="">
+              <span> {{ rental.firstname }} {{ rental.lastname }}</span>
             </td>
             <td>
               {{ rental.email }}
-            </td>
-            <td>
-              <span> {{ rental.firstname }} {{ rental.lastname }}</span>
             </td>
             <td>{{ rental.phone }}</td>
             <td>
               <Badge v-if="rental.isActive" type="success">Active</Badge>
               <Badge v-else type="error">Deactive</Badge>
             </td>
-            <td><Button btnType="ghost-pill">Download</Button></td>
-            <td><Button btnType="ghost-pill">Download</Button></td>
+            <td>
+              <div v-if="rental.copyOfIdCard" class="underline">
+                <router-link
+                  target="_blank"
+                  :to="{
+                    name: 'pdf-preview',
+                    query: {
+                      filename: rental.copyOfIdCard,
+                    },
+                  }"
+                >
+                  Preview
+                </router-link>
+              </div>
+              <div v-else>
+                <span class="text-red-500">No file</span>
+              </div>
+            </td>
+            <td>
+              <div v-if="rental.rentalContract" class="underline">
+                <router-link
+                  target="_blank"
+                  :to="{
+                    name: 'pdf-preview',
+                    query: {
+                      filename: rental.rentalContract,
+                    },
+                  }"
+                >
+                  Preview
+                </router-link>
+              </div>
+              <div v-else>
+                <span class="text-red-500">No file</span>
+              </div>
+            </td>
             <td>{{ rental.created_at }}</td>
             <td>{{ rental.updated_at }}</td>
             <th>
