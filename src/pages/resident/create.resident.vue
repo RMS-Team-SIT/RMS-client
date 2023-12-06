@@ -86,10 +86,12 @@ const submitData = async () => {
     });
     router.push({ name: 'manage' });
   } else {
+    const data = await response.json();
+    console.log(data);
     notify({
       group: 'tr',
       title: 'Error',
-      text: 'Failed to create resident',
+      text: 'Failed to create resident. ' + data?.message,
       type: 'error',
     });
   }

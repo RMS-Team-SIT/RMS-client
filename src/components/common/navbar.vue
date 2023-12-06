@@ -88,9 +88,9 @@ const props = defineProps({
             <li>
               <router-link :to="{ name: 'profile' }">Profile</router-link>
             </li>
-            <li><a>Settings</a></li>
+            <!-- <li><a>Settings</a></li> -->
             <li>
-              <router-link :to="{ name: 'signout' }">Signout</router-link>
+              <router-link :to="{ name: 'signout' }">Sign Out</router-link>
             </li>
           </ul>
         </div>

@@ -63,7 +63,13 @@ onBeforeMount(async () => {
           v-if="residents.data && residents.data.length == 0"
           class="text-center text-sm p-10"
         >
-          No resident found. Please create new resident.
+          No resident found. Please
+          <span class="underline text-dark-blue-200 cursor-pointer">
+            <router-link :to="{ name: 'create-resident' }">
+              create new resident
+            </router-link>
+          </span>
+          .
         </p>
       </div>
     </div>
