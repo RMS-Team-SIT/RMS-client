@@ -239,7 +239,7 @@ onMounted(async () => {
             class="rounded-badge"
             btnType="primary"
           >
-            Submit
+            Save
           </Button>
           <Button @click="changeStep('next')" class="rounded-badge" v-else>
             Next Step

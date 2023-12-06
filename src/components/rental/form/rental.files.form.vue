@@ -54,7 +54,7 @@ watch(rentalFiles, () => {
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Rental Copy Of Id Card <span class="text-red-500">(pdf only)*</span>
+          >Rental Copy Of Id Card <span class="text-red-500">(pdf only)</span>
         </span>
       </label>
       <input
@@ -92,7 +92,7 @@ watch(rentalFiles, () => {
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Rental Contract <span class="text-red-500">(pdf only)*</span>
+          >Rental Contract <span class="text-red-500">(pdf only)</span>
         </span>
       </label>
       <input

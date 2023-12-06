@@ -33,7 +33,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Loading v-if="isLoading" />
+  <Loading v-if="isLoading" class="min-h-screen" />
   <div v-else>
     <navbar :isLoggedIn="userStore.isLoggedIn" v-if="shouldShowNavbar" />
     <router-view />

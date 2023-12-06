@@ -34,9 +34,10 @@ const rentalData = ref([]);
 
 onMounted(() => {
   // parse the date
-  rentalData.value = props.rentals.map((rental) => {
+  rentalData.value = props.rentals.map((rental, index) => {
     return {
       ...rental,
+      index,
       image: rental.image ?? blankprofile,
       created_at: dayjs(rental.created_at).format('MM-DD-YYYY HH:mm:ss'),
       updated_at: dayjs(rental.updated_at).format('MM-DD-YYYY HH:mm:ss'),
@@ -62,7 +63,8 @@ onMounted(() => {
       </router-link>
     </div>
 
-    <Datatable :headers="rentalDataTableHeader" :items="rentalData" />
+    <!-- <Datatable :headers="rentalDataTableHeader" :items="rentalData" /> -->
+    <RentalListTable :rentals="rentalData" />
   </div>
 </template>
 
