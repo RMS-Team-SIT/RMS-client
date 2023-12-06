@@ -1,4 +1,5 @@
 <script setup>
+import Button from '@/components/common/button.vue';
 import { onMounted, reactive, watch } from 'vue';
 
 const emit = defineEmits(['getData']);
@@ -19,6 +20,10 @@ const rentalFiles = reactive({
   copyOfIdCard: { fileName: null, file: null, isEdited: false },
   rentalContract: { fileName: null, file: null, isEdited: false },
 });
+
+const resetRentalFile = (field) => {
+  rentalFiles[field] = { fileName: null, file: null, isEdited: false };
+};
 
 const emitData = () => {
   emit('getData', rentalFiles);
@@ -71,6 +76,12 @@ watch(rentalFiles, () => {
             rentalFiles.copyOfIdCard.file?.name ||
             rentalFiles.copyOfIdCard?.fileName
           }}
+          <Button
+            btn-type="ghost"
+            class="font-xs"
+            @click="resetRentalFile('copyOfIdCard')"
+            >Remove file</Button
+          >
         </span>
       </div>
       <div v-else>
@@ -104,6 +115,12 @@ watch(rentalFiles, () => {
             rentalFiles.rentalContract.file?.name ||
             rentalFiles.rentalContract?.fileName
           }}
+          <Button
+            btn-type="ghost"
+            class="font-xs"
+            @click="resetRentalFile('rentalContract')"
+            >Remove file</Button
+          >
         </span>
       </div>
       <div v-else>

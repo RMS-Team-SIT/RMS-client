@@ -19,7 +19,6 @@ const props = defineProps({
 const classes = computed(() => {
   const buttonClasses = [
     'btn',
-    // 'text-white',
     'text-xs',
     'md:text-md',
     'lg:text-sm',
