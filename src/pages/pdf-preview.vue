@@ -49,8 +49,8 @@ const { pdf, pages } = usePDF(FileService.getFile(fileName));
       </div>
     </div>
     <div v-else>
-      <div class="flex gap-2 justify-center items-center">
-        <span class="shadow-sm p-10">No file founded.</span>
+      <div class="flex gap-2 justify-center items-center min-h-screen">
+        <span class="p-10">No file founded.</span>
       </div>
     </div>
   </div>

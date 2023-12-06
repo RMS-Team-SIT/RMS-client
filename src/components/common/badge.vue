@@ -17,6 +17,9 @@ const classes = computed(() => {
     warning: ['badge-warning'],
     error: ['badge-error', 'text-white'],
     ghost: ['badge-ghost'],
+    neutral: ['badge-neutral'],
+    primary: ['badge-primary'],
+    accent: ['badge-accent'],
   };
 
   return ['badge', 'badge-sm', ...(typeClasses[props.type] || [])];

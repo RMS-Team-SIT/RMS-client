@@ -4,6 +4,9 @@ import { useRouter } from 'vue-router';
 import Button from './button.vue';
 import blankprofileImg from '@/assets/img/bp.webp';
 import logoImg from '@/assets/img/logo.png';
+import { BellIcon } from '@heroicons/vue/24/outline';
+import Divider from './divider.vue';
+import Badge from './badge.vue';
 
 const router = useRouter();
 
@@ -43,6 +46,35 @@ const props = defineProps({
       >
         <li><router-link :to="{ name: 'home' }">Home</router-link></li>
         <li><router-link :to="{ name: 'manage' }">Manage</router-link></li>
+        <div class="dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+            <div class="indicator">
+              <BellIcon class="w-6 h-6" />
+              <span class="badge badge-sm indicator-item">8</span>
+            </div>
+          </div>
+          <div
+            tabindex="0"
+            class="mt-3 z-[1] card card-compact dropdown-content w-96 bg-base-100 shadow max-h-[500px] overflow-y-auto"
+          >
+            <div class="card-body">
+              <span class="font-bold text-lg">8 Notifications</span>
+              <div v-for="(val, index) in new Array(8).fill(0)" :key="index">
+                <div class="border-2 border-neutral rounded hover:bg-slate-200 p-5 pt-0">
+                  <Divider class="text-xs">[12-07-2023 03:20:39]</Divider>
+                  <div class="text-left">Siriwat just upload paid evidence</div>
+                  <div class="text-left">
+                    <Badge type="neutral">The Resident</Badge>
+                    <Badge type="primary">Room 101</Badge>
+                  </div>
+                </div>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-block">View All</button>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="dropdown dropdown-end">
           <label tabindex="0" class="btn btn-ghost btn-circle avatar">
             <div class="w-10 rounded-full">

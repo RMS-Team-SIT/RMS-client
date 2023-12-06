@@ -1,8 +1,6 @@
 <script setup>
 import Badge from '../common/badge.vue';
 import Button from '@/components/common/button.vue';
-import blankprofileImg from '@/assets/img/bp.webp';
-import dayjs from 'dayjs';
 import { computed, onMounted, reactive, ref } from 'vue';
 
 const props = defineProps({
@@ -64,7 +62,6 @@ const visiblePages = computed(() => {
         <thead>
           <tr>
             <th>#</th>
-            <!-- <th>Image</th> -->
             <th>Name</th>
             <th>Email</th>
             <th>Phone</th>
@@ -82,9 +79,6 @@ const visiblePages = computed(() => {
             <td>
               {{ rental.index + 1 }}
             </td>
-            <!-- <td>
-              {{ rental.image }}
-            </td> -->
             <td class="">
               <span> {{ rental.firstname }} {{ rental.lastname }}</span>
             </td>
