@@ -11,6 +11,7 @@ import 'vue3-easy-data-table/dist/style.css';
 import VueSweetalert2 from 'vue-sweetalert2';
 // import 'sweetalert2/dist/sweetalert2.min.css';
 import '@sweetalert2/themes/material-ui/material-ui.min.css';
+import { baseUrl, baseGetFileUrl } from './services/constants';
 
 const pinia = createPinia();
 const app = createApp(App);
@@ -26,3 +27,6 @@ app.mount('#app');
 
 console.log(import.meta.env.MODE);
 console.log(import.meta.env.VITE_MODE);
+console.log(import.meta.env)
+console.log(baseUrl);
+console.log(baseGetFileUrl);
