@@ -57,14 +57,14 @@ const getChildData = (data) => {
 
 const submitData = async () => {
   // Create rental
-  const response = await ResidentServices.createRoom(residentId, {
+  const response = await ResidentServices.updateRoom(residentId, roomId, {
     ...roomData,
   });
   if (response.status == 201) {
     notify({
       group: 'tr',
       title: 'Success',
-      text: 'Room created successfully',
+      text: 'Update room successfully',
       type: 'success',
     });
     router.push({ name: 'manage-resident', params: { residentId } });
@@ -73,7 +73,7 @@ const submitData = async () => {
     notify({
       group: 'tr',
       title: 'Error',
-      text: 'Failed to create Room: ' + data?.message,
+      text: 'Failed to update Room: ' + data?.message,
       type: 'error',
     });
   }
@@ -83,13 +83,26 @@ const resident = reactive({
   data: null,
 });
 
-const fetchResidentData = async () => {
-  const response = await ResidentServices.fetchOneRoomInResident(residentId, roomId);
+const fetchRoomData = async () => {
+  const response = await ResidentServices.fetchOneRoomInResident(
+    residentId,
+    roomId
+  );
   if (response.status === 200) {
     let result = await response.json();
-    // set default value of roomData
-    console.log(result);
-
+    // set value of roomData
+    roomData.name = result.name;
+    roomData.description = result.description;
+    roomData.floor = result.floor;
+    roomData.waterPriceRate = result.waterPriceRate;
+    roomData.lightPriceRate = result.lightPriceRate;
+    roomData.isUseDefaultWaterPriceRate = result.isUseDefaultWaterPriceRate;
+    roomData.isUseDefaultLightPriceRate = result.isUseDefaultLightPriceRate;
+    roomData.defaultWaterPriceRate = result.defaultWaterPriceRate;
+    roomData.defaultLightPriceRate = result.defaultLightPriceRate;
+    roomData.currentWaterGauge = result.currentWaterGauge;
+    roomData.currentLightGauge = result.currentLightGauge;
+    roomData.currentRental = result.currentRental;
   } else {
     notify({
       group: 'tr',
@@ -101,8 +114,8 @@ const fetchResidentData = async () => {
   }
 };
 
-const fetchRoomData = async () =>{
-    const response = await ResidentServices.fetchRo(residentId);
+const fetchResidentData = async () => {
+  const response = await ResidentServices.fetchResident(residentId);
   if (response.status === 200) {
     let result = await response.json();
     resident.data = result;
@@ -120,7 +133,7 @@ const fetchRoomData = async () =>{
     });
     router.push({ name: 'manage' });
   }
-}
+};
 
 onMounted(async () => {
   await fetchResidentData();

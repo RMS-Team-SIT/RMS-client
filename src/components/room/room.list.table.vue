@@ -68,7 +68,17 @@ const props = defineProps({
             <Badge badgeType="error">Not Paid</Badge>
           </td>
           <th>
-            <Button btnType="ghost-pill">Edit</Button>
+            <router-link
+              :to="{
+                name: 'update-room',
+                params: { 
+                  residentId: $route.params.residentId,
+                  roomId: room._id
+                 },
+              }"
+            >
+              <Button btnType="ghost-pill">Edit</Button>
+            </router-link>
           </th>
         </tr>
       </tbody>
