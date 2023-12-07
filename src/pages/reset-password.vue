@@ -5,6 +5,7 @@ import { useNotification } from '@kyvg/vue3-notification';
 import { useRoute, useRouter } from 'vue-router';
 import UserService from '@/services/UserServices.js';
 import ResetPasswordForm from '@/components/form/reset.password.form.vue';
+import { onBeforeMount, onMounted } from 'vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -32,6 +33,33 @@ const handleFormData = async (formData) => {
     });
   }
 };
+
+const checkValidToken = async () => {
+  const response = await UserService.checkValidResetPasswordToken(token);
+  if (response.status === 200) {
+    return true;
+  } else {
+    let data = await response.json();
+    notify({
+      group: 'tr',
+      title: 'Error',
+      text: data.message + ', Please try again.',
+      type: 'error',
+    });
+    return false;
+  }
+};
+
+onBeforeMount(async () => {
+  if (!token) {
+    router.push({ name: 'signin' });
+  }
+  
+  const isValidToken = await checkValidToken();
+  if (!isValidToken) {
+    router.push({ name: 'signin' });
+  }
+});
 </script>
 
 <template>
