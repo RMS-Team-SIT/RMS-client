@@ -3,10 +3,13 @@ import SignupForm from '@/components/form/signup.form.vue';
 import { useNotification } from '@kyvg/vue3-notification';
 import UserService from '@/services/UserServices.js';
 import router from '@/routes';
+import { ref } from 'vue';
 
 const { notify } = useNotification();
+const isLoading = ref(false);
 
 const handleFormData = async (formData) => {
+  isLoading.value = true;
   const response = await UserService.signUp(formData);
   if (response.status === 201) {
     let data = await response.json();
@@ -27,6 +30,7 @@ const handleFormData = async (formData) => {
       type: 'error',
     });
   }
+  isLoading.value = false;
 };
 </script>
 
@@ -34,7 +38,7 @@ const handleFormData = async (formData) => {
   <div class="flex">
     <div class="flex-1 bg-cover flex flex-row">
       <div class="basis-1/2">
-        <SignupForm @form-data="handleFormData" />
+        <SignupForm @form-data="handleFormData" :isLoading="isLoading" />
       </div>
     </div>
   </div>

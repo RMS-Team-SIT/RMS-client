@@ -14,8 +14,15 @@ import {
   helpers,
 } from '@vuelidate/validators';
 import { CheckIcon, XMarkIcon } from '@heroicons/vue/24/outline';
+import Loading from '../common/loading.vue';
 
 const emit = defineEmits(['form-data']);
+const props = defineProps({
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
+});
 const router = useRouter();
 
 const formData = reactive({
@@ -211,7 +218,15 @@ const validateErrorMsg = (field) => {
           }}</span>
         </div>
         <div class="py-1">
-          <Button class="btn btn-block mt-2" type="submit"> Sign Up </Button>
+          <div v-if="!props.isLoading">
+            <Button class="btn btn-block mt-2" type="submit"> Sign Up </Button>
+          </div>
+          <div v-else>
+            <Button class="btn btn-block mt-2 disabled" type="disable" disabled>
+              Signing Up
+              <span class="loading loading-dots loading-xs"></span>
+            </Button>
+          </div>
         </div>
       </form>
       <span class="mt-10 p-10">

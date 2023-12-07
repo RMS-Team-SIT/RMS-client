@@ -6,6 +6,12 @@ import { reactive } from 'vue';
 
 const router = useRouter();
 const emit = defineEmits(['submit-form']);
+const props = defineProps({
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
+});
 
 const formData = reactive({
   email: '',
@@ -58,13 +64,20 @@ const submitForm = async () => {
           <p
             class="text-dark-blue-200 hover:underline"
             @click="router.push('forget-password')"
-            >Forget your password?</p
           >
+            Forget your password?
+          </p>
         </div>
-        <div>
+        <div v-if="!props.isLoading">
           <Button class="btn btn-block" type="submit">
             <ArrowRightIcon class="w-5 h-5" />
             Sign In
+          </Button>
+        </div>
+        <div v-else>
+          <Button class="btn btn-block mt-2 disabled" type="disable" disabled>
+            Signing In
+            <span class="loading loading-dots loading-xs"></span>
           </Button>
         </div>
       </form>

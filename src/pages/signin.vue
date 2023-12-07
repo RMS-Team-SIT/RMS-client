@@ -4,12 +4,15 @@ import { useUserStore } from '@/stores/user.store';
 import { useNotification } from '@kyvg/vue3-notification';
 import { useRouter } from 'vue-router';
 import UserService from '@/services/UserServices.js';
+import { ref } from 'vue';
 
 const store = useUserStore();
 const router = useRouter();
 const { notify } = useNotification();
+const isLoading = ref(false);
 
 const handleFormData = async (formData) => {
+  isLoading.value = true;
   const response = await UserService.signIn(formData);
   if (response.status === 200) {
     let data = await response.json();
@@ -35,6 +38,7 @@ const handleFormData = async (formData) => {
     });
     store.clearUser();
   }
+  isLoading.value = false;
 };
 </script>
 
@@ -42,7 +46,7 @@ const handleFormData = async (formData) => {
   <div class="flex h-screen">
     <div class="flex-1 bg-cover flex flex-row">
       <div class="basis-1/2">
-        <SigninForm @submit-form="handleFormData" />
+        <SigninForm @submit-form="handleFormData" :isLoading="isLoading" />
       </div>
     </div>
   </div>
