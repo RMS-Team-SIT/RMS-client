@@ -55,6 +55,9 @@ class ResidentService {
   fetchAllRoomByResident = async (residentId) =>
     sendRequest(this.baseUrl, `/resident/${residentId}/room`, 'GET');
 
+  fetchOneRoomInResident = async (residentId, roomId) =>
+    sendRequest(this.baseUrl, `/resident/${residentId}/room/${roomId}`, 'GET');
+
   createRoom = async (residentId, room) =>
     sendRequest(this.baseUrl, `/resident/${residentId}/room`, 'POST', room);
 

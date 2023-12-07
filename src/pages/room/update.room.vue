@@ -84,7 +84,25 @@ const resident = reactive({
 });
 
 const fetchResidentData = async () => {
-  const response = await ResidentServices.fetchResident(residentId);
+  const response = await ResidentServices.fetchOneRoomInResident(residentId, roomId);
+  if (response.status === 200) {
+    let result = await response.json();
+    // set default value of roomData
+    console.log(result);
+
+  } else {
+    notify({
+      group: 'tr',
+      title: 'Error',
+      text: 'Failed to fetch resident data',
+      type: 'error',
+    });
+    router.push({ name: 'manage' });
+  }
+};
+
+const fetchRoomData = async () =>{
+    const response = await ResidentServices.fetchRo(residentId);
   if (response.status === 200) {
     let result = await response.json();
     resident.data = result;
@@ -102,10 +120,11 @@ const fetchResidentData = async () => {
     });
     router.push({ name: 'manage' });
   }
-};
+}
 
 onMounted(async () => {
   await fetchResidentData();
+  await fetchRoomData();
   isLoading.value = false;
 });
 </script>
