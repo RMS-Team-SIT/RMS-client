@@ -17,12 +17,24 @@ watchEffect(
 );
 
 const shouldShowFooter = computed(() => {
-  const excludedRoutes = ['signup', 'signin', 'pdf-preview'];
+  const excludedRoutes = [
+    'signup',
+    'signin',
+    'pdf-preview',
+    'forget-password',
+    'reset-password',
+  ];
   return !excludedRoutes.includes(route.name);
 });
 
 const shouldShowNavbar = computed(() => {
-  const excludedRoutes = ['signup', 'signin', 'pdf-preview'];
+  const excludedRoutes = [
+    'signup',
+    'signin',
+    'pdf-preview',
+    'forget-password',
+    'reset-password',
+  ];
   return !excludedRoutes.includes(route.name);
 });
 
