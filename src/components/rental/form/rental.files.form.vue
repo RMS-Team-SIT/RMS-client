@@ -49,7 +49,7 @@ watch(rentalFiles, () => {
     <h1 class="text-3xl font-semibold text-dark-blue-200">
       Rental Information
     </h1>
-    <p class="text-xs">Please input resident basic information.</p>
+    <p class="text-xs">Please input rental basic information.</p>
 
     <div>
       <label class="label">

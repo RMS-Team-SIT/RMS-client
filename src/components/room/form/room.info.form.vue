@@ -20,8 +20,8 @@ const roomInfo = reactive({
   floor: 0,
   waterPriceRate: 0,
   lightPriceRate: 0,
-  isUseDefaultWaterPriceRate: false,
-  isUseDefaultLightPriceRate: false,
+  isUseDefaultWaterPriceRate: true,
+  isUseDefaultLightPriceRate: true,
   currentWaterGauge: 0,
   currentLightGauge: 0,
   currentRentals: [],
@@ -47,9 +47,9 @@ watch(roomInfo, () => {
 </script>
 
 <template>
-  <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
+  <div class="relative bg-white p-10 space-y-4 shadow-lg rounded">
     <h1 class="text-3xl font-semibold text-dark-blue-200">Room Information</h1>
-    <p class="text-xs">Please input resident basic information.</p>
+    <p class="text-xs">Please input room basic information.</p>
 
     <div>
       <label class="label">
@@ -59,24 +59,22 @@ watch(roomInfo, () => {
       </label>
       <input
         type="text"
-        placeholder="Rental Firstname"
+        placeholder="Room Name"
         class="w-full input input-bordered input-sm rounded-sm"
-        v-model="roomInfo.firstname"
+        v-model="roomInfo.name"
         :disabled="viewOnly"
       />
     </div>
 
     <div>
       <label class="label">
-        <span class="text-base label-text"
-          >Rental Lastname <span class="text-red-500">*</span>
-        </span>
+        <span class="text-base label-text">Room description </span>
       </label>
       <input
         type="text"
-        placeholder="Rental Lastname"
+        placeholder="Room description"
         class="w-full input input-bordered input-sm rounded-sm"
-        v-model="roomInfo.lastname"
+        v-model="roomInfo.description"
         :disabled="viewOnly"
       />
     </div>
@@ -84,14 +82,14 @@ watch(roomInfo, () => {
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Rental Email <span class="text-red-500">*</span>
+          >Floor<span class="text-red-500">*</span>
         </span>
       </label>
       <input
-        type="email"
-        placeholder="Rental Email"
+        type="number"
+        placeholder="Floor"
         class="w-full input input-bordered input-sm rounded-sm"
-        v-model="roomInfo.email"
+        v-model="roomInfo.floor"
         :disabled="viewOnly"
       />
     </div>
@@ -99,15 +97,42 @@ watch(roomInfo, () => {
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Rental Phone <span class="text-red-500">*</span>
+          >Water Price Rate<span class="text-red-500">*</span>
         </span>
       </label>
+      <div class="form-control w-full">
+        <label class="cursor-pointer label">
+          <span class="label-text">Use Default Water Price Rate</span>
+          <input type="checkbox" class="toggle toggle-primary" v-model="roomInfo.isUseDefaultWaterPriceRate" />
+        </label>
+      </div>
       <input
-        type="text"
-        placeholder="Rental Phone"
+        type="number"
+        placeholder="Water Price Rate"
         class="w-full input input-bordered input-sm rounded-sm"
-        v-model="roomInfo.phone"
-        :disabled="viewOnly"
+        v-model="roomInfo.waterPriceRate"
+        :disabled="viewOnly || roomInfo.isUseDefaultWaterPriceRate"
+      />
+    </div>
+
+    <div>
+      <label class="label">
+        <span class="text-base label-text"
+          >Light Price Rate<span class="text-red-500">*</span>
+        </span>
+      </label>
+      <div class="form-control w-full">
+        <label class="cursor-pointer label">
+          <span class="label-text">Use Default Light Price Rate</span>
+          <input type="checkbox" class="toggle toggle-primary" v-model="roomInfo.isUseDefaultLightPriceRate" />
+        </label>
+      </div>
+      <input
+        type="number"
+        placeholder="Light Price Rate"
+        class="w-full input input-bordered input-sm rounded-sm"
+        v-model="roomInfo.lightPriceRate"
+        :disabled="viewOnly || roomInfo.isUseDefaultLightPriceRate"
       />
     </div>
   </div>

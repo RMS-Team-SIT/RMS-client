@@ -1,12 +1,14 @@
 <script setup>
+import loading from '@/components/common/loading.vue';
 import ResidentServices from '@/services/ResidentServices';
 import RoomInfoForm from '@/components/room/form/room.info.form.vue';
 import { useNotification } from '@kyvg/vue3-notification';
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Steps from '@/components/common/steps.vue';
 import Button from '@/components/common/button.vue';
 import Breadcrumb from '@/components/common/breadcrumb.vue';
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 
 const router = useRouter();
 const route = useRoute();
@@ -14,6 +16,7 @@ const residentId = route.params.residentId;
 const numberOfSteps = 2;
 const currentStep = ref(1);
 const { notify } = useNotification();
+const isLoading = ref(true);
 
 const roomData = reactive({
   name: '',
@@ -49,45 +52,6 @@ const getChildData = (data) => {
 };
 
 const submitData = async () => {
-  // Upload files
-  //   if (rentalData.copyOfIdCard.file) {
-  //     const uploadFileResponse = await FileService.uploadPdf(
-  //       rentalData.copyOfIdCard.file
-  //     );
-  //     if (uploadFileResponse.status != 201) {
-  //       notify({
-  //         group: 'tr',
-  //         title: 'Error',
-  //         text: 'Failed to upload files',
-  //         type: 'error',
-  //       });
-  //       return;
-  //     } else {
-  //       const data = await uploadFileResponse.json();
-  //       rentalData.copyOfIdCard.fileName = data.fileName;
-  //     }
-  //   }
-
-  //   if (rentalData.rentalContract.file) {
-  //     const uploadFileResponse = await FileService.uploadPdf(
-  //       rentalData.rentalContract.file
-  //     );
-  //     if (uploadFileResponse.status != 201) {
-  //       const data = await response.json();
-  //       notify({
-  //         group: 'tr',
-  //         title: 'Error',
-  //         text: 'Failed to upload files, ' + data?.message,
-  //         type: 'error',
-  //       });
-  //       return;
-  //     } else {
-  //       const data = await uploadFileResponse.json();
-  //       rentalData.rentalContract.fileName = data.fileName;
-  //     }
-  //   }
-  // End upload files
-
   // Create rental
   const response = await ResidentServices.createRoom(residentId, {
     ...roomData,
@@ -110,10 +74,40 @@ const submitData = async () => {
     });
   }
 };
+
+const resident = reactive({
+  data: null,
+});
+
+const fetchResidentData = async () => {
+  const response = await ResidentServices.fetchResident(residentId);
+  if (response.status === 200) {
+    let result = await response.json();
+    resident.data = result;
+    console.log(resident.data);
+    // set default value of roomData
+    roomData.lightPriceRate = resident.data.defaultLightPriceRate;
+    roomData.waterPriceRate = resident.data.defaultWaterPriceRate;
+  } else {
+    notify({
+      group: 'tr',
+      title: 'Error',
+      text: 'Failed to fetch resident data',
+      type: 'error',
+    });
+    router.push({ name: 'manage' });
+  }
+};
+
+onMounted(async () => {
+  await fetchResidentData();
+  isLoading.value = false;
+});
 </script>
 
 <template>
-  <div class="card w-full glass">
+  <loading v-if="isLoading" class="min-h-screen" />
+  <div class="card w-full glass" v-else>
     <div class="card-body px-40">
       <div class="flex flex-row justify-between">
         <Breadcrumb
@@ -136,6 +130,7 @@ const submitData = async () => {
             :currentStep="currentStep"
           />
         </div>
+
         <!-- step 1 -->
         <div v-if="currentStep == 1" class="flex gap-4">
           <RoomInfoForm
@@ -148,17 +143,11 @@ const submitData = async () => {
         <!-- step 2 -->
         <div v-if="currentStep == 2" class="flex gap-4 flex-col">
           <div class="flex gap-4">
-            <RentalInfoForm
+            <RoomInfoForm
               class="basis-1/2"
               @getData="getChildData"
               :rentalData="rentalData"
-              :viewOnly="true"
-            />
-            <RentalFilesForm
-              class="basis-1/2"
-              @getData="getChildData"
-              :rentalData="rentalData"
-              :viewOnly="true"
+              :viewOnlys="true"
             />
           </div>
         </div>

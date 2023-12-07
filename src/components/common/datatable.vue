@@ -27,8 +27,8 @@ const props = defineProps({
     </template>
 
     <template #item-isActive="{ isActive }">
-      <Badge v-if="isActive" type="success">Active</Badge>
-      <Badge v-else type="error">Deactive</Badge>
+      <Badge v-if="isActive" badgeType="success">Active</Badge>
+      <Badge v-else badgeType="error">Deactive</Badge>
     </template>
 
     <template #item-edit="{ edit }">

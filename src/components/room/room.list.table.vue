@@ -53,12 +53,12 @@ const props = defineProps({
           </td>
           <td>1</td>
           <td>
-            <Badge type="success">Available</Badge>
-            <Badge type="error">Not Available</Badge>
+            <Badge badgeType="success">Available</Badge>
+            <Badge badgeType="error">Not Available</Badge>
           </td>
           <td>
-            <Badge type="success">Paid</Badge>
-            <Badge type="error">Not Paid</Badge>
+            <Badge badgeType="success">Paid</Badge>
+            <Badge badgeType="error">Not Paid</Badge>
           </td>
           <th>
             <Button btnType="ghost-pill">manage room</Button>

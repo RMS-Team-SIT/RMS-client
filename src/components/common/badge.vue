@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 
 const props = defineProps({
-  type: {
+  badgeType: {
     type: String,
     default: 'success',
     validator: (value) =>
@@ -22,7 +22,7 @@ const classes = computed(() => {
     accent: ['badge-accent'],
   };
 
-  return ['badge', 'badge-sm', ...(typeClasses[props.type] || [])];
+  return ['badge', 'badge-sm', ...(typeClasses[props.badgeType] || [])];
 });
 </script>
 
