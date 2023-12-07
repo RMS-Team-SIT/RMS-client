@@ -19,6 +19,8 @@ class UserService {
   resetPassword = async (token, data) => sendRequest(this.baseUrl, `/users/reset-password/${token}`, 'POST', data);
 
   checkValidResetPasswordToken = async (token) => sendRequest(this.baseUrl, `/users/reset-password/${token}`, 'GET');
+
+  verifyEmail = async (token) => sendRequest(this.baseUrl, `/users/verify-email/${token}`, 'POST');
 }
 
 export default new UserService();

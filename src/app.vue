@@ -23,6 +23,7 @@ const shouldShowFooter = computed(() => {
     'pdf-preview',
     'forget-password',
     'reset-password',
+    'verify-email',
   ];
   return !excludedRoutes.includes(route.name);
 });
@@ -34,6 +35,7 @@ const shouldShowNavbar = computed(() => {
     'pdf-preview',
     'forget-password',
     'reset-password',
+    'verify-email',
   ];
   return !excludedRoutes.includes(route.name);
 });

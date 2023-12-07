@@ -9,14 +9,15 @@ const manage = () => import('@/pages/manage.vue');
 const viewResident = () => import('@/pages/resident/view.resident.vue');
 const createResident = () => import('@/pages/resident/create.resident.vue');
 const profile = () => import('./pages/profile.vue');
-const editResidentInfo = () => import('./pages/resident/edit.info.resident.vue');
+const editResidentInfo = () =>
+  import('./pages/resident/edit.info.resident.vue');
 const forgetPassword = () => import('./pages/forget-password.vue');
 const resetPassword = () => import('./pages/reset-password.vue');
 const createRental = () => import('./pages/rental/create.rental.vue');
 const Temp = () => import('./pages/temp.vue');
 const PdfPreview = () => import('./pages/pdf-preview.vue');
 const updateRentalVue = () => import('./pages/rental/update.rental.vue');
-
+const verifyEmail = () => import('./pages/verify-email.vue');
 
 const publicPathNames = [
   'home',
@@ -25,6 +26,7 @@ const publicPathNames = [
   'signout',
   'forget-password',
   'reset-password',
+  'verify-email',
 ];
 
 const routes = [
@@ -154,6 +156,14 @@ const routes = [
     component: PdfPreview,
     meta: {
       title: 'Preview Pdf',
+    },
+  },
+  {
+    name: 'verify-email',
+    path: '/verify/:token',
+    component: verifyEmail,
+    meta: {
+      title: 'Verify Email',
     },
   },
 
