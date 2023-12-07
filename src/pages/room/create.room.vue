@@ -9,6 +9,7 @@ import Steps from '@/components/common/steps.vue';
 import Button from '@/components/common/button.vue';
 import Breadcrumb from '@/components/common/breadcrumb.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
+import RoomRentalForm from '@/components/room/form/room.rental.form.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -21,14 +22,16 @@ const isLoading = ref(true);
 const roomData = reactive({
   name: '',
   description: '',
-  floor: 0,
+  floor: 1,
   waterPriceRate: 0,
   lightPriceRate: 0,
-  isUseDefaultWaterPriceRate: false,
-  isUseDefaultLightPriceRate: false,
+  isUseDefaultWaterPriceRate: true,
+  isUseDefaultLightPriceRate: true,
+  defaultWaterPriceRate: 0,
+  defaultLightPriceRate: 0,
   currentWaterGauge: 0,
   currentLightGauge: 0,
-  currentRentals: [],
+  currentRental: null,
 });
 
 const changeStep = (action) => {
@@ -84,10 +87,11 @@ const fetchResidentData = async () => {
   if (response.status === 200) {
     let result = await response.json();
     resident.data = result;
-    console.log(resident.data);
     // set default value of roomData
     roomData.lightPriceRate = resident.data.defaultLightPriceRate;
+    roomData.defaultLightPriceRate = resident.data.defaultLightPriceRate;
     roomData.waterPriceRate = resident.data.defaultWaterPriceRate;
+    roomData.defaultWaterPriceRate = resident.data.defaultWaterPriceRate;
   } else {
     notify({
       group: 'tr',
@@ -136,7 +140,13 @@ onMounted(async () => {
           <RoomInfoForm
             class="basis-1/2"
             @getData="getChildData"
-            :rentalData="rentalData"
+            :roomData="roomData"
+          />
+          <RoomRentalForm
+            class="basis-1/2"
+            @getData="getChildData"
+            :roomData="roomData"
+            :rentalData="resident.data.rentals"
           />
         </div>
 
@@ -146,8 +156,15 @@ onMounted(async () => {
             <RoomInfoForm
               class="basis-1/2"
               @getData="getChildData"
-              :rentalData="rentalData"
-              :viewOnlys="true"
+              :roomData="roomData"
+              :viewOnly="true"
+            />
+            <RoomRentalForm
+              class="basis-1/2"
+              @getData="getChildData"
+              :roomData="roomData"
+              :rentalData="resident.data.rentals"
+              :viewOnly="true"
             />
           </div>
         </div>

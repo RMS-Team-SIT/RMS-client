@@ -80,6 +80,7 @@ watch(rentalFiles, () => {
             btn-type="ghost"
             class="font-xs"
             @click="resetRentalFile('copyOfIdCard')"
+            v-if="!viewOnly"
             >Remove file</Button
           >
         </span>
@@ -118,6 +119,7 @@ watch(rentalFiles, () => {
           <Button
             btn-type="ghost"
             class="font-xs"
+            v-if="!viewOnly"
             @click="resetRentalFile('rentalContract')"
             >Remove file</Button
           >

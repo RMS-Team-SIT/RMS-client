@@ -155,7 +155,7 @@ onMounted(() => {
       v-if="!viewOnly"
       btnType="secondary-pill"
       @click="clearImages"
-      class="mt-5 rounded-full"
+      class="m-5"
       >Clear Image</Button
     >
 

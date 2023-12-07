@@ -24,7 +24,6 @@ const roomInfo = reactive({
   isUseDefaultLightPriceRate: true,
   currentWaterGauge: 0,
   currentLightGauge: 0,
-  currentRentals: [],
 });
 
 const emitData = () => {
@@ -103,7 +102,12 @@ watch(roomInfo, () => {
       <div class="form-control w-full">
         <label class="cursor-pointer label">
           <span class="label-text">Use Default Water Price Rate</span>
-          <input type="checkbox" class="toggle toggle-primary" v-model="roomInfo.isUseDefaultWaterPriceRate" />
+          <input
+            type="checkbox"
+            class="toggle toggle-primary"
+            v-model="roomInfo.isUseDefaultWaterPriceRate"
+            :disabled="viewOnly"
+          />
         </label>
       </div>
       <input
@@ -112,6 +116,7 @@ watch(roomInfo, () => {
         class="w-full input input-bordered input-sm rounded-sm"
         v-model="roomInfo.waterPriceRate"
         :disabled="viewOnly || roomInfo.isUseDefaultWaterPriceRate"
+        :hidden="roomInfo.isUseDefaultWaterPriceRate"
       />
     </div>
 
@@ -124,7 +129,12 @@ watch(roomInfo, () => {
       <div class="form-control w-full">
         <label class="cursor-pointer label">
           <span class="label-text">Use Default Light Price Rate</span>
-          <input type="checkbox" class="toggle toggle-primary" v-model="roomInfo.isUseDefaultLightPriceRate" />
+          <input
+            type="checkbox"
+            class="toggle toggle-primary"
+            v-model="roomInfo.isUseDefaultLightPriceRate"
+            :disabled="viewOnly"
+          />
         </label>
       </div>
       <input
@@ -133,6 +143,7 @@ watch(roomInfo, () => {
         class="w-full input input-bordered input-sm rounded-sm"
         v-model="roomInfo.lightPriceRate"
         :disabled="viewOnly || roomInfo.isUseDefaultLightPriceRate"
+        :hidden="roomInfo.isUseDefaultLightPriceRate"
       />
     </div>
   </div>

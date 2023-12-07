@@ -3,7 +3,6 @@ import Badge from '../common/badge.vue';
 import Button from '@/components/common/button.vue';
 import blankprofileImg from '@/assets/img/bp.webp';
 
-
 const props = defineProps({
   rooms: {
     type: Array,
@@ -15,15 +14,17 @@ const props = defineProps({
 <template>
   <div class="overflow-x-auto">
     <p class="text-base" v-if="!props.rooms.length">No room</p>
-    <table class="table" v-else>
+    <table class="table table-xs" v-else>
       <thead>
         <tr>
           <th>#</th>
           <th>Name</th>
+          <th>Description</th>
           <th>Rental</th>
           <th>Floor</th>
+          <th>Water Price Rate</th>
+          <th>Light Price Rate</th>
           <th>Available</th>
-          <th>Paid Status</th>
           <th></th>
         </tr>
       </thead>
@@ -36,32 +37,38 @@ const props = defineProps({
             {{ room.name }}
           </td>
           <td>
-            <div class="flex items-center gap-3">
-              <div class="avatar">
-                <div class="w-12 h-12 rounded-full">
-                  <img
-                    :src="blankprofileImg"
-                    alt="Avatar"
-                  />
-                </div>
-              </div>
-              <div>
-                <div class="font-bold">Hart Hagerty</div>
-                <div class="text-sm opacity-50">United States</div>
-              </div>
-            </div>
+            {{ room.description || 'No Description' }}
           </td>
-          <td>1</td>
           <td>
-            <Badge badgeType="success">Available</Badge>
-            <Badge badgeType="error">Not Available</Badge>
+            {{ room.currentRental || 'No Rental' }}
+          </td>
+          <td>{{ room.floor }}</td>
+          <td>
+            {{ room.waterPriceRate }}
+            <Badge badgeType="primary" v-if="room.isUseDefaultWaterPriceRate"
+              >Default</Badge
+            >
+            <Badge badgeType="secondary" v-else>Custom</Badge>
+          </td>
+          <td>
+            {{ room.lightPriceRate }}
+            <Badge badgeType="primary" v-if="room.isUseDefaultLightPriceRate"
+              >Default</Badge
+            >
+            <Badge badgeType="secondary" v-else>Custom</Badge>
+          </td>
+          <td>
+            <Badge badgeType="success" v-if="room.currentRentals"
+              >Available</Badge
+            >
+            <Badge badgeType="error" v-else>Not Available</Badge>
           </td>
           <td>
             <Badge badgeType="success">Paid</Badge>
             <Badge badgeType="error">Not Paid</Badge>
           </td>
           <th>
-            <Button btnType="ghost-pill">manage room</Button>
+            <Button btnType="ghost-pill">Edit</Button>
           </th>
         </tr>
       </tbody>

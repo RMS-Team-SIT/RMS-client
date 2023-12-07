@@ -6,7 +6,7 @@ const props = defineProps({
     type: String,
     default: 'success',
     validator: (value) =>
-      ['info', 'success', 'warning', 'error', 'ghost'].includes(value),
+      ['info', 'success', 'warning', 'error', 'ghost', 'neutral', 'primary', 'accent'].includes(value),
   },
 });
 

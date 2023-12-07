@@ -22,6 +22,7 @@ const classes = computed(() => {
     'text-xs',
     'md:text-md',
     'lg:text-sm',
+    'btn-sm',
   ];
 
   const typeToClasses = {

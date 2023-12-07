@@ -19,6 +19,7 @@ const PdfPreview = () => import('./pages/pdf-preview.vue');
 const updateRentalVue = () => import('./pages/rental/update.rental.vue');
 const verifyEmail = () => import('./pages/verify-email.vue');
 const createRoom = () => import('./pages/room/create.room.vue');
+const UpdateRoom = () => import('./pages/room/update.room.vue');
 
 const publicPathNames = [
   'home',
@@ -173,6 +174,14 @@ const routes = [
     component: createRoom,
     meta: {
       title: 'Create Room',
+    },
+  },
+  {
+    name: 'update-room',
+    path: '/manage/resident/:residentId/room/update/:roomId',
+    component: UpdateRoom,
+    meta: {
+      title: 'Update Room',
     },
   },
 
