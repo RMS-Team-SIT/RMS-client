@@ -143,34 +143,34 @@ const visiblePages = computed(() => {
           </tr>
         </tbody>
       </table>
-    </div>
 
-    <div class="join">
-      <button
-        class="join-item btn btn-xs"
-        :class="{ disabled: currentPage === 1 }"
-        @click="changePage(currentPage - 1)"
-      >
-        &laquo;
-      </button>
+      <div class="join">
+        <button
+          class="join-item btn btn-xs"
+          :class="{ disabled: currentPage === 1 }"
+          @click="changePage(currentPage - 1)"
+        >
+          &laquo;
+        </button>
 
-      <button
-        class="join-item btn btn-xs"
-        v-for="page in visiblePages"
-        :key="page"
-        :class="{ 'btn-active': page === currentPage }"
-        @click="changePage(page)"
-      >
-        {{ page }}
-      </button>
+        <button
+          class="join-item btn btn-xs"
+          v-for="page in visiblePages"
+          :key="page"
+          :class="{ 'btn-active': page === currentPage }"
+          @click="changePage(page)"
+        >
+          {{ page }}
+        </button>
 
-      <button
-        class="join-item btn btn-xs"
-        :class="{ disabled: currentPage === totalPages }"
-        @click="changePage(currentPage + 1)"
-      >
-        &raquo;
-      </button>
+        <button
+          class="join-item btn btn-xs"
+          :class="{ disabled: currentPage === totalPages }"
+          @click="changePage(currentPage + 1)"
+        >
+          &raquo;
+        </button>
+      </div>
     </div>
   </div>
 </template>
