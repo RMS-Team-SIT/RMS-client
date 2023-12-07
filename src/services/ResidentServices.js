@@ -6,6 +6,7 @@ class ResidentService {
     this.baseUrl = baseUrl;
   }
 
+  // Resident
   fetchResidents = async () => sendRequest(this.baseUrl, '/resident', 'GET');
 
   fetchMyResidents = async () =>
@@ -23,6 +24,8 @@ class ResidentService {
   fetchAllRentalByResident = async (id) =>
     sendRequest(this.baseUrl, `/resident/${id}/rental`, 'GET');
 
+  // Rental
+
   updateRentalByResidentIdAndRentalId = async (residentId, rentalId, rental) =>
     sendRequest(
       this.baseUrl,
@@ -39,6 +42,35 @@ class ResidentService {
       this.baseUrl,
       `/resident/${residentId}/rental/${rentalId}`,
       'GET'
+    );
+
+  deleteRentalInResident = async (residentId, rentalId) =>
+    sendRequest(
+      this.baseUrl,
+      `/resident/${residentId}/rental/${rentalId}`,
+      'DELETE'
+    );
+
+  // room
+  fetchAllRoomByResident = async (residentId) =>
+    sendRequest(this.baseUrl, `/resident/${residentId}/room`, 'GET');
+
+  createRoom = async (residentId, room) =>
+    sendRequest(this.baseUrl, `/resident/${residentId}/room`, 'POST', room);
+
+  updateRoom = async (residentId, roomId, room) =>
+    sendRequest(
+      this.baseUrl,
+      `/resident/${residentId}/room/${roomId}`,
+      'PUT',
+      room
+    );
+
+  deleteRoom = async (residentId, roomId) =>
+    sendRequest(
+      this.baseUrl,
+      `/resident/${residentId}/room/${roomId}`,
+      'DELETE'
     );
 }
 

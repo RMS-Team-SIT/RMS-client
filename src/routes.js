@@ -18,6 +18,7 @@ const Temp = () => import('./pages/temp.vue');
 const PdfPreview = () => import('./pages/pdf-preview.vue');
 const updateRentalVue = () => import('./pages/rental/update.rental.vue');
 const verifyEmail = () => import('./pages/verify-email.vue');
+const createRoom = () => import('./pages/room/create.room.vue');
 
 const publicPathNames = [
   'home',
@@ -164,6 +165,14 @@ const routes = [
     component: verifyEmail,
     meta: {
       title: 'Verify Email',
+    },
+  },
+  {
+    name: 'create-room',
+    path: '/manage/resident/:residentId/room/create',
+    component: createRoom,
+    meta: {
+      title: 'Create Room',
     },
   },
 

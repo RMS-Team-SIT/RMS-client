@@ -14,7 +14,16 @@ const props = defineProps({
   <div class="bg-white p-10 mt-2 shadow rounded-lg">
     <div class="flex justify-between">
       <h1 class="text-2xl font-semibold text-dark-blue-200">Rooms</h1>
-      <Button btnType="primary">Add Room</Button>
+      <router-link
+        :to="{
+          name: 'create-room',
+          params: {
+            residentId: $route.params.residentId,
+          },
+        }"
+      >
+        <Button btnType="primary">Add Room</Button>
+      </router-link>
     </div>
     <RoomListTable :rooms="rooms" />
   </div>
