@@ -44,6 +44,7 @@ onBeforeMount(async () => {
           :pathList="[
             { name: 'Home', pathName: 'home' },
             { name: 'Manage', pathName: 'manage' },
+            { name: 'My Resident' },
           ]"
         />
         <router-link :to="{ name: 'create-resident' }">
