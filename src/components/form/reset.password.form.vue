@@ -93,7 +93,7 @@ const submit = async () => {
       <input
         type="password"
         placeholder="Enter Password"
-        class="w-full input input-bordered input-sm rounded-sm"
+        class="w-full input input-bordered bg-white  input-sm rounded-sm"
         v-model="formData.password"
       />
       <span class="text-xs text-red-500"
@@ -127,7 +127,7 @@ const submit = async () => {
       <input
         type="password"
         placeholder="Confirm Password"
-        class="w-full input input-bordered input-sm rounded-sm"
+        class="w-full input input-bordered bg-white  input-sm rounded-sm"
         v-model="formData.confirmPassword"
       />
       <span class="text-xs text-red-500">{{

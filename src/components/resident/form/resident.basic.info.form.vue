@@ -54,7 +54,7 @@ watch(residentInfo, () => {
       <input
         type="text"
         placeholder="Resident Name"
-        class="w-full input input-bordered input-sm rounded-sm"
+        class="w-full input input-bordered bg-white  input-sm rounded-sm"
         v-model="residentInfo.name"
         :disabled="viewOnly"
       />
@@ -66,7 +66,7 @@ watch(residentInfo, () => {
       <textarea
         type="text"
         placeholder="Resident Description"
-        class="w-full textarea textarea-bordered rounded-sm"
+        class="w-full textarea textarea-bordered rounded-sm bg-white"
         v-model="residentInfo.description"
         :disabled="viewOnly"
       />
@@ -78,7 +78,7 @@ watch(residentInfo, () => {
       <textarea
         type="text"
         placeholder="Address"
-        class="w-full textarea textarea-bordered rounded-sm"
+        class="w-full textarea textarea-bordered rounded-sm bg-white"
         v-model="residentInfo.address"
         :disabled="viewOnly"
       />

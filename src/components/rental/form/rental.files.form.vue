@@ -62,7 +62,7 @@ watch(rentalFiles, () => {
         type="file"
         @change="(e) => (rentalFiles.copyOfIdCard.file = e.target.files[0])"
         multiple
-        class="file-input-sm file-input file-input-bordered w-full max-w-xs file-input-ghost"
+        class="file-input-sm file-input file-input-bordered bg-white  w-full max-w-xs file-input-ghost"
       />
       <!-- Preview file name if exist -->
       <div
@@ -101,7 +101,7 @@ watch(rentalFiles, () => {
         type="file"
         @change="(e) => (rentalFiles.rentalContract.file = e.target.files[0])"
         multiple
-        class="file-input-sm file-input file-input-bordered w-full max-w-xs file-input-ghost"
+        class="file-input-sm file-input file-input-bordered bg-white  w-full max-w-xs file-input-ghost"
       />
       <!-- Preview file name if exist -->
       <div

@@ -35,7 +35,7 @@ const submitForm = async () => {
           <input
             type="email"
             placeholder="Email Address"
-            class="w-full input input-bordered input-sm rounded-sm"
+            class="w-full input input-bordered bg-white  input-sm rounded-sm"
             v-model="formData.email"
             required
           />

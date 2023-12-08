@@ -59,7 +59,7 @@ watch(roomInfo, () => {
       <input
         type="text"
         placeholder="Room Name"
-        class="w-full input input-bordered input-sm rounded-sm"
+        class="w-full input input-bordered bg-white  input-sm rounded-sm"
         v-model="roomInfo.name"
         :disabled="viewOnly"
       />
@@ -72,7 +72,7 @@ watch(roomInfo, () => {
       <input
         type="text"
         placeholder="Room description"
-        class="w-full input input-bordered input-sm rounded-sm"
+        class="w-full input input-bordered bg-white  input-sm rounded-sm"
         v-model="roomInfo.description"
         :disabled="viewOnly"
       />
@@ -87,7 +87,7 @@ watch(roomInfo, () => {
       <input
         type="number"
         placeholder="Floor"
-        class="w-full input input-bordered input-sm rounded-sm"
+        class="w-full input input-bordered bg-white  input-sm rounded-sm"
         v-model="roomInfo.floor"
         :disabled="viewOnly"
       />
@@ -113,7 +113,7 @@ watch(roomInfo, () => {
       <input
         type="number"
         placeholder="Water Price Rate"
-        class="w-full input input-bordered input-sm rounded-sm"
+        class="w-full input input-bordered bg-white  input-sm rounded-sm"
         v-model="roomInfo.waterPriceRate"
         :disabled="viewOnly || roomInfo.isUseDefaultWaterPriceRate"
         :hidden="roomInfo.isUseDefaultWaterPriceRate"
@@ -140,7 +140,7 @@ watch(roomInfo, () => {
       <input
         type="number"
         placeholder="Light Price Rate"
-        class="w-full input input-bordered input-sm rounded-sm"
+        class="w-full input input-bordered bg-white  input-sm rounded-sm"
         v-model="roomInfo.lightPriceRate"
         :disabled="viewOnly || roomInfo.isUseDefaultLightPriceRate"
         :hidden="roomInfo.isUseDefaultLightPriceRate"

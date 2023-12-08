@@ -115,7 +115,7 @@ const validateErrorMsg = (field) => {
             <input
               type="text"
               placeholder="Firstname"
-              class="w-full input-sm input input-bordered rounded-sm"
+              class="w-full input-sm input input-bordered bg-white  rounded-sm"
               v-model="formData.firstname"
             />
             <span class="text-xs text-red-500">
@@ -130,7 +130,7 @@ const validateErrorMsg = (field) => {
             <input
               type="text"
               placeholder="Lastname"
-              class="w-full input input-bordered input-sm rounded-sm"
+              class="w-full input input-bordered bg-white  input-sm rounded-sm"
               v-model="formData.lastname"
             />
             <span class="text-xs text-red-500">{{
@@ -145,7 +145,7 @@ const validateErrorMsg = (field) => {
           <input
             type="text"
             placeholder="Phone number"
-            class="w-full input input-bordered input-sm rounded-sm"
+            class="w-full input input-bordered bg-white  input-sm rounded-sm"
             v-model="formData.phone"
           />
           <span class="text-xs text-red-500">{{
@@ -159,7 +159,7 @@ const validateErrorMsg = (field) => {
           <input
             type="email"
             placeholder="Email Address"
-            class="w-full input input-bordered input-sm rounded-sm"
+            class="w-full input input-bordered bg-white  input-sm rounded-sm"
             v-model="formData.email"
           />
           <span class="text-xs text-red-500">{{
@@ -176,7 +176,7 @@ const validateErrorMsg = (field) => {
           <input
             type="password"
             placeholder="Enter Password"
-            class="w-full input input-bordered input-sm rounded-sm"
+            class="w-full input input-bordered bg-white  input-sm rounded-sm"
             v-model="formData.password"
           />
           <span class="text-xs text-red-500"
@@ -210,7 +210,7 @@ const validateErrorMsg = (field) => {
           <input
             type="password"
             placeholder="Confirm Password"
-            class="w-full input input-bordered input-sm rounded-sm"
+            class="w-full input input-bordered bg-white  input-sm rounded-sm"
             v-model="formData.confirmPassword"
           />
           <span class="text-xs text-red-500">{{

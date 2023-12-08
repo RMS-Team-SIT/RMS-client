@@ -37,7 +37,7 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div class="card w-full glass">
+  <div class="card w-full glass min-h-screen ">
     <div class="card-body px-40">
       <div class="flex flex-row justify-between">
         <Breadcrumb
@@ -51,7 +51,7 @@ onBeforeMount(async () => {
           <Button>Create New Resident</Button>
         </router-link>
       </div>
-      <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
+      <div class="relative bg-white p-10 space-y-4 shadow-md rounded ">
         <h1 class="text-3xl font-semibold text-dark-blue-200">My Residents</h1>
         <p class="text-xs">This page will show all of your resident.</p>
         <Loading v-if="isLoading" />

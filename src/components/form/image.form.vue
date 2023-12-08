@@ -149,7 +149,7 @@ onMounted(() => {
       ref="fileInputTemp"
       @change="handleFileChange"
       multiple
-      class="file-input-sm file-input file-input-bordered w-full max-w-xs file-input-ghost"
+      class="file-input-sm file-input file-input-bordered bg-white  w-full max-w-xs file-input-ghost"
     />
     <Button
       v-if="!viewOnly"

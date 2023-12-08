@@ -62,7 +62,7 @@ watch(residentContact, () => {
       <input
         type="text"
         placeholder="Facebook"
-        class="w-full input input-bordered input-sm rounded-sm"
+        class="w-full input input-bordered bg-white  input-sm rounded-sm"
         v-model="residentContact.contact.facebook"
         :disabled="viewOnly"
       />
@@ -74,7 +74,7 @@ watch(residentContact, () => {
       <input
         type="text"
         placeholder="Line"
-        class="w-full input input-bordered input-sm rounded-sm"
+        class="w-full input input-bordered bg-white  input-sm rounded-sm"
         v-model="residentContact.contact.line"
         :disabled="viewOnly"
       />
@@ -86,7 +86,7 @@ watch(residentContact, () => {
       <input
         type="text"
         placeholder="Phone"
-        class="w-full input input-bordered input-sm rounded-sm"
+        class="w-full input input-bordered bg-white  input-sm rounded-sm"
         v-model="residentContact.contact.phone"
         :disabled="viewOnly"
       />
@@ -105,7 +105,7 @@ watch(residentContact, () => {
       <input
         type="email"
         placeholder="Email Address"
-        class="w-full input input-bordered input-sm rounded-sm"
+        class="w-full input input-bordered bg-white  input-sm rounded-sm"
         v-model="residentContact.contact.email"
         :disabled="viewOnly"
       />

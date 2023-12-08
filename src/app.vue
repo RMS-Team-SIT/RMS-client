@@ -50,7 +50,7 @@ onMounted(async () => {
   <Loading v-if="isLoading" class="min-h-screen" />
   <div v-else>
     <navbar :isLoggedIn="userStore.isLoggedIn" v-if="shouldShowNavbar" />
-    <router-view />
+    <router-view class="min-h-screen" />
     <div>
       <notifications group="tc" position="top center" class="text-md" />
       <notifications group="tr" position="top right" class="text-md" />

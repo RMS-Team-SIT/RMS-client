@@ -56,7 +56,7 @@ watch(rentalInfo, () => {
       <input
         type="text"
         placeholder="Rental Firstname"
-        class="w-full input input-bordered input-sm rounded-sm"
+        class="w-full input input-bordered bg-white  input-sm rounded-sm"
         v-model="rentalInfo.firstname"
         :disabled="viewOnly"
       />
@@ -71,7 +71,7 @@ watch(rentalInfo, () => {
       <input
         type="text"
         placeholder="Rental Lastname"
-        class="w-full input input-bordered input-sm rounded-sm"
+        class="w-full input input-bordered bg-white  input-sm rounded-sm"
         v-model="rentalInfo.lastname"
         :disabled="viewOnly"
       />
@@ -86,7 +86,7 @@ watch(rentalInfo, () => {
       <input
         type="email"
         placeholder="Rental Email"
-        class="w-full input input-bordered input-sm rounded-sm"
+        class="w-full input input-bordered bg-white  input-sm rounded-sm"
         v-model="rentalInfo.email"
         :disabled="viewOnly"
       />
@@ -101,7 +101,7 @@ watch(rentalInfo, () => {
       <input
         type="text"
         placeholder="Rental Phone"
-        class="w-full input input-bordered input-sm rounded-sm"
+        class="w-full input input-bordered bg-white  input-sm rounded-sm"
         v-model="rentalInfo.phone"
         :disabled="viewOnly"
       />

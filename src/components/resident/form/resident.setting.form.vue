@@ -51,7 +51,7 @@ watch(residentSettings, () => {
         type="number"
         min="0"
         placeholder="Default Light Price Rate"
-        class="w-full input input-bordered input-sm rounded-sm"
+        class="w-full input input-bordered bg-white  input-sm rounded-sm"
         v-model="residentSettings.defaultLightPriceRate"
         :disabled="viewOnly"
       />
@@ -64,7 +64,7 @@ watch(residentSettings, () => {
         type="number"
         min="0"
         placeholder="Email Address"
-        class="w-full input input-bordered input-sm rounded-sm"
+        class="w-full input input-bordered bg-white  input-sm rounded-sm"
         v-model="residentSettings.defaultWaterPriceRate"
         :disabled="viewOnly"
       />
