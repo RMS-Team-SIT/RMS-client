@@ -96,7 +96,7 @@ const goBack = () => {
     <div v-if="isLoading" class="flex justify-center items-center h-96">
       <Loading />
     </div>
-    <div v-else class="card-body px-40">
+    <div v-else class="card-body px-10 md:px-40 ">
       <div class="flex flex-row justify-between">
         <Breadcrumb
           :pathList="[
@@ -108,19 +108,16 @@ const goBack = () => {
         />
       </div>
       <div>
-        <div class="flex gap-2">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-2">
           <ResidentBasicInfoForm
-            class="basis-1/3"
             @getData="getChildData"
             :residentData="residentData.data"
           />
           <ResidentContactForm
-            class="basis-1/3"
             @getData="getChildData"
             :residentData="residentData.data"
           />
           <ResidentSettingForm
-            class="basis-1/3"
             @getData="getChildData"
             :residentData="residentData.data"
           />

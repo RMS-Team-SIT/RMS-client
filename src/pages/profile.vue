@@ -79,7 +79,7 @@ onMounted(async () => {
 <template>
   <Loading v-if="isLoading" />
   <div v-else class="card w-full glass">
-    <div class="card-body px-40">
+    <div class="card-body px-10 md:px-40 ">
       <div class="flex flex-row justify-between">
         <Breadcrumb
           :pathList="[

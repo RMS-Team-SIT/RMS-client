@@ -100,7 +100,7 @@ const submitData = async () => {
 
 <template>
   <div class="card w-full glass">
-    <div class="card-body px-40">
+    <div class="card-body px-10 md:px-40 ">
       <div class="flex flex-row justify-between">
         <Breadcrumb
           :pathList="[
@@ -122,19 +122,16 @@ const submitData = async () => {
           />
         </div>
         <!-- step 1 -->
-        <div v-if="currentStep == 1" class="flex gap-4">
+        <div v-if="currentStep == 1" class="grid grid-cols-1 lg:grid-cols-3 gap-2">
           <ResidentBasicInfoForm
-            class="basis-1/3"
             @getData="getChildData"
             :residentData="residentData"
           />
           <ResidentContactForm
-            class="basis-1/3"
             @getData="getChildData"
             :residentData="residentData"
           />
           <ResidentSettingForm
-            class="basis-1/3"
             @getData="getChildData"
             :residentData="residentData"
           />
@@ -148,7 +145,7 @@ const submitData = async () => {
             :residentData="residentData"
           /> -->
           <div class="relative bg-white p-10 space-y-4 shadow-md rounded basis-full">
-            <h1 class="text-3xl font-semibold text-dark-blue-200">
+            <h1 class="text-xl font-semibold text-dark-blue-200">
               Resident Images
             </h1>
             <p class="text-xs">Please upload your resident images.</p>
@@ -161,21 +158,18 @@ const submitData = async () => {
 
         <!-- step 3 -->
         <div v-if="currentStep == 3" class="flex gap-4 flex-col">
-          <div class="flex gap-4">
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-2">
             <ResidentBasicInfoForm
-              class="basis-1/3"
               @getData="getChildData"
               :residentData="residentData"
               :viewOnly="true"
             />
             <ResidentContactForm
-              class="basis-1/3"
               @getData="getChildData"
               :residentData="residentData"
               :viewOnly="true"
             />
             <ResidentSettingForm
-              class="basis-1/3"
               @getData="getChildData"
               :residentData="residentData"
               :viewOnly="true"

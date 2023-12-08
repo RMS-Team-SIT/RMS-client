@@ -38,7 +38,7 @@ onBeforeMount(async () => {
 
 <template>
   <div class="card w-full glass min-h-screen ">
-    <div class="card-body px-40">
+    <div class="card-body px-10 md:px-40 ">
       <div class="flex flex-row justify-between">
         <Breadcrumb
           :pathList="[

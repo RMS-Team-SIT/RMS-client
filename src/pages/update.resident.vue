@@ -98,7 +98,7 @@ const submitData = async () => {
     <div v-if="isLoading" class="flex justify-center items-center h-96">
       <Loading />
     </div>
-    <div v-else class="card-body px-40">
+    <div v-else class="card-body px-10 md:px-40 ">
       <div class="flex flex-row justify-between">
         <Breadcrumb
           :pathList="[

@@ -47,7 +47,7 @@ watch(roomInfo, () => {
 
 <template>
   <div class="relative bg-white p-10 space-y-4 shadow-lg rounded">
-    <h1 class="text-3xl font-semibold text-dark-blue-200">Room Information</h1>
+    <h1 class="text-xl font-semibold text-dark-blue-200">Room Information</h1>
     <p class="text-xs">Please input room basic information.</p>
 
     <div>

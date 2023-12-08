@@ -101,12 +101,12 @@ const validateErrorMsg = (field) => {
     class="relative flex flex-col justify-center min-h-screen overflow-hidden bg-white"
   >
     <div class="w-full p-6 m-auto bg-white rounded-md lg:max-w-xl">
-      <h1 class="text-3xl font-semibold text-dark-blue-200 px-10 mb-5">
+      <h1 class="text-3xl font-semibold text-dark-blue-200 px-10 md:px-40  mb-5">
         Start Signing Up <br />
         for Free
       </h1>
-      <p class="text-xs px-10 mb-5">Create your account to get started.</p>
-      <form @submit.prevent="submitForm" class="space-y-0 px-10 mb-5">
+      <p class="text-xs px-10 md:px-40  mb-5">Create your account to get started.</p>
+      <form @submit.prevent="submitForm" class="space-y-0 px-10 md:px-40  mb-5">
         <div class="flex gap-2">
           <div class="w-full">
             <label class="label">

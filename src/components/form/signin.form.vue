@@ -28,13 +28,13 @@ const submitForm = async () => {
     class="relative flex flex-col justify-center min-h-screen overflow-hidden bg-white"
   >
     <div class="w-full p-6 m-auto bg-white rounded-md lg:max-w-xl">
-      <h1 class="text-3xl font-semibold text-dark-blue-200 px-10 mb-5">
+      <h1 class="text-3xl font-semibold text-dark-blue-200 px-10 md:px-40  mb-5">
         Welcome Back !<br />
       </h1>
-      <p class="text-sm px-10 mb-5">
+      <p class="text-sm px-10 md:px-40  mb-5">
         Sign in and start managing your resident.
       </p>
-      <form @submit.prevent="submitForm" class="space-y-4 px-10 mb-5">
+      <form @submit.prevent="submitForm" class="space-y-4 px-10 md:px-40  mb-5">
         <div>
           <label class="label">
             <span class="text-base label-text">Email</span>
