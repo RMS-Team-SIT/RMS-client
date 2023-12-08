@@ -58,15 +58,15 @@ const props = defineProps({
             <Badge badgeType="secondary" v-else>Custom</Badge>
           </td>
           <td>
-            <Badge badgeType="success" v-if="room.currentRentals"
+            <Badge badgeType="success" v-if="!room.currentRental"
               >Available</Badge
             >
             <Badge badgeType="error" v-else>Not Available</Badge>
           </td>
-          <td>
+          <!-- <td>
             <Badge badgeType="success">Paid</Badge>
             <Badge badgeType="error">Not Paid</Badge>
-          </td>
+          </td> -->
           <th>
             <router-link
               :to="{

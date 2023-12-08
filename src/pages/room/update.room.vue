@@ -60,7 +60,7 @@ const submitData = async () => {
   const response = await ResidentServices.updateRoom(residentId, roomId, {
     ...roomData,
   });
-  if (response.status == 201) {
+  if (response.status == 200) {
     notify({
       group: 'tr',
       title: 'Success',
