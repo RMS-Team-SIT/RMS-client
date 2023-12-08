@@ -41,21 +41,26 @@ const props = defineProps({
           </td>
           <td>
             {{ room.currentRental || 'No Rental' }}
+            <!-- {{
+              room.currentRental
+                ? `${room.currentRental.firstname} ${room.currentRental.lastname} `
+                : 'No Rental'
+            }} -->
           </td>
           <td>{{ room.floor }}</td>
           <td>
             {{ room.waterPriceRate }}
-            <Badge badgeType="primary" v-if="room.isUseDefaultWaterPriceRate"
+            <Badge badgeType="secondary" v-if="room.isUseDefaultWaterPriceRate"
               >Default</Badge
             >
-            <Badge badgeType="secondary" v-else>Custom</Badge>
+            <Badge badgeType="primary" v-else>Custom</Badge>
           </td>
           <td>
             {{ room.lightPriceRate }}
-            <Badge badgeType="primary" v-if="room.isUseDefaultLightPriceRate"
+            <Badge badgeType="secondary" v-if="room.isUseDefaultLightPriceRate"
               >Default</Badge
             >
-            <Badge badgeType="secondary" v-else>Custom</Badge>
+            <Badge badgeType="primary" v-else>Custom</Badge>
           </td>
           <td>
             <Badge badgeType="success" v-if="!room.currentRental"
@@ -71,10 +76,10 @@ const props = defineProps({
             <router-link
               :to="{
                 name: 'update-room',
-                params: { 
+                params: {
                   residentId: $route.params.residentId,
-                  roomId: room._id
-                 },
+                  roomId: room._id,
+                },
               }"
             >
               <Button btnType="ghost-pill">Edit</Button>
