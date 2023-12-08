@@ -123,7 +123,11 @@ onMounted(async () => {
         </div>
 
         <div class="grid grid-cols-1">
-          <RoomSection :rooms="resident.data.rooms" />
+          <RoomSection
+            :rooms="resident.data.rooms"
+            :defaultWaterPriceRate="resident.data.defaultWaterPriceRate"
+            :defaultLightPriceRate="resident.data.defaultLightPriceRate"
+          />
         </div>
 
         <div class="grid grid-cols-1">

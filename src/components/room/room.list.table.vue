@@ -4,6 +4,14 @@ import Button from '@/components/common/button.vue';
 import blankprofileImg from '@/assets/img/bp.webp';
 
 const props = defineProps({
+  defaultWaterPriceRate: {
+    type: Number,
+    default: 0,
+  },
+  defaultLightPriceRate: {
+    type: Number,
+    default: 0,
+  },
   rooms: {
     type: Array,
     default: () => [],
@@ -41,22 +49,25 @@ const props = defineProps({
           </td>
           <td>
             {{ room.currentRental || 'No Rental' }}
-            <!-- {{
-              room.currentRental
-                ? `${room.currentRental.firstname} ${room.currentRental.lastname} `
-                : 'No Rental'
-            }} -->
           </td>
           <td>{{ room.floor }}</td>
           <td>
-            {{ room.waterPriceRate }}
+            {{
+              room.isUseDefaultWaterPriceRate
+                ? defaultWaterPriceRate
+                : room.waterPriceRate
+            }}
             <Badge badgeType="secondary" v-if="room.isUseDefaultWaterPriceRate"
               >Default</Badge
             >
             <Badge badgeType="primary" v-else>Custom</Badge>
           </td>
           <td>
-            {{ room.lightPriceRate }}
+            {{
+              room.isUseDefaultLightPriceRate
+                ? defaultLightPriceRate
+                : room.lightPriceRate
+            }}
             <Badge badgeType="secondary" v-if="room.isUseDefaultLightPriceRate"
               >Default</Badge
             >

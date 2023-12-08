@@ -3,6 +3,14 @@ import RoomListTable from './room.list.table.vue';
 import Button from '@/components/common/button.vue';
 
 const props = defineProps({
+  defaultWaterPriceRate: {
+    type: Number,
+    default: 0,
+  },
+  defaultLightPriceRate: {
+    type: Number,
+    default: 0,
+  },
   rooms: {
     type: Array,
     default: () => [],
@@ -26,18 +34,22 @@ const props = defineProps({
           <Button btnType="primary">Add Room</Button>
         </router-link>
         <router-link
-        :to="{
-          name: 'create-room',
-          params: {
-            residentId: $route.params.residentId,
-          },
-        }"
-      >
-        <Button btnType="primary">Add Room Wizard</Button>
-      </router-link>
+          :to="{
+            name: 'create-room',
+            params: {
+              residentId: $route.params.residentId,
+            },
+          }"
+        >
+          <Button btnType="primary">Add Room Wizard</Button>
+        </router-link>
       </div>
     </div>
-    <RoomListTable :rooms="rooms" />
+    <RoomListTable
+      :rooms="rooms"
+      :defaultLightPriceRate="defaultLightPriceRate"
+      :defaultWaterPriceRate="defaultWaterPriceRate"
+    />
   </div>
 </template>
 
