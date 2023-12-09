@@ -20,7 +20,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="navbar shadow-lg px-10 md:px-40 bg-white">
+  <div class="navbar shadow-lg px-10 md:px-40 bg-base-100">
     <div
       class="flex-1 gap-4 cursor-pointer"
       @click="router.push({ name: 'home' })"
@@ -57,7 +57,7 @@ const props = defineProps({
           </div>
           <div
             tabindex="0"
-            class="mt-3 z-[1] card card-compact dropdown-content w-96 bg-white shadow max-h-[500px] overflow-y-auto"
+            class="mt-3 z-[1] card card-compact dropdown-content w-96 bg-base-100 shadow max-h-[500px] overflow-y-auto"
           >
             <div class="card-body">
               <span class="font-bold text-lg">8 Notifications</span>
@@ -85,7 +85,7 @@ const props = defineProps({
           </label>
           <ul
             tabindex="0"
-            class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-white rounded-box w-52"
+            class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
           >
             <li>
               <router-link :to="{ name: 'profile' }">Profile</router-link>
