@@ -45,10 +45,16 @@ const props = defineProps({
             {{ room.name }}
           </td>
           <td>
-            {{ room.description || 'No Description' }}
+            <span :class="{ 'text-gray-500': !room.description }">
+              {{ room.description || 'No Description' }}
+            </span>
           </td>
           <td>
-            {{ room.currentRental || 'No Rental' }}
+            <span v-if="room.currentRental">
+              {{ room.currentRental.firstname }}
+              {{ room.currentRental.lastname }}
+            </span>
+            <span v-else class="text-red-500"> No Rental </span>
           </td>
           <td>{{ room.floor }}</td>
           <td>
