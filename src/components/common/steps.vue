@@ -12,7 +12,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <ul class="steps">
+  <ul class="steps text-sm">
     <li
       v-for="(val, index) in stepList"
       :key="index"
