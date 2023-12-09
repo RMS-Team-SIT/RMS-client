@@ -115,11 +115,11 @@ const visiblePages = computed(() => {
             <th>Email</th>
             <th>Phone</th>
             <th>Active</th>
+            <th>Current Room</th>
             <th>Copy Of ID Card</th>
             <th>Rental contract</th>
             <th>Created At</th>
             <th>Updated At</th>
-            <th class="col-span-2">action</th>
           </tr>
         </thead>
         <tbody>
@@ -138,6 +138,24 @@ const visiblePages = computed(() => {
             <td>
               <Badge v-if="rental.isActive" type="success">Active</Badge>
               <Badge v-else type="error">Deactive</Badge>
+            </td>
+            <td>
+              <div v-if="rental.room" class="underline">
+                <router-link
+                  :to="{
+                    name: 'update-room',
+                    params: {
+                      roomId: rental.room._id,
+                      residentId: residentId,
+                    },
+                  }"
+                >
+                  {{ rental.room.name }}
+                </router-link>
+              </div>
+              <div v-else>
+                <span class="text-red-500">No Room</span>
+              </div>
             </td>
             <td>
               <div v-if="rental.copyOfIdCard" class="underline">
@@ -190,7 +208,7 @@ const visiblePages = computed(() => {
               </router-link>
             </th>
             <th>
-              <Button btnType="secondary" @click="deleteRental(rental._id)">
+              <Button btnType="ghost-pill" @click="deleteRental(rental._id)">
                 Delete
               </Button>
             </th>

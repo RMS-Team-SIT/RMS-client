@@ -126,7 +126,7 @@ watch(rentalInfo, () => {
           v-model="rentalInfo.password"
           :disabled="viewOnly"
         />
-        <Button btnType="primary-pill" @click="generateAndSetPassword"
+        <Button v-if="!viewOnly" btnType="primary-pill" @click="generateAndSetPassword"
           >Generate Password</Button
         >
       </div>
