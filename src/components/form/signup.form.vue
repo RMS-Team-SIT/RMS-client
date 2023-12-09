@@ -100,13 +100,13 @@ const validateErrorMsg = (field) => {
   <div
     class="relative flex flex-col justify-center min-h-screen overflow-hidden bg-white"
   >
-    <div class="w-full p-6 m-auto bg-white rounded-md lg:max-w-xl">
-      <h1 class="text-3xl font-semibold text-dark-blue-200 px-10 md:px-40  mb-5">
+    <div class="w-full p-20 m-auto bg-white rounded-md lg:max-w-xl">
+      <h1 class="text-3xl font-semibold text-dark-blue-200 mb-5">
         Start Signing Up <br />
         for Free
       </h1>
-      <p class="text-xs px-10 md:px-40  mb-5">Create your account to get started.</p>
-      <form @submit.prevent="submitForm" class="space-y-0 px-10 md:px-40  mb-5">
+      <p class="text-xs mb-5">Create your account to get started.</p>
+      <form @submit.prevent="submitForm" class="space-y-0 mb-5">
         <div class="flex gap-2">
           <div class="w-full">
             <label class="label">
@@ -115,7 +115,7 @@ const validateErrorMsg = (field) => {
             <input
               type="text"
               placeholder="Firstname"
-              class="w-full input-sm input input-bordered bg-white  rounded-sm"
+              class="w-full input-sm input input-bordered bg-white rounded-sm"
               v-model="formData.firstname"
             />
             <span class="text-xs text-red-500">
@@ -130,7 +130,7 @@ const validateErrorMsg = (field) => {
             <input
               type="text"
               placeholder="Lastname"
-              class="w-full input input-bordered bg-white  input-sm rounded-sm"
+              class="w-full input input-bordered bg-white input-sm rounded-sm"
               v-model="formData.lastname"
             />
             <span class="text-xs text-red-500">{{
@@ -145,7 +145,7 @@ const validateErrorMsg = (field) => {
           <input
             type="text"
             placeholder="Phone number"
-            class="w-full input input-bordered bg-white  input-sm rounded-sm"
+            class="w-full input input-bordered bg-white input-sm rounded-sm"
             v-model="formData.phone"
           />
           <span class="text-xs text-red-500">{{
@@ -159,7 +159,7 @@ const validateErrorMsg = (field) => {
           <input
             type="email"
             placeholder="Email Address"
-            class="w-full input input-bordered bg-white  input-sm rounded-sm"
+            class="w-full input input-bordered bg-white input-sm rounded-sm"
             v-model="formData.email"
           />
           <span class="text-xs text-red-500">{{
@@ -176,7 +176,7 @@ const validateErrorMsg = (field) => {
           <input
             type="password"
             placeholder="Enter Password"
-            class="w-full input input-bordered bg-white  input-sm rounded-sm"
+            class="w-full input input-bordered bg-white input-sm rounded-sm"
             v-model="formData.password"
           />
           <span class="text-xs text-red-500"
@@ -210,7 +210,7 @@ const validateErrorMsg = (field) => {
           <input
             type="password"
             placeholder="Confirm Password"
-            class="w-full input input-bordered bg-white  input-sm rounded-sm"
+            class="w-full input input-bordered bg-white input-sm rounded-sm"
             v-model="formData.confirmPassword"
           />
           <span class="text-xs text-red-500">{{
@@ -229,10 +229,10 @@ const validateErrorMsg = (field) => {
           </div>
         </div>
       </form>
-      <span class="mt-10 p-10">
+      <span class="mt-10">
         Already have an account?
         <span
-          class="text-blue-500 hover:underline"
+          class="text-dark-blue-200 hover:underline cursor-pointer"
           @click="router.push('signin')"
           >Sign in</span
         ></span

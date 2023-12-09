@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import UserServices from './services/UserServices';
 
 const index = () => import('@/pages/index.vue');
 const NotFound = () => import('@/pages/not-found.vue');
@@ -193,19 +194,17 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   // check if the route is public
   if (publicPathNames.includes(to.name)) {
     return next();
   } else {
     // check if the user is logged in
-    // assume that the user is logged in if there is a token
-    const user = localStorage.getItem('token');
-    if (!user) {
-      return next({ name: 'signin' });
-    } else {
+    const response = await UserServices.me();
+    if (response.status === 200) {
       return next();
     }
+    return next({ name: 'signin' });
   }
 });
 

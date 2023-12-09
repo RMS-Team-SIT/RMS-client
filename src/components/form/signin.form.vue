@@ -27,14 +27,12 @@ const submitForm = async () => {
   <div
     class="relative flex flex-col justify-center min-h-screen overflow-hidden bg-white"
   >
-    <div class="w-full p-6 m-auto bg-white rounded-md lg:max-w-xl">
-      <h1 class="text-3xl font-semibold text-dark-blue-200 px-10 md:px-40  mb-5">
+    <div class="w-full p-20 m-auto bg-white rounded-md lg:max-w-xl">
+      <h1 class="text-3xl font-semibold text-dark-blue-200 mb-5">
         Welcome Back !<br />
       </h1>
-      <p class="text-sm px-10 md:px-40  mb-5">
-        Sign in and start managing your resident.
-      </p>
-      <form @submit.prevent="submitForm" class="space-y-4 px-10 md:px-40  mb-5">
+      <p class="text-sm mb-5">Sign in and start managing your resident.</p>
+      <form @submit.prevent="submitForm" class="space-y-4 mb-5">
         <div>
           <label class="label">
             <span class="text-base label-text">Email</span>
@@ -42,7 +40,7 @@ const submitForm = async () => {
           <input
             type="email"
             placeholder="Email Address"
-            class="w-full input input-bordered bg-white  input-sm rounded-sm"
+            class="w-full input input-bordered bg-white input-sm rounded-sm"
             v-model="formData.email"
             required
           />
@@ -54,7 +52,7 @@ const submitForm = async () => {
           <input
             type="password"
             placeholder="Enter Password"
-            class="w-full input input-bordered bg-white  input-sm rounded-sm"
+            class="w-full input input-bordered bg-white input-sm rounded-sm"
             v-model="formData.password"
             required
           />
@@ -81,10 +79,10 @@ const submitForm = async () => {
           </Button>
         </div>
       </form>
-      <span class="mt-10 p-10">
+      <span class="mt-10">
         No account yet?
         <span
-          class="text-blue-500 hover:underline"
+          class="text-dark-blue-200 hover:underline cursor-pointer"
           @click="router.push('signup')"
           >Sign up now</span
         ></span
