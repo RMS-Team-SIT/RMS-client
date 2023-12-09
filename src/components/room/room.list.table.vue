@@ -57,7 +57,7 @@ const props = defineProps({
                 ? defaultWaterPriceRate
                 : room.waterPriceRate
             }}
-            <Badge badgeType="secondary" v-if="room.isUseDefaultWaterPriceRate"
+            <Badge badgeType="ghost" v-if="room.isUseDefaultWaterPriceRate"
               >Default</Badge
             >
             <Badge badgeType="primary" v-else>Custom</Badge>
@@ -68,7 +68,7 @@ const props = defineProps({
                 ? defaultLightPriceRate
                 : room.lightPriceRate
             }}
-            <Badge badgeType="secondary" v-if="room.isUseDefaultLightPriceRate"
+            <Badge badgeType="ghost" v-if="room.isUseDefaultLightPriceRate"
               >Default</Badge
             >
             <Badge badgeType="primary" v-else>Custom</Badge>

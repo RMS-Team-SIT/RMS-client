@@ -6,7 +6,17 @@ const props = defineProps({
     type: String,
     default: 'success',
     validator: (value) =>
-      ['info', 'success', 'warning', 'error', 'ghost', 'neutral', 'primary', 'accent'].includes(value),
+      [
+        'info',
+        'success',
+        'warning',
+        'error',
+        'ghost',
+        'neutral',
+        'primary',
+        'accent',
+        'secondary',
+      ].includes(value),
   },
 });
 
@@ -20,6 +30,7 @@ const classes = computed(() => {
     neutral: ['badge-neutral'],
     primary: ['badge-primary'],
     accent: ['badge-accent'],
+    secondary: ['badge-secondary'],
   };
 
   return ['badge', 'badge-sm', ...(typeClasses[props.badgeType] || [])];

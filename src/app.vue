@@ -41,7 +41,7 @@ const shouldShowNavbar = computed(() => {
 });
 
 onMounted(async () => {
-  await userStore.fetchMe();
+  await userStore.fetchUserData();
   isLoading.value = false;
 });
 </script>

@@ -18,7 +18,7 @@ const handleFormData = async (formData) => {
     let data = await response.json();
 
     localStorage.setItem('token', data.access_token);
-    store.fetchMe();
+    store.fetchUserData();
 
     notify({
       group: 'tr',

@@ -24,7 +24,11 @@ export const useUserStore = defineStore({
     },
   },
   actions: {
-    async fetchMe() {
+    async fetchUserData() {
+      let token = localStorage.getItem('token');
+      if (!token) {
+        return;
+      }
       const response = await UserService.me();
       if (response.status === 200) {
         const data = await response.json();

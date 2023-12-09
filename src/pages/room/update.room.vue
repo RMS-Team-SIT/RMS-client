@@ -21,6 +21,7 @@ const { notify } = useNotification();
 const isLoading = ref(true);
 
 const roomData = reactive({
+  id: roomId,
   name: '',
   description: '',
   floor: 1,
