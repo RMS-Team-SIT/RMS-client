@@ -7,6 +7,7 @@ import logoImg from '@/assets/img/logo.png';
 import { BellIcon } from '@heroicons/vue/24/outline';
 import Divider from './divider.vue';
 import Badge from './badge.vue';
+import ChangeLang from './change-lang.vue';
 
 const router = useRouter();
 
@@ -19,7 +20,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="navbar bg-base-100 shadow-lg px-10 md:px-40 ">
+  <div class="navbar shadow-lg px-10 md:px-40 bg-white">
     <div
       class="flex-1 gap-4 cursor-pointer"
       @click="router.push({ name: 'home' })"
@@ -29,6 +30,7 @@ const props = defineProps({
         <span class="font-bold text-dark-blue-200">{{ projectName }}</span>
       </a>
     </div>
+    <ChangeLang/>
     <div class="flex-none" v-if="!isLoggedIn">
       <ul
         class="menu menu-horizontal px-1 text-center align-middle items-center"
@@ -55,7 +57,7 @@ const props = defineProps({
           </div>
           <div
             tabindex="0"
-            class="mt-3 z-[1] card card-compact dropdown-content w-96 bg-base-100 shadow max-h-[500px] overflow-y-auto"
+            class="mt-3 z-[1] card card-compact dropdown-content w-96 bg-white shadow max-h-[500px] overflow-y-auto"
           >
             <div class="card-body">
               <span class="font-bold text-lg">8 Notifications</span>
@@ -78,17 +80,16 @@ const props = defineProps({
         <div class="dropdown dropdown-end">
           <label tabindex="0" class="btn btn-ghost btn-circle avatar">
             <div class="w-10 rounded-full">
-              <img alt="Tailwind CSS Navbar component" :src="blankprofileImg" />
+              <img alt="image profile" :src="blankprofileImg" />
             </div>
           </label>
           <ul
             tabindex="0"
-            class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+            class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-white rounded-box w-52"
           >
             <li>
               <router-link :to="{ name: 'profile' }">Profile</router-link>
             </li>
-            <!-- <li><a>Settings</a></li> -->
             <li>
               <router-link :to="{ name: 'signout' }">Sign Out</router-link>
             </li>
