@@ -1,6 +1,7 @@
 <script setup>
+import Button from '@/components/common/button.vue';
 import { onMounted, reactive, watch } from 'vue';
-
+import { generatePassword } from '@/utils/password.util';
 const emit = defineEmits(['getData']);
 
 const props = defineProps({
@@ -19,6 +20,7 @@ const rentalInfo = reactive({
   lastname: '',
   email: '',
   phone: '',
+  password: '',
 });
 
 const emitData = () => {
@@ -29,6 +31,11 @@ const setDataFromProps = () => {
   for (const key in props.rentalData) {
     if (key in rentalInfo) rentalInfo[key] = props.rentalData[key];
   }
+};
+
+const generateAndSetPassword  = () => {
+  const password = generatePassword(6);
+  rentalInfo.password = password;
 };
 
 onMounted(() => {
@@ -42,9 +49,7 @@ watch(rentalInfo, () => {
 
 <template>
   <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
-    <h1 class="text-xl font-semibold text-dark-blue-200">
-      Rental Information
-    </h1>
+    <h1 class="text-xl font-semibold text-dark-blue-200">Rental Information</h1>
     <p class="text-xs">Please input rental basic information.</p>
 
     <div>
@@ -56,7 +61,7 @@ watch(rentalInfo, () => {
       <input
         type="text"
         placeholder="Rental Firstname"
-        class="w-full input input-bordered bg-white  input-sm rounded-sm"
+        class="w-full input input-bordered bg-white input-sm rounded-sm"
         v-model="rentalInfo.firstname"
         :disabled="viewOnly"
       />
@@ -71,23 +76,8 @@ watch(rentalInfo, () => {
       <input
         type="text"
         placeholder="Rental Lastname"
-        class="w-full input input-bordered bg-white  input-sm rounded-sm"
+        class="w-full input input-bordered bg-white input-sm rounded-sm"
         v-model="rentalInfo.lastname"
-        :disabled="viewOnly"
-      />
-    </div>
-
-    <div>
-      <label class="label">
-        <span class="text-base label-text"
-          >Rental Email <span class="text-red-500">*</span>
-        </span>
-      </label>
-      <input
-        type="email"
-        placeholder="Rental Email"
-        class="w-full input input-bordered bg-white  input-sm rounded-sm"
-        v-model="rentalInfo.email"
         :disabled="viewOnly"
       />
     </div>
@@ -101,10 +91,45 @@ watch(rentalInfo, () => {
       <input
         type="text"
         placeholder="Rental Phone"
-        class="w-full input input-bordered bg-white  input-sm rounded-sm"
+        class="w-full input input-bordered bg-white input-sm rounded-sm"
         v-model="rentalInfo.phone"
         :disabled="viewOnly"
       />
+    </div>
+
+    <div>
+      <label class="label">
+        <span class="text-base label-text"
+          >Rental Email <span class="text-red-500">*</span>
+        </span>
+      </label>
+      <input
+        type="email"
+        placeholder="Rental Email"
+        class="w-full input input-bordered bg-white input-sm rounded-sm"
+        v-model="rentalInfo.email"
+        :disabled="viewOnly"
+      />
+    </div>
+
+    <div>
+      <label class="label">
+        <span class="text-base label-text"
+          >Rental Password <span class="text-red-500">*</span>
+        </span>
+      </label>
+      <div class="flex gap-2">
+        <input
+          type="text"
+          placeholder="Rental password"
+          class="w-full input input-bordered bg-white input-sm rounded-sm"
+          v-model="rentalInfo.password"
+          :disabled="viewOnly"
+        />
+        <Button btnType="primary-pill" @click="generateAndSetPassword"
+          >Generate Password</Button
+        >
+      </div>
     </div>
   </div>
 </template>

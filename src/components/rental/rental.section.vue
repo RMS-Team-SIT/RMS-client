@@ -64,7 +64,7 @@ onMounted(() => {
     </div>
 
     <!-- <Datatable :headers="rentalDataTableHeader" :items="rentalData" /> -->
-    <RentalListTable :rentals="rentalData" />
+    <RentalListTable :rentals="rentalData" :residentId="residentId" />
   </div>
 </template>
 

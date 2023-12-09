@@ -30,6 +30,7 @@ const rentalData = reactive({
   image: null,
   copyOfIdCard: { fileName: null, file: null, isEdited: false },
   rentalContract: { fileName: null, file: null, isEdited: false },
+  password: '',
 });
 
 const changeStep = (action) => {
@@ -66,6 +67,7 @@ const fetchData = async () => {
     rentalData.image = data.image;
     rentalData.copyOfIdCard.fileName = data.copyOfIdCard;
     rentalData.rentalContract.fileName = data.rentalContract;
+    rentalData.password = data.password
   } else {
     const data = await response.json();
     notify({
@@ -157,7 +159,7 @@ onMounted(async () => {
 <template>
   <Loading v-if="isLoading" />
   <div class="card w-full glass" v-else>
-    <div class="card-body px-10 md:px-40 ">
+    <div class="card-body px-10 md:px-40">
       <div class="flex flex-row justify-between">
         <Breadcrumb
           :pathList="[

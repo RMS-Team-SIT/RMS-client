@@ -1,23 +1,72 @@
 <script setup>
 import Badge from '../common/badge.vue';
 import Button from '@/components/common/button.vue';
-import { computed, onMounted, reactive, ref } from 'vue';
+import { computed, inject, onMounted, reactive, ref } from 'vue';
+import ResidentServices from '@/services/ResidentServices';
+import { useNotification } from '@kyvg/vue3-notification';
 
 const props = defineProps({
   rentals: {
     type: Array,
     default: () => [],
   },
+  residentId: {
+    type: String,
+    default: '',
+  },
 });
 
+const swal = inject('$swal');
 const currentPage = ref(1);
 const perPage = ref(5);
+const { notify } = useNotification();
 
 const computedRentals = computed(() => {
   const start = (currentPage.value - 1) * perPage.value;
   const end = start + perPage.value;
   return props.rentals.slice(start, end);
 });
+
+const deleteRental = async (rentalId) => {
+  const confirm = await swal.fire({
+    title: 'Are you sure?',
+    text: 'You will not be able to recover this rental',
+    showCancelButton: true,
+    confirmButtonText: 'Confirm delete',
+    cancelButtonText: 'Discard',
+  });
+
+  if (confirm.isConfirmed) {
+    try {
+      const response = await ResidentServices.deleteRentalInResident(
+        props.residentId,
+        rentalId
+      );
+      if (response.status == 200) {
+        notify({
+          title: 'Success',
+          text: 'Rental deleted',
+          type: 'success',
+        });
+      } else {
+        const data = await response.json();
+        notify({
+          title: 'Error Delete Rental',
+          text: 'Error Delete Rental, ' + data?.message,
+          type: 'error',
+          group: 'tr',
+        });
+      }
+    } catch (error) {
+      notify({
+        title: 'Error',
+        text: error.message,
+        type: 'error',
+        group: 'tr',
+      });
+    }
+  }
+};
 
 const changePage = (page) => {
   if (page >= 1 && page <= totalPages.value) {
@@ -70,7 +119,7 @@ const visiblePages = computed(() => {
             <th>Rental contract</th>
             <th>Created At</th>
             <th>Updated At</th>
-            <th>action</th>
+            <th class="col-span-2">action</th>
           </tr>
         </thead>
         <tbody>
@@ -139,6 +188,11 @@ const visiblePages = computed(() => {
               >
                 <Button btnType="ghost-pill">Edit</Button>
               </router-link>
+            </th>
+            <th>
+              <Button btnType="secondary" @click="deleteRental(rental._id)">
+                Delete
+              </Button>
             </th>
           </tr>
         </tbody>

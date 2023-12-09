@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive, watch } from 'vue';
+import { computed, onMounted, reactive, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 const emit = defineEmits(['getData']);
@@ -23,6 +23,13 @@ const roomInfo = reactive({
   currentRental: null,
 });
 
+const availableRental = computed(() => {
+  return props.rentalData.filter(
+    (rental) =>
+      rental._id != roomInfo.currentRental &&
+      (!rental.room || rental.room == roomInfo.id)
+  );
+});
 const emitData = () => {
   emit('getData', roomInfo);
 };
@@ -94,16 +101,12 @@ watch(roomInfo, () => {
     <!-- List all rental except selected rental -->
     <div v-if="!viewOnly">
       <div class="font-bold mb-2">All available rental list</div>
-      <p v-if="!rentalData.length">
-        No rental available. Please create rental.
+      <p v-if="!rentalData.length || !availableRental.length">
+        No rental available. Please create new rental.
       </p>
       <div class="flex flex-col gap-4">
         <div
-          v-for="(rental, index) in rentalData.filter(
-            (rental) =>
-              rental._id != roomInfo.currentRental &&
-              (!rental.room || rental.room == roomInfo.id)
-          )"
+          v-for="(rental, index) in availableRental"
           :key="index"
           class="flex flex-row justify-between items-center"
         >
