@@ -30,7 +30,6 @@ const props = defineProps({
         <span class="font-bold text-dark-blue-200">{{ projectName }}</span>
       </a>
     </div>
-    <ChangeLang/>
     <div class="flex-none" v-if="!isLoggedIn">
       <ul
         class="menu menu-horizontal px-1 text-center align-middle items-center"
@@ -62,7 +61,9 @@ const props = defineProps({
             <div class="card-body">
               <span class="font-bold text-lg">8 Notifications</span>
               <div v-for="(val, index) in new Array(8).fill(0)" :key="index">
-                <div class="border-2 border-neutral rounded hover:bg-slate-200 p-5 pt-0">
+                <div
+                  class="border-2 border-neutral rounded hover:bg-slate-200 p-5 pt-0"
+                >
                   <Divider class="text-xs">[12-07-2023 03:20:39]</Divider>
                   <div class="text-left">Siriwat just upload paid evidence</div>
                   <div class="text-left">
@@ -97,6 +98,8 @@ const props = defineProps({
         </div>
       </ul>
     </div>
+    <ChangeLang />
+
   </div>
 </template>
 
