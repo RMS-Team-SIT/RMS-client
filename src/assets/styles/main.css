@@ -1,12 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@200&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Palanquin:wght@100;200;300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Palanquin:wght@100;200;300;400;500;600;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Maitree&family=Mitr:wght@600&family=Prompt:wght@800&display=swap');
 html {
   @apply antialiased min-h-full;
   scroll-behavior: smooth;
 }
-
+.font-maitree {
+  font-family: 'Maitree', serif;
+}
+.font-mitr {
+  font-family: 'Mitr', sans-serif;
+}
+.font-palanquin {
+  font-family: 'Palanquin', sans-serif;
+}
+.font-prompt {
+  font-family: 'Prompt', sans-serif;
+}
 html,
 body {
   /* font-family: 'Prompt', sans-serif; */
