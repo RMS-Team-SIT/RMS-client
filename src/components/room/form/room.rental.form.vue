@@ -62,7 +62,6 @@ watch(roomInfo, () => {
     <h1 class="text-xl font-semibold text-dark-blue-200">
       Room Current Rental
     </h1>
-    <!-- <p class="text-xs">Please select room rental.</p> -->
 
     <!-- List selected rental -->
     <div class="font-bold">Selected Rental</div>
