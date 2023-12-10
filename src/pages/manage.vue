@@ -37,7 +37,7 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div class="card w-full glass min-h-screen ">
+  <div class="card w-full min-h-screen ">
     <div class="card-body px-10 md:px-40 ">
       <div class="flex flex-row justify-between">
         <Breadcrumb

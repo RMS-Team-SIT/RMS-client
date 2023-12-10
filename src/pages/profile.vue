@@ -78,7 +78,7 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" />
-  <div v-else class="card w-full glass">
+  <div v-else class="card w-full">
     <div class="card-body px-10 md:px-40 ">
       <div class="flex flex-row justify-between">
         <Breadcrumb

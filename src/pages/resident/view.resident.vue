@@ -51,8 +51,8 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
-  <div class="card w-full glass" v-if="resident.data">
-    <div class="card-body px-10 md:px-40 ">
+  <div class="card w-full" v-if="resident.data">
+    <div class="card-body px-10 md:px-40">
       <div class="flex flex-row justify-between">
         <Breadcrumb
           :pathList="[
@@ -97,10 +97,42 @@ onMounted(async () => {
                 <span class="font-bold">Description</span> :
                 {{ resident.data.description ?? 'No description' }}
               </p>
-              <Divider>contact</Divider>
-              <p v-for="(val, index) in resident.data.contact" :key="index">
-                <span class="font-bold">{{ index }}</span> : {{ val || '-' }}
+              <Divider>Resident Contact</Divider>
+              <p>
+                <span class="font-bold">Email</span> :
+                <span
+                  :class="{ 'text-gray-500': !resident.data.contact.email }"
+                >
+                  {{ resident.data.contact.email || 'No data' }}
+                </span>
               </p>
+              <p>
+                <span class="font-bold">Phone</span> :
+                <span
+                  :class="{ 'text-gray-500': !resident.data.contact.phone }"
+                >
+                  {{ resident.data.contact.phone || 'No data' }}
+                </span>
+              </p>
+              <p>
+                <span class="font-bold">Line</span> :
+                <span
+                  :class="{ 'text-gray-500': !resident.data.contact.line }"
+                >
+                  {{ resident.data.contact.line || 'No data' }}
+                </span>
+              </p>
+              <p>
+                <span class="font-bold">Facebook</span> :
+                <span
+                  :class="{ 'text-gray-500': !resident.data.contact.facebook }"
+                >
+                  {{ resident.data.contact.facebook || 'No data' }}
+                </span>
+              </p>
+              <!-- <p v-for="(val, index) in resident.data.contact" :key="index">
+                <span class="font-bold">{{ index }}</span> : {{ val || '-' }}
+              </p> -->
               <Divider>Other Setting</Divider>
               <p>
                 <span class="font-bold">Default Water Price Rate</span> :

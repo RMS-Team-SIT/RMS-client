@@ -1,6 +1,6 @@
 <script setup>
 import Breadcrumb from '@/components/common/breadcrumb.vue';
-import { onMounted, reactive, ref } from 'vue';
+import { inject, onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Steps from '@/components/common/steps.vue';
 import Button from '@/components/common/button.vue';
@@ -12,6 +12,7 @@ import RentalInfoForm from '@/components/rental/form/rental.info.form.vue';
 import RentalFilesForm from '@/components/rental/form/rental.files.form.vue';
 import FileService from '@/services/FileService';
 import Loading from '@/components/common/loading.vue';
+import RentalDeleteForm from '@/components/rental/form/rental.delete.form.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -20,6 +21,7 @@ const rentalId = route.params.rentalId;
 const numberOfSteps = 2;
 const currentStep = ref(1);
 const { notify } = useNotification();
+const swal = inject('$swal');
 const isLoading = ref(true);
 
 const rentalData = reactive({
@@ -67,7 +69,7 @@ const fetchData = async () => {
     rentalData.image = data.image;
     rentalData.copyOfIdCard.fileName = data.copyOfIdCard;
     rentalData.rentalContract.fileName = data.rentalContract;
-    rentalData.password = data.password
+    rentalData.password = data.password;
   } else {
     const data = await response.json();
     notify({
@@ -150,6 +152,43 @@ const submitData = async () => {
   }
 };
 
+const deleteRental = async () => {
+  try {
+    const response = await ResidentServices.deleteRentalInResident(
+      residentId,
+      rentalId
+    );
+    if (response.status == 200) {
+      swal.fire({
+        title: 'Success',
+        text: 'Rental deleted',
+        icon: 'success',
+      });
+      notify({
+        title: 'Success',
+        text: 'Rental deleted',
+        type: 'success',
+      });
+      router.push({ name: 'manage-resident', params: { residentId } });
+    } else {
+      const data = await response.json();
+      notify({
+        title: 'Error Delete Rental',
+        text: 'Error Delete Rental, ' + data?.message,
+        type: 'error',
+        group: 'tr',
+      });
+    }
+  } catch (error) {
+    notify({
+      title: 'Error',
+      text: error.message,
+      type: 'error',
+      group: 'tr',
+    });
+  }
+};
+
 onMounted(async () => {
   await fetchData();
   isLoading.value = false;
@@ -158,7 +197,7 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" />
-  <div class="card w-full glass" v-else>
+  <div class="card w-full" v-else>
     <div class="card-body px-10 md:px-40">
       <div class="flex flex-row justify-between">
         <Breadcrumb
@@ -176,14 +215,14 @@ onMounted(async () => {
         />
       </div>
       <div>
-        <div class="p-4 mb-4 card shadow-xl bg-white">
+        <div class="p-4 mb-4 card shadow-md bg-white">
           <Steps
             :stepList="['Rental Infomation', 'Review Rental']"
             :currentStep="currentStep"
           />
         </div>
         <!-- step 1 -->
-        <div v-if="currentStep == 1" class="flex gap-4">
+        <div v-if="currentStep == 1" class="flex gap-1">
           <RentalInfoForm
             class="basis-1/2"
             @getData="getChildData"
@@ -193,6 +232,13 @@ onMounted(async () => {
             class="basis-1/2"
             @getData="getChildData"
             :rentalData="rentalData"
+          />
+        </div>
+        <div v-if="currentStep == 1" class="flex gap-1 min-w-full mt-1">
+          <RentalDeleteForm
+            v-if="currentStep == 1"
+            class="min-w-full"
+            @deleteRental="deleteRental"
           />
         </div>
 

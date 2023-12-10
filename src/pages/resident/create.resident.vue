@@ -99,7 +99,7 @@ const submitData = async () => {
 </script>
 
 <template>
-  <div class="card w-full glass">
+  <div class="card w-full ">
     <div class="card-body px-10 md:px-40 ">
       <div class="flex flex-row justify-between">
         <Breadcrumb

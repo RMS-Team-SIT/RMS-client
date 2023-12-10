@@ -27,46 +27,6 @@ const computedRentals = computed(() => {
   return props.rentals.slice(start, end);
 });
 
-const deleteRental = async (rentalId) => {
-  const confirm = await swal.fire({
-    title: 'Are you sure?',
-    text: 'You will not be able to recover this rental',
-    showCancelButton: true,
-    confirmButtonText: 'Confirm delete',
-    cancelButtonText: 'Discard',
-  });
-
-  if (confirm.isConfirmed) {
-    try {
-      const response = await ResidentServices.deleteRentalInResident(
-        props.residentId,
-        rentalId
-      );
-      if (response.status == 200) {
-        notify({
-          title: 'Success',
-          text: 'Rental deleted',
-          type: 'success',
-        });
-      } else {
-        const data = await response.json();
-        notify({
-          title: 'Error Delete Rental',
-          text: 'Error Delete Rental, ' + data?.message,
-          type: 'error',
-          group: 'tr',
-        });
-      }
-    } catch (error) {
-      notify({
-        title: 'Error',
-        text: error.message,
-        type: 'error',
-        group: 'tr',
-      });
-    }
-  }
-};
 
 const changePage = (page) => {
   if (page >= 1 && page <= totalPages.value) {

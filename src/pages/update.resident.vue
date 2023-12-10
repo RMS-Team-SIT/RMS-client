@@ -94,7 +94,7 @@ const submitData = async () => {
 </script>
 
 <template>
-  <div class="card w-full glass">
+  <div class="card w-full">
     <div v-if="isLoading" class="flex justify-center items-center h-96">
       <Loading />
     </div>
