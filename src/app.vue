@@ -14,6 +14,7 @@ const route = useRoute();
 const userStore = useUserStore();
 const isLoading = ref(true);
 const { locale } = useI18n();
+const isThai = computed(() => locale.value === 'th');
 
 watchEffect(
   () => (document.title = `${projectName} | ${route.meta.title || ''}`)
@@ -44,19 +45,15 @@ const shouldShowNavbar = computed(() => {
 });
 
 const setLang = () => {
-  const lang = localStorage.getItem('lang');
-  if (lang) {
-    // check if lang is supported
-    const supportedLang = languages.find((l) => l.value === lang);
-    if (!supportedLang) {
-      console.log(lang, ': is not supported, setting to default lang: en');
-      localStorage.setItem('lang', 'en');
-      locale.value = 'en';
-      return;
-    }
-    locale.value = lang;
-  } else {
+  const lang = localStorage.getItem('lang') || 'en';
+  const supportedLang = languages.find((l) => l.value === lang);
+
+  if (!supportedLang) {
+    console.log(`${lang} is not supported, setting to default lang: en`);
+    localStorage.setItem('lang', 'en');
     locale.value = 'en';
+  } else {
+    locale.value = lang;
   }
 };
 
@@ -69,7 +66,7 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
-  <div v-else>
+  <div :class="{ 'font-maitree': isThai }" v-else>
     <navbar :isLoggedIn="userStore.isLoggedIn" v-if="shouldShowNavbar" />
     <router-view class="min-h-screen" />
     <div>

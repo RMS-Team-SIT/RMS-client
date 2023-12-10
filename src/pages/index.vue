@@ -12,11 +12,10 @@ import img6 from '@/assets/img/6.jpg';
       </div>
       <div>
         <h1 class="text-6xl font-semibold mb-4 text-dark-blue-200">
-          Manage your <span class="text-light-red">{{$t('resident')}}</span>
+          {{$t('home.header1')}} <span class="text-light-red">{{$t('home.header2')}}</span>
         </h1>
         <p class="text-lg leading-relaxed">
-          Resident Management System is a system that helps you to manage your
-          resident.
+          {{$t('home.sub')}}
         </p>
         <p class="mt-4 text-gray-700">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod,
