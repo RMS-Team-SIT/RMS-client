@@ -6,11 +6,14 @@ import Footer from './components/common/footer.vue';
 import { projectName } from './constants';
 import { useUserStore } from './stores/user.store';
 import Loading from './components/common/loading.vue';
+import { useI18n } from 'vue-i18n';
+import { languages } from './i18n';
 
 const router = useRouter();
 const route = useRoute();
 const userStore = useUserStore();
 const isLoading = ref(true);
+const { locale } = useI18n();
 
 watchEffect(
   () => (document.title = `${projectName} | ${route.meta.title || ''}`)
@@ -40,8 +43,26 @@ const shouldShowNavbar = computed(() => {
   return !excludedRoutes.includes(route.name);
 });
 
+const setLang = () => {
+  const lang = localStorage.getItem('lang');
+  if (lang) {
+    // check if lang is supported
+    const supportedLang = languages.find((l) => l.value === lang);
+    if (!supportedLang) {
+      console.log(lang, ': is not supported, setting to default lang: en');
+      localStorage.setItem('lang', 'en');
+      locale.value = 'en';
+      return;
+    }
+    locale.value = lang;
+  } else {
+    locale.value = 'en';
+  }
+};
+
 onMounted(async () => {
   await userStore.fetchUserData();
+  setLang();
   isLoading.value = false;
 });
 </script>

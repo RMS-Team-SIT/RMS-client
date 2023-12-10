@@ -1,16 +1,16 @@
 <script setup>
+import { languages } from '@/i18n';
 import { GlobeAltIcon } from '@heroicons/vue/24/outline';
-import { ref } from 'vue';
-const langs = ref([
-  {
-    name: 'English',
-    key: 'en',
-  },
-  {
-    name: 'ไทย',
-    key: 'th',
-  },
-]);
+import { inject, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t, locale } = useI18n();
+const langs = ref(languages);
+
+const changeLang = (value) => {
+  locale.value = value;
+  localStorage.setItem('lang', key);
+};
 </script>
 <template>
   <div>
@@ -22,21 +22,18 @@ const langs = ref([
         tabindex="0"
         class="dropdown-content z-[1] menu text-sm shadow bg-base-100 rounded-box w-52 gap-2"
       >
-        <!-- {{
-          $i18n.locale
-        }} -->
         <li v-for="(lang, i) in langs" :key="i" :value="lang">
           <a
-            :class="{ active: $i18n.locale == lang.key }"
-            @click="$i18n.locale = lang.key"
+            :class="{ active: $i18n.locale == lang.value }"
+            @click="changeLang(lang.value)"
           >
             <div
               class="badge badge-sm badge-outline !pl-1.5 !pr-1 pt-px !text-[.6rem] font-bold tracking-widest opacity-50"
             >
-              {{ lang.key }}
+              {{ lang.value }}
             </div>
             <span>
-              {{ lang.name }}
+              {{ lang.label }}
             </span></a
           >
         </li>
