@@ -193,12 +193,16 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.VITE_BASE),
   routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return { top: 0 };
+    }
+  },
 });
 
-
-
 router.beforeEach(async (to, from, next) => {
-  
   // check if the route is public
   if (publicPathNames.includes(to.name)) {
     return next();

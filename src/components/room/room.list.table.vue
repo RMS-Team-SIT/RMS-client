@@ -34,6 +34,7 @@ const props = defineProps({
           <th>Light Price Rate</th>
           <th>Available</th>
           <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -89,6 +90,19 @@ const props = defineProps({
             <Badge badgeType="success">Paid</Badge>
             <Badge badgeType="error">Not Paid</Badge>
           </td> -->
+          <th>
+            <router-link
+              :to="{
+                name: 'update-room',
+                params: {
+                  residentId: $route.params.residentId,
+                  roomId: room._id,
+                },
+              }"
+            >
+              <Button btnType="ghost-pill">View</Button>
+            </router-link>
+          </th>
           <th>
             <router-link
               :to="{

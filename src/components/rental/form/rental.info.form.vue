@@ -33,7 +33,7 @@ const setDataFromProps = () => {
   }
 };
 
-const generateAndSetPassword  = () => {
+const generateAndSetPassword = () => {
   const password = generatePassword(6);
   rentalInfo.password = password;
 };
@@ -126,10 +126,15 @@ watch(rentalInfo, () => {
           v-model="rentalInfo.password"
           :disabled="viewOnly"
         />
-        <Button v-if="!viewOnly" btnType="primary-pill" @click="generateAndSetPassword"
+        <Button
+          v-if="!viewOnly"
+          btnType="primary-pill"
+          @click="generateAndSetPassword"
           >Generate Password</Button
         >
       </div>
+      <p class="text-xs text-gray-500 mt-2">* Rental email and password used to login to your rental system.</p>
+
     </div>
   </div>
 </template>
