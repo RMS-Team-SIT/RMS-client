@@ -2,7 +2,7 @@ import { createI18n } from 'vue-i18n';
 import en from './en-US';
 import th from './th-TH';
 
-const languages = [
+export const languages = [
   {
     label: 'English',
     value: 'en',

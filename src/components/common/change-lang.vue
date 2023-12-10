@@ -9,7 +9,7 @@ const langs = ref(languages);
 
 const changeLang = (value) => {
   locale.value = value;
-  localStorage.setItem('lang', key);
+  localStorage.setItem('lang', value);
 };
 </script>
 <template>
