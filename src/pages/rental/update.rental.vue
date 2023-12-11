@@ -27,7 +27,7 @@ const isLoading = ref(true);
 const rentalData = reactive({
   firstname: '',
   lastname: '',
-  email: '',
+  username: '',
   phone: '',
   image: null,
   copyOfIdCard: { fileName: null, file: null, isEdited: false },
@@ -62,9 +62,10 @@ const fetchData = async () => {
   );
   if (response.status == 200) {
     const data = await response.json();
+    console.log(data);
     rentalData.firstname = data.firstname;
     rentalData.lastname = data.lastname;
-    rentalData.email = data.email;
+    rentalData.username = data.username;
     rentalData.phone = data.phone;
     rentalData.image = data.image;
     rentalData.copyOfIdCard.fileName = data.copyOfIdCard;

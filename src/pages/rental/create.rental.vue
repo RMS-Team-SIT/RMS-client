@@ -22,7 +22,7 @@ const { notify } = useNotification();
 const rentalData = reactive({
   firstname: '',
   lastname: '',
-  email: '',
+  username: '',
   phone: '',
   image: { fileName: null, file: null, isEdited: false },
   copyOfIdCard: { fileName: null, file: null, isEdited: false },

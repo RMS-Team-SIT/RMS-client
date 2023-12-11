@@ -39,8 +39,8 @@ const deleteRental = async () => {
       >Delete</Button
     >
     <p v-if="!canDelete" class="text-red-500 text-sm">
-      * Cannot delete rental. This rental was linked to room. Please remove this
-      rental from room first.
+      * Cannot delete rental. This rental was linked to {{rental}}. <br />
+      Please remove this rental from room first.
     </p>
   </div>
 </template>
