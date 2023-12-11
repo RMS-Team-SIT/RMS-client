@@ -100,10 +100,10 @@ const props = defineProps({
                 },
               }"
             >
-              <Button btnType="ghost-pill">View</Button>
+              <Button btnType="ghost-pill">Edit</Button>
             </router-link>
           </th>
-          <th>
+          <!-- <th>
             <router-link
               :to="{
                 name: 'update-room',
@@ -115,7 +115,7 @@ const props = defineProps({
             >
               <Button btnType="ghost-pill">Edit</Button>
             </router-link>
-          </th>
+          </th> -->
         </tr>
       </tbody>
     </table>

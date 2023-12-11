@@ -114,7 +114,7 @@ watch(roomInfo, () => {
               <span class="text-sm font-semibold text-dark-blue-200"
                 >{{ rental.firstname }} {{ rental.lastname }}</span
               >
-              <span class="text-xs text-gray-400">{{ rental.email }}</span>
+              <span class="text-xs text-gray-400">{{ rental.username }}</span>
             </div>
           </div>
           <div class="flex flex-row items-center gap-4">

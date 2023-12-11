@@ -8,6 +8,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  room: {
+    type: String,
+    default: '',
+  },
 });
 const swal = inject('$swal');
 
@@ -38,8 +42,14 @@ const deleteRental = async () => {
       :disabled="!canDelete"
       >Delete</Button
     >
-    <p v-if="!canDelete" class="text-red-500 text-sm">
-      * Cannot delete rental. This rental was linked to {{rental}}. <br />
+    <p v-if="!canDelete" class="text-gray-500 text-sm">
+      * Cannot delete rental. This rental was linked to
+      <span class="text-red-500 underline cursor-pointer">
+        <router-link :to="{ name: 'update-room', params: { roomId: room._id } }">
+          {{ room.name }}
+        </router-link>
+      </span>
+      . <br />
       Please remove this rental from room first.
     </p>
   </div>

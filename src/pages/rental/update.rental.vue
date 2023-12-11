@@ -242,6 +242,7 @@ onMounted(async () => {
             class="min-w-full"
             @deleteRental="deleteRental"
             :canDelete="!rentalData.room"
+            :room="rentalData.room"
           />
         </div>
 
