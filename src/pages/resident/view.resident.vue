@@ -12,6 +12,7 @@ import { useNotification } from '@kyvg/vue3-notification';
 import ResidentServices from '@/services/ResidentServices';
 import FileService from '@/services/FileService';
 import Loading from '@/components/common/loading.vue';
+import ResidentInfo from '@/components/resident/resident.info.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -72,86 +73,13 @@ onMounted(async () => {
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2 mt-2">
-          <div class="bg-white p-4 shadow-md rounded">
-            <div class="mb-4">
-              <div class="flex justify-between items-center">
-                <Divider>Resident Infomation</Divider>
+          <ResidentInfo :resident="resident.data" />
 
-                <PencilSquareIcon
-                  id="edit-resident-link"
-                  @click="
-                    () =>
-                      router.push({
-                        name: 'update-resident',
-                        params: { id: residentId },
-                      })
-                  "
-                  class="text-dark-blue-200 w-5 h-5 flex justify-end"
-                />
-              </div>
-              <p>
-                <span class="font-bold">Resident Name</span> :
-                {{ resident.data.name }}
-              </p>
-              <p>
-                <span class="font-bold">Description</span> :
-                {{ resident.data.description ?? 'No description' }}
-              </p>
-              <Divider>Resident Contact</Divider>
-              <p>
-                <span class="font-bold">Email</span> :
-                <span
-                  :class="{ 'text-gray-500': !resident.data.contact.email }"
-                >
-                  {{ resident.data.contact.email || 'No data' }}
-                </span>
-              </p>
-              <p>
-                <span class="font-bold">Phone</span> :
-                <span
-                  :class="{ 'text-gray-500': !resident.data.contact.phone }"
-                >
-                  {{ resident.data.contact.phone || 'No data' }}
-                </span>
-              </p>
-              <p>
-                <span class="font-bold">Line</span> :
-                <span
-                  :class="{ 'text-gray-500': !resident.data.contact.line }"
-                >
-                  {{ resident.data.contact.line || 'No data' }}
-                </span>
-              </p>
-              <p>
-                <span class="font-bold">Facebook</span> :
-                <span
-                  :class="{ 'text-gray-500': !resident.data.contact.facebook }"
-                >
-                  {{ resident.data.contact.facebook || 'No data' }}
-                </span>
-              </p>
-              <!-- <p v-for="(val, index) in resident.data.contact" :key="index">
-                <span class="font-bold">{{ index }}</span> : {{ val || '-' }}
-              </p> -->
-              <Divider>Other Setting</Divider>
-              <p>
-                <span class="font-bold">Default Water Price Rate</span> :
-                {{ resident.data.defaultWaterPriceRate }} Baht per unit
-              </p>
-              <p>
-                <span class="font-bold">Default Light Price Rate</span> :
-                {{ resident.data.defaultLightPriceRate }} Baht per unit
-              </p>
-            </div>
-          </div>
-
-          <div>
-            <ImagePreview
-              :imageUrls="resident.data.images"
-              preview-from="url"
-              class="min-h-full"
-            />
-          </div>
+          <ImagePreview
+            :imageUrls="resident.data.images"
+            preview-from="url"
+            class="min-h-full"
+          />
         </div>
 
         <div class="grid grid-cols-1">
