@@ -7,8 +7,10 @@ import { useUserStore } from '@/stores/user.store';
 import Loading from '@/components/common/loading.vue';
 import { useNotification } from '@kyvg/vue3-notification';
 import ResidentServices from '@/services/ResidentServices';
+import { useRouter } from 'vue-router';
 
 const userStore = useUserStore();
+const router = useRouter();
 const isLoading = ref(true);
 const residents = reactive({
   data: null,
@@ -37,8 +39,8 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div class="card w-full min-h-screen ">
-    <div class="card-body px-10 md:px-40 ">
+  <div class="card w-full min-h-screen">
+    <div class="card-body px-10 md:px-40">
       <div class="flex flex-row justify-between">
         <Breadcrumb
           :pathList="[
@@ -51,7 +53,7 @@ onBeforeMount(async () => {
           <Button>Create New Resident</Button>
         </router-link>
       </div>
-      <div class="relative bg-white p-10 space-y-4 shadow-md rounded ">
+      <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
         <h1 class="text-3xl font-semibold text-dark-blue-200">My Residents</h1>
         <p class="text-xs">This page will show all of your resident.</p>
         <Loading v-if="isLoading" />

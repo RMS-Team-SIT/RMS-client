@@ -30,6 +30,7 @@ onMounted(async () => {
         text: 'Failed to fetch resident data',
         type: 'error',
       });
+      router.push({ name: 'manage' });
     }
   } catch (error) {
     console.error(error);
@@ -39,6 +40,7 @@ onMounted(async () => {
       text: 'Failed to fetch resident data',
       type: 'error',
     });
+    router.push({ name: 'manage' });
   } finally {
     isLoading.value = false;
   }
@@ -67,7 +69,10 @@ const getChildData = (data) => {
 };
 
 const submitData = async () => {
-  const response = await ResidentServices.updateResident(residentId, residentData.data);
+  const response = await ResidentServices.updateResident(
+    residentId,
+    residentData.data
+  );
 
   if (response.status == 200) {
     notify({
@@ -92,11 +97,11 @@ const goBack = () => {
 </script>
 
 <template>
-  <div class="card w-full ">
+  <div class="card w-full">
     <div v-if="isLoading" class="flex justify-center items-center h-96">
       <Loading />
     </div>
-    <div v-else class="card-body px-10 md:px-40 ">
+    <div v-else class="card-body px-10 md:px-40">
       <div class="flex flex-row justify-between">
         <Breadcrumb
           :pathList="[
