@@ -70,6 +70,7 @@ const fetchData = async () => {
     rentalData.copyOfIdCard.fileName = data.copyOfIdCard;
     rentalData.rentalContract.fileName = data.rentalContract;
     rentalData.password = data.password;
+    rentalData.room = data.room;
   } else {
     const data = await response.json();
     notify({
@@ -239,6 +240,7 @@ onMounted(async () => {
             v-if="currentStep == 1"
             class="min-w-full"
             @deleteRental="deleteRental"
+            :canDelete="!rentalData.room"
           />
         </div>
 
