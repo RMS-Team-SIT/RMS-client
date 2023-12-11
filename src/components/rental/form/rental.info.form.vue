@@ -18,7 +18,7 @@ const props = defineProps({
 const rentalInfo = reactive({
   firstname: '',
   lastname: '',
-  email: '',
+  username: '',
   phone: '',
   password: '',
 });
@@ -100,14 +100,14 @@ watch(rentalInfo, () => {
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Rental Email <span class="text-red-500">*</span>
+          >Rental Username <span class="text-red-500">*</span>
         </span>
       </label>
       <input
-        type="email"
-        placeholder="Rental Email"
+        type="text"
+        placeholder="Rental Username"
         class="w-full input input-bordered bg-white input-sm rounded-sm"
-        v-model="rentalInfo.email"
+        v-model="rentalInfo.username"
         :disabled="viewOnly"
       />
     </div>

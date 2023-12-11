@@ -16,20 +16,6 @@ const props = defineProps({
     default: () => [],
   },
 });
-const rentalDataTableHeader = [
-  { text: 'Image', value: 'image' },
-  { text: 'Email', value: 'email' },
-  { text: 'firstname', value: 'firstname' },
-  { text: 'lastname', value: 'lastname' },
-  { text: 'Phone', value: 'phone' },
-  { text: 'Active', value: 'isActive' },
-  { text: 'Copy Of ID Card', value: 'copyOfIDCard' },
-  { text: 'Rental contract', value: 'rentalContract' },
-  { text: 'Created At', value: 'created_at', sortable: true },
-  { text: 'Updated At', value: 'updated_at', sortable: true },
-  { text: 'Edit', value: 'edit', sortable: false },
-];
-
 const rentalData = ref([]);
 
 onMounted(() => {
@@ -62,8 +48,6 @@ onMounted(() => {
         <Button btnType="primary">Add Rental</Button>
       </router-link>
     </div>
-
-    <!-- <Datatable :headers="rentalDataTableHeader" :items="rentalData" /> -->
     <RentalListTable :rentals="rentalData" :residentId="residentId" />
   </div>
 </template>

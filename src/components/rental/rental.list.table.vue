@@ -27,7 +27,6 @@ const computedRentals = computed(() => {
   return props.rentals.slice(start, end);
 });
 
-
 const changePage = (page) => {
   if (page >= 1 && page <= totalPages.value) {
     currentPage.value = page;
@@ -72,7 +71,7 @@ const visiblePages = computed(() => {
           <tr>
             <th>#</th>
             <th>Name</th>
-            <th>Email</th>
+            <th>Username</th>
             <th>Phone</th>
             <th>Active</th>
             <th>Current Room</th>
@@ -92,7 +91,7 @@ const visiblePages = computed(() => {
               <span> {{ rental.firstname }} {{ rental.lastname }}</span>
             </td>
             <td>
-              {{ rental.email }}
+              {{ rental.username }}
             </td>
             <td>{{ rental.phone }}</td>
             <td>
@@ -166,11 +165,6 @@ const visiblePages = computed(() => {
               >
                 <Button btnType="ghost-pill">Edit</Button>
               </router-link>
-            </th>
-            <th>
-              <Button btnType="ghost-pill" @click="deleteRental(rental._id)">
-                Delete
-              </Button>
             </th>
           </tr>
         </tbody>
