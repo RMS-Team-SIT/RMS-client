@@ -1,5 +1,6 @@
 <script setup>
-import { computed, onMounted, reactive, watch } from 'vue';
+import Loading from '@/components/common/loading.vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 const emit = defineEmits(['getData']);
@@ -18,17 +19,29 @@ const props = defineProps({
   },
 });
 
+const isLoading = ref(true);
+
 const roomInfo = reactive({
   id: null,
   currentRental: null,
 });
 
 const availableRental = computed(() => {
-  return props.rentalData.filter(
-    (rental) =>
-      rental._id != roomInfo.currentRental &&
-      (!rental.room || rental.room == roomInfo.id)
-  );
+  return props.rentalData.filter((rental) => {
+    console.log(
+      'rental._id: ' + rental._id,
+      'roomInfo.currentRental: ' + roomInfo.currentRental
+    );
+    console.log(
+      'rental.room' + JSON.stringify(rental.room),
+      '\nroomInfo.id: ' + roomInfo.id
+    );
+    console.log('===');
+    return (
+      rental._id != roomInfo.currentRental && 
+      (!rental.room || rental.room._id == roomInfo.id)
+    );
+  });
 });
 const emitData = () => {
   emit('getData', roomInfo);
@@ -50,6 +63,7 @@ const removeRental = (index) => {
 
 onMounted(() => {
   setDataFromProps();
+  isLoading.value = false;
 });
 
 watch(roomInfo, () => {
@@ -58,7 +72,10 @@ watch(roomInfo, () => {
 </script>
 
 <template>
-  <div class="relative bg-white p-10 space-y-4 shadow-lg rounded">
+  <div v-if="isLoading" class="flex justify-center items-center min-h-screen">
+    <Loading />
+  </div>
+  <div class="relative bg-white p-10 space-y-4 shadow-lg rounded" v-else>
     <h1 class="text-xl font-semibold text-dark-blue-200">
       Room Current Rental
     </h1>
@@ -82,7 +99,7 @@ watch(roomInfo, () => {
             <span class="text-sm font-semibold text-dark-blue-200"
               >{{ rental.firstname }} {{ rental.lastname }}</span
             >
-            <span class="text-xs text-gray-400">{{ rental.email }}</span>
+            <span class="text-xs text-gray-400">{{ rental.username }}</span>
           </div>
         </div>
         <div class="flex flex-row items-center gap-4">

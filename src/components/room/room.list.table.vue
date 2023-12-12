@@ -51,10 +51,20 @@ const props = defineProps({
             </span>
           </td>
           <td>
-            <span v-if="room.currentRental">
+            <router-link
+              v-if="room.currentRental"
+              class="text-dark-blue-200 underline"
+              :to="{
+                name: 'update-rental',
+                params: {
+                  residentId: $route.params.residentId,
+                  rentalId: room.currentRental._id,
+                },
+              }"
+            >
               {{ room.currentRental.firstname }}
               {{ room.currentRental.lastname }}
-            </span>
+            </router-link>
             <span v-else class="text-red-500"> No Rental </span>
           </td>
           <td>{{ room.floor }}</td>
