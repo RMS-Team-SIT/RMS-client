@@ -27,21 +27,11 @@ const roomInfo = reactive({
 });
 
 const availableRental = computed(() => {
-  return props.rentalData.filter((rental) => {
-    console.log(
-      'rental._id: ' + rental._id,
-      'roomInfo.currentRental: ' + roomInfo.currentRental
-    );
-    console.log(
-      'rental.room' + JSON.stringify(rental.room),
-      '\nroomInfo.id: ' + roomInfo.id
-    );
-    console.log('===');
-    return (
-      rental._id != roomInfo.currentRental && 
+  return props.rentalData.filter(
+    (rental) =>
+      rental._id != roomInfo.currentRental &&
       (!rental.room || rental.room._id == roomInfo.id)
-    );
-  });
+  );
 });
 const emitData = () => {
   emit('getData', roomInfo);
