@@ -157,7 +157,8 @@ onMounted(async () => {
               pathName: 'manage-resident',
               params: { residentId },
             },
-            { name: 'Create Room' },
+            { name: 'Update Room' },
+            { name: roomId },
           ]"
         />
       </div>
