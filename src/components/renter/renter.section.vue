@@ -1,6 +1,6 @@
 <script setup>
 import Datatable from '../common/datatable.vue';
-import RentalListTable from './renter.list.table.vue';
+import RenterListTable from './renter.list.table.vue';
 import Button from '@/components/common/button.vue';
 import dayjs from 'dayjs';
 import blankprofile from '@/assets/img/bp.webp';
@@ -11,23 +11,23 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  rentals: {
+  renters: {
     type: Array,
     default: () => [],
   },
 });
-const rentalData = ref([]);
+const renterData = ref([]);
 
 onMounted(() => {
   // parse the date
-  rentalData.value = props.rentals.map((rental, index) => {
+  renterData.value = props.renters.map((renter, index) => {
     return {
-      ...rental,
+      ...renter,
       index,
-      image: rental.image ?? blankprofile,
-      created_at: dayjs(rental.created_at).format('MM-DD-YYYY HH:mm:ss'),
-      updated_at: dayjs(rental.updated_at).format('MM-DD-YYYY HH:mm:ss'),
-      edit: rental._id,
+      image: renter.image ?? blankprofile,
+      created_at: dayjs(renter.created_at).format('MM-DD-YYYY HH:mm:ss'),
+      updated_at: dayjs(renter.updated_at).format('MM-DD-YYYY HH:mm:ss'),
+      edit: renter._id,
     };
   });
 });
@@ -36,19 +36,19 @@ onMounted(() => {
 <template>
   <div class="bg-white p-10 mt-2 shadow rounded-lg">
     <div class="flex justify-between">
-      <h1 class="text-2xl font-semibold text-dark-blue-200">Rentals</h1>
+      <h1 class="text-2xl font-semibold text-dark-blue-200">Renters</h1>
       <router-link
         :to="{
-          name: 'create-rental',
+          name: 'create-renter',
           params: {
             residenceId,
           },
         }"
       >
-        <Button btnType="primary">Add Rental</Button>
+        <Button btnType="primary">Add Renter</Button>
       </router-link>
     </div>
-    <RentalListTable :rentals="rentalData" :residenceId="residenceId" />
+    <RenterListTable :renters="renterData" :residenceId="residenceId" />
   </div>
 </template>
 

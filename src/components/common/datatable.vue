@@ -34,9 +34,9 @@ const props = defineProps({
     <template #item-edit="{ edit }">
       <router-link
         :to="{
-          name: 'update-rental',
+          name: 'update-renter',
           params: {
-            rentalId: edit,
+            renterId: edit,
           },
         }"
       >
@@ -53,9 +53,9 @@ const props = defineProps({
       </div>
     </template>
 
-    <template #item-rentalContract="{ rentalContract }">
-      <div v-if="rentalContract">
-        <ModalPdf :fileName="rentalContract" />
+    <template #item-renterContract="{ renterContract }">
+      <div v-if="renterContract">
+        <ModalPdf :fileName="renterContract" />
       </div>
       <div v-else>
         <span class="text-red-500">No file</span>

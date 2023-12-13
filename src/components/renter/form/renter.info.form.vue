@@ -2,10 +2,12 @@
 import Button from '@/components/common/button.vue';
 import { onMounted, reactive, watch } from 'vue';
 import { generatePassword } from '@/utils/password.util';
+import Divider from '@/components/common/divider.vue';
+
 const emit = defineEmits(['getData']);
 
 const props = defineProps({
-  rentalData: {
+  renterData: {
     type: Object,
     default: () => ({}),
   },
@@ -15,7 +17,7 @@ const props = defineProps({
   },
 });
 
-const rentalInfo = reactive({
+const renterInfo = reactive({
   firstname: '',
   lastname: '',
   username: '',
@@ -24,45 +26,45 @@ const rentalInfo = reactive({
 });
 
 const emitData = () => {
-  emit('getData', rentalInfo);
+  emit('getData', renterInfo);
 };
 
 const setDataFromProps = () => {
-  for (const key in props.rentalData) {
-    if (key in rentalInfo) rentalInfo[key] = props.rentalData[key];
+  for (const key in props.renterData) {
+    if (key in renterInfo) renterInfo[key] = props.renterData[key];
   }
 };
 
 const generateAndSetPassword = () => {
   const password = generatePassword(6);
-  rentalInfo.password = password;
+  renterInfo.password = password;
 };
 
 onMounted(() => {
   setDataFromProps();
 });
 
-watch(rentalInfo, () => {
+watch(renterInfo, () => {
   emitData();
 });
 </script>
 
 <template>
   <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
-    <h1 class="text-xl font-semibold text-dark-blue-200">Rental Information</h1>
-    <p class="text-xs">Please input rental basic information.</p>
+    <h1 class="text-xl font-semibold text-dark-blue-200">Renter Information</h1>
+    <p class="text-xs">Please input renter basic information.</p>
 
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Rental Firstname <span class="text-red-500">*</span>
+          >Renter Firstname <span class="text-red-500">*</span>
         </span>
       </label>
       <input
         type="text"
-        placeholder="Rental Firstname"
+        placeholder="Renter Firstname"
         class="w-full input input-bordered bg-white input-sm rounded-sm"
-        v-model="rentalInfo.firstname"
+        v-model="renterInfo.firstname"
         :disabled="viewOnly"
       />
     </div>
@@ -70,14 +72,14 @@ watch(rentalInfo, () => {
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Rental Lastname <span class="text-red-500">*</span>
+          >Renter Lastname <span class="text-red-500">*</span>
         </span>
       </label>
       <input
         type="text"
-        placeholder="Rental Lastname"
+        placeholder="Renter Lastname"
         class="w-full input input-bordered bg-white input-sm rounded-sm"
-        v-model="rentalInfo.lastname"
+        v-model="renterInfo.lastname"
         :disabled="viewOnly"
       />
     </div>
@@ -85,14 +87,31 @@ watch(rentalInfo, () => {
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Rental Phone <span class="text-red-500">*</span>
+          >Renter Phone <span class="text-red-500">*</span>
         </span>
       </label>
       <input
         type="text"
-        placeholder="Rental Phone"
+        placeholder="Renter Phone"
         class="w-full input input-bordered bg-white input-sm rounded-sm"
-        v-model="rentalInfo.phone"
+        v-model="renterInfo.phone"
+        :disabled="viewOnly"
+      />
+    </div>
+
+    <h1 class="text-xl mt-2 font-semibold text-dark-blue-200">Renter Account Login</h1>
+    <p class="text-xs">Please input renter basic information.</p>
+    <div>
+      <label class="label">
+        <span class="text-base label-text"
+          >Renter Username <span class="text-red-500">*</span>
+        </span>
+      </label>
+      <input
+        type="text"
+        placeholder="Renter Username"
+        class="w-full input input-bordered bg-white input-sm rounded-sm"
+        v-model="renterInfo.username"
         :disabled="viewOnly"
       />
     </div>
@@ -100,30 +119,15 @@ watch(rentalInfo, () => {
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Rental Username <span class="text-red-500">*</span>
-        </span>
-      </label>
-      <input
-        type="text"
-        placeholder="Rental Username"
-        class="w-full input input-bordered bg-white input-sm rounded-sm"
-        v-model="rentalInfo.username"
-        :disabled="viewOnly"
-      />
-    </div>
-
-    <div>
-      <label class="label">
-        <span class="text-base label-text"
-          >Rental Password <span class="text-red-500">*</span>
+          >Renter Password <span class="text-red-500">*</span>
         </span>
       </label>
       <div class="flex gap-2">
         <input
           type="text"
-          placeholder="Rental password"
+          placeholder="Renter password"
           class="w-full input input-bordered bg-white input-sm rounded-sm"
-          v-model="rentalInfo.password"
+          v-model="renterInfo.password"
           :disabled="viewOnly"
         />
         <Button
@@ -133,8 +137,9 @@ watch(rentalInfo, () => {
           >Generate Password</Button
         >
       </div>
-      <p class="text-xs text-gray-500 mt-2">* Rental email and password used to login to your rental system.</p>
-
+      <p class="text-xs text-gray-500 mt-2">
+        * Renter email and password used to login to your renter system.
+      </p>
     </div>
   </div>
 </template>
