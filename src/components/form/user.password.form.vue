@@ -19,25 +19,12 @@ const formData = reactive({
   newPassword: '',
 });
 
-const setDataFromProps = () => {
-  for (const key in props.userData) {
-    if (key in formData) formData[key] = props.userData[key];
-  }
-};
-
-onMounted(() => {
-  setDataFromProps();
-});
-
 const strongPassword = () => {
   return passwordRules.value.every((rule) => rule.valid.value);
 };
 
 const rules = computed(() => {
   return {
-    firstname: { required, maxLength: maxLength(500) },
-    lastname: { required, maxLength: maxLength(500) },
-    email: { required, email },
     oldPassword: { required },
     newPassword: {
       required,
@@ -46,7 +33,6 @@ const rules = computed(() => {
         strongPassword
       ),
     },
-    phone: { required },
   };
 });
 
@@ -85,7 +71,10 @@ const validateErrorMsg = (field) => {
 
 const submit = async () => {
   const result = await validator.value.$validate();
+  console.log(result);
+  console.log(validator.value);
   if (result) emit('submitData', formData);
+  console.log('emit called');
 };
 
 </script>

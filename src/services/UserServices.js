@@ -14,6 +14,8 @@ class UserService {
 
   update = async (id, data) => sendRequest(this.baseUrl, `/users/${id}`, 'PUT', data);
 
+  updatePassword = async (id, data) => sendRequest(this.baseUrl, `/users/${id}/update-password`, 'PUT', data);
+
   forgetPassword = async (data) => sendRequest(this.baseUrl, '/users/forget-password', 'POST', data);
 
   resetPassword = async (token, data) => sendRequest(this.baseUrl, `/users/reset-password/${token}`, 'POST', data);

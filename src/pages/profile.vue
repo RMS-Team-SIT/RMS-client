@@ -9,9 +9,10 @@ import UserPasswordFormVue from '@/components/form/user.password.form.vue';
 import { getDate } from '@/utils';
 import UserService from '@/services/UserServices.js';
 import { CameraIcon } from '@heroicons/vue/24/outline';
-import Modal from '@/components/common/modal.vue';
+import { useRouter } from 'vue-router';
 
 const isLoading = ref(true);
+const router = useRouter();
 const { notify } = useNotification();
 
 const userData = reactive({
@@ -21,6 +22,8 @@ const userData = reactive({
     lastname: '',
     email: '',
     phone: '',
+    oldPassword: '',
+    newPassword: '',
   },
 });
 
@@ -59,6 +62,45 @@ const updateUser = async (data) => {
   }
 };
 
+const updatePassword = async (data) =>{
+  console.log(data);
+  console.log('upd pass');
+  const { _id } = userData.data;
+
+  try {
+    const response = await UserService.updatePassword(_id, data);
+
+    if (response.ok) {
+      const result = await response.json();
+      userData.data = result;
+      notify({
+        group: 'tr',
+        title: 'Success',
+        text: 'Update user password successful',
+        type: 'success',
+      });
+      // TODO: refresh page
+      router.go();
+    } else {
+      const result = await response.json();
+      notify({
+        group: 'tr',
+        title: 'Error',
+        text: `Update user password failed (${response.status}), ${result.message}`,
+        type: 'error',
+      });
+    }
+  } catch (error) {
+    console.error('An error occurred during the update:', error);
+    notify({
+      group: 'tr',
+      title: 'Error',
+      text: 'An unexpected error occurred during the update',
+      type: 'error',
+    });
+  }
+}
+
 onMounted(async () => {
   const response = await UserService.me();
   if (response.status === 200) {
@@ -79,7 +121,7 @@ onMounted(async () => {
 <template>
   <Loading v-if="isLoading" />
   <div v-else class="card w-full">
-    <div class="card-body px-10 md:px-40 ">
+    <div class="card-body px-10 md:px-40">
       <div class="flex flex-row justify-between">
         <Breadcrumb
           :pathList="[
@@ -108,7 +150,7 @@ onMounted(async () => {
         </div>
         <div class="basis-2/3">
           <UserInfoForm :userData="userData.data" @submit-data="updateUser" />
-          <UserPasswordFormVue @submit-data="updateUser" />
+          <UserPasswordFormVue @submit-data="updatePassword" />
         </div>
       </div>
     </div>
