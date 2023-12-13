@@ -1,6 +1,5 @@
 <script setup>
 import img6 from '@/assets/img/6.jpg';
-
 </script>
 
 <template>
