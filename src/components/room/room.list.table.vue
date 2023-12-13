@@ -28,7 +28,7 @@ const props = defineProps({
           <th>#</th>
           <th>Name</th>
           <th>Description</th>
-          <th>Rental</th>
+          <th>Renter</th>
           <th>Floor</th>
           <th>Water Price Rate</th>
           <th>Light Price Rate</th>
@@ -52,20 +52,20 @@ const props = defineProps({
           </td>
           <td>
             <router-link
-              v-if="room.currentRental"
+              v-if="room.currentRenter"
               class="text-dark-blue-200 underline"
               :to="{
-                name: 'update-rental',
+                name: 'update-renter',
                 params: {
-                  residentId: $route.params.residentId,
-                  rentalId: room.currentRental._id,
+                  residenceId: $route.params.residenceId,
+                  renterId: room.currentRenter._id,
                 },
               }"
             >
-              {{ room.currentRental.firstname }}
-              {{ room.currentRental.lastname }}
+              {{ room.currentRenter.firstname }}
+              {{ room.currentRenter.lastname }}
             </router-link>
-            <span v-else class="text-red-500"> No Rental </span>
+            <span v-else class="text-red-500"> No Renter </span>
           </td>
           <td>{{ room.floor }}</td>
           <td>
@@ -91,7 +91,7 @@ const props = defineProps({
             <Badge badgeType="primary" v-else>Custom</Badge>
           </td>
           <td>
-            <Badge badgeType="success" v-if="!room.currentRental"
+            <Badge badgeType="success" v-if="!room.currentRenter"
               >Available</Badge
             >
             <Badge badgeType="error" v-else>Not Available</Badge>
@@ -105,7 +105,7 @@ const props = defineProps({
               :to="{
                 name: 'update-room',
                 params: {
-                  residentId: $route.params.residentId,
+                  residenceId: $route.params.residenceId,
                   roomId: room._id,
                 },
               }"
@@ -113,19 +113,6 @@ const props = defineProps({
               <Button btnType="ghost-pill">Edit</Button>
             </router-link>
           </th>
-          <!-- <th>
-            <router-link
-              :to="{
-                name: 'update-room',
-                params: {
-                  residentId: $route.params.residentId,
-                  roomId: room._id,
-                },
-              }"
-            >
-              <Button btnType="ghost-pill">Edit</Button>
-            </router-link>
-          </th> -->
         </tr>
       </tbody>
     </table>

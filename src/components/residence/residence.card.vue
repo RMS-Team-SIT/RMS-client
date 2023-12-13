@@ -1,5 +1,5 @@
 <script setup>
-import ResidentStat from '@/components/resident/resident.stat.vue';
+import ResidenceStat from '@/components/residence/residence.stat.vue';
 import Button from '@/components/common/button.vue';
 import img4 from '@/assets/img/4.jpg';
 import { useRoute, useRouter } from 'vue-router';
@@ -10,20 +10,20 @@ const router = useRouter();
 const route = useRoute();
 
 const props = defineProps({
-  resident: {
+  residence: {
     type: Object,
     default: {},
   },
 });
 
-const gotoManage = (residentId) => {
-  router.push(`/manage/resident/${residentId}`);
+const gotoManage = (residenceId) => {
+  router.push(`/manage/residence/${residenceId}`);
 };
 const imageSrc = computed(() => {
-  if (props.resident.images.length === 0) {
+  if (props.residence.images.length === 0) {
     return img4;
   }
-  return FileService.getFile(props.resident.images[0]);
+  return FileService.getFile(props.residence.images[0]);
   
 });
 </script>
@@ -34,23 +34,23 @@ const imageSrc = computed(() => {
       <img class="w-60 h-60 rounded-lg shadow-xl" :src="imageSrc" />
     </figure>
     <div class="card-body">
-      <h2 class="card-title">Resident Name : {{ props.resident?.name }}</h2>
-      <p>Description : {{ props.resident?.description }}</p>
-      <p v-if="props.resident?.contact?.address">
-        Address : {{ props.resident.contact.address }}
+      <h2 class="card-title">Residence Name : {{ props.residence?.name }}</h2>
+      <p>Description : {{ props.residence?.description }}</p>
+      <p v-if="props.residence?.contact?.address">
+        Address : {{ props.residence.contact.address }}
       </p>
       <div class="card-actions justify-between items-center">
-        <ResidentStat
+        <ResidenceStat
           :stats="{
-            numberOfRooms: props.resident?.rooms?.length ?? 0,
-            numberOfFloors: props.resident?.floors?.length ?? 0,
-            numberOfRentals: props.resident?.rentals?.length ?? 0,
+            numberOfRooms: props.residence?.rooms?.length ?? 0,
+            numberOfFloors: props.residence?.floors?.length ?? 0,
+            numberOfRenters: props.residence?.renters?.length ?? 0,
           }"
         />
         <Button
           class="btn"
           btnType="secondary"
-          @click="gotoManage(props.resident._id)"
+          @click="gotoManage(props.residence._id)"
           >Manage</Button
         >
       </div>

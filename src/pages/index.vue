@@ -32,7 +32,7 @@ import img6 from '@/assets/img/6.jpg';
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         <!-- Service Card -->
         <div class="p-6 bg-white rounded-lg shadow-md">
-          <h3 class="text-xl font-semibold mb-2">Manage your resident</h3>
+          <h3 class="text-xl font-semibold mb-2">Manage your residence</h3>
           <p class="text-gray-700">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           </p>

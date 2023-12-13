@@ -2,32 +2,32 @@
 import Breadcrumb from '@/components/common/breadcrumb.vue';
 import { onBeforeMount, onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import ResidentBasicInfoForm from '@/components/resident/form/resident.basic.info.form.vue';
-import ResidentContactForm from '@/components/resident/form/resident.contact.form.vue';
-import ResidentSettingForm from '@/components/resident/form/resident.setting.form.vue';
+import ResidenceBasicInfoForm from '@/components/residence/form/residence.basic.info.form.vue';
+import ResidenceContactForm from '@/components/residence/form/residence.contact.form.vue';
+import ResidenceSettingForm from '@/components/residence/form/residence.setting.form.vue';
 import Button from '@/components/common/button.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 import Loading from '@/components/common/loading.vue';
 import { useNotification } from '@kyvg/vue3-notification';
-import ResidentServices from '@/services/ResidentServices';
+import ResidenceServices from '@/services/ResidenceServices';
 
 const router = useRouter();
 const route = useRoute();
-const residentId = route.params.residentId;
+const residenceId = route.params.residenceId;
 const isLoading = ref(true);
 const { notify } = useNotification();
 
 onMounted(async () => {
   try {
-    const response = await ResidentServices.fetchResident(residentId);
+    const response = await ResidenceServices.fetchResidence(residenceId);
     if (response.status === 200) {
       let result = await response.json();
-      residentData.data = result;
+      residenceData.data = result;
     } else {
       notify({
         group: 'tr',
         title: 'Error',
-        text: 'Failed to fetch resident data',
+        text: 'Failed to fetch residence data',
         type: 'error',
       });
       router.push({ name: 'manage' });
@@ -37,7 +37,7 @@ onMounted(async () => {
     notify({
       group: 'tr',
       title: 'Error',
-      text: 'Failed to fetch resident data',
+      text: 'Failed to fetch residence data',
       type: 'error',
     });
     router.push({ name: 'manage' });
@@ -46,7 +46,7 @@ onMounted(async () => {
   }
 });
 
-const residentData = reactive({
+const residenceData = reactive({
   data: {
     name: '',
     description: '',
@@ -64,21 +64,21 @@ const residentData = reactive({
 
 const getChildData = (data) => {
   for (const key in data) {
-    residentData.data[key] = data[key];
+    residenceData.data[key] = data[key];
   }
 };
 
 const submitData = async () => {
-  const response = await ResidentServices.updateResident(
-    residentId,
-    residentData.data
+  const response = await ResidenceServices.updateResidence(
+    residenceId,
+    residenceData.data
   );
 
   if (response.status == 200) {
     notify({
       group: 'tr',
       title: 'Success',
-      text: 'Resident updated successfully',
+      text: 'Residence updated successfully',
       type: 'success',
     });
     goBack();
@@ -86,7 +86,7 @@ const submitData = async () => {
     notify({
       group: 'tr',
       title: 'Error',
-      text: 'Failed to update resident',
+      text: 'Failed to update residence',
       type: 'error',
     });
   }
@@ -107,24 +107,24 @@ const goBack = () => {
           :pathList="[
             { name: 'Home', pathName: 'home' },
             { name: 'Manage', pathName: 'manage' },
-            { name: 'Update Resident' },
-            { name: residentId },
+            { name: 'Update Residence' },
+            { name: residenceId },
           ]"
         />
       </div>
       <div>
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-2">
-          <ResidentBasicInfoForm
+          <ResidenceBasicInfoForm
             @getData="getChildData"
-            :residentData="residentData.data"
+            :residenceData="residenceData.data"
           />
-          <ResidentContactForm
+          <ResidenceContactForm
             @getData="getChildData"
-            :residentData="residentData.data"
+            :residenceData="residenceData.data"
           />
-          <ResidentSettingForm
+          <ResidenceSettingForm
             @getData="getChildData"
-            :residentData="residentData.data"
+            :residenceData="residenceData.data"
           />
         </div>
 
@@ -143,3 +143,4 @@ const goBack = () => {
 </template>
 
 <style scoped></style>
+@/services/ResidenceServices

@@ -2,31 +2,31 @@
 import Breadcrumb from '@/components/common/breadcrumb.vue';
 import Button from '@/components/common/button.vue';
 import { onBeforeMount, onMounted, reactive, ref } from 'vue';
-import ResidentCard from '@/components/resident/resident.card.vue';
+import ResidenceCard from '@/components/residence/residence.card.vue';
 import { useUserStore } from '@/stores/user.store';
 import Loading from '@/components/common/loading.vue';
 import { useNotification } from '@kyvg/vue3-notification';
-import ResidentServices from '@/services/ResidentServices';
+import ResidenceServices from '@/services/ResidenceServices';
 import { useRouter } from 'vue-router';
 
 const userStore = useUserStore();
 const router = useRouter();
 const isLoading = ref(true);
-const residents = reactive({
+const residences = reactive({
   data: null,
 });
 const { notify } = useNotification();
 
 const fetch = async () => {
-  const response = await ResidentServices.fetchMyResidents();
+  const response = await ResidenceServices.fetchMyResidences();
   if (response.status === 200) {
     let result = await response.json();
-    residents.data = result;
+    residences.data = result;
   } else {
     notify({
       group: 'tr',
       title: 'Error',
-      text: 'Failed to fetch residents',
+      text: 'Failed to fetch residences',
       type: 'error',
     });
   }
@@ -46,30 +46,30 @@ onBeforeMount(async () => {
           :pathList="[
             { name: 'Home', pathName: 'home' },
             { name: 'Manage', pathName: 'manage' },
-            { name: 'My Resident' },
+            { name: 'My Residences' },
           ]"
         />
-        <router-link :to="{ name: 'create-resident' }">
-          <Button>Create New Resident</Button>
+        <router-link :to="{ name: 'create-residence' }">
+          <Button>Create New Residence</Button>
         </router-link>
       </div>
       <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
-        <h1 class="text-3xl font-semibold text-dark-blue-200">My Residents</h1>
-        <p class="text-xs">This page will show all of your resident.</p>
+        <h1 class="text-3xl font-semibold text-dark-blue-200">My Residences</h1>
+        <p class="text-xs">This page will show all of your residence.</p>
         <Loading v-if="isLoading" />
-        <ResidentCard
-          v-for="(resident, index) in residents.data"
+        <ResidenceCard
+          v-for="(residence, index) in residences.data"
           :key="index"
-          :resident="resident"
+          :residence="residence"
         />
         <p
-          v-if="residents.data && residents.data.length == 0"
+          v-if="residences.data && residences.data.length == 0"
           class="text-center text-sm p-10"
         >
-          No resident found. Please
+          No residence found. Please
           <span class="underline text-dark-blue-200 cursor-pointer">
-            <router-link :to="{ name: 'create-resident' }">
-              create new resident
+            <router-link :to="{ name: 'create-residence' }">
+              create new residence
             </router-link>
           </span>
           .
@@ -80,3 +80,4 @@ onBeforeMount(async () => {
 </template>
 
 <style scoped></style>
+@/services/ResidenceServices

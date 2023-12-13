@@ -7,31 +7,31 @@ import Button from '@/components/common/button.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 import ImagePreview from '@/components/common/image.preview.vue';
 import { useNotification } from '@kyvg/vue3-notification';
-import ResidentServices from '@/services/ResidentServices';
-import RentalInfoForm from '@/components/rental/form/rental.info.form.vue';
-import RentalFilesForm from '@/components/rental/form/rental.files.form.vue';
+import ResidenceServices from '@/services/ResidenceServices';
+import RenterInfoForm from '@/components/renter/form/renter.info.form.vue';
+import RenterFilesForm from '@/components/renter/form/renter.files.form.vue';
 import FileService from '@/services/FileService';
 import Loading from '@/components/common/loading.vue';
-import RentalDeleteForm from '@/components/rental/form/rental.delete.form.vue';
+import RenterDeleteForm from '@/components/renter/form/renter.delete.form.vue';
 
 const router = useRouter();
 const route = useRoute();
-const residentId = route.params.residentId;
-const rentalId = route.params.rentalId;
+const residenceId = route.params.residenceId;
+const renterId = route.params.renterId;
 const numberOfSteps = 2;
 const currentStep = ref(1);
 const { notify } = useNotification();
 const swal = inject('$swal');
 const isLoading = ref(true);
 
-const rentalData = reactive({
+const renterData = reactive({
   firstname: '',
   lastname: '',
   username: '',
   phone: '',
   image: null,
   copyOfIdCard: { fileName: null, file: null, isEdited: false },
-  rentalContract: { fileName: null, file: null, isEdited: false },
+  renterContract: { fileName: null, file: null, isEdited: false },
   password: '',
 });
 
@@ -51,47 +51,45 @@ const changeStep = (action) => {
 
 const getChildData = (data) => {
   for (const key in data) {
-    rentalData[key] = data[key];
+    renterData[key] = data[key];
   }
 };
 
 const fetchData = async () => {
-  const response = await ResidentServices.fetchOneRentalInResident(
-    residentId,
-    rentalId
+  const response = await ResidenceServices.fetchOneRenter(
+    residenceId,
+    renterId
   );
   if (response.status == 200) {
     const data = await response.json();
     console.log(data);
-    rentalData.firstname = data.firstname;
-    rentalData.lastname = data.lastname;
-    rentalData.username = data.username;
-    rentalData.phone = data.phone;
-    rentalData.image = data.image;
-    rentalData.copyOfIdCard.fileName = data.copyOfIdCard;
-    rentalData.rentalContract.fileName = data.rentalContract;
-    rentalData.password = data.password;
-    rentalData.room = data.room;
+    renterData.firstname = data.firstname;
+    renterData.lastname = data.lastname;
+    renterData.username = data.username;
+    renterData.phone = data.phone;
+    renterData.image = data.image;
+    renterData.copyOfIdCard.fileName = data.copyOfIdCard;
+    renterData.renterContract.fileName = data.renterContract;
+    renterData.password = data.password;
+    renterData.room = data.room;
   } else {
     const data = await response.json();
     notify({
       group: 'tr',
       title: 'Error',
-      text: 'Failed to fetch rental data: ' + data?.message,
+      text: 'Failed to fetch renter data: ' + data?.message,
       type: 'error',
     });
-    router.push({ name: 'manage-resident', params: { residentId } });
+    router.push({ name: 'manage-residence', params: { residenceId: residenceId } });
   }
 };
 
 const submitData = async () => {
   // Upload files if file changes or exist
-  console.log('rentalData.copyOfIdCard.file', rentalData.copyOfIdCard.file);
-  console.log('rentalData.copyOfIdCard.file', rentalData.copyOfIdCard.file);
-  if (rentalData.copyOfIdCard.file) {
+  if (renterData.copyOfIdCard.file) {
     // upload file
     const uploadFileResponse = await FileService.uploadPdf(
-      rentalData.copyOfIdCard.file
+      renterData.copyOfIdCard.file
     );
     if (uploadFileResponse.status != 201) {
       notify({
@@ -103,12 +101,12 @@ const submitData = async () => {
       return;
     } else {
       const data = await uploadFileResponse.json();
-      rentalData.copyOfIdCard.fileName = data.fileName;
+      renterData.copyOfIdCard.fileName = data.fileName;
     }
   }
-  if (rentalData.rentalContract.file) {
+  if (renterData.renterContract.file) {
     const uploadFileResponse = await FileService.uploadPdf(
-      rentalData.rentalContract.file
+      renterData.renterContract.file
     );
     if (uploadFileResponse.status != 201) {
       const data = await response.json();
@@ -121,62 +119,62 @@ const submitData = async () => {
       return;
     } else {
       const data = await uploadFileResponse.json();
-      rentalData.rentalContract.fileName = data.fileName;
+      renterData.renterContract.fileName = data.fileName;
     }
   }
   // end of upload files
 
-  const response = await ResidentServices.updateRentalByResidentIdAndRentalId(
-    residentId,
-    rentalId,
+  const response = await ResidenceServices.updateRenter(
+    residenceId,
+    renterId,
     {
-      ...rentalData,
-      copyOfIdCard: rentalData.copyOfIdCard.fileName,
-      rentalContract: rentalData.rentalContract.fileName,
+      ...renterData,
+      copyOfIdCard: renterData.copyOfIdCard.fileName,
+      renterContract: renterData.renterContract.fileName,
     }
   );
   if (response.status == 200) {
     notify({
       group: 'tr',
       title: 'Success',
-      text: 'Rental update successfully',
+      text: 'Renter update successfully',
       type: 'success',
     });
-    router.push({ name: 'manage-resident', params: { residentId } });
+    router.push({ name: 'manage-residence', params: { residenceId: residenceId } });
   } else {
     const data = await response.json();
     notify({
       group: 'tr',
       title: 'Error',
-      text: 'Failed to update Rental: ' + data?.message,
+      text: 'Failed to update Renter: ' + data?.message,
       type: 'error',
     });
   }
 };
 
-const deleteRental = async () => {
+const deleteRenter = async () => {
   try {
-    const response = await ResidentServices.deleteRentalInResident(
-      residentId,
-      rentalId
+    const response = await ResidenceServices.deleteRenter(
+      residenceId,
+      renterId
     );
     if (response.status == 200) {
       swal.fire({
         title: 'Success',
-        text: 'Rental deleted',
+        text: 'Renter deleted',
         icon: 'success',
       });
       notify({
         title: 'Success',
-        text: 'Rental deleted',
+        text: 'Renter deleted',
         type: 'success',
       });
-      router.push({ name: 'manage-resident', params: { residentId } });
+      router.push({ name: 'manage-residence', params: { residenceId: residenceId } });
     } else {
       const data = await response.json();
       notify({
-        title: 'Error Delete Rental',
-        text: 'Error Delete Rental, ' + data?.message,
+        title: 'Error Delete Renter',
+        text: 'Error Delete Renter, ' + data?.message,
         type: 'error',
         group: 'tr',
       });
@@ -207,58 +205,58 @@ onMounted(async () => {
             { name: 'Home', pathName: 'home' },
             { name: 'Manage', pathName: 'manage' },
             {
-              name: 'Resident',
-              pathName: 'manage-resident',
-              params: { residentId },
+              name: 'Residence',
+              pathName: 'manage-residence',
+              params: { residenceId },
             },
-            { name: 'Update Rental' },
-            { name: rentalId },
+            { name: 'Update Renter' },
+            { name: renterId },
           ]"
         />
       </div>
       <div>
         <div class="p-4 mb-4 card shadow-md bg-white">
           <Steps
-            :stepList="['Rental Infomation', 'Review Rental']"
+            :stepList="['Renter Infomation', 'Review Renter']"
             :currentStep="currentStep"
           />
         </div>
         <!-- step 1 -->
         <div v-if="currentStep == 1" class="flex gap-1">
-          <RentalInfoForm
+          <RenterInfoForm
             class="basis-1/2"
             @getData="getChildData"
-            :rentalData="rentalData"
+            :renterData="renterData"
           />
-          <RentalFilesForm
+          <RenterFilesForm
             class="basis-1/2"
             @getData="getChildData"
-            :rentalData="rentalData"
+            :renterData="renterData"
           />
         </div>
         <div v-if="currentStep == 1" class="flex gap-1 min-w-full mt-1">
-          <RentalDeleteForm
+          <RenterDeleteForm
             v-if="currentStep == 1"
             class="min-w-full"
-            @deleteRental="deleteRental"
-            :canDelete="!rentalData.room"
-            :room="rentalData.room"
+            @deleteRenter="deleteRenter"
+            :canDelete="!renterData.room"
+            :room="renterData.room"
           />
         </div>
 
         <!-- step 2 -->
         <div v-if="currentStep == 2" class="flex gap-4 flex-col">
           <div class="flex gap-4">
-            <RentalInfoForm
+            <RenterInfoForm
               class="basis-1/2"
               @getData="getChildData"
-              :rentalData="rentalData"
+              :renterData="renterData"
               :viewOnly="true"
             />
-            <RentalFilesForm
+            <RenterFilesForm
               class="basis-1/2"
               @getData="getChildData"
-              :rentalData="rentalData"
+              :renterData="renterData"
               :viewOnly="true"
             />
           </div>
@@ -269,7 +267,7 @@ onMounted(async () => {
           <Button
             v-if="currentStep == 1"
             @click="
-              router.push({ name: 'manage-resident', params: { residentId } })
+              router.push({ name: 'manage-residence', params: { residenceId } })
             "
             class="rounded-badge"
             btnType="secondary"
@@ -304,3 +302,4 @@ onMounted(async () => {
 </template>
 
 <style scoped></style>
+@/services/ResidenceServices

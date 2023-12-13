@@ -5,7 +5,7 @@ const props = defineProps({
     default: {
       numberOfRooms: 0,
       numberOfFloors: 0,
-      numberOfRentals: 0,
+      numberOfRenters: 0,
     },
   },
 });
@@ -19,8 +19,8 @@ const props = defineProps({
       <div class="stat-desc">Total</div>
     </div>
     <div class="stat">
-      <div class="stat-title">Rentals</div>
-      <div class="stat-value">{{ stats.numberOfRentals }}</div>
+      <div class="stat-title">Renters</div>
+      <div class="stat-value">{{ stats.numberOfRenters }}</div>
       <div class="stat-desc">Total</div>
     </div>
   </div>

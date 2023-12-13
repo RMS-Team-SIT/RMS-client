@@ -1,8 +1,8 @@
 const en = {
   home: {
     header1: 'Manage your',
-    header2: 'Resident',
-    sub: 'Resident Management System is a system that helps you to manage your resident.',
+    header2: 'Residence',
+    sub: 'Residence Management System is a system that helps you to manage your residence.',
   },
   navbar: {
     home: 'Home',

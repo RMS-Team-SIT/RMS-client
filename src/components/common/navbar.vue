@@ -71,7 +71,7 @@ const props = defineProps({
                   <Divider class="text-xs">[12-07-2023 03:20:39]</Divider>
                   <div class="text-left">Siriwat just upload paid evidence</div>
                   <div class="text-left">
-                    <Badge badgeType="neutral">The Resident</Badge>
+                    <Badge badgeType="neutral">The Residence</Badge>
                     <Badge badgeType="primary">Room 101</Badge>
                   </div>
                 </div>

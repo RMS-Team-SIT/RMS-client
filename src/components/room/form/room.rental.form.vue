@@ -5,7 +5,7 @@ import { useRoute } from 'vue-router';
 
 const emit = defineEmits(['getData']);
 const props = defineProps({
-  rentalData: {
+  renterData: {
     type: Object,
     default: () => [],
   },
@@ -23,14 +23,14 @@ const isLoading = ref(true);
 
 const roomInfo = reactive({
   id: null,
-  currentRental: null,
+  currentRenter: null,
 });
 
-const availableRental = computed(() => {
-  return props.rentalData.filter(
-    (rental) =>
-      rental._id != roomInfo.currentRental &&
-      (!rental.room || rental.room._id == roomInfo.id)
+const availableRenter = computed(() => {
+  return props.renterData.filter(
+    (renter) =>
+      renter._id != roomInfo.currentRenter &&
+      (!renter.room || renter.room._id == roomInfo.id)
   );
 });
 const emitData = () => {
@@ -43,12 +43,12 @@ const setDataFromProps = () => {
   }
 };
 
-const addRental = (rental) => {
-  roomInfo.currentRental = rental._id;
+const addRenter = (renter) => {
+  roomInfo.currentRenter = renter._id;
 };
 
-const removeRental = (index) => {
-  roomInfo.currentRental = null;
+const removeRenter = (index) => {
+  roomInfo.currentRenter = null;
 };
 
 onMounted(() => {
@@ -67,19 +67,19 @@ watch(roomInfo, () => {
   </div>
   <div class="relative bg-white p-10 space-y-4 shadow-lg rounded" v-else>
     <h1 class="text-xl font-semibold text-dark-blue-200">
-      Room Current Rental
+      Room Current Renter
     </h1>
 
-    <!-- List selected rental -->
-    <div class="font-bold">Selected Rental</div>
-    <p v-if="!roomInfo.currentRental">
-      No rental selected. Please select rental.
+    <!-- List selected renter -->
+    <div class="font-bold">Selected Renter</div>
+    <p v-if="!roomInfo.currentRenter">
+      No renter selected. Please select renter.
     </p>
 
     <div class="flex flex-col gap-4">
       <div
-        v-for="(rental, index) in rentalData.filter(
-          (rental) => rental._id == roomInfo.currentRental
+        v-for="(renter, index) in renterData.filter(
+          (renter) => renter._id == roomInfo.currentRenter
         )"
         :key="index"
         class="flex flex-row justify-between items-center"
@@ -87,16 +87,16 @@ watch(roomInfo, () => {
         <div class="flex flex-row items-center gap-4">
           <div class="flex flex-col">
             <span class="text-sm font-semibold text-dark-blue-200"
-              >{{ rental.firstname }} {{ rental.lastname }}</span
+              >{{ renter.firstname }} {{ renter.lastname }}</span
             >
-            <span class="text-xs text-gray-400">{{ rental.username }}</span>
+            <span class="text-xs text-gray-400">{{ renter.username }}</span>
           </div>
         </div>
         <div class="flex flex-row items-center gap-4">
           <button
             v-if="!viewOnly"
             class="btn btn-sm btn-error"
-            @click="removeRental(index)"
+            @click="removeRenter(index)"
           >
             Remove
           </button>
@@ -104,31 +104,31 @@ watch(roomInfo, () => {
       </div>
     </div>
 
-    <!-- List all rental except selected rental -->
+    <!-- List all renter except selected renter -->
     <div v-if="!viewOnly">
-      <div class="font-bold mb-2">All available rental list</div>
-      <p v-if="!rentalData.length || !availableRental.length">
-        No rental available. Please create new rental.
+      <div class="font-bold mb-2">All available renter list</div>
+      <p v-if="!renterData.length || !availableRenter.length">
+        No renter available. Please create new renter.
       </p>
       <div class="flex flex-col gap-4">
         <div
-          v-for="(rental, index) in availableRental"
+          v-for="(renter, index) in availableRenter"
           :key="index"
           class="flex flex-row justify-between items-center"
         >
           <div class="flex flex-row items-center gap-4">
             <div class="flex flex-col">
               <span class="text-sm font-semibold text-dark-blue-200"
-                >{{ rental.firstname }} {{ rental.lastname }}</span
+                >{{ renter.firstname }} {{ renter.lastname }}</span
               >
-              <span class="text-xs text-gray-400">{{ rental.username }}</span>
+              <span class="text-xs text-gray-400">{{ renter.username }}</span>
             </div>
           </div>
           <div class="flex flex-row items-center gap-4">
             <button
               v-if="!viewOnly"
               class="btn btn-sm btn-primary"
-              @click="addRental(rental)"
+              @click="addRenter(renter)"
             >
               Select
             </button>

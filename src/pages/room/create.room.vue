@@ -1,6 +1,6 @@
 <script setup>
 import loading from '@/components/common/loading.vue';
-import ResidentServices from '@/services/ResidentServices';
+import ResidenceServices from '@/services/ResidenceServices';
 import RoomInfoForm from '@/components/room/form/room.info.form.vue';
 import { useNotification } from '@kyvg/vue3-notification';
 import { onMounted, reactive, ref } from 'vue';
@@ -9,11 +9,11 @@ import Steps from '@/components/common/steps.vue';
 import Button from '@/components/common/button.vue';
 import Breadcrumb from '@/components/common/breadcrumb.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
-import RoomRentalForm from '@/components/room/form/room.rental.form.vue';
+import RoomRenterForm from '@/components/room/form/room.renter.form.vue';
 
 const router = useRouter();
 const route = useRoute();
-const residentId = route.params.residentId;
+const residenceId = route.params.residenceId;
 const numberOfSteps = 2;
 const currentStep = ref(1);
 const { notify } = useNotification();
@@ -31,7 +31,7 @@ const roomData = reactive({
   defaultLightPriceRate: 0,
   currentWaterGauge: 0,
   currentLightGauge: 0,
-  currentRental: null,
+  currentRenter: null,
 });
 
 const changeStep = (action) => {
@@ -55,8 +55,8 @@ const getChildData = (data) => {
 };
 
 const submitData = async () => {
-  // Create rental
-  const response = await ResidentServices.createRoom(residentId, {
+  // Create renter
+  const response = await ResidenceServices.createRoom(residenceId, {
     ...roomData,
   });
   if (response.status == 201) {
@@ -66,7 +66,7 @@ const submitData = async () => {
       text: 'Room created successfully',
       type: 'success',
     });
-    router.push({ name: 'manage-resident', params: { residentId } });
+    router.push({ name: 'manage-residence', params: { residenceId: residenceId } });
   } else {
     const data = await response.json();
     notify({
@@ -78,25 +78,25 @@ const submitData = async () => {
   }
 };
 
-const resident = reactive({
+const residence = reactive({
   data: null,
 });
 
-const fetchResidentData = async () => {
-  const response = await ResidentServices.fetchResident(residentId);
+const fetchResidenceData = async () => {
+  const response = await ResidenceServices.fetchResidence(residenceId);
   if (response.status === 200) {
     let result = await response.json();
-    resident.data = result;
+    residence.data = result;
     // set default value of roomData
-    roomData.lightPriceRate = resident.data.defaultLightPriceRate;
-    roomData.defaultLightPriceRate = resident.data.defaultLightPriceRate;
-    roomData.waterPriceRate = resident.data.defaultWaterPriceRate;
-    roomData.defaultWaterPriceRate = resident.data.defaultWaterPriceRate;
+    roomData.lightPriceRate = residence.data.defaultLightPriceRate;
+    roomData.defaultLightPriceRate = residence.data.defaultLightPriceRate;
+    roomData.waterPriceRate = residence.data.defaultWaterPriceRate;
+    roomData.defaultWaterPriceRate = residence.data.defaultWaterPriceRate;
   } else {
     notify({
       group: 'tr',
       title: 'Error',
-      text: 'Failed to fetch resident data',
+      text: 'Failed to fetch residence data',
       type: 'error',
     });
     router.push({ name: 'manage' });
@@ -104,7 +104,7 @@ const fetchResidentData = async () => {
 };
 
 onMounted(async () => {
-  await fetchResidentData();
+  await fetchResidenceData();
   isLoading.value = false;
 });
 </script>
@@ -119,9 +119,9 @@ onMounted(async () => {
             { name: 'Home', pathName: 'home' },
             { name: 'Manage', pathName: 'manage' },
             {
-              name: 'Resident',
-              pathName: 'manage-resident',
-              params: { residentId },
+              name: 'Residence',
+              pathName: 'manage-residence',
+              params: { residenceId },
             },
             { name: 'Create Room' },
           ]"
@@ -142,11 +142,11 @@ onMounted(async () => {
             @getData="getChildData"
             :roomData="roomData"
           />
-          <RoomRentalForm
+          <RoomRenterForm
             class="basis-1/2"
             @getData="getChildData"
             :roomData="roomData"
-            :rentalData="resident.data.rentals"
+            :renterData="residence.data.renters"
           />
         </div>
 
@@ -159,11 +159,11 @@ onMounted(async () => {
               :roomData="roomData"
               :viewOnly="true"
             />
-            <RoomRentalForm
+            <RoomRenterForm
               class="basis-1/2"
               @getData="getChildData"
               :roomData="roomData"
-              :rentalData="resident.data.rentals"
+              :renterData="residence.data.renters"
               :viewOnly="true"
             />
           </div>
@@ -174,7 +174,7 @@ onMounted(async () => {
           <Button
             btn-type="secondary"
             @click="
-              router.push({ name: 'manage-resident', params: { residentId } })
+              router.push({ name: 'manage-residence', params: { residenceId } })
             "
             v-if="currentStep == 1"
             class="rounded-badge"
@@ -209,3 +209,4 @@ onMounted(async () => {
 </template>
 
 <style scoped></style>
+@/services/ResidenceServices

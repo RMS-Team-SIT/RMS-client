@@ -2,15 +2,15 @@
 import Badge from '../common/badge.vue';
 import Button from '@/components/common/button.vue';
 import { computed, inject, onMounted, reactive, ref } from 'vue';
-import ResidentServices from '@/services/ResidentServices';
+import ResidenceServices from '@/services/ResidenceServices';
 import { useNotification } from '@kyvg/vue3-notification';
 
 const props = defineProps({
-  rentals: {
+  renters: {
     type: Array,
     default: () => [],
   },
-  residentId: {
+  residenceId: {
     type: String,
     default: '',
   },
@@ -21,10 +21,10 @@ const currentPage = ref(1);
 const perPage = ref(5);
 const { notify } = useNotification();
 
-const computedRentals = computed(() => {
+const computedrenters = computed(() => {
   const start = (currentPage.value - 1) * perPage.value;
   const end = start + perPage.value;
-  return props.rentals.slice(start, end);
+  return props.renters.slice(start, end);
 });
 
 const changePage = (page) => {
@@ -34,7 +34,7 @@ const changePage = (page) => {
 };
 
 const totalPages = computed(() => {
-  return Math.ceil(props.rentals.length / perPage.value);
+  return Math.ceil(props.renters.length / perPage.value);
 });
 
 const visiblePages = computed(() => {
@@ -57,16 +57,16 @@ const visiblePages = computed(() => {
 
 <template>
   <div class="overflow-x-auto">
-    <p class="text-base" v-if="!props.rentals.length">No rental</p>
+    <p class="text-base" v-if="!props.renters.length">No renter</p>
     <div v-else>
-      <!-- show number of rental -->
+      <!-- show number of renter -->
       <p class="text-xs text-gray-500">
-        Total: {{ props.rentals.length }} rentals
+        Total: {{ props.renters.length }} renters
       </p>
 
       <table class="table table-xs">
         <!-- head -->
-        <!-- show number of rental -->
+        <!-- show number of renter -->
         <thead>
           <tr>
             <th>#</th>
@@ -76,40 +76,40 @@ const visiblePages = computed(() => {
             <th>Active</th>
             <th>Current Room</th>
             <th>Copy Of ID Card</th>
-            <th>Rental contract</th>
+            <th>Renter contract</th>
             <th>Created At</th>
             <th>Updated At</th>
           </tr>
         </thead>
         <tbody>
           <!-- row 1 -->
-          <tr v-for="(rental, index) in computedRentals" :key="index">
+          <tr v-for="(renter, index) in computedrenters" :key="index">
             <td>
-              {{ rental.index + 1 }}
+              {{ renter.index + 1 }}
             </td>
             <td class="">
-              <span> {{ rental.firstname }} {{ rental.lastname }}</span>
+              <span> {{ renter.firstname }} {{ renter.lastname }}</span>
             </td>
             <td>
-              {{ rental.username }}
+              {{ renter.username }}
             </td>
-            <td>{{ rental.phone }}</td>
+            <td>{{ renter.phone }}</td>
             <td>
-              <Badge v-if="rental.isActive" type="success">Active</Badge>
+              <Badge v-if="renter.isActive" type="success">Active</Badge>
               <Badge v-else type="error">Deactive</Badge>
             </td>
             <td>
-              <div v-if="rental.room" class="underline">
+              <div v-if="renter.room" class="underline">
                 <router-link
                   :to="{
                     name: 'update-room',
                     params: {
-                      roomId: rental.room._id,
-                      residentId: residentId,
+                      roomId: renter.room._id,
+                      residenceId: residenceId,
                     },
                   }"
                 >
-                  {{ rental.room.name }}
+                  {{ renter.room.name }}
                 </router-link>
               </div>
               <div v-else>
@@ -117,13 +117,13 @@ const visiblePages = computed(() => {
               </div>
             </td>
             <td>
-              <div v-if="rental.copyOfIdCard" class="underline">
+              <div v-if="renter.copyOfIdCard" class="underline">
                 <router-link
                   target="_blank"
                   :to="{
                     name: 'pdf-preview',
                     query: {
-                      filename: rental.copyOfIdCard,
+                      filename: renter.copyOfIdCard,
                     },
                   }"
                 >
@@ -135,13 +135,13 @@ const visiblePages = computed(() => {
               </div>
             </td>
             <td>
-              <div v-if="rental.rentalContract" class="underline">
+              <div v-if="renter.renterContract" class="underline">
                 <router-link
                   target="_blank"
                   :to="{
                     name: 'pdf-preview',
                     query: {
-                      filename: rental.rentalContract,
+                      filename: renter.renterContract,
                     },
                   }"
                 >
@@ -152,14 +152,14 @@ const visiblePages = computed(() => {
                 <span class="text-red-500">No file</span>
               </div>
             </td>
-            <td>{{ rental.created_at }}</td>
-            <td>{{ rental.updated_at }}</td>
+            <td>{{ renter.created_at }}</td>
+            <td>{{ renter.updated_at }}</td>
             <th>
               <router-link
                 :to="{
-                  name: 'update-rental',
+                  name: 'update-renter',
                   params: {
-                    rentalId: rental._id,
+                    renterId: renter._id,
                   },
                 }"
               >

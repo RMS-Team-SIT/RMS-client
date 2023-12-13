@@ -1,13 +1,13 @@
 <script setup>
 import Datatable from '../common/datatable.vue';
-import RentalListTable from './rental.list.table.vue';
+import RentalListTable from './renter.list.table.vue';
 import Button from '@/components/common/button.vue';
 import dayjs from 'dayjs';
 import blankprofile from '@/assets/img/bp.webp';
 import { onMounted, ref } from 'vue';
 
 const props = defineProps({
-  residentId: {
+  residenceId: {
     type: String,
     required: true,
   },
@@ -41,14 +41,14 @@ onMounted(() => {
         :to="{
           name: 'create-rental',
           params: {
-            residentId,
+            residenceId,
           },
         }"
       >
         <Button btnType="primary">Add Rental</Button>
       </router-link>
     </div>
-    <RentalListTable :rentals="rentalData" :residentId="residentId" />
+    <RentalListTable :rentals="rentalData" :residenceId="residenceId" />
   </div>
 </template>
 

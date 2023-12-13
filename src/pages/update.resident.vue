@@ -3,35 +3,33 @@ import Breadcrumb from '@/components/common/breadcrumb.vue';
 import { onBeforeMount, onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Steps from '@/components/common/steps.vue';
-import ResidentBasicInfoForm from '@/components/resident/form/resident.basic.info.form.vue';
-import ResidentContactForm from '@/components/resident/form/resident.contact.form.vue';
-import ResidentSettingForm from '@/components/resident/form/resident.setting.form.vue';
-import ResidentImagesForm from '@/components/resident/form/resident.images.form.vue';
+import ResidenceBasicInfoForm from '@/components/residence/form/residence.basic.info.form.vue';
+import ResidenceContactForm from '@/components/residence/form/residence.contact.form.vue';
+import ResidenceSettingForm from '@/components/residence/form/residence.setting.form.vue';
 import Button from '@/components/common/button.vue';
-import ResidentSummarizeForm from '@/components/resident/form/resident.summarize.form.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 import ImagePreview from '@/components/common/image.preview.vue';
 import Loading from '@/components/common/loading.vue';
 import { useNotification } from '@kyvg/vue3-notification';
-import ResidentServices from '@/services/ResidentServices';
+import ResidenceServices from '@/services/ResidenceServices';
 
 const router = useRouter();
 const route = useRoute();
-const residentId = route.params.residentId;
+const residenceId = route.params.residenceId;
 const isLoading = ref(true);
 const { notify } = useNotification();
 
 onMounted(async () => {
   try {
-    const response = await ResidentServices.fetchResident(residentId);
+    const response = await ResidenceServices.fetchResidence(residenceId);
     if (response.status === 200) {
       let result = await response.json();
-      residentData.data = result;
+      residenceData.data = result;
     } else {
       notify({
         group: 'tr',
         title: 'Error',
-        text: 'Failed to fetch resident data',
+        text: 'Failed to fetch residence data',
         type: 'error',
       });
     }
@@ -40,7 +38,7 @@ onMounted(async () => {
     notify({
       group: 'tr',
       title: 'Error',
-      text: 'Failed to fetch resident data',
+      text: 'Failed to fetch residence data',
       type: 'error',
     });
   } finally {
@@ -48,10 +46,10 @@ onMounted(async () => {
   }
 });
 
-const numberOfSteps = 3;
+const numberOfSteps = 2;
 const currentStep = ref(1);
 
-const residentData = reactive({
+const residenceData = reactive({
   data: {
     name: '',
     description: '',
@@ -85,7 +83,7 @@ const changeStep = (action) => {
 
 const getChildData = (data) => {
   for (const key in data) {
-    residentData.data[key] = data[key];
+    residenceData.data[key] = data[key];
   }
 };
 
@@ -104,8 +102,8 @@ const submitData = async () => {
           :pathList="[
             { name: 'Home', pathName: 'home' },
             { name: 'Manage', pathName: 'manage' },
-            { name: 'Update Resident' },
-            { name: residentId },
+            { name: 'Update Residence' },
+            { name: residenceId },
           ]"
         />
       </div>
@@ -113,8 +111,8 @@ const submitData = async () => {
         <div class="p-4 mb-4 card shadow-xl bg-white">
           <Steps
             :stepList="[
-              'Resident Infomation',
-              'Resident Images',
+              'Residence Infomation',
+              'Residence Images',
               'Review Information',
             ]"
             :currentStep="currentStep"
@@ -122,55 +120,46 @@ const submitData = async () => {
         </div>
         <!-- step 1 -->
         <div v-if="currentStep == 1" class="flex gap-4">
-          <ResidentBasicInfoForm
+          <ResidenceBasicInfoForm
             class="basis-1/3"
             @getData="getChildData"
-            :residentData="residentData.data"
+            :residenceData="residenceData.data"
           />
-          <ResidentContactForm
+          <ResidenceContactForm
             class="basis-1/3"
             @getData="getChildData"
-            :residentData="residentData.data"
+            :residenceData="residenceData.data"
           />
-          <ResidentSettingForm
+          <ResidenceSettingForm
             class="basis-1/3"
             @getData="getChildData"
-            :residentData="residentData.data"
-          />
-        </div>
-
-        <!-- step 2 -->
-        <div v-if="currentStep == 2" class="flex gap-4">
-          <ResidentImagesForm
-            class="basis-full"
-            @getData="getChildData"
-            :residentData="residentData.data"
+            :residenceData="residenceData.data"
           />
         </div>
 
         <!-- step 3 -->
-        <div v-if="currentStep == 3" class="flex gap-4 flex-col">
+        <div v-if="currentStep == 2" class="flex gap-4 flex-col">
           <div class="flex gap-4">
-            <ResidentBasicInfoForm
+            <ResidenceBasicInfoForm
               class="basis-1/3"
               @getData="getChildData"
-              :residentData="residentData.data"
+              :residenceData="residenceData.data"
               :viewOnly="true"
             />
-            <ResidentContactForm
+            <ResidenceContactForm
               class="basis-1/3"
               @getData="getChildData"
-              :residentData="residentData.data"
+              :residenceData="residenceData.data"
               :viewOnly="true"
             />
-            <ResidentSettingForm
+            <ResidenceSettingForm
               class="basis-1/3"
               @getData="getChildData"
-              :residentData="residentData.data"
+              :residenceData="residenceData.data"
               :viewOnly="true"
             />
           </div>
-          <ImagePreview class="basis-full" :images="residentData.data.images" />
+          <ImagePreview class="basis-full" :images="residenceData.data.images" />
         </div>
 
         <!-- button control -->
@@ -201,4 +190,4 @@ const submitData = async () => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped></style>@/services/ResidenceServices

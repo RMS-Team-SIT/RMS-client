@@ -31,7 +31,7 @@ const submitForm = async () => {
       <h1 class="text-3xl font-semibold text-dark-blue-200 mb-5">
         Welcome Back !<br />
       </h1>
-      <p class="text-sm mb-5">Sign in and start managing your resident.</p>
+      <p class="text-sm mb-5">Sign in and start managing your residence.</p>
       <form @submit.prevent="submitForm" class="space-y-4 mb-5">
         <div>
           <label class="label">

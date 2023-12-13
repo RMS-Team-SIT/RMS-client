@@ -5,7 +5,7 @@ import { onMounted, reactive, watch } from 'vue';
 const emit = defineEmits(['getData']);
 
 const props = defineProps({
-  residentData: {
+  residenceData: {
     type: Object,
     default: () => ({}),
   },
@@ -23,7 +23,7 @@ const props = defineProps({
   },
 });
 
-const residentContact = reactive({
+const residenceContact = reactive({
   contact: {
     facebook: '',
     line: '',
@@ -33,12 +33,12 @@ const residentContact = reactive({
 });
 
 const emitData = () => {
-  emit('getData', residentContact);
+  emit('getData', residenceContact);
 };
 
 const setDataFromProps = () => {
-  for (const key in props.residentData) {
-    if (key in residentContact) residentContact[key] = props.residentData[key];
+  for (const key in props.residenceData) {
+    if (key in residenceContact) residenceContact[key] = props.residenceData[key];
   }
 };
 
@@ -46,15 +46,15 @@ onMounted(() => {
   setDataFromProps();
 });
 
-watch(residentContact, () => {
+watch(residenceContact, () => {
   emitData();
 });
 </script>
 
 <template>
   <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
-    <h1 class="text-xl font-semibold text-dark-blue-200">Resident Contact</h1>
-    <p class="text-xs">Please input resident contact information.</p>
+    <h1 class="text-xl font-semibold text-dark-blue-200">Residence Contact</h1>
+    <p class="text-xs">Please input residence contact information.</p>
     <div>
       <label class="label">
         <span class="text-base label-text">Facebook</span>
@@ -63,7 +63,7 @@ watch(residentContact, () => {
         type="text"
         placeholder="Facebook"
         class="w-full input input-bordered bg-white  input-sm rounded-sm"
-        v-model="residentContact.contact.facebook"
+        v-model="residenceContact.contact.facebook"
         :disabled="viewOnly"
       />
     </div>
@@ -75,7 +75,7 @@ watch(residentContact, () => {
         type="text"
         placeholder="Line"
         class="w-full input input-bordered bg-white  input-sm rounded-sm"
-        v-model="residentContact.contact.line"
+        v-model="residenceContact.contact.line"
         :disabled="viewOnly"
       />
     </div>
@@ -87,12 +87,12 @@ watch(residentContact, () => {
         type="text"
         placeholder="Phone"
         class="w-full input input-bordered bg-white  input-sm rounded-sm"
-        v-model="residentContact.contact.phone"
+        v-model="residenceContact.contact.phone"
         :disabled="viewOnly"
       />
       <p
         class="text-sm hover:underline text-dark-blue-100"
-        @click="residentContact.contact.phone = userPersonalData.phone"
+        @click="residenceContact.contact.phone = userPersonalData.phone"
       >
         Fill with your phone number.
       </p>
@@ -106,12 +106,12 @@ watch(residentContact, () => {
         type="email"
         placeholder="Email Address"
         class="w-full input input-bordered bg-white  input-sm rounded-sm"
-        v-model="residentContact.contact.email"
+        v-model="residenceContact.contact.email"
         :disabled="viewOnly"
       />
       <p
         class="text-sm hover:underline text-dark-blue-100"
-        @click="residentContact.contact.email = userPersonalData.email"
+        @click="residenceContact.contact.email = userPersonalData.email"
       >
         Fill with your email.
       </p>

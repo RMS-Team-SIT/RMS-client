@@ -8,17 +8,17 @@ const signup = () => import('@/pages/signup.vue');
 const signin = () => import('@/pages/signin.vue');
 const signout = () => import('@/pages/signout.vue');
 const manage = () => import('@/pages/manage.vue');
-const viewResident = () => import('@/pages/resident/view.resident.vue');
-const createResident = () => import('@/pages/resident/create.resident.vue');
+const viewResidence = () => import('@/pages/residence/view.residence.vue');
+const createResidence = () => import('@/pages/residence/create.residence.vue');
 const profile = () => import('./pages/profile.vue');
-const editResidentInfo = () =>
-  import('./pages/resident/edit.info.resident.vue');
+const editResidenceInfo = () =>
+  import('./pages/residence/edit.info.residence.vue');
 const forgetPassword = () => import('./pages/forget-password.vue');
 const resetPassword = () => import('./pages/reset-password.vue');
-const createRental = () => import('./pages/rental/create.rental.vue');
+const createRenter = () => import('./pages/renter/create.renter.vue');
 const Temp = () => import('./pages/temp.vue');
 const PdfPreview = () => import('./pages/pdf-preview.vue');
-const updateRentalVue = () => import('./pages/rental/update.rental.vue');
+const updateRenter = () => import('./pages/renter/update.renter.vue');
 const verifyEmail = () => import('./pages/verify-email.vue');
 const createRoom = () => import('./pages/room/create.room.vue');
 const UpdateRoom = () => import('./pages/room/update.room.vue');
@@ -75,35 +75,35 @@ const routes = [
     },
   },
   {
-    name: 'manage-resident',
-    path: '/manage/resident/:residentId',
-    component: viewResident,
+    name: 'manage-residence',
+    path: '/manage/residence/:residenceId',
+    component: viewResidence,
     meta: {
-      title: 'Manage Resident',
+      title: 'Manage Residence',
     },
   },
   {
-    name: 'create-resident',
-    path: '/create/resident',
-    component: createResident,
+    name: 'create-residence',
+    path: '/create/residence',
+    component: createResidence,
     meta: {
-      title: 'Create Resident',
+      title: 'Create Residence',
     },
   },
   {
-    name: 'update-resident',
-    path: '/manage/resident/:residentId/update',
-    component: editResidentInfo,
+    name: 'update-residence',
+    path: '/manage/residence/:residenceId/update',
+    component: editResidenceInfo,
     meta: {
-      title: 'Update Resident Info',
+      title: 'Update Residence Info',
     },
   },
   {
-    name: 'update-resident-info',
-    path: '/update/resident/info/:residentId',
-    component: editResidentInfo,
+    name: 'update-residence-info',
+    path: '/update/residence/info/:residenceId',
+    component: editResidenceInfo,
     meta: {
-      title: 'Update Resident',
+      title: 'Update Residence',
     },
   },
   {
@@ -131,19 +131,19 @@ const routes = [
     },
   },
   {
-    name: 'create-rental',
-    path: '/manage/resident/:residentId/rental/create',
-    component: createRental,
+    name: 'create-renter',
+    path: '/manage/residence/:residenceId/renter/create',
+    component: createRenter,
     meta: {
-      title: 'Create Rental',
+      title: 'Create Renter',
     },
   },
   {
-    name: 'update-rental',
-    path: '/manage/resident/:residentId/rental/update/:rentalId',
-    component: updateRentalVue,
+    name: 'update-renter',
+    path: '/manage/residence/:residenceId/renter/update/:renterId',
+    component: updateRenter,
     meta: {
-      title: 'Update Rental',
+      title: 'Update Renter',
     },
   },
   {
@@ -151,7 +151,7 @@ const routes = [
     path: '/temp',
     component: Temp,
     meta: {
-      title: 'Create Rental',
+      title: 'Create Renter',
     },
   },
   {
@@ -172,7 +172,7 @@ const routes = [
   },
   {
     name: 'create-room',
-    path: '/manage/resident/:residentId/room/create',
+    path: '/manage/residence/:residenceId/room/create',
     component: createRoom,
     meta: {
       title: 'Create Room',
@@ -180,7 +180,7 @@ const routes = [
   },
   {
     name: 'update-room',
-    path: '/manage/resident/:residentId/room/update/:roomId',
+    path: '/manage/residence/:residenceId/room/update/:roomId',
     component: UpdateRoom,
     meta: {
       title: 'Update Room',

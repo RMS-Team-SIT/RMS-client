@@ -4,7 +4,7 @@ import { onMounted, reactive, watch } from 'vue';
 const emit = defineEmits(['getData']);
 
 const props = defineProps({
-  residentData: {
+  residenceData: {
     type: Object,
     default: () => ({}),
   },
@@ -14,18 +14,18 @@ const props = defineProps({
   },
 });
 
-const residentSettings = reactive({
+const residenceSettings = reactive({
   defaultWaterPriceRate: 0.0,
   defaultLightPriceRate: 0.0,
 });
 
 const emitData = () => {
-  emit('getData', residentSettings);
+  emit('getData', residenceSettings);
 };
 
 const setDataFromProps = () => {
-  for (const key in props.residentData) {
-    if (key in residentSettings) residentSettings[key] = props.residentData[key];
+  for (const key in props.residenceData) {
+    if (key in residenceSettings) residenceSettings[key] = props.residenceData[key];
   }
 };
 
@@ -33,7 +33,7 @@ onMounted(() => {
   setDataFromProps();
 });
 
-watch(residentSettings, () => {
+watch(residenceSettings, () => {
   emitData();
 });
 
@@ -41,8 +41,8 @@ watch(residentSettings, () => {
 
 <template>
   <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
-    <h1 class="text-xl font-semibold text-dark-blue-200">Resident Settings</h1>
-    <p class="text-xs">Please input resident settings.</p>
+    <h1 class="text-xl font-semibold text-dark-blue-200">Residence Settings</h1>
+    <p class="text-xs">Please input residence settings.</p>
     <div>
       <label class="label">
         <span class="text-base label-text">Default Light Price Rate (Per unit) <span class="text-red-500">*</span></span>
@@ -52,7 +52,7 @@ watch(residentSettings, () => {
         min="0"
         placeholder="Default Light Price Rate"
         class="w-full input input-bordered bg-white  input-sm rounded-sm"
-        v-model="residentSettings.defaultLightPriceRate"
+        v-model="residenceSettings.defaultLightPriceRate"
         :disabled="viewOnly"
       />
     </div>
@@ -65,7 +65,7 @@ watch(residentSettings, () => {
         min="0"
         placeholder="Email Address"
         class="w-full input input-bordered bg-white  input-sm rounded-sm"
-        v-model="residentSettings.defaultWaterPriceRate"
+        v-model="residenceSettings.defaultWaterPriceRate"
         :disabled="viewOnly"
       />
     </div>

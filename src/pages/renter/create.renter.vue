@@ -3,37 +3,30 @@ import Breadcrumb from '@/components/common/breadcrumb.vue';
 import { onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Steps from '@/components/common/steps.vue';
-import ResidentBasicInfoForm from '@/components/resident/form/resident.basic.info.form.vue';
-import ResidentContactForm from '@/components/resident/form/resident.contact.form.vue';
-import ResidentSettingForm from '@/components/resident/form/resident.setting.form.vue';
 import Button from '@/components/common/button.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 import ImagePreview from '@/components/common/image.preview.vue';
 import { useNotification } from '@kyvg/vue3-notification';
-import ResidentServices from '@/services/ResidentServices';
+import ResidenceServices from '@/services/ResidenceServices';
+import RenterInfoForm from '@/components/renter/form/renter.info.form.vue';
+import RenterFilesForm from '@/components/renter/form/renter.files.form.vue';
 import FileService from '@/services/FileService';
-import ImageUploadForm from '@/components/form/image.form.vue';
 
 const router = useRouter();
 const route = useRoute();
-const numberOfSteps = 3;
+const residenceId = route.params.residenceId;
+const numberOfSteps = 2;
 const currentStep = ref(1);
 const { notify } = useNotification();
 
-const residentData = reactive({
-  name: '',
-  description: '',
-  address: '',
-  images: [],
-  contact: {
-    facebook: '',
-    line: '',
-    phone: '',
-    email: '',
-  },
-  defaultWaterPriceRate: 0.0,
-  defaultLightPriceRate: 0.0,
-  imageFiles: [],
+const renterData = reactive({
+  firstname: '',
+  lastname: '',
+  username: '',
+  phone: '',
+  image: { fileName: null, file: null, isEdited: false },
+  copyOfIdCard: { fileName: null, file: null, isEdited: false },
+  renterContract: { fileName: null, file: null, isEdited: false },
 });
 
 const changeStep = (action) => {
@@ -52,46 +45,71 @@ const changeStep = (action) => {
 
 const getChildData = (data) => {
   for (const key in data) {
-    residentData[key] = data[key];
+    renterData[key] = data[key];
   }
 };
 
 const submitData = async () => {
-  // Upload images if imageFiles not empty
-  if (residentData.imageFiles.length) {
-    const response = await FileService.uploadImages(residentData.imageFiles);
-    if (response.status == 201) {
-      const data = await response.json();
-      Array.from(data.files).forEach((file) => {
-        residentData.images.push(file.fileName);
+  // Upload files
+  if (renterData.copyOfIdCard.file) {
+    const uploadFileResponse = await FileService.uploadPdf(
+      renterData.copyOfIdCard.file
+    );
+    if (uploadFileResponse.status != 201) {
+      notify({
+        group: 'tr',
+        title: 'Error',
+        text: 'Failed to upload files',
+        type: 'error',
       });
+      return;
     } else {
+      const data = await uploadFileResponse.json();
+      renterData.copyOfIdCard.fileName = data.fileName;
+    }
+  }
+
+  if (renterData.renterContract.file) {
+    const uploadFileResponse = await FileService.uploadPdf(
+      renterData.renterContract.file
+    );
+    if (uploadFileResponse.status != 201) {
       const data = await response.json();
       notify({
         group: 'tr',
         title: 'Error',
-        text: 'Failed to upload images ' + data?.message,
+        text: 'Failed to upload files, ' + data?.message,
         type: 'error',
       });
       return;
+    } else {
+      const data = await uploadFileResponse.json();
+      renterData.renterContract.fileName = data.fileName;
     }
   }
-  const response = await ResidentServices.createResident(residentData);
+  // End upload files
+
+  // Create renter
+  const response = await ResidenceServices.createRenter(residenceId, {
+    ...renterData,
+    image: renterData.image.fileName,
+    renterContract: renterData.renterContract.fileName,
+    copyOfIdCard: renterData.copyOfIdCard.fileName,
+  });
   if (response.status == 201) {
     notify({
       group: 'tr',
       title: 'Success',
-      text: 'Resident created successfully',
+      text: 'Renter created successfully',
       type: 'success',
     });
-    router.push({ name: 'manage' });
+    router.push({ name: 'manage-residence', params: { residenceId: residenceId } });
   } else {
     const data = await response.json();
-    console.log(data);
     notify({
       group: 'tr',
       title: 'Error',
-      text: 'Failed to create resident. ' + data?.message,
+      text: 'Failed to create Renter: ' + data?.message,
       type: 'error',
     });
   }
@@ -106,83 +124,66 @@ const submitData = async () => {
           :pathList="[
             { name: 'Home', pathName: 'home' },
             { name: 'Manage', pathName: 'manage' },
-            { name: 'Create Resident', pathName: 'create-resident' },
+            {
+              name: 'Residence',
+              pathName: 'manage-residence',
+              params: { residenceId },
+            },
+            { name: 'Create Renter' },
           ]"
         />
       </div>
       <div>
         <div class="p-4 mb-4 card shadow-xl bg-white">
           <Steps
-            :stepList="[
-              'Resident Infomation',
-              'Resident Images',
-              'Review Information',
-            ]"
+            :stepList="['Renter Infomation', 'Review Renter']"
             :currentStep="currentStep"
           />
         </div>
         <!-- step 1 -->
-        <div v-if="currentStep == 1" class="grid grid-cols-1 lg:grid-cols-3 gap-2">
-          <ResidentBasicInfoForm
+        <div v-if="currentStep == 1" class="flex gap-4">
+          <RenterInfoForm
+            class="basis-1/2"
             @getData="getChildData"
-            :residentData="residentData"
+            :renterData="renterData"
           />
-          <ResidentContactForm
+          <RenterFilesForm
+            class="basis-1/2"
             @getData="getChildData"
-            :residentData="residentData"
-          />
-          <ResidentSettingForm
-            @getData="getChildData"
-            :residentData="residentData"
+            :renterData="renterData"
           />
         </div>
 
         <!-- step 2 -->
-        <div v-if="currentStep == 2" class="flex gap-4">
-          <!-- <ResidentImagesForm
-            class="basis-full"
-            @getData="getChildData"
-            :residentData="residentData"
-          /> -->
-          <div class="relative bg-white p-10 space-y-4 shadow-md rounded basis-full">
-            <h1 class="text-xl font-semibold text-dark-blue-200">
-              Resident Images
-            </h1>
-            <p class="text-xs">Please upload your resident images.</p>
-            <ImageUploadForm
-              @getImageFiles="getChildData"
-              :imageFiles="residentData.imageFiles"
-            />
-          </div>
-        </div>
-
-        <!-- step 3 -->
-        <div v-if="currentStep == 3" class="flex gap-4 flex-col">
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-2">
-            <ResidentBasicInfoForm
+        <div v-if="currentStep == 2" class="flex gap-4 flex-col">
+          <div class="flex gap-4">
+            <RenterInfoForm
+              class="basis-1/2"
               @getData="getChildData"
-              :residentData="residentData"
+              :renterData="renterData"
               :viewOnly="true"
             />
-            <ResidentContactForm
+            <RenterFilesForm
+              class="basis-1/2"
               @getData="getChildData"
-              :residentData="residentData"
-              :viewOnly="true"
-            />
-            <ResidentSettingForm
-              @getData="getChildData"
-              :residentData="residentData"
+              :renterData="renterData"
               :viewOnly="true"
             />
           </div>
-          <ImagePreview
-            class="basis-full"
-            :imageFiles="residentData.imageFiles"
-          />
         </div>
 
         <!-- button control -->
         <div class="flex justify-end gap-2 mt-10">
+          <Button
+            btn-type="secondary"
+            @click="
+              router.push({ name: 'manage-residence', params: { residenceId } })
+            "
+            v-if="currentStep == 1"
+            class="rounded-badge"
+          >
+            Discard
+          </Button>
           <Button
             btn-type="secondary"
             @click="changeStep('back')"
@@ -211,3 +212,4 @@ const submitData = async () => {
 </template>
 
 <style scoped></style>
+@/services/ResidenceServices

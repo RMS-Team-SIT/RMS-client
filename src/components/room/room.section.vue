@@ -27,7 +27,7 @@ const props = defineProps({
           :to="{
             name: 'create-room',
             params: {
-              residentId: $route.params.residentId,
+              residenceId: $route.params.residenceId,
             },
           }"
         >
@@ -37,7 +37,7 @@ const props = defineProps({
           :to="{
             name: 'create-room',
             params: {
-              residentId: $route.params.residentId,
+              residenceId: $route.params.residenceId,
             },
           }"
         >
