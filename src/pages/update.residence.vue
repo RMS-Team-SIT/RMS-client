@@ -190,4 +190,4 @@ const submitData = async () => {
   </div>
 </template>
 
-<style scoped></style>@/services/ResidenceServices
+<style scoped></style>
