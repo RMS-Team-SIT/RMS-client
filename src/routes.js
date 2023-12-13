@@ -11,8 +11,8 @@ const manage = () => import('@/pages/manage.vue');
 const viewResidence = () => import('@/pages/residence/view.residence.vue');
 const createResidence = () => import('@/pages/residence/create.residence.vue');
 const profile = () => import('./pages/profile.vue');
-const editResidenceInfo = () =>
-  import('./pages/residence/edit.info.residence.vue');
+const updateResidenceInfo = () =>
+  import('./pages/residence/update.info.residence.vue');
 const forgetPassword = () => import('./pages/forget-password.vue');
 const resetPassword = () => import('./pages/reset-password.vue');
 const createRenter = () => import('./pages/renter/create.renter.vue');
@@ -93,7 +93,7 @@ const routes = [
   {
     name: 'update-residence',
     path: '/manage/residence/:residenceId/update',
-    component: editResidenceInfo,
+    component: updateResidenceInfo,
     meta: {
       title: 'Update Residence Info',
     },
@@ -101,7 +101,7 @@ const routes = [
   {
     name: 'update-residence-info',
     path: '/update/residence/info/:residenceId',
-    component: editResidenceInfo,
+    component: updateResidenceInfo,
     meta: {
       title: 'Update Residence',
     },
