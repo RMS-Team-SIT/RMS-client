@@ -30,7 +30,8 @@ const availableRenter = computed(() => {
   return props.renterData.filter(
     (renter) =>
       renter._id != roomInfo.currentRenter &&
-      (!renter.room || renter.room._id == roomInfo.id)
+      (!renter.room || renter.room._id == roomInfo.id) &&
+      renter.isActive
   );
 });
 const emitData = () => {

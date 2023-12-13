@@ -9,9 +9,11 @@ const props = defineProps({
       [
         'primary',
         'secondary',
+        'success',
         'primary-pill',
         'secondary-pill',
         'ghost-pill',
+        'success-pill',
       ].includes(value),
   },
 });
@@ -46,6 +48,13 @@ const classes = computed(() => {
       'text-white',
     ],
     'ghost-pill': ['btn-ghost', 'rounded-full'],
+    success: ['bg-green-500', 'hover:bg-green-400', 'text-white'],
+    'success-pill': [
+      'bg-green-500',
+      'hover:bg-green-400',
+      'rounded-full',
+      'text-white',
+    ],
   };
 
   return [...buttonClasses, ...(typeToClasses[props.btnType] || [])];

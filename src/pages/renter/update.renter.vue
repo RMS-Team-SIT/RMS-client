@@ -13,6 +13,8 @@ import RenterFilesForm from '@/components/renter/form/renter.files.form.vue';
 import FileService from '@/services/FileService';
 import Loading from '@/components/common/loading.vue';
 import RenterDeleteForm from '@/components/renter/form/renter.delete.form.vue';
+import RenterReactiveForm from '@/components/renter/form/renter.reactive.form.vue';
+import Alert from '@/components/common/alert.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -72,6 +74,7 @@ const fetchData = async () => {
     renterData.renterContract.fileName = data.renterContract;
     renterData.password = data.password;
     renterData.room = data.room;
+    renterData.isActive = data.isActive;
   } else {
     const data = await response.json();
     notify({
@@ -80,7 +83,10 @@ const fetchData = async () => {
       text: 'Failed to fetch renter data: ' + data?.message,
       type: 'error',
     });
-    router.push({ name: 'manage-residence', params: { residenceId: residenceId } });
+    router.push({
+      name: 'manage-residence',
+      params: { residenceId: residenceId },
+    });
   }
 };
 
@@ -124,15 +130,11 @@ const submitData = async () => {
   }
   // end of upload files
 
-  const response = await ResidenceServices.updateRenter(
-    residenceId,
-    renterId,
-    {
-      ...renterData,
-      copyOfIdCard: renterData.copyOfIdCard.fileName,
-      renterContract: renterData.renterContract.fileName,
-    }
-  );
+  const response = await ResidenceServices.updateRenter(residenceId, renterId, {
+    ...renterData,
+    copyOfIdCard: renterData.copyOfIdCard.fileName,
+    renterContract: renterData.renterContract.fileName,
+  });
   if (response.status == 200) {
     notify({
       group: 'tr',
@@ -140,7 +142,10 @@ const submitData = async () => {
       text: 'Renter update successfully',
       type: 'success',
     });
-    router.push({ name: 'manage-residence', params: { residenceId: residenceId } });
+    router.push({
+      name: 'manage-residence',
+      params: { residenceId: residenceId },
+    });
   } else {
     const data = await response.json();
     notify({
@@ -169,12 +174,55 @@ const deleteRenter = async () => {
         text: 'Renter deleted',
         type: 'success',
       });
-      router.push({ name: 'manage-residence', params: { residenceId: residenceId } });
+      router.push({
+        name: 'manage-residence',
+        params: { residenceId: residenceId },
+      });
     } else {
       const data = await response.json();
       notify({
         title: 'Error Delete Renter',
         text: 'Error Delete Renter, ' + data?.message,
+        type: 'error',
+        group: 'tr',
+      });
+    }
+  } catch (error) {
+    notify({
+      title: 'Error',
+      text: error.message,
+      type: 'error',
+      group: 'tr',
+    });
+  }
+};
+
+const reactiveRenter = async () => {
+  try {
+    const response = await ResidenceServices.reactiveRenter(
+      residenceId,
+      renterId
+    );
+    if (response.status == 200) {
+      swal.fire({
+        title: 'Success',
+        text: 'Renter reactivated',
+        icon: 'success',
+      });
+      notify({
+        title: 'Success',
+        text: 'Renter reactivated',
+        type: 'success',
+      });
+      router.push({
+        name: 'manage-residence',
+        params: { residenceId: residenceId },
+      });
+    } else {
+      const data = await response.json();
+      notify({
+        title: 'Error to reactive renter',
+        text: 'Error reactive Renter, ' + data?.message,
         type: 'error',
         group: 'tr',
       });
@@ -214,8 +262,13 @@ onMounted(async () => {
           ]"
         />
       </div>
+
+      <Alert v-if="!renterData.isActive">
+        This renter data is view only mode because this renter was deactivated.
+      </Alert>
+
       <div>
-        <div class="p-4 mb-4 card shadow-md bg-white">
+        <div class="p-4 mb-4 card shadow-md bg-white" v-if="renterData.isActive">
           <Steps
             :stepList="['Renter Infomation', 'Review Renter']"
             :currentStep="currentStep"
@@ -227,20 +280,27 @@ onMounted(async () => {
             class="basis-1/2"
             @getData="getChildData"
             :renterData="renterData"
+            :viewOnly="!renterData.isActive"
           />
           <RenterFilesForm
             class="basis-1/2"
             @getData="getChildData"
             :renterData="renterData"
+            :viewOnly="!renterData.isActive"
           />
         </div>
         <div v-if="currentStep == 1" class="flex gap-1 min-w-full mt-1">
           <RenterDeleteForm
-            v-if="currentStep == 1"
+            v-if="renterData.isActive"
             class="min-w-full"
             @deleteRenter="deleteRenter"
             :canDelete="!renterData.room"
             :room="renterData.room"
+          />
+          <RenterReactiveForm
+            v-else
+            class="min-w-full"
+            @reactiveRenter="reactiveRenter"
           />
         </div>
 
@@ -263,7 +323,7 @@ onMounted(async () => {
         </div>
 
         <!-- button control -->
-        <div class="flex justify-end gap-2 mt-10">
+        <div v-if="renterData.isActive" class="flex justify-end gap-2 mt-10" >
           <Button
             v-if="currentStep == 1"
             @click="
@@ -302,4 +362,3 @@ onMounted(async () => {
 </template>
 
 <style scoped></style>
-@/services/ResidenceServices

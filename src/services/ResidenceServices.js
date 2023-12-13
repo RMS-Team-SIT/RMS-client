@@ -35,13 +35,25 @@ class ResidenceService {
     );
 
   createRenter = async (residenceId, renter) =>
-    sendRequest(this.baseUrl, `/residence/${residenceId}/renter`, 'POST', renter);
+    sendRequest(
+      this.baseUrl,
+      `/residence/${residenceId}/renter`,
+      'POST',
+      renter
+    );
 
   fetchOneRenter = async (residenceId, renterId) =>
     sendRequest(
       this.baseUrl,
       `/residence/${residenceId}/renter/${renterId}`,
       'GET'
+    );
+
+  reactiveRenter = async (residenceId, renterId) =>
+    sendRequest(
+      this.baseUrl,
+      `/residence/${residenceId}/renter/${renterId}/reactive`,
+      'PUT'
     );
 
   deleteRenter = async (residenceId, renterId) =>
@@ -56,7 +68,11 @@ class ResidenceService {
     sendRequest(this.baseUrl, `/residence/${residenceId}/room`, 'GET');
 
   fetchOneRoomInResidence = async (residenceId, roomId) =>
-    sendRequest(this.baseUrl, `/residence/${residenceId}/room/${roomId}`, 'GET');
+    sendRequest(
+      this.baseUrl,
+      `/residence/${residenceId}/room/${roomId}`,
+      'GET'
+    );
 
   createRoom = async (residenceId, room) =>
     sendRequest(this.baseUrl, `/residence/${residenceId}/room`, 'POST', room);

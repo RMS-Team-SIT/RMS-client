@@ -95,8 +95,8 @@ const visiblePages = computed(() => {
             </td>
             <td>{{ renter.phone }}</td>
             <td>
-              <Badge v-if="renter.isActive" type="success">Active</Badge>
-              <Badge v-else type="error">Deactive</Badge>
+              <Badge v-if="renter.isActive" badgeType="success">Active</Badge>
+              <Badge v-else badgeType="error">Deactive</Badge>
             </td>
             <td>
               <div v-if="renter.room" class="underline">
