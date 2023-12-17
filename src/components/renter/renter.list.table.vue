@@ -19,12 +19,15 @@ const props = defineProps({
 const swal = inject('$swal');
 const currentPage = ref(1);
 const perPage = ref(5);
+const showDeactive = ref(false);
 const { notify } = useNotification();
 
 const computedrenters = computed(() => {
   const start = (currentPage.value - 1) * perPage.value;
   const end = start + perPage.value;
-  return props.renters.slice(start, end);
+  return props.renters
+    .filter((renter) => (showDeactive.value ? true : renter.isActive))
+    .slice(start, end);
 });
 
 const changePage = (page) => {
@@ -63,7 +66,13 @@ const visiblePages = computed(() => {
       <p class="text-xs text-gray-500">
         Total: {{ props.renters.length }} renters
       </p>
-
+      <div class="flex items-center justify-end w-full">
+        <input
+          type="checkbox"
+          class="toggle toggle-primary"
+          v-model="showDeactive"
+        />
+      </div>
       <table class="table table-xs">
         <!-- head -->
         <!-- show number of renter -->

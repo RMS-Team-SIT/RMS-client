@@ -209,9 +209,9 @@ router.beforeEach(async (to, from, next) => {
   } else {
     //https://pinia.vuejs.org/core-concepts/outside-component-usage.html
     const userStore = useUserStore();
-    // fetch user data
     await userStore.fetchUserData();
-    // check if the user is logged in from store
+    
+    console.log('userStore.isLoggedIn', userStore.isLoggedIn);
     if (userStore.isLoggedIn) {
       return next();
     }

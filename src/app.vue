@@ -58,7 +58,6 @@ const setLang = () => {
 };
 
 onMounted(async () => {
-  await userStore.fetchUserData();
   setLang();
   isLoading.value = false;
 });

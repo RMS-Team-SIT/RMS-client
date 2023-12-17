@@ -25,15 +25,19 @@ export const useUserStore = defineStore({
   },
   actions: {
     async fetchUserData() {
-      let token = localStorage.getItem('token');
-      if (!token) {
-        return;
-      }
-      const response = await UserService.me();
-      if (response.status === 200) {
-        const data = await response.json();
-        this.user = data;
-        this.isLoggedIn = true;
+      try {
+        let token = localStorage.getItem('token');
+        if (!token) {
+          return;
+        }
+        const response = await UserService.me();
+        if (response.status === 200) {
+          const data = await response.json();
+          this.user = data;
+          this.isLoggedIn = true;
+        }
+      } catch (error) {
+        console.log(error);
       }
     },
 
