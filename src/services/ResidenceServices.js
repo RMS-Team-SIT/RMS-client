@@ -56,7 +56,7 @@ class ResidenceService {
       'PUT'
     );
 
-  deleteRenter = async (residenceId, renterId) =>
+  deactiveRenter = async (residenceId, renterId) =>
     sendRequest(
       this.baseUrl,
       `/residence/${residenceId}/renter/${renterId}`,

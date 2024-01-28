@@ -60,11 +60,11 @@ const visiblePages = computed(() => {
 
 <template>
   <div class="overflow-x-auto">
-    <p class="text-base" v-if="!props.renters.length">No renter</p>
+    <p class="text-base mt-5" v-if="!props.renters.length">No renter</p>
     <div v-else>
       <!-- show number of renter -->
       <p class="text-xs text-gray-500">
-        Total: {{ props.renters.length }} renters
+        Total: {{ props.renters?.filter((r) => r.isActive).length }} renters
       </p>
       <div class="flex items-center justify-end w-full">
         <input

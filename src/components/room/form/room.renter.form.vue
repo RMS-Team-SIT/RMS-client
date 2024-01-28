@@ -72,7 +72,7 @@ watch(roomInfo, () => {
     </h1>
 
     <!-- List selected renter -->
-    <div class="font-bold">Selected Renter</div>
+    <div class="font-bold">Selected Renter:</div>
     <p v-if="!roomInfo.currentRenter">
       No renter selected. Please select renter.
     </p>
@@ -107,8 +107,8 @@ watch(roomInfo, () => {
 
     <!-- List all renter except selected renter -->
     <div v-if="!viewOnly">
-      <div class="font-bold mb-2">All available renter list</div>
-      <p v-if="!renterData.length || !availableRenter.length">
+      <div class="font-bold mb-2">All available renters:</div>
+      <p v-if="!renterData.length || !availableRenter.length" class="text-red-500">
         No renter available. Please create new renter.
       </p>
       <div class="flex flex-col gap-4">

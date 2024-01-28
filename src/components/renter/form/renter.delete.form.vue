@@ -2,7 +2,7 @@
 import Button from '@/components/common/button.vue';
 import { inject } from 'vue';
 
-const emit = defineEmits(['deleteRenter']);
+const emit = defineEmits(['deactiveRenter']);
 const props = defineProps({
   canDelete: {
     type: Boolean,
@@ -15,17 +15,17 @@ const props = defineProps({
 });
 const swal = inject('$swal');
 
-const deleteRenter = async () => {
+const deactiveRenter = async () => {
   const confirm = await swal.fire({
-    title: 'Are you sure to delete renter?',
-    text: 'You will not be able to recover this renter',
+    title: 'Are you sure to deactive this renter?',
+    text: 'You will able to reactive this renter later',
     showCancelButton: true,
-    confirmButtonText: 'Confirm delete',
+    confirmButtonText: 'Confirm deactive',
     cancelButtonText: 'Discard',
   });
 
   if (confirm.isConfirmed) {
-    emit('deleteRenter');
+    emit('deactiveRenter');
   }
 };
 </script>
@@ -33,19 +33,21 @@ const deleteRenter = async () => {
 <template>
   <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
     <h1 class="text-xl font-semibold text-red-500">Danger zone</h1>
-    <h1 class="text-base font-semibold text-dark-blue-200">Delete renter</h1>
-    <p class="text-xs">Delete renter data</p>
+    <h1 class="text-base font-semibold text-dark-blue-200">Deactive renter</h1>
+    <p class="text-xs">Deactive renter data</p>
     <Button
       btnType="secondary-pill"
       class="mt-4"
-      @click="deleteRenter"
+      @click="deactiveRenter"
       :disabled="!canDelete"
-      >Delete</Button
+      >Deactive</Button
     >
     <p v-if="!canDelete" class="text-gray-500 text-sm">
-      * Cannot delete renter. This renter was linked to
+      * Cannot delete renter. This renter currently renting room:
       <span class="text-red-500 underline cursor-pointer">
-        <router-link :to="{ name: 'update-room', params: { roomId: room._id } }">
+        <router-link
+          :to="{ name: 'update-room', params: { roomId: room._id } }"
+        >
           {{ room.name }}
         </router-link>
       </span>

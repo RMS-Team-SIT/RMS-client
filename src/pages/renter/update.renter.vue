@@ -157,21 +157,21 @@ const submitData = async () => {
   }
 };
 
-const deleteRenter = async () => {
+const deactiveRenter = async () => {
   try {
-    const response = await ResidenceServices.deleteRenter(
+    const response = await ResidenceServices.deactiveRenter(
       residenceId,
       renterId
     );
     if (response.status == 200) {
       swal.fire({
         title: 'Success',
-        text: 'Renter deleted',
+        text: 'Renter deactivated',
         icon: 'success',
       });
       notify({
         title: 'Success',
-        text: 'Renter deleted',
+        text: 'Renter deactivated',
         type: 'success',
       });
       router.push({
@@ -293,7 +293,7 @@ onMounted(async () => {
           <RenterDeleteForm
             v-if="renterData.isActive"
             class="min-w-full"
-            @deleteRenter="deleteRenter"
+            @deactiveRenter="deactiveRenter"
             :canDelete="!renterData.room"
             :room="renterData.room"
           />
