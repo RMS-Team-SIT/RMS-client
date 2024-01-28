@@ -49,7 +49,6 @@ const props = defineProps({
       <ul
         class="menu menu-horizontal px-1 text-center align-middle items-center"
       >
-        <li><router-link :to="{ name: 'home' }">{{ $t('navbar.home') }}</router-link></li>
         <li><router-link :to="{ name: 'manage' }">{{ $t('navbar.manage') }}</router-link></li>
         <div class="dropdown dropdown-end">
           <div tabindex="0" role="button" class="btn btn-ghost btn-circle">

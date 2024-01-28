@@ -3,14 +3,11 @@ import Breadcrumb from '@/components/common/breadcrumb.vue';
 import Button from '@/components/common/button.vue';
 import { onBeforeMount, onMounted, reactive, ref } from 'vue';
 import ResidenceCard from '@/components/residence/residence.card.vue';
-import { useUserStore } from '@/stores/user.store';
 import Loading from '@/components/common/loading.vue';
 import { useNotification } from '@kyvg/vue3-notification';
 import ResidenceServices from '@/services/ResidenceServices';
-import { useRouter } from 'vue-router';
 
-const userStore = useUserStore();
-const router = useRouter();
+
 const isLoading = ref(true);
 const residences = reactive({
   data: null,

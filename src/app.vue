@@ -28,6 +28,7 @@ const shouldShowFooter = computed(() => {
     'forget-password',
     'reset-password',
     'verify-email',
+    'not-found',
   ];
   return !excludedRoutes.includes(route.name);
 });
@@ -40,6 +41,7 @@ const shouldShowNavbar = computed(() => {
     'forget-password',
     'reset-password',
     'verify-email',
+    'not-found',
   ];
   return !excludedRoutes.includes(route.name);
 });
@@ -66,7 +68,7 @@ onMounted(async () => {
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
   <div :class="{ 'font-maitree': isThai }" v-else>
-    <navbar :isLoggedIn="userStore.isLoggedIn" v-if="shouldShowNavbar" />
+    <navbar v-if="shouldShowNavbar" :isLoggedIn="userStore.isLoggedIn" />
     <router-view class="min-h-screen" />
     <div>
       <notifications group="tc" position="top center" class="text-md" />

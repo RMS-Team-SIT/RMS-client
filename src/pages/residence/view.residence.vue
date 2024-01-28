@@ -2,12 +2,9 @@
 import Breadcrumb from '@/components/common/breadcrumb.vue';
 import { onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import Divider from '@/components/common/divider.vue';
 import ImagePreview from '@/components/common/image.preview.vue';
 import RoomSection from '@/components/room/room.section.vue';
 import RenterSection from '@/components/renter/renter.section.vue';
-import Button from '@/components/common/button.vue';
-import { PencilSquareIcon } from '@heroicons/vue/24/outline';
 import { useNotification } from '@kyvg/vue3-notification';
 import ResidenceServices from '@/services/ResidenceServices';
 import FileService from '@/services/FileService';
@@ -81,6 +78,36 @@ onMounted(async () => {
             class="min-h-full"
           />
         </div>
+
+        <!-- quick link Section -->
+        <section class="mt-12">
+          <h2 class="text-3xl font-semibold mb-6">Quick link</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Service Card -->
+            <div class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer">
+              <h3 class="text-xl font-semibold mb-2">Manage Rooms</h3>
+              <p>
+                Access to all of your rooms in this residence.
+              </p>
+            </div>
+
+            <!-- Service Card -->
+            <div class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer">
+              <h3 class="text-xl font-semibold mb-2">Manage Renters</h3>
+              <p>
+                Access to all of your renters in this residence.
+              </p>
+            </div>
+
+            <!-- Service Card -->
+            <div class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer">
+              <h3 class="text-xl font-semibold mb-2">Manage Room</h3>
+              <p>
+                Access to all of your room in this residence.
+              </p>
+            </div>
+          </div>
+        </section>
 
         <div class="grid grid-cols-1">
           <RoomSection

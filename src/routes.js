@@ -23,7 +23,7 @@ const verifyEmail = () => import('./pages/verify-email.vue');
 const createRoom = () => import('./pages/room/create.room.vue');
 const UpdateRoom = () => import('./pages/room/update.room.vue');
 
-const publicPathNames = [
+const publicRoutes = [
   'home',
   'signup',
   'signin',
@@ -31,6 +31,14 @@ const publicPathNames = [
   'forget-password',
   'reset-password',
   'verify-email',
+];
+
+const restrictedRoutesForLoggedInUsers = [
+  'home',
+  'signup',
+  'signin',
+  'forget-password',
+  'reset-password',
 ];
 
 const routes = [
@@ -187,7 +195,14 @@ const routes = [
     },
   },
 
-  { path: '/:path(.*)', component: NotFound },
+  {
+    path: '/:path(.*)',
+    component: NotFound,
+    name: 'not-found',
+    meta: {
+      title: 'Page Not Found',
+    },
+  },
 ];
 
 const router = createRouter({
@@ -203,19 +218,24 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  // check if the route is public
-  if (publicPathNames.includes(to.name)) {
-    return next();
-  } else {
-    //https://pinia.vuejs.org/core-concepts/outside-component-usage.html
+  try {
     const userStore = useUserStore();
     await userStore.fetchUserData();
-    
-    console.log('userStore.isLoggedIn', userStore.isLoggedIn);
-    if (userStore.isLoggedIn) {
-      return next();
+
+    console.log('User logged in:', userStore.isLoggedIn);
+
+    const isPublicRoute = publicRoutes.includes(to.name);
+    const isRestrictedRoute = restrictedRoutesForLoggedInUsers.includes(
+      to.name
+    );
+
+    if (!isPublicRoute) {
+      if (!userStore.isLoggedIn) return next({ name: 'signin' });
     }
-    return next({ name: 'signin' });
+
+    return next();
+  } catch (error) {
+    console.error('Error in navigation guard:', error);
   }
 });
 
