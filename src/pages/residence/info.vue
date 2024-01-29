@@ -2,11 +2,12 @@
 import Breadcrumb from '@/components/common/breadcrumb.vue';
 import { onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import ImagePreview from '@/components/common/image.preview.vue';
 import { useNotification } from '@kyvg/vue3-notification';
 import ResidenceServices from '@/services/ResidenceServices';
 import FileService from '@/services/FileService';
 import Loading from '@/components/common/loading.vue';
-import PaymentListTable from '@/components/payment/payment.list.table.vue';
+import ResidenceInfo from '@/components/residence/residence.info.vue';
 import Button from '@/components/common/button.vue';
 
 const router = useRouter();
@@ -56,7 +57,7 @@ onMounted(async () => {
           { name: 'Manage', pathName: 'manage' },
           { name: 'Residence' },
           { name: `${residence.data.name}` },
-          { name: 'Payment Method' },
+          { name: 'Information' },
         ]"
       />
       <Button
@@ -66,28 +67,14 @@ onMounted(async () => {
       >
         Back
       </Button>
-      <div class="grid grid-cols-1">
-        <div class="bg-white p-10 mt-2 shadow rounded-lg">
-          <div class="flex justify-between">
-            <h1 class="text-2xl font-semibold text-dark-blue-200">
-              Payment Methods
-            </h1>
-            <router-link
-              :to="{
-                name: 'create-renter',
-                params: {
-                  residenceId,
-                },
-              }"
-            >
-              <Button btnType="primary">Add Payments</Button>
-            </router-link>
-          </div>
-          <PaymentListTable
-            :residenceId="residenceId"
-            :payments="residence.data.payments"
-          />
-        </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2 mt-2">
+        <ResidenceInfo :residence="residence.data" />
+
+        <ImagePreview
+          :imageUrls="residence.data.images"
+          preview-from="url"
+          class="min-h-full"
+        />
       </div>
     </div>
   </div>

@@ -9,7 +9,6 @@ import Loading from '@/components/common/loading.vue';
 import PaidChart from '@/components/residence/charts/paid.chart.vue';
 import AvailableChart from '@/components/residence/charts/available.chart.vue';
 import IncomeChart from '@/components/residence/charts/income.chart.vue';
-import Banner from '@/components/common/banner.vue';
 import {
   BanknotesIcon,
   ChartPieIcon,
@@ -74,12 +73,12 @@ onMounted(async () => {
         :pathList="[
           { name: 'Home', pathName: 'home' },
           { name: 'Manage', pathName: 'manage' },
-          { name: 'Residence' },
           { name: `${residence.data.name}` },
+          { name: 'Dashboard' },
         ]"
       />
 
-      <section class="mt-5">
+      <section>
         <h1
           class="text-2xl font-semibold text-dark-blue-200 my-5 flex items-center gap-2"
         >
@@ -155,6 +154,7 @@ onMounted(async () => {
         </h1>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
           <div
+            @click="router.push({ name: 'renter', params: { residenceId } })"
             class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
           >
             <h3 class="text-xl font-semibold mb-2">Manage Renters</h3>
@@ -162,6 +162,7 @@ onMounted(async () => {
           </div>
 
           <div
+            @click="router.push({ name: 'room', params: { residenceId } })"
             class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
           >
             <h3 class="text-xl font-semibold mb-2">Manage Room</h3>
@@ -169,6 +170,7 @@ onMounted(async () => {
           </div>
 
           <div
+            @click="router.push({ name: 'info', params: { residenceId } })"
             class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
           >
             <h3 class="text-xl font-semibold mb-2">Manage Residence data</h3>
@@ -176,6 +178,7 @@ onMounted(async () => {
           </div>
 
           <div
+            @click="router.push({ name: 'payment', params: { residenceId } })"
             class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
           >
             <h3 class="text-xl font-semibold">Manage Payment</h3>

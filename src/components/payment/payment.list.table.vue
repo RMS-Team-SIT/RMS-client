@@ -27,7 +27,7 @@ const computedPayments = computed(() => {
   const start = (currentPage.value - 1) * perPage.value;
   const end = start + perPage.value;
   return props.payments
-    .filter((renter) => (showDeactive.value ? true : renter.isActive))
+    .filter((payment) => (showDeactive.value ? true : payment.isActive))
     .slice(start, end);
 });
 
@@ -71,7 +71,7 @@ const visiblePages = computed(() => {
       <div class="flex flex-row justify-end">
         <div class="form-control w-56">
           <label class="cursor-pointer label">
-            <span class="label-text">Show deactived renter</span>
+            <span class="label-text">Show deactived payment</span>
             <input
               type="checkbox"
               class="toggle toggle-primary"
@@ -120,7 +120,7 @@ const visiblePages = computed(() => {
               {{ dayjs(payment.updated_at).format('MM-DD-YYYY HH:mm:ss') }}
             </td>
             <th>
-                <Button btnType="ghost-pill">Edit</Button>
+              <Button btnType="ghost-pill">Edit</Button>
             </th>
           </tr>
         </tbody>

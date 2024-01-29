@@ -17,6 +17,7 @@ const resetPassword = () => import('./pages/reset-password.vue');
 
 const dashboard = () => import('./pages/residence/dashboard.vue');
 const viewResidence = () => import('@/pages/residence/view.vue');
+const info = () => import('@/pages/residence/info.vue');
 const createResidence = () => import('@/pages/residence/create.vue');
 const updateResidenceInfo = () => import('./pages/residence/update.info.vue');
 
@@ -223,6 +224,14 @@ const routes = [
     component: room,
     meta: {
       title: 'Room',
+    },
+  },
+  {
+    name: 'info',
+    path: '/manage/residence/:residenceId/info',
+    component: info,
+    meta: {
+      title: 'Information',
     },
   },
   {
