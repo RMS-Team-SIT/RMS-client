@@ -35,7 +35,7 @@ const imageSrc = computed(() => {
     </figure>
     <div class="card-body">
       <h2 class="card-title">Residence Name : {{ props.residence?.name }}</h2>
-      <p>Description : {{ props.residence?.description }}</p>
+      <p>Description : {{ props.residence?.description || 'No Description'}}</p>
       <p v-if="props.residence?.contact?.address">
         Address : {{ props.residence.contact.address }}
       </p>
