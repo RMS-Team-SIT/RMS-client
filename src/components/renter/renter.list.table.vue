@@ -66,12 +66,17 @@ const visiblePages = computed(() => {
       <p class="text-xs text-gray-500">
         Total: {{ props.renters?.filter((r) => r.isActive).length }} renters
       </p>
-      <div class="flex items-center justify-end w-full">
-        <input
-          type="checkbox"
-          class="toggle toggle-primary"
-          v-model="showDeactive"
-        />
+      <div class="flex flex-row justify-end">
+        <div class="form-control w-56">
+          <label class="cursor-pointer label">
+            <span class="label-text">Show deactived renter</span>
+            <input
+              type="checkbox"
+              class="toggle toggle-primary"
+              v-model="showDeactive"
+            />
+          </label>
+        </div>
       </div>
       <table class="table table-xs">
         <!-- head -->

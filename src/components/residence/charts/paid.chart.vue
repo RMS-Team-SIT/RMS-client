@@ -28,7 +28,7 @@ const data = computed(() => ({
 
 const options = {
   responsive: false,
-  maintainAspectRatio: false,
+  maintainAspectRatio: true,
 };
 
 ChartJS.register(ArcElement, Tooltip, Legend);

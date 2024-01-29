@@ -39,8 +39,8 @@ const data = {
 };
 
 const options = {
-  responsive: false,
-  maintainAspectRatio: false,
+  responsive: true,
+  maintainAspectRatio: true,
 };
 
 ChartJS.register(
