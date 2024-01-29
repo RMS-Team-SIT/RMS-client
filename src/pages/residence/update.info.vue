@@ -143,4 +143,3 @@ const goBack = () => {
 </template>
 
 <style scoped></style>
-@/services/ResidenceServices

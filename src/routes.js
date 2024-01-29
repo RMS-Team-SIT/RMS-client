@@ -30,6 +30,8 @@ const createRoom = () => import('./pages/residence/room/create.vue');
 const updateRoom = () => import('./pages/residence/room/update.vue');
 
 const payment = () => import('./pages/residence/payment.vue');
+const createPayment = () => import('./pages/residence/payment/create.vue');
+// const updatePayment = () => import('./pages/residence/payment/update.vue');
 
 const publicRoutes = [
   'home',
@@ -232,6 +234,14 @@ const routes = [
     component: info,
     meta: {
       title: 'Information',
+    },
+  },
+  {
+    name: 'create-payment',
+    path: '/manage/residence/:residenceId/payment/create',
+    component: createPayment,
+    meta: {
+      title: 'Create Payment',
     },
   },
   {

@@ -77,4 +77,3 @@ onBeforeMount(async () => {
 </template>
 
 <style scoped></style>
-@/services/ResidenceServices

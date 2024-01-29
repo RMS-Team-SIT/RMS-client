@@ -69,7 +69,7 @@ const submitData = async () => {
       text: 'Update room successfully',
       type: 'success',
     });
-    router.push({ name: 'manage-residence', params: { residenceId: residenceId } });
+    router.push({ name: 'room', params: { residenceId: residenceId } });
   } else {
     const data = await response.json();
     notify({
@@ -210,7 +210,7 @@ onMounted(async () => {
           <Button
             btn-type="secondary"
             @click="
-              router.push({ name: 'manage-residence', params: { residenceId } })
+              router.push({ name: 'room', params: { residenceId } })
             "
             v-if="currentStep == 1"
             class="rounded-badge"
@@ -245,4 +245,3 @@ onMounted(async () => {
 </template>
 
 <style scoped></style>
-@/services/ResidenceServices

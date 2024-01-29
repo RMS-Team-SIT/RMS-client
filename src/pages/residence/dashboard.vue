@@ -86,7 +86,10 @@ onMounted(async () => {
           {{ residence.data.name }}
         </h1>
         <div class="stats shadow">
-          <div class="stat">
+          <div
+            class="stat hover:cursor-pointer"
+            @click="router.push({ name: 'renter', params: { residenceId } })"
+          >
             <div class="stat-figure text-primary">
               <UserIcon class="h-8 w-8 inline-block" />
             </div>
@@ -97,7 +100,10 @@ onMounted(async () => {
             <div class="stat-desc">All renter in this residence.</div>
           </div>
 
-          <div class="stat">
+          <div
+            class="stat hover:cursor-pointer"
+            @click="router.push({ name: 'room', params: { residenceId } })"
+          >
             <div class="stat-figure text-secondary">
               <HomeIcon class="h-8 w-8 inline-block" />
             </div>
@@ -108,13 +114,16 @@ onMounted(async () => {
             <div class="stat-desc">All room in this residence.</div>
           </div>
 
-          <div class="stat">
+          <div
+            class="stat hover:cursor-pointer"
+            @click="router.push({ name: 'payment', params: { residenceId } })"
+          >
             <div class="stat-figure text-secondary">
               <CreditCardIcon class="h-8 w-8 inline-block" />
             </div>
             <div class="stat-title">Payment Method</div>
             <div class="stat-value text-secondary">
-              <CountUp :end-val="residence.data.rooms.length" />
+              <CountUp :end-val="residence.data.payments.length" />
             </div>
             <div class="stat-desc">All payment method.</div>
           </div>

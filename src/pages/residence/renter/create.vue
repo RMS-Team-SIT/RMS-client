@@ -212,4 +212,3 @@ const submitData = async () => {
 </template>
 
 <style scoped></style>
-@/services/ResidenceServices

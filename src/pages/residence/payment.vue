@@ -74,7 +74,7 @@ onMounted(async () => {
             </h1>
             <router-link
               :to="{
-                name: 'create-renter',
+                name: 'create-payment',
                 params: {
                   residenceId,
                 },

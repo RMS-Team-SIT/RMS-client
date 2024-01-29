@@ -91,6 +91,15 @@ class ResidenceService {
       `/residence/${residenceId}/room/${roomId}`,
       'DELETE'
     );
+
+  // payment
+  createPayment = async (residenceId, payment) =>
+    sendRequest(
+      this.baseUrl,
+      `/residence/${residenceId}/payment`,
+      'POST',
+      payment
+    );
 }
 
 export default new ResidenceService();
