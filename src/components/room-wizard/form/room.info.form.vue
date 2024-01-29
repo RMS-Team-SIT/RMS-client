@@ -15,9 +15,7 @@ const props = defineProps({
 });
 
 const roomInfo = reactive({
-  name: '',
-  description: '',
-  floor: 0,
+  numberOfFloor: 0,
   waterPriceRate: 0,
   lightPriceRate: 0,
   isUseDefaultWaterPriceRate: true,

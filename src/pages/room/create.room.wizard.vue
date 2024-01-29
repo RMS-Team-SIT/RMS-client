@@ -124,7 +124,7 @@ onMounted(async () => {
               pathName: 'manage-residence',
               params: { residenceId },
             },
-            { name: 'Create Room' },
+            { name: 'Create Room Wizard' },
           ]"
         />
       </div>
@@ -210,4 +210,3 @@ onMounted(async () => {
 </template>
 
 <style scoped></style>
-@/services/ResidenceServices

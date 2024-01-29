@@ -1,7 +1,7 @@
 <script setup>
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { computed, ref } from 'vue';
-import { Pie } from 'vue-chartjs';
+import { Pie, Doughnut } from 'vue-chartjs';
 
 const props = defineProps({
   paid: {

@@ -34,6 +34,7 @@ const roomData = reactive({
   currentWaterGauge: 0,
   currentLightGauge: 0,
   currentRenter: null,
+  roomRentalPrice: 0,
 });
 
 const changeStep = (action) => {

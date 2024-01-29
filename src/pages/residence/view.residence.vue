@@ -10,8 +10,9 @@ import ResidenceServices from '@/services/ResidenceServices';
 import FileService from '@/services/FileService';
 import Loading from '@/components/common/loading.vue';
 import ResidenceInfo from '@/components/residence/residence.info.vue';
-import PaidChart from '@/components/room/charts/paid.chart.vue';
-import AvailableChart from '@/components/room/charts/available.chart.vue';
+import PaidChart from '@/components/residence/charts/paid.chart.vue';
+import AvailableChart from '@/components/residence/charts/available.chart.vue';
+import IncomeChart from '@/components/residence/charts/income.chart.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -27,6 +28,7 @@ const fetchData = async () => {
   const response = await ResidenceServices.fetchResidence(residenceId);
   if (response.status === 200) {
     let result = await response.json();
+    console.log(result);
     residence.data = result;
     // parse residenceImage by adding base url
     residence.data.images = residence.data.images.map((imageName) => {
@@ -115,7 +117,9 @@ onMounted(async () => {
           <h2 class="text-3xl font-semibold mb-6">Dashboard</h2>
           <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             <div class="bg-white rounded-lg shadow-md">
-              <h3 class="text-xl font-semibold mb-2 p-5">Room paid bill status</h3>
+              <h3 class="text-xl font-semibold mb-2 p-5">
+                Room paid bill status
+              </h3>
               <PaidChart />
 
               <p class="text-xs p-5">Paid status will show here.</p>
@@ -132,7 +136,7 @@ onMounted(async () => {
               <AvailableChart />
               <p class="text-xs p-5">Room status will show here.</p>
             </div>
-            
+
             <div class="bg-white rounded-lg shadow-md">
               <h3 class="text-xl font-semibold mb-2 p-5">Room Status</h3>
               <AvailableChart />
@@ -146,6 +150,12 @@ onMounted(async () => {
 
             <div class="bg-white rounded-lg shadow-md">
               <h3 class="text-xl font-semibold mb-2 p-5">Room Count</h3>
+              <p class="text-xs p-5">Room status will show here.</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md col-span-3">
+              <h3 class="text-xl font-semibold mb-2 p-5">Residence Income</h3>
+              <IncomeChart />
               <p class="text-xs p-5">Room status will show here.</p>
             </div>
           </div>

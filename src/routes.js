@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import UserServices from './services/UserServices';
 import { useUserStore } from './stores/user.store';
+import createRoomWizardVue from './pages/room/create.room.wizard.vue';
 
 const index = () => import('@/pages/index.vue');
 const NotFound = () => import('@/pages/not-found.vue');
@@ -20,6 +21,7 @@ const PdfPreview = () => import('./pages/pdf-preview.vue');
 const updateRenter = () => import('./pages/renter/update.renter.vue');
 const verifyEmail = () => import('./pages/verify-email.vue');
 const createRoom = () => import('./pages/room/create.room.vue');
+const createRoomWizard = () => import('./pages/room/create.room.wizard.vue');
 const UpdateRoom = () => import('./pages/room/update.room.vue');
 
 const publicRoutes = [
@@ -173,6 +175,14 @@ const routes = [
     name: 'create-room',
     path: '/manage/residence/:residenceId/room/create',
     component: createRoom,
+    meta: {
+      title: 'Create Room',
+    },
+  },
+  {
+    name: 'create-room-wizard',
+    path: '/manage/residence/:residenceId/room/create-wizard',
+    component: createRoomWizard,
     meta: {
       title: 'Create Room',
     },
