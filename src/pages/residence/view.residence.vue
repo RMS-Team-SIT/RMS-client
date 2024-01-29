@@ -82,42 +82,38 @@ onMounted(async () => {
       </div>
 
       <!-- Quick link Section -->
-      <!-- <section class="mt-12">
-          <h2 class="text-3xl font-semibold mb-6">Quick link</h2>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-
-            <div
-              class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
-            >
-              <h3 class="text-xl font-semibold mb-2">Dashboard</h3>
-              <p>Access to your residence dashboard.</p>
-            </div>
-
-            <div
-              class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
-            >
-              <h3 class="text-xl font-semibold mb-2">Manage Renters</h3>
-              <p>Access to all of your renters in this residence.</p>
-            </div>
-
-          
-            <div
-              class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
-            >
-              <h3 class="text-xl font-semibold mb-2">Manage Room</h3>
-              <p>Access to all of your room in this residence.</p>
-            </div>
+      <section class="mt-12">
+        <!-- <h2 class="text-3xl font-semibold mb-6">Quick link</h2> -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div
+            class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
+          >
+            <h3 class="text-xl font-semibold mb-2">Dashboard</h3>
+            <p>Access to your residence dashboard.</p>
           </div>
-        </section> -->
 
-      <div id="dashboard">
-        <div class="shadow-xs">
-          <h1 class="text-2xl font-semibold text-dark-blue-200 my-5">
-            <ChartPieIcon class="h-8 w-8 inline-block" /> Overview
-          </h1>
+          <div
+            class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
+          >
+            <h3 class="text-xl font-semibold mb-2">Manage Renters</h3>
+            <p>Access to all of your renters in this residence.</p>
+          </div>
+
+          <div
+            class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
+          >
+            <h3 class="text-xl font-semibold mb-2">Manage Room</h3>
+            <p>Access to all of your room in this residence.</p>
+          </div>
         </div>
-        <div class="grid grid-cols-1 gap-2 lg:grid-cols-4">
-          <div class="bg-white rounded-lg shadow-md">
+      </section>
+
+      <section class="mt-12">
+        <h1 class="text-2xl font-semibold text-dark-blue-200 my-5">
+          <ChartPieIcon class="h-8 w-8 inline-block" /> Overview
+        </h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+          <div class="p-6 bg-white rounded-lg shadow-md">
             <h3 class="text-xl font-semibold mb-2 p-5">
               Room paid bill status
             </h3>
@@ -125,32 +121,31 @@ onMounted(async () => {
             <p class="text-xs p-5">Paid status will show here.</p>
           </div>
 
-          <div class="bg-white rounded-lg shadow-md">
+          <div class="p-6 bg-white rounded-lg shadow-md">
             <h3 class="text-xl font-semibold mb-2 p-5">Room Status</h3>
             <AvailableChart />
             <p class="text-xs p-5">Room status will show here.</p>
           </div>
 
-
-          <div class="bg-white rounded-lg shadow-md">
+          <div class="p-6 bg-white rounded-lg shadow-md">
             <h3 class="text-xl font-semibold mb-2 p-5">Renters Count</h3>
             <count-up class="mb-2 p-5 text-6xl" :end-val="500"></count-up>
             <p class="text-xs p-5">Total renter in this residence.</p>
           </div>
 
-          <div class="bg-white rounded-lg shadow-md">
+          <div class="p-6 bg-white rounded-lg shadow-md">
             <h3 class="text-xl font-semibold mb-2 p-5">Room Count</h3>
             <count-up class="mb-2 p-5 text-6xl" :end-val="30"></count-up>
             <p class="text-xs p-5">Total room in this residence.</p>
           </div>
 
-          <div class="bg-white rounded-lg shadow-md col-span-3 p-5">
+          <div class="p-6 bg-white rounded-lg shadow-md xl:col-span-2">
             <h3 class="text-xl font-semibold mb-2 p-5">Residence Income</h3>
             <IncomeChart />
             <p class="text-xs p-5">Room status will show here.</p>
           </div>
         </div>
-      </div>
+      </section>
 
       <div class="grid grid-cols-1">
         <RoomSection
