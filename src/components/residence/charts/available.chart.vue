@@ -2,12 +2,25 @@
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'vue-chartjs';
 
+const props = defineProps({
+  available: {
+    type: Number,
+    required: true,
+    default: 10,
+  },
+  notAvailable: {
+    type: Number,
+    required: true,
+    default: 10,
+  },
+});
+
 const data = {
   labels: ['Available', 'Not Available'],
   datasets: [
     {
       backgroundColor: ['#41B883', '#E46651'],
-      data: [40, 20],
+      data: [props.available, props.notAvailable],
     },
   ],
 };

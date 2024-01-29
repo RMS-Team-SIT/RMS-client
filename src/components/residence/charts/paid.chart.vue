@@ -35,7 +35,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 </script>
 
 <template>
-  <Pie :data="data" :options="options" />
+  <Pie :data="data" :options="options"/>
 </template>
 
 <style scoped></style>
