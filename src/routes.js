@@ -23,6 +23,7 @@ const verifyEmail = () => import('./pages/verify-email.vue');
 const createRoom = () => import('./pages/room/create.room.vue');
 const createRoomWizard = () => import('./pages/room/create.room.wizard.vue');
 const UpdateRoom = () => import('./pages/room/update.room.vue');
+const dashboard = () => import('./pages/residence/dashboard.residence.vue');
 
 const publicRoutes = [
   'home',
@@ -195,7 +196,14 @@ const routes = [
       title: 'Update Room',
     },
   },
-
+  {
+    name: 'dashboard',
+    path: '/manage/residence/:residenceId/dashboard',
+    component: dashboard,
+    meta: {
+      title: 'Dashboard',
+    },
+  },
   {
     path: '/:path(.*)',
     component: NotFound,

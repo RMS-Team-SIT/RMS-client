@@ -16,15 +16,11 @@ const props = defineProps({
   },
 });
 
-const gotoManage = (residenceId) => {
-  router.push(`/manage/residence/${residenceId}`);
-};
 const imageSrc = computed(() => {
   if (props.residence.images.length === 0) {
     return img4;
   }
   return FileService.getFile(props.residence.images[0]);
-  
 });
 </script>
 
@@ -35,7 +31,9 @@ const imageSrc = computed(() => {
     </figure>
     <div class="card-body">
       <h2 class="card-title">Residence Name : {{ props.residence?.name }}</h2>
-      <p>Description : {{ props.residence?.description || 'No Description'}}</p>
+      <p>
+        Description : {{ props.residence?.description || 'No Description' }}
+      </p>
       <p v-if="props.residence?.contact?.address">
         Address : {{ props.residence.contact.address }}
       </p>
@@ -50,8 +48,13 @@ const imageSrc = computed(() => {
         <Button
           class="btn"
           btnType="secondary"
-          @click="gotoManage(props.residence._id)"
-          >Manage</Button
+          @click="
+            router.push({
+              name: 'dashboard',
+              params: { residenceId: props.residence._id },
+            })
+          "
+          >Dashboard</Button
         >
       </div>
     </div>
