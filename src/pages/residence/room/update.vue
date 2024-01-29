@@ -105,6 +105,7 @@ const fetchRoomData = async () => {
     roomData.currentWaterGauge = result.currentWaterGauge;
     roomData.currentLightGauge = result.currentLightGauge;
     roomData.currentRenter = result.currentRenter;
+    roomData.roomRentalPrice = result.roomRentalPrice;
   } else {
     notify({
       group: 'tr',
