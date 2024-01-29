@@ -2,11 +2,12 @@
 import Badge from '../common/badge.vue';
 import Button from '@/components/common/button.vue';
 import { computed, inject, onMounted, reactive, ref } from 'vue';
+import ResidenceServices from '@/services/ResidenceServices';
 import { useNotification } from '@kyvg/vue3-notification';
 import dayjs from 'dayjs';
 
 const props = defineProps({
-  renters: {
+  payments: {
     type: Array,
     default: () => [],
   },
@@ -22,10 +23,10 @@ const perPage = ref(5);
 const showDeactive = ref(false);
 const { notify } = useNotification();
 
-const computedrenters = computed(() => {
+const computedPayments = computed(() => {
   const start = (currentPage.value - 1) * perPage.value;
   const end = start + perPage.value;
-  return props.renters
+  return props.payments
     .filter((renter) => (showDeactive.value ? true : renter.isActive))
     .slice(start, end);
 });
@@ -37,7 +38,7 @@ const changePage = (page) => {
 };
 
 const totalPages = computed(() => {
-  return Math.ceil(props.renters.length / perPage.value);
+  return Math.ceil(props.payments.length / perPage.value);
 });
 
 const visiblePages = computed(() => {
@@ -60,11 +61,12 @@ const visiblePages = computed(() => {
 
 <template>
   <div class="overflow-x-auto">
-    <p class="text-base mt-5" v-if="!props.renters.length">No renter</p>
+    <p class="text-base mt-5" v-if="!props.payments.length">No renter</p>
     <div v-else>
       <!-- show number of renter -->
       <p class="text-xs text-gray-500">
-        Total: {{ props.renters?.filter((r) => r.isActive).length }} renters
+        Total: {{ props.payments?.filter((r) => r.isActive).length }} Payment
+        method
       </p>
       <div class="flex flex-row justify-end">
         <div class="form-control w-56">
@@ -84,105 +86,41 @@ const visiblePages = computed(() => {
         <thead>
           <tr>
             <th>#</th>
-            <th>Name</th>
-            <th>Username</th>
-            <th>Phone</th>
-            <th>Active</th>
-            <th>Current Room</th>
-            <th>Copy Of ID Card</th>
-            <th>Renter contract</th>
+            <th>Payment Type</th>
+            <th>Bank Name</th>
+            <th>Account Number</th>
+            <th>Account Name</th>
+            <th>Status</th>
             <th>Created At</th>
             <th>Updated At</th>
           </tr>
         </thead>
         <tbody>
           <!-- row 1 -->
-          <tr v-for="(renter, index) in computedrenters" :key="index">
+          <tr v-for="(payment, index) in computedPayments" :key="index">
             <td>
               {{ index + 1 }}
             </td>
             <td class="">
-              <span> {{ renter.firstname }} {{ renter.lastname }}</span>
+              <span> {{ payment.type }}</span>
             </td>
             <td>
-              {{ renter.username }}
+              {{ payment.bank.bank }}
             </td>
-            <td>{{ renter.phone }}</td>
+            <td>{{ payment.account_number }}</td>
+            <td>{{ payment.account_name }}</td>
             <td>
-              <Badge v-if="renter.isActive" badgeType="success">Active</Badge>
+              <Badge v-if="payment.isActive" badgeType="success">Active</Badge>
               <Badge v-else badgeType="error">Deactive</Badge>
             </td>
             <td>
-              <div v-if="renter.room" class="underline">
-                <router-link
-                  :to="{
-                    name: 'update-room',
-                    params: {
-                      roomId: renter.room._id,
-                      residenceId: residenceId,
-                    },
-                  }"
-                >
-                  {{ renter.room.name }}
-                </router-link>
-              </div>
-              <div v-else>
-                <span class="text-red-500">No Room</span>
-              </div>
+              {{ dayjs(payment.created_at).format('MM-DD-YYYY HH:mm:ss') }}
             </td>
             <td>
-              <div v-if="renter.copyOfIdCard" class="underline">
-                <router-link
-                  target="_blank"
-                  :to="{
-                    name: 'pdf-preview',
-                    query: {
-                      filename: renter.copyOfIdCard,
-                    },
-                  }"
-                >
-                  Preview
-                </router-link>
-              </div>
-              <div v-else>
-                <span class="text-red-500">No file</span>
-              </div>
-            </td>
-            <td>
-              <div v-if="renter.renterContract" class="underline">
-                <router-link
-                  target="_blank"
-                  :to="{
-                    name: 'pdf-preview',
-                    query: {
-                      filename: renter.renterContract,
-                    },
-                  }"
-                >
-                  Preview
-                </router-link>
-              </div>
-              <div v-else>
-                <span class="text-red-500">No file</span>
-              </div>
-            </td>
-            <td>
-              {{ dayjs(renter.created_at).format('MM-DD-YYYY HH:mm:ss') }}
-            </td>
-            <td>
-              {{ dayjs(renter.updated_at).format('MM-DD-YYYY HH:mm:ss') }}
+              {{ dayjs(payment.updated_at).format('MM-DD-YYYY HH:mm:ss') }}
             </td>
             <th>
-              <router-link
-                :to="{
-                  name: 'update-renter',
-                  params: {
-                    renterId: renter._id,
-                  },
-                }"
-              >
                 <Button btnType="ghost-pill">Edit</Button>
-              </router-link>
             </th>
           </tr>
         </tbody>

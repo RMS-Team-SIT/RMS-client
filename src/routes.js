@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import UserServices from './services/UserServices';
 import { useUserStore } from './stores/user.store';
-import createRoomWizardVue from './pages/room/create.room.wizard.vue';
 
 const index = () => import('@/pages/index.vue');
 const NotFound = () => import('@/pages/not-found.vue');
@@ -9,21 +7,28 @@ const signup = () => import('@/pages/signup.vue');
 const signin = () => import('@/pages/signin.vue');
 const signout = () => import('@/pages/signout.vue');
 const manage = () => import('@/pages/manage.vue');
-const viewResidence = () => import('@/pages/residence/view.residence.vue');
-const createResidence = () => import('@/pages/residence/create.residence.vue');
+
+const PdfPreview = () => import('./pages/pdf-preview.vue');
+
 const profile = () => import('./pages/profile.vue');
-const updateResidenceInfo = () =>
-  import('./pages/residence/update.info.residence.vue');
+const verifyEmail = () => import('./pages/verify-email.vue');
 const forgetPassword = () => import('./pages/forget-password.vue');
 const resetPassword = () => import('./pages/reset-password.vue');
-const createRenter = () => import('./pages/renter/create.renter.vue');
-const PdfPreview = () => import('./pages/pdf-preview.vue');
-const updateRenter = () => import('./pages/renter/update.renter.vue');
-const verifyEmail = () => import('./pages/verify-email.vue');
-const createRoom = () => import('./pages/room/create.room.vue');
-const createRoomWizard = () => import('./pages/room/create.room.wizard.vue');
-const UpdateRoom = () => import('./pages/room/update.room.vue');
-const dashboard = () => import('./pages/residence/dashboard.residence.vue');
+
+const dashboard = () => import('./pages/residence/dashboard.vue');
+const viewResidence = () => import('@/pages/residence/view.vue');
+const createResidence = () => import('@/pages/residence/create.vue');
+const updateResidenceInfo = () => import('./pages/residence/update.info.vue');
+
+const renter = () => import('./pages/residence/renter.vue');
+const createRenter = () => import('./pages/residence/renter/create.vue');
+const updateRenter = () => import('./pages/residence/renter/update.vue');
+
+const room = () => import('./pages/residence/room.vue');
+const createRoom = () => import('./pages/residence/room/create.vue');
+const updateRoom = () => import('./pages/residence/room/update.vue');
+
+const payment = () => import('./pages/residence/payment.vue');
 
 const publicRoutes = [
   'home',
@@ -181,17 +186,9 @@ const routes = [
     },
   },
   {
-    name: 'create-room-wizard',
-    path: '/manage/residence/:residenceId/room/create-wizard',
-    component: createRoomWizard,
-    meta: {
-      title: 'Create Room',
-    },
-  },
-  {
     name: 'update-room',
     path: '/manage/residence/:residenceId/room/update/:roomId',
-    component: UpdateRoom,
+    component: updateRoom,
     meta: {
       title: 'Update Room',
     },
@@ -202,6 +199,30 @@ const routes = [
     component: dashboard,
     meta: {
       title: 'Dashboard',
+    },
+  },
+  {
+    name: 'payment',
+    path: '/manage/residence/:residenceId/payment',
+    component: payment,
+    meta: {
+      title: 'Payment Method',
+    },
+  },
+  {
+    name: 'renter',
+    path: '/manage/residence/:residenceId/renter',
+    component: renter,
+    meta: {
+      title: 'Renter',
+    },
+  },
+  {
+    name: 'room',
+    path: '/manage/residence/:residenceId/room',
+    component: room,
+    meta: {
+      title: 'Room',
     },
   },
   {

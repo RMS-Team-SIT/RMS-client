@@ -2,14 +2,10 @@
 import Breadcrumb from '@/components/common/breadcrumb.vue';
 import { onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import ImagePreview from '@/components/common/image.preview.vue';
-import RoomSection from '@/components/room/room.section.vue';
-import RenterSection from '@/components/renter/renter.section.vue';
 import { useNotification } from '@kyvg/vue3-notification';
 import ResidenceServices from '@/services/ResidenceServices';
 import FileService from '@/services/FileService';
 import Loading from '@/components/common/loading.vue';
-import ResidenceInfo from '@/components/residence/residence.info.vue';
 import PaidChart from '@/components/residence/charts/paid.chart.vue';
 import AvailableChart from '@/components/residence/charts/available.chart.vue';
 import IncomeChart from '@/components/residence/charts/income.chart.vue';
@@ -19,6 +15,7 @@ import {
   ChartPieIcon,
   CreditCardIcon,
   HomeIcon,
+  LinkIcon,
   UserIcon,
 } from '@heroicons/vue/24/outline';
 import CountUp from 'vue-countup-v3';
@@ -83,11 +80,12 @@ onMounted(async () => {
       />
 
       <section class="mt-5">
-        <h1 class="text-2xl font-semibold text-dark-blue-200 my-5">
+        <h1
+          class="text-2xl font-semibold text-dark-blue-200 my-5 flex items-center gap-2"
+        >
           <ChartPieIcon class="h-8 w-8 inline-block" /> Overview :
           {{ residence.data.name }}
         </h1>
-
         <div class="stats shadow">
           <div class="stat">
             <div class="stat-figure text-primary">
@@ -150,15 +148,12 @@ onMounted(async () => {
 
       <!-- Quick link Section -->
       <section class="mt-5">
-        <!-- <h2 class="text-3xl font-semibold mb-6">Quick link</h2> -->
+        <h1
+          class="text-2xl font-semibold text-dark-blue-200 my-5 flex items-center gap-2"
+        >
+          <LinkIcon class="h-8 w-8 inline-block" /> Quick Link
+        </h1>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
-          <div
-            class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
-          >
-            <h3 class="text-xl font-semibold mb-2">Dashboard</h3>
-            <p>Access to your residence dashboard.</p>
-          </div>
-
           <div
             class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
           >
@@ -177,6 +172,13 @@ onMounted(async () => {
             class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
           >
             <h3 class="text-xl font-semibold mb-2">Manage Residence data</h3>
+            <p>Access to all of your room in this residence.</p>
+          </div>
+
+          <div
+            class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
+          >
+            <h3 class="text-xl font-semibold">Manage Payment</h3>
             <p>Access to all of your room in this residence.</p>
           </div>
         </div>

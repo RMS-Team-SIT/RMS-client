@@ -16,6 +16,7 @@ import IncomeChart from '@/components/residence/charts/income.chart.vue';
 import Banner from '@/components/common/banner.vue';
 import { ChartPieIcon, HomeIcon, UserIcon } from '@heroicons/vue/24/outline';
 import CountUp from 'vue-countup-v3';
+import PaymentListTable from '@/components/payment/payment.list.table.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -80,9 +81,8 @@ onMounted(async () => {
         {{ route.meta.title }}: {{ residence.data.name }}
       </h1>
 
-      
-       <!-- Quick link Section -->
-       <section class="mt-5">
+      <!-- Quick link Section -->
+      <section class="mt-5">
         <!-- <h2 class="text-3xl font-semibold mb-6">Quick link</h2> -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
           <div
@@ -204,6 +204,28 @@ onMounted(async () => {
           :residenceId="residenceId"
           :renters="residence.data.renters"
         />
+      </div>
+
+      <div class="grid grid-cols-1">
+        <div class="bg-white p-10 mt-2 shadow rounded-lg">
+          <div class="flex justify-between">
+            <h1 class="text-2xl font-semibold text-dark-blue-200">Payment Methods</h1>
+            <router-link
+              :to="{
+                name: 'create-renter',
+                params: {
+                  residenceId,
+                },
+              }"
+            >
+              <Button btnType="primary">Add Payments</Button>
+            </router-link>
+          </div>
+          <PaymentListTable
+            :residenceId="residenceId"
+            :payments="residence.data.payments"
+          />
+        </div>
       </div>
     </div>
   </div>

@@ -84,7 +84,7 @@ const fetchData = async () => {
       type: 'error',
     });
     router.push({
-      name: 'manage-residence',
+      name: 'renter',
       params: { residenceId: residenceId },
     });
   }
@@ -143,7 +143,7 @@ const submitData = async () => {
       type: 'success',
     });
     router.push({
-      name: 'manage-residence',
+      name: 'renter',
       params: { residenceId: residenceId },
     });
   } else {
@@ -175,7 +175,7 @@ const deactiveRenter = async () => {
         type: 'success',
       });
       router.push({
-        name: 'manage-residence',
+        name: 'renter',
         params: { residenceId: residenceId },
       });
     } else {
@@ -215,7 +215,7 @@ const reactiveRenter = async () => {
         type: 'success',
       });
       router.push({
-        name: 'manage-residence',
+        name: 'renter',
         params: { residenceId: residenceId },
       });
     } else {
@@ -254,7 +254,7 @@ onMounted(async () => {
             { name: 'Manage', pathName: 'manage' },
             {
               name: 'Residence',
-              pathName: 'manage-residence',
+              pathName: 'dashboard',
               params: { residenceId },
             },
             { name: 'Update Renter' },
@@ -327,7 +327,7 @@ onMounted(async () => {
           <Button
             v-if="currentStep == 1"
             @click="
-              router.push({ name: 'manage-residence', params: { residenceId } })
+              router.push({ name: 'renter', params: { residenceId } })
             "
             class="rounded-badge"
             btnType="secondary"
