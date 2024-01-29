@@ -99,7 +99,7 @@ watch(renterInfo, () => {
       />
     </div>
 
-    <h1 class="text-xl mt-2 font-semibold text-dark-blue-200">Renter Account Login</h1>
+    <h1 class="text-xl mt-5 font-semibold text-dark-blue-200">Renter Account Login</h1>
     <p class="text-xs">Please input renter basic information.</p>
     <div>
       <label class="label">
@@ -138,7 +138,7 @@ watch(renterInfo, () => {
         >
       </div>
       <p class="text-xs text-gray-500 mt-2">
-        * Renter email and password used to login to your renter system.
+        * Renter username and password used to login to your renter system.
       </p>
     </div>
   </div>

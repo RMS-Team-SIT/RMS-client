@@ -16,7 +16,6 @@ const updateResidenceInfo = () =>
 const forgetPassword = () => import('./pages/forget-password.vue');
 const resetPassword = () => import('./pages/reset-password.vue');
 const createRenter = () => import('./pages/renter/create.renter.vue');
-const Temp = () => import('./pages/temp.vue');
 const PdfPreview = () => import('./pages/pdf-preview.vue');
 const updateRenter = () => import('./pages/renter/update.renter.vue');
 const verifyEmail = () => import('./pages/verify-email.vue');
@@ -152,14 +151,6 @@ const routes = [
     component: updateRenter,
     meta: {
       title: 'Update Renter',
-    },
-  },
-  {
-    name: 'temp',
-    path: '/temp',
-    component: Temp,
-    meta: {
-      title: 'Create Renter',
     },
   },
   {

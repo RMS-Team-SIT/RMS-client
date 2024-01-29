@@ -10,6 +10,8 @@ import ResidenceServices from '@/services/ResidenceServices';
 import FileService from '@/services/FileService';
 import Loading from '@/components/common/loading.vue';
 import ResidenceInfo from '@/components/residence/residence.info.vue';
+import PaidChart from '@/components/room/charts/paid.chart.vue';
+import AvailableChart from '@/components/room/charts/available.chart.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -79,35 +81,75 @@ onMounted(async () => {
           />
         </div>
 
-        <!-- quick link Section -->
+        <!-- Quick link Section -->
         <section class="mt-12">
           <h2 class="text-3xl font-semibold mb-6">Quick link</h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <!-- Service Card -->
-            <div class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer">
-              <h3 class="text-xl font-semibold mb-2">Manage Rooms</h3>
-              <p>
-                Access to all of your rooms in this residence.
-              </p>
+            <div
+              class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
+            >
+              <h3 class="text-xl font-semibold mb-2">Dashboard</h3>
+              <p>Access to your residence dashboard.</p>
             </div>
 
             <!-- Service Card -->
-            <div class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer">
+            <div
+              class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
+            >
               <h3 class="text-xl font-semibold mb-2">Manage Renters</h3>
-              <p>
-                Access to all of your renters in this residence.
-              </p>
+              <p>Access to all of your renters in this residence.</p>
             </div>
 
             <!-- Service Card -->
-            <div class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer">
+            <div
+              class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
+            >
               <h3 class="text-xl font-semibold mb-2">Manage Room</h3>
-              <p>
-                Access to all of your room in this residence.
-              </p>
+              <p>Access to all of your room in this residence.</p>
             </div>
           </div>
         </section>
+
+        <div id="dashboard" class="mt-2">
+          <h2 class="text-3xl font-semibold mb-6">Dashboard</h2>
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div class="bg-white rounded-lg shadow-md">
+              <h3 class="text-xl font-semibold mb-2 p-5">Room paid bill status</h3>
+              <PaidChart />
+
+              <p class="text-xs p-5">Paid status will show here.</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md">
+              <h3 class="text-xl font-semibold mb-2 p-5">Room Status</h3>
+              <AvailableChart />
+              <p class="text-xs p-5">Room status will show here.</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md">
+              <h3 class="text-xl font-semibold mb-2 p-5">Room Status</h3>
+              <AvailableChart />
+              <p class="text-xs p-5">Room status will show here.</p>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md">
+              <h3 class="text-xl font-semibold mb-2 p-5">Room Status</h3>
+              <AvailableChart />
+              <p class="text-xs p-5">Room status will show here.</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md">
+              <h3 class="text-xl font-semibold mb-2 p-5">Renters Count</h3>
+              <p class="text-xs p-5">Room status will show here.</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md">
+              <h3 class="text-xl font-semibold mb-2 p-5">Room Count</h3>
+              <p class="text-xs p-5">Room status will show here.</p>
+            </div>
+          </div>
+        </div>
 
         <div class="grid grid-cols-1">
           <RoomSection
