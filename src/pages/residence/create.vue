@@ -114,9 +114,9 @@ const submitData = async () => {
         <div class="p-4 mb-4 card shadow-xl bg-white">
           <Steps
             :stepList="[
-              'Residence Infomation',
-              'Residence Images',
-              'Review Information',
+              'กรอกข้อมูล',
+              'เพิ่มรูปภาพ',
+              'ตรวจสอบข้อมูล',
             ]"
             :currentStep="currentStep"
           />
@@ -141,9 +141,9 @@ const submitData = async () => {
         <div v-if="currentStep == 2" class="flex gap-4">
           <div class="relative bg-white p-10 space-y-4 shadow-md rounded basis-full">
             <h1 class="text-xl font-semibold text-dark-blue-200">
-              Residence Images
+              อัพโหลดรูปภาพ
             </h1>
-            <p class="text-xs">Please upload your residence images.</p>
+            <p class="text-xs">อัพโหลดรูปภาพของหอพัก</p>
             <ImageUploadForm
               @getImageFiles="getChildData"
               :imageFiles="residenceData.imageFiles"
@@ -185,7 +185,7 @@ const submitData = async () => {
             class="rounded-badge"
           >
             <ArrowLeftIcon class="w-4 h-4" />
-            Back
+            ย้อนกลับ
           </Button>
           <Button
             v-if="currentStep == numberOfSteps"
@@ -193,10 +193,10 @@ const submitData = async () => {
             class="rounded-badge"
             btnType="primary"
           >
-            Submit
+            บันทึกข้อมูล
           </Button>
           <Button @click="changeStep('next')" class="rounded-badge" v-else>
-            Next Step
+            ถัดไป
             <ArrowRightIcon class="w-4 h-4" />
           </Button>
         </div>

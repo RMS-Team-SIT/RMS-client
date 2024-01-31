@@ -30,7 +30,7 @@ const imageSrc = computed(() => {
       <img class="w-60 h-60 rounded-lg shadow-xl" :src="imageSrc" />
     </figure>
     <div class="card-body">
-      <h2 class="card-title">ชื่อห้องพัก : {{ props.residence?.name }}</h2>
+      <h2 class="card-title">ชื่อหอพัก : {{ props.residence?.name }}</h2>
       <p>
         รายละเอียด : {{ props.residence?.description || 'No Description' }}
       </p>

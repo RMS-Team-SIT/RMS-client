@@ -37,7 +37,8 @@ const emitData = () => {
 
 const setDataFromProps = () => {
   for (const key in props.residenceData) {
-    if (key in residenceContact) residenceContact[key] = props.residenceData[key];
+    if (key in residenceContact)
+      residenceContact[key] = props.residenceData[key];
   }
 };
 
@@ -52,8 +53,8 @@ watch(residenceContact, () => {
 
 <template>
   <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
-    <h1 class="text-xl font-semibold text-dark-blue-200">Residence Contact</h1>
-    <p class="text-xs">Please input residence contact information.</p>
+    <h1 class="text-xl font-semibold text-dark-blue-200">ข้อมูลการติดต่อ</h1>
+    <p class="text-xs">โปรดใส่ข้อมูลการติดต่อ</p>
     <div>
       <label class="label">
         <span class="text-base label-text">Facebook</span>
@@ -61,7 +62,7 @@ watch(residenceContact, () => {
       <input
         type="text"
         placeholder="Facebook"
-        class="w-full input input-bordered bg-white  input-sm rounded-sm"
+        class="w-full input input-bordered bg-white input-sm rounded-sm"
         v-model="residenceContact.contact.facebook"
         :disabled="viewOnly"
       />
@@ -73,46 +74,34 @@ watch(residenceContact, () => {
       <input
         type="text"
         placeholder="Line"
-        class="w-full input input-bordered bg-white  input-sm rounded-sm"
+        class="w-full input input-bordered bg-white input-sm rounded-sm"
         v-model="residenceContact.contact.line"
         :disabled="viewOnly"
       />
     </div>
     <div>
       <label class="label">
-        <span class="text-base label-text">Phone</span>
+        <span class="text-base label-text">เบอร์โทรศัพท์</span>
       </label>
       <input
         type="text"
-        placeholder="Phone"
-        class="w-full input input-bordered bg-white  input-sm rounded-sm"
+        placeholder="เบอร์โทรศัพท์"
+        class="w-full input input-bordered bg-white input-sm rounded-sm"
         v-model="residenceContact.contact.phone"
         :disabled="viewOnly"
       />
-      <p
-        class="text-sm hover:underline text-dark-blue-100"
-        @click="residenceContact.contact.phone = userPersonalData.phone"
-      >
-        Fill with your phone number.
-      </p>
     </div>
     <div>
       <label class="label">
-        <span class="text-base label-text">Email</span>
+        <span class="text-base label-text">อีเมล</span>
       </label>
       <input
         type="email"
-        placeholder="Email Address"
-        class="w-full input input-bordered bg-white  input-sm rounded-sm"
+        placeholder="อีเมล"
+        class="w-full input input-bordered bg-white input-sm rounded-sm"
         v-model="residenceContact.contact.email"
         :disabled="viewOnly"
       />
-      <p
-        class="text-sm hover:underline text-dark-blue-100"
-        @click="residenceContact.contact.email = userPersonalData.email"
-      >
-        Fill with your email.
-      </p>
     </div>
   </div>
 </template>

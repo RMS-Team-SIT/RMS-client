@@ -12,10 +12,10 @@ import img6 from '@/assets/img/6.jpg';
       </div>
       <div>
         <h1 class="text-6xl font-semibold mb-4 text-dark-blue-200">
-          จัดการ <span class="text-light-red">ห้องพักของคุณ</span>
+          จัดการ <span class="text-light-red">หอพักของคุณ</span>
         </h1>
         <p class="text-lg leading-relaxed">
-          ระบบการจัดการห้องพักเป็นระบบที่ช่วยให้คุณจัดการที่อยู่อาศัยของคุณอย่างง่ายดาย
+          ระบบการจัดการหอพักเป็นระบบที่ช่วยให้คุณจัดการที่อยู่อาศัยของคุณอย่างง่ายดาย
         </p>
         <p class="mt-4 text-gray-700">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod,

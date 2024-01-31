@@ -51,7 +51,7 @@ const fetchData = async () => {
     notify({
       group: 'tr',
       title: 'เกิดข้อผิดพลาด',
-      title: 'ไม่สามารถดึงข้อมูลห้องพักได้',
+      title: 'ไม่สามารถดึงข้อมูลหอพักได้',
       type: 'error',
     });
     router.push({ name: 'manage' });

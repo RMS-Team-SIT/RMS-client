@@ -35,7 +35,7 @@ const fetchData = async () => {
     notify({
       group: 'tr',
       title: 'เกิดข้อผิดพลาด',
-      title: 'ไม่สามารถดึงข้อมูลห้องพักได้',
+      title: 'ไม่สามารถดึงข้อมูลหอพักได้',
       type: 'error',
     });
     router.push({ name: 'manage' });
@@ -72,7 +72,7 @@ onMounted(async () => {
         <div class="bg-white p-10 mt-2 shadow rounded-lg">
           <div class="flex justify-between">
             <h1 class="text-2xl font-semibold text-dark-blue-200">
-              Renter
+              ผู้เช่าทั้งหมด
             </h1>
             <router-link
               :to="{
@@ -82,7 +82,7 @@ onMounted(async () => {
                 },
               }"
             >
-              <Button btnType="primary">Add Renter</Button>
+              <Button btnType="primary">เพิ่มข้อมูลผู้เช่า</Button>
             </router-link>
           </div>
           <RenterListTable

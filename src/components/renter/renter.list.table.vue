@@ -60,16 +60,16 @@ const visiblePages = computed(() => {
 
 <template>
   <div class="overflow-x-auto">
-    <p class="text-base mt-5" v-if="!props.renters.length">No renter</p>
+    <p class="text-base mt-5" v-if="!props.renters.length">ไม่พบผู้เช่าในระบบ กรุณาสร้าง</p>
     <div v-else>
       <!-- show number of renter -->
       <p class="text-xs text-gray-500">
-        Total: {{ props.renters?.filter((r) => r.isActive).length }} renters
+        มีผู้เช่าในระบบทั้งหมด: {{ props.renters?.filter((r) => r.isActive).length }} ข้อมูล
       </p>
       <div class="flex flex-row justify-end">
         <div class="form-control w-56">
           <label class="cursor-pointer label">
-            <span class="label-text">Show deactived renter</span>
+            <span class="label-text">แสดงข้อมูลที่ถูกปิดใช้งาน</span>
             <input
               type="checkbox"
               class="toggle toggle-primary"
@@ -84,15 +84,15 @@ const visiblePages = computed(() => {
         <thead>
           <tr>
             <th>#</th>
-            <th>Name</th>
-            <th>Username</th>
-            <th>Phone</th>
-            <th>Active</th>
-            <th>Current Room</th>
-            <th>Copy Of ID Card</th>
-            <th>Renter contract</th>
-            <th>Created At</th>
-            <th>Updated At</th>
+            <th>ชื่อ</th>
+            <th>ชื่อผู้ใช้</th>
+            <th>โทรศัพท์</th>
+            <th>สถานะ</th>
+            <th>ห้องปัจจุบัน</th>
+            <th>สำเนาบัตรประชาชน</th>
+            <th>สัญญาเช่า</th>
+            <th>สร้างเมื่อ</th>
+            <th>อัปเดตเมื่อ</th>
           </tr>
         </thead>
         <tbody>
@@ -127,7 +127,7 @@ const visiblePages = computed(() => {
                 </router-link>
               </div>
               <div v-else>
-                <span class="text-red-500">No Room</span>
+                <span class="text-red-500">ไม่พบ</span>
               </div>
             </td>
             <td>
@@ -141,11 +141,11 @@ const visiblePages = computed(() => {
                     },
                   }"
                 >
-                  Preview
+                  ดูไฟล์
                 </router-link>
               </div>
               <div v-else>
-                <span class="text-red-500">No file</span>
+                <span class="text-red-500">ไม่พบ</span>
               </div>
             </td>
             <td>
@@ -163,7 +163,7 @@ const visiblePages = computed(() => {
                 </router-link>
               </div>
               <div v-else>
-                <span class="text-red-500">No file</span>
+                <span class="text-red-500">ไม่พบ</span>
               </div>
             </td>
             <td>

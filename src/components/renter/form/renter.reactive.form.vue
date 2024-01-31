@@ -7,10 +7,10 @@ const swal = inject('$swal');
 
 const reactiveRenter = async () => {
   const confirm = await swal.fire({
-    title: 'Are you sure to reactive this renter?',
+    title: 'คุณแน่ใจหรือว่าจะเปิดใช้งานผู้เช่ารายนี้',
     showCancelButton: true,
-    confirmButtonText: 'Confirm reactive',
-    cancelButtonText: 'Discard',
+    confirmButtonText: 'เปิดใช้งาน',
+    cancelButtonText: 'ยกเลิก',
   });
 
   if (confirm.isConfirmed) {
@@ -22,13 +22,12 @@ const reactiveRenter = async () => {
 <template>
   <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
     <h1 class="text-xl font-semibold text-red-500">Danger zone</h1>
-    <h1 class="text-base font-semibold text-dark-blue-200">Reactive renter</h1>
-    <p class="text-xs">Reactive renter data.</p>
+    <h1 class="text-base font-semibold text-dark-blue-200">เปิดใช้งานผู้เช่า</h1>
     <Button btnType="success-pill" class="mt-4" @click="reactiveRenter"
-      >Reactive</Button
+      >เปิดใช้งาน</Button
     >
     <p class="text-gray-500 text-sm">
-      * To reactive this renter, click reactive buttom. <br />
+      * หากต้องการเปิดใช้ผู้เช่ารายนี้อีกครั้ง ให้กดที่ปุ่มเปิดใช้งาน <br />
     </p>
   </div>
 </template>

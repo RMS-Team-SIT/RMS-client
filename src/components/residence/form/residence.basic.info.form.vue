@@ -42,18 +42,18 @@ watch(residenceInfo, () => {
 <template>
   <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
     <h1 class="text-xl font-semibold text-dark-blue-200">
-      Residence Information
+      ข้อมูลหอพัก
     </h1>
-    <p class="text-xs">Please input residence basic information.</p>
+    <p class="text-xs">กรุณากรอกข้อมูลพื้นฐานของหอพัก</p>
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Residence Name <span class="text-red-500">*</span>
+          >ชื่อหอพัก <span class="text-red-500">*</span>
         </span>
       </label>
       <input
         type="text"
-        placeholder="Residence Name"
+        placeholder="ชื่อหอพัก"
         class="w-full input input-bordered bg-white  input-sm rounded-sm"
         v-model="residenceInfo.name"
         :disabled="viewOnly"
@@ -61,11 +61,11 @@ watch(residenceInfo, () => {
     </div>
     <div>
       <label class="label">
-        <span class="text-base label-text">Residence Description</span>
+        <span class="text-base label-text">รายละเอียดหอพัก</span>
       </label>
       <textarea
         type="text"
-        placeholder="Residence Description"
+        placeholder="รายละเอียดหอพัก"
         class="w-full textarea textarea-bordered rounded-sm bg-white"
         v-model="residenceInfo.description"
         :disabled="viewOnly"
@@ -73,11 +73,11 @@ watch(residenceInfo, () => {
     </div>
     <div>
       <label class="label">
-        <span class="text-base label-text">Address</span>
+        <span class="text-base label-text">ที่อยู่</span>
       </label>
       <textarea
         type="text"
-        placeholder="Address"
+        placeholder="ที่อยู่"
         class="w-full textarea textarea-bordered rounded-sm bg-white"
         v-model="residenceInfo.address"
         :disabled="viewOnly"

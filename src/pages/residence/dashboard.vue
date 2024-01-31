@@ -52,7 +52,7 @@ const fetchData = async () => {
     notify({
       group: 'tr',
       title: 'เกิดข้อผิดพลาด',
-      title: 'ไม่สามารถดึงข้อมูลห้องพักได้',
+      title: 'ไม่สามารถดึงข้อมูลหอพักได้',
       type: 'error',
     });
     router.push({ name: 'manage' });
@@ -146,7 +146,7 @@ onMounted(async () => {
 
           <div class="p-6 bg-white rounded-lg shadow-md">
             <h3 class="text-xl font-semibold mb-2 p-5">
-              รายได้ของห้องพักในปีนี้
+              รายได้ของหอพักในปีนี้
             </h3>
             <IncomeChart />
             <p class="text-xs p-5">Residence income will show here.</p>

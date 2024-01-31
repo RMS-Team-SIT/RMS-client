@@ -29,7 +29,7 @@ onMounted(async () => {
       notify({
         group: 'tr',
         title: 'เกิดข้อผิดพลาด',
-        title: 'ไม่สามารถดึงข้อมูลห้องพักได้',
+        title: 'ไม่สามารถดึงข้อมูลหอพักได้',
         type: 'error',
       });
     }
@@ -38,7 +38,7 @@ onMounted(async () => {
     notify({
       group: 'tr',
       title: 'เกิดข้อผิดพลาด',
-      title: 'ไม่สามารถดึงข้อมูลห้องพักได้',
+      title: 'ไม่สามารถดึงข้อมูลหอพักได้',
       type: 'error',
     });
   } finally {

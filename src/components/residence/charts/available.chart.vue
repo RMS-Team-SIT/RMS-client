@@ -16,7 +16,7 @@ const props = defineProps({
 });
 
 const data = {
-  labels: ['Available', 'Not Available'],
+  labels: ['ว่าง', 'ไม่ว่าง'],
   datasets: [
     {
       backgroundColor: ['#41B883', '#E46651'],

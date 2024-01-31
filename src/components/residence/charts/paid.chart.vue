@@ -17,7 +17,7 @@ const props = defineProps({
 });
 
 const data = computed(() => ({
-  labels: ['Paid', 'Unpaid'],
+  labels: ['จ่ายแล้ว', 'ยังไม่จ่าย'],
   datasets: [
     {
       backgroundColor: ['#41B883', '#E46651'],

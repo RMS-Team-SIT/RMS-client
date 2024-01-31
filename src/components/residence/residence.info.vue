@@ -30,7 +30,7 @@ const props = defineProps({
         />
       </div>
       <p>
-        <span class="font-bold">ชื่อห้องพัก</span> :
+        <span class="font-bold">ชื่อหอพัก</span> :
         {{ residence.name }}
       </p>
       <p>
