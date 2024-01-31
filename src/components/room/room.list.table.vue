@@ -26,13 +26,13 @@ const props = defineProps({
       <thead>
         <tr>
           <th>#</th>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Renter</th>
-          <th>Floor</th>
-          <th>Water Price Rate</th>
-          <th>Light Price Rate</th>
-          <th>Available</th>
+          <th>ชื่อ</th>
+          <th>คำอธิบาย</th>
+          <th>ผู้เช่า</th>
+          <th>ชั้น</th>
+          <th>อัตราค่าน้ำ</th>
+          <th>อัตราค่าไฟ</th>
+          <th>สถานะ</th>
           <th></th>
           <th></th>
         </tr>
@@ -47,7 +47,7 @@ const props = defineProps({
           </td>
           <td>
             <span :class="{ 'text-gray-500': !room.description }">
-              {{ room.description || 'No Description' }}
+              {{ room.description || 'ไม่มีข้อมูล' }}
             </span>
           </td>
           <td>
@@ -65,7 +65,7 @@ const props = defineProps({
               {{ room.currentRenter.firstname }}
               {{ room.currentRenter.lastname }}
             </router-link>
-            <span v-else class="text-red-500"> No Renter </span>
+            <span v-else class="text-red-500"> ไม่มีผู้เช่า </span>
           </td>
           <td>{{ room.floor }}</td>
           <td>
@@ -75,9 +75,9 @@ const props = defineProps({
                 : room.waterPriceRate
             }}
             <Badge badgeType="ghost" v-if="room.isUseDefaultWaterPriceRate"
-              >Default</Badge
+              >ค่าเริ่มต้น</Badge
             >
-            <Badge badgeType="primary" v-else>Custom</Badge>
+            <Badge badgeType="primary" v-else>กำหนดเอง</Badge>
           </td>
           <td>
             {{
@@ -86,15 +86,15 @@ const props = defineProps({
                 : room.lightPriceRate
             }}
             <Badge badgeType="ghost" v-if="room.isUseDefaultLightPriceRate"
-              >Default</Badge
+              >ค่าเริ่มต้น</Badge
             >
-            <Badge badgeType="primary" v-else>Custom</Badge>
+            <Badge badgeType="primary" v-else>กำหนดเอง</Badge>
           </td>
           <td>
             <Badge badgeType="success" v-if="!room.currentRenter"
-              >Available</Badge
+              >ว่าง</Badge
             >
-            <Badge badgeType="error" v-else>Not Available</Badge>
+            <Badge badgeType="error" v-else>ไม่ว่าง</Badge>
           </td>
           <!-- <td>
             <Badge badgeType="success">Paid</Badge>
@@ -110,7 +110,7 @@ const props = defineProps({
                 },
               }"
             >
-              <Button btnType="ghost-pill">Edit</Button>
+              <Button btnType="ghost-pill">แก้ไข</Button>
             </router-link>
           </th>
         </tr>

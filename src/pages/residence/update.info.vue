@@ -105,10 +105,10 @@ const goBack = () => {
       <div class="flex flex-row justify-between">
         <Breadcrumb
           :pathList="[
-            { name: 'Home', pathName: 'home' },
-            { name: 'Manage', pathName: 'manage' },
-            { name: 'Update Residence' },
-            { name: residenceId },
+            { name: 'หน้าแรก', pathName: 'home' },
+            { name: 'จัดการ', pathName: 'manage' },
+            { name: residenceData.data.name, pathName: 'dashboard' },
+            { name: 'แก้ไขข้อมูลหอพัก' },
           ]"
         />
       </div>
@@ -131,10 +131,10 @@ const goBack = () => {
         <!-- button control -->
         <div class="flex justify-end gap-2 mt-2">
           <Button @click="goBack" class="rounded-badge" btnType="secondary">
-            Discard changes
+            ยกเลิก
           </Button>
           <Button @click="submitData" class="rounded-badge" btnType="primary">
-            Save changes
+            บันทึกข้อมูล
           </Button>
         </div>
       </div>

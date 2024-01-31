@@ -104,9 +104,9 @@ const submitData = async () => {
       <div class="flex flex-row justify-between">
         <Breadcrumb
           :pathList="[
-            { name: 'Home', pathName: 'home' },
-            { name: 'Manage', pathName: 'manage' },
-            { name: 'Create Residence', pathName: 'create-residence' },
+            { name: 'หน้าแรก', pathName: 'home' },
+            { name: 'จัดการ', pathName: 'manage' },
+            { name: 'สร้างหอพัก', pathName: 'create-residence' },
           ]"
         />
       </div>

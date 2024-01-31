@@ -67,15 +67,11 @@ watch(roomInfo, () => {
     <Loading />
   </div>
   <div class="relative bg-white p-10 space-y-4 shadow-lg rounded" v-else>
-    <h1 class="text-xl font-semibold text-dark-blue-200">
-      Room Current Renter
-    </h1>
+    <h1 class="text-xl font-semibold text-dark-blue-200">ผู้เช่าในปัจจุบัน</h1>
 
     <!-- List selected renter -->
-    <div class="font-bold">Selected Renter:</div>
-    <p v-if="!roomInfo.currentRenter">
-      No renter selected. Please select renter.
-    </p>
+    <div class="font-bold">ผู้เช่าที่เลือก:</div>
+    <p v-if="!roomInfo.currentRenter">ไม่มีผู้เช่าในปัจจุบัน กรุณาเลือกผู้เช่า</p>
 
     <div class="flex flex-col gap-4">
       <div
@@ -99,7 +95,7 @@ watch(roomInfo, () => {
             class="btn btn-sm btn-error"
             @click="removeRenter(index)"
           >
-            Remove
+            ยกเลิก
           </button>
         </div>
       </div>
@@ -107,9 +103,12 @@ watch(roomInfo, () => {
 
     <!-- List all renter except selected renter -->
     <div v-if="!viewOnly">
-      <div class="font-bold mb-2">All available renters:</div>
-      <p v-if="!renterData.length || !availableRenter.length" class="text-red-500">
-        No renter available. Please create new renter.
+      <div class="font-bold mb-2">ผู้เช่าทั้งหมด:</div>
+      <p
+        v-if="!renterData.length || !availableRenter.length"
+        class="text-red-500"
+      >
+        ไม่มีผู้เช่าในระบบ กรุณาเพิ่มข้อมูลผู้เช่า
       </p>
       <div class="flex flex-col gap-4">
         <div
@@ -131,7 +130,7 @@ watch(roomInfo, () => {
               class="btn btn-sm btn-primary"
               @click="addRenter(renter)"
             >
-              Select
+              เลือก
             </button>
           </div>
         </div>

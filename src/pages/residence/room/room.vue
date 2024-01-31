@@ -52,11 +52,10 @@ onMounted(async () => {
     <div class="py-10 px-10 md:px-40">
       <Breadcrumb
         :pathList="[
-          { name: 'Home', pathName: 'home' },
-          { name: 'Manage', pathName: 'manage' },
-          { name: 'Residence' },
+          { name: 'หน้าแรก', pathName: 'home' },
+          { name: 'จัดการ', pathName: 'manage' },
           { name: `${residence.data.name}` },
-          { name: 'Room' },
+          { name: 'ห้องพัก' },
         ]"
       />
       <Button
@@ -69,7 +68,7 @@ onMounted(async () => {
       <div class="grid grid-cols-1">
         <div class="bg-white p-10 mt-2 shadow rounded-lg">
           <div class="flex justify-between">
-            <h1 class="text-2xl font-semibold text-dark-blue-200">Room</h1>
+            <h1 class="text-2xl font-semibold text-dark-blue-200">ห้องพักในระบบ</h1>
             <router-link
               :to="{
                 name: 'create-room',
@@ -78,7 +77,7 @@ onMounted(async () => {
                 },
               }"
             >
-              <Button btnType="primary">Add Room</Button>
+              <Button btnType="primary">เพิ่มข้อมูลห้องพัก</Button>
             </router-link>
           </div>
           <RoomListTable

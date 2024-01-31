@@ -116,22 +116,23 @@ onMounted(async () => {
     <div class="card-body px-10 md:px-40 ">
       <div class="flex flex-row justify-between">
         <Breadcrumb
-          :pathList="[
-            { name: 'Home', pathName: 'home' },
-            { name: 'Manage', pathName: 'manage' },
-            {
-              name: 'Residence',
-              pathName: 'manage-residence',
-              params: { residenceId },
-            },
-            { name: 'Create Room' },
-          ]"
-        />
+        :pathList="[
+          { name: 'หน้าแรก', pathName: 'home' },
+          { name: 'จัดการ', pathName: 'manage' },
+          { name: 'แดชบอร์ด', pathName: 'dashboard', params: { residenceId } },
+          {
+            name: 'ห้องพัก',
+            pathName: 'room',
+            params: { residenceId },
+          },
+          { name: 'สร้างห้องพัก' },
+        ]"
+      />
       </div>
       <div>
         <div class="p-4 mb-4 card shadow-xl bg-white">
           <Steps
-            :stepList="['Room Infomation', 'Review Room']"
+            :stepList="['ป้อนข้อมูล', 'ตรวจสอบข้อมูล']"
             :currentStep="currentStep"
           />
         </div>
@@ -175,12 +176,12 @@ onMounted(async () => {
           <Button
             btn-type="secondary"
             @click="
-              router.push({ name: 'manage-residence', params: { residenceId } })
+              router.push({ name: 'room', params: { residenceId } })
             "
             v-if="currentStep == 1"
             class="rounded-badge"
           >
-            Discard
+            ยกเลิก
           </Button>
           <Button
             btn-type="secondary"
@@ -200,7 +201,7 @@ onMounted(async () => {
             Submit
           </Button>
           <Button @click="changeStep('next')" class="rounded-badge" v-else>
-            Next Step
+            ถัดไป
             <ArrowRightIcon class="w-4 h-4" />
           </Button>
         </div>

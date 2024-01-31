@@ -48,18 +48,18 @@ watch(roomInfo, () => {
 
 <template>
   <div class="relative bg-white p-10 space-y-4 shadow-lg rounded">
-    <h1 class="text-xl font-semibold text-dark-blue-200">Room Information</h1>
-    <p class="text-xs">Please input room basic information.</p>
+    <h1 class="text-xl font-semibold text-dark-blue-200">ข้อมูลห้องพัก</h1>
+    <p class="text-xs">โปรดกรอกข้อมูลห้องพัก</p>
 
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Room Name <span class="text-red-500">*</span>
+          >ชื่อห้อง/เลขที่ห้อง <span class="text-red-500">*</span>
         </span>
       </label>
       <input
         type="text"
-        placeholder="Room Name"
+        placeholder="ชื่อห้อง/เลขที่ห้อง"
         class="w-full input input-bordered bg-white input-sm rounded-sm"
         v-model="roomInfo.name"
         :disabled="viewOnly"
@@ -68,11 +68,11 @@ watch(roomInfo, () => {
 
     <div>
       <label class="label">
-        <span class="text-base label-text">Room description </span>
+        <span class="text-base label-text">คำอธิบาย</span>
       </label>
       <input
         type="text"
-        placeholder="Room description"
+        placeholder="คำอธิบาย"
         class="w-full input input-bordered bg-white input-sm rounded-sm"
         v-model="roomInfo.description"
         :disabled="viewOnly"
@@ -82,12 +82,12 @@ watch(roomInfo, () => {
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Floor<span class="text-red-500">*</span>
+          >ชั้น<span class="text-red-500">*</span>
         </span>
       </label>
       <input
         type="number"
-        placeholder="Floor"
+        placeholder="ชั้น"
         class="w-full input input-bordered bg-white input-sm rounded-sm"
         v-model="roomInfo.floor"
         :disabled="viewOnly"
@@ -97,12 +97,12 @@ watch(roomInfo, () => {
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Room rental price per month (baht) <span class="text-red-500">*</span>
+          >อัตราค่าเช่าต่อเดือน (บาท)<span class="text-red-500">*</span>
         </span>
       </label>
       <input
         type="number"
-        placeholder="Room rental price"
+        placeholder="อัตราค่าเช่าต่อเดือน"
         class="w-full input input-bordered bg-white input-sm rounded-sm"
         v-model="roomInfo.roomRentalPrice"
         :disabled="viewOnly"
@@ -112,20 +112,20 @@ watch(roomInfo, () => {
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Water Price Rate (baht) <span class="text-red-500">*</span>
+          >อัตราค่าน้ำ (บาท) <span class="text-red-500">*</span>
         </span>
       </label>
       <div class="form-control w-full">
         <input
           type="number"
-          placeholder="Water Price Rate"
+          placeholder="อัตราค่าน้ำ"
           class="w-full input input-bordered bg-white input-sm rounded-sm"
           v-model="roomInfo.waterPriceRate"
           :disabled="viewOnly || roomInfo.isUseDefaultWaterPriceRate"
           :hidden="roomInfo.isUseDefaultWaterPriceRate"
         />
         <label class="cursor-pointer label">
-          <span class="label-text">Use Default Water Price Rate</span>
+          <span class="label-text">ใช้อัตราเริ่มต้นของหอพัก</span>
           <input
             type="checkbox"
             class="toggle toggle-primary"
@@ -138,8 +138,8 @@ watch(roomInfo, () => {
 
     <div>
       <label class="label">
-        <span class="text-base label-text"
-          >Electric Price Rate<span class="text-red-500">*</span>
+        <span class="text-base label-text">
+          อัตราค่าไฟ (บาท) <span class="text-red-500">*</span>
         </span>
       </label>
 
@@ -153,7 +153,7 @@ watch(roomInfo, () => {
           :hidden="roomInfo.isUseDefaultLightPriceRate"
         />
         <label class="cursor-pointer label">
-          <span class="label-text">Use Default Electric Price Rate</span>
+          <span class="label-text">ใช้อัตราเริ่มต้นของหอพัก</span>
           <input
             type="checkbox"
             class="toggle toggle-primary"

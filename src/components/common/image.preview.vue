@@ -67,7 +67,7 @@ onMounted(() => {
 
 <template>
   <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
-    <h1 class="text-xl font-semibold text-dark-blue-200">Images</h1>
+    <h1 class="text-xl font-semibold text-dark-blue-200">รูปภาพ</h1>
     <div
       v-if="imagePreviews.length > 0"
       class="mt-4 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
@@ -89,7 +89,7 @@ onMounted(() => {
       * Click the image to view full size
     </p>
 
-    <p v-else>No images uploaded</p>
+    <p v-else>ไม่มีรูปภาพในระบบ</p>
 
     <!-- modal -->
     <div

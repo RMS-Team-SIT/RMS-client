@@ -147,27 +147,31 @@ onMounted(async () => {
 
 <template>
   <loading v-if="isLoading" class="min-h-screen" />
-  <div class="card w-full " v-else>
-    <div class="card-body px-10 md:px-40 ">
+  <div class="card w-full" v-else>
+    <div class="card-body px-10 md:px-40">
       <div class="flex flex-row justify-between">
         <Breadcrumb
           :pathList="[
-            { name: 'Home', pathName: 'home' },
-            { name: 'Manage', pathName: 'manage' },
+            { name: 'หน้าแรก', pathName: 'home' },
+            { name: 'จัดการ', pathName: 'manage' },
             {
-              name: 'Residence',
-              pathName: 'manage-residence',
+              name: 'แดชบอร์ด',
+              pathName: 'dashboard',
               params: { residenceId },
             },
-            { name: 'Update Room' },
-            { name: roomId },
+            {
+              name: 'ห้องพัก',
+              pathName: 'room',
+              params: { residenceId },
+            },
+            { name: 'แก้ไขข้อมูลห้องพัก' },
           ]"
         />
       </div>
       <div>
         <div class="p-4 mb-4 card shadow-xl bg-white">
           <Steps
-            :stepList="['Room Infomation', 'Review Room']"
+            :stepList="['ป้อนข้อมูล', 'ตรวจสอบข้อมูล']"
             :currentStep="currentStep"
           />
         </div>
@@ -210,13 +214,11 @@ onMounted(async () => {
         <div class="flex justify-end gap-2 mt-10">
           <Button
             btn-type="secondary"
-            @click="
-              router.push({ name: 'room', params: { residenceId } })
-            "
+            @click="router.push({ name: 'room', params: { residenceId } })"
             v-if="currentStep == 1"
             class="rounded-badge"
           >
-            Discard
+            ยกเลิก
           </Button>
           <Button
             btn-type="secondary"
@@ -225,7 +227,7 @@ onMounted(async () => {
             class="rounded-badge"
           >
             <ArrowLeftIcon class="w-4 h-4" />
-            Back
+            ย้อนกลับ
           </Button>
           <Button
             v-if="currentStep == numberOfSteps"
@@ -233,10 +235,10 @@ onMounted(async () => {
             class="rounded-badge"
             btnType="primary"
           >
-            Submit
+            บันทึกข้อมูล
           </Button>
           <Button @click="changeStep('next')" class="rounded-badge" v-else>
-            Next Step
+            ถัดไป
             <ArrowRightIcon class="w-4 h-4" />
           </Button>
         </div>

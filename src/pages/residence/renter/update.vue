@@ -270,7 +270,7 @@ onMounted(async () => {
       <div>
         <div class="p-4 mb-4 card shadow-md bg-white" v-if="renterData.isActive">
           <Steps
-            :stepList="['Renter Infomation', 'Review Renter']"
+            :stepList="['ป้อนข้อมูลผู้เช่า', 'ตรวจสอบข้อมูล']"
             :currentStep="currentStep"
           />
         </div>
@@ -352,7 +352,7 @@ onMounted(async () => {
             Save
           </Button>
           <Button @click="changeStep('next')" class="rounded-badge" v-else>
-            Next Step
+            ถัดไป
             <ArrowRightIcon class="w-4 h-4" />
           </Button>
         </div>
