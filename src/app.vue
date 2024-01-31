@@ -67,7 +67,8 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
-  <div :class="{ 'font-maitree': isThai }" v-else>
+  <!-- <div :class="{ 'font-maitree': isThai }" v-else> -->
+  <div class="font-noto" v-else>
     <navbar v-if="shouldShowNavbar" :isLoggedIn="userStore.isLoggedIn" />
     <router-view class="min-h-screen" />
     <div>

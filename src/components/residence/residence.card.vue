@@ -30,12 +30,12 @@ const imageSrc = computed(() => {
       <img class="w-60 h-60 rounded-lg shadow-xl" :src="imageSrc" />
     </figure>
     <div class="card-body">
-      <h2 class="card-title">Residence Name : {{ props.residence?.name }}</h2>
+      <h2 class="card-title">ชื่อห้องพัก : {{ props.residence?.name }}</h2>
       <p>
-        Description : {{ props.residence?.description || 'No Description' }}
+        รายละเอียด : {{ props.residence?.description || 'No Description' }}
       </p>
       <p v-if="props.residence?.contact?.address">
-        Address : {{ props.residence.contact.address }}
+        ที่อยู่ : {{ props.residence.contact.address }}
       </p>
       <div class="card-actions justify-between items-center">
         <ResidenceStat
@@ -54,7 +54,7 @@ const imageSrc = computed(() => {
               params: { residenceId: props.residence._id },
             })
           "
-          >Dashboard</Button
+          >แดชบอร์ด</Button
         >
       </div>
     </div>

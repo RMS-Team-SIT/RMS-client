@@ -50,8 +50,8 @@ const fetchData = async () => {
   } else {
     notify({
       group: 'tr',
-      title: 'Error',
-      text: 'Failed to fetch residence data',
+      title: 'เกิดข้อผิดพลาด',
+      title: 'ไม่สามารถดึงข้อมูลห้องพักได้',
       type: 'error',
     });
     router.push({ name: 'manage' });

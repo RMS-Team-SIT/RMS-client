@@ -29,7 +29,7 @@ const submitData = async () => {
   if (response.status == 201) {
     notify({
       group: 'tr',
-      title: 'Success',
+      title: 'สำเร็จ',
       text: 'Payment created successfully',
       type: 'success',
     });
@@ -38,7 +38,7 @@ const submitData = async () => {
     const data = await response.json();
     notify({
       group: 'tr',
-      title: 'Error',
+      title: 'เกิดข้อผิดพลาด',
       text: 'Failed to create payment: ' + data?.message,
       type: 'error',
     });
@@ -54,7 +54,7 @@ const fetchData = async () => {
   } else {
     notify({
       group: 'tr',
-      title: 'Error',
+      title: 'เกิดข้อผิดพลาด',
       text: 'Failed to fetch banks data',
       type: 'error',
     });
@@ -70,35 +70,36 @@ onMounted(async () => {
     <div class="card-body px-10 md:px-40">
       <Breadcrumb
         :pathList="[
-          { name: 'Home', pathName: 'home' },
-          { name: 'Manage', pathName: 'manage' },
+          { name: 'หน้าแรก', pathName: 'home' },
+          { name: 'จัดการ', pathName: 'manage' },
+          { name: 'แดชบอร์ด', pathName: 'dashboard', params: { residenceId } },
           {
-            name: 'Residence',
-            pathName: 'dashboard',
+            name: 'ช่องทางการชำระเงิน',
+            pathName: 'payment',
             params: { residenceId },
           },
-          { name: 'Create Payment' },
+          { name: 'สร้างช่องทางการชำระเงิน' },
         ]"
       />
       <div class="flex gap-4 shadow-md rounded">
         <div class="bg-white p-10 space-y-4">
           <h1 class="text-xl font-semibold text-dark-blue-200">
-            Payment Information
+            ตั้งค่าช่องทางการชำระเงิน
           </h1>
-          <p class="text-xs">Please input payment information.</p>
+          <p class="text-xs">โปรดใส่ข้อมูลช่องทางการชำระเงิน</p>
 
           <div class="flex flex-col lg:flex-row gap-5">
             <div>
               <label class="label">
                 <span class="text-base label-text"
-                  >Bank <span class="text-red-500">*</span>
+                  >ธนาคาร <span class="text-red-500">*</span>
                 </span>
               </label>
               <select
                 class="select select-bordered w-full max-w-xs"
                 v-model="data.bankId"
               >
-                <option value="">Select Bank</option>
+                <option value="">เลือกธนาคาร</option>
                 <option v-for="bank in banks" :key="bank._id" :value="bank._id">
                   {{ bank.thai_name }}
                 </option>
@@ -108,12 +109,12 @@ onMounted(async () => {
             <div>
               <label class="label">
                 <span class="text-base label-text"
-                  >Account Name <span class="text-red-500">*</span>
+                  >ชื่อบัญชี <span class="text-red-500">*</span>
                 </span>
               </label>
               <input
                 type="text"
-                placeholder="Account Name"
+                placeholder="ชื่อบัญชี"
                 class="w-full input input-bordered bg-white"
                 v-model="data.account_name"
               />
@@ -122,12 +123,13 @@ onMounted(async () => {
             <div>
               <label class="label">
                 <span class="text-base label-text"
-                  >Account Number <span class="text-red-500">*</span>
+                  >หมายเลขบัญชี/หมายเลขพร้อมเพย์
+                  <span class="text-red-500">*</span>
                 </span>
               </label>
               <input
                 type="text"
-                placeholder="Account Number"
+                placeholder="หมายเลขบัญชี/หมายเลขพร้อมเพย์"
                 class="w-full input input-bordered bg-white"
                 v-model="data.account_number"
               />
@@ -143,11 +145,11 @@ onMounted(async () => {
           @click="router.push({ name: 'payment', params: { residenceId } })"
           class="rounded-badge"
         >
-          Discard
+          ยกเลิก
         </Button>
 
         <Button @click="submitData" class="rounded-badge" btnType="primary">
-          Create Payment
+          บันทึกข้อมูล
         </Button>
       </div>
     </div>

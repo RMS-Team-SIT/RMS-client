@@ -69,7 +69,7 @@ const submitData = async () => {
       const data = await response.json();
       notify({
         group: 'tr',
-        title: 'Error',
+        title: 'เกิดข้อผิดพลาด',
         text: 'Failed to upload images ' + data?.message,
         type: 'error',
       });
@@ -80,7 +80,7 @@ const submitData = async () => {
   if (response.status == 201) {
     notify({
       group: 'tr',
-      title: 'Success',
+      title: 'สำเร็จ',
       text: 'Residence created successfully',
       type: 'success',
     });
@@ -90,7 +90,7 @@ const submitData = async () => {
     console.log(data);
     notify({
       group: 'tr',
-      title: 'Error',
+      title: 'เกิดข้อผิดพลาด',
       text: 'Failed to create residence. ' + data?.message,
       type: 'error',
     });

@@ -6,8 +6,9 @@ import { useNotification } from '@kyvg/vue3-notification';
 import ResidenceServices from '@/services/ResidenceServices';
 import FileService from '@/services/FileService';
 import Loading from '@/components/common/loading.vue';
+import { ChartPieIcon, HomeIcon, UserIcon } from '@heroicons/vue/24/outline';
 import Button from '@/components/common/button.vue';
-import RoomListTable from '@/components/room/room.list.table.vue';
+import RenterListTable from '@/components/renter/renter.list.table.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -18,6 +19,7 @@ const isLoading = ref(true);
 const residence = reactive({
   data: null,
 });
+
 
 const fetchData = async () => {
   const response = await ResidenceServices.fetchResidence(residenceId);
@@ -32,8 +34,8 @@ const fetchData = async () => {
   } else {
     notify({
       group: 'tr',
-      title: 'Error',
-      text: 'Failed to fetch residence data',
+      title: 'เกิดข้อผิดพลาด',
+      title: 'ไม่สามารถดึงข้อมูลห้องพักได้',
       type: 'error',
     });
     router.push({ name: 'manage' });
@@ -56,7 +58,7 @@ onMounted(async () => {
           { name: 'Manage', pathName: 'manage' },
           { name: 'Residence' },
           { name: `${residence.data.name}` },
-          { name: 'Room' },
+          { name: 'Renter' },
         ]"
       />
       <Button
@@ -64,27 +66,28 @@ onMounted(async () => {
         class="mt-5"
         @click="router.push({ name: 'dashboard', params: { residenceId } })"
       >
-        Back
+        กลับหน้าแดชบอร์ด
       </Button>
       <div class="grid grid-cols-1">
         <div class="bg-white p-10 mt-2 shadow rounded-lg">
           <div class="flex justify-between">
-            <h1 class="text-2xl font-semibold text-dark-blue-200">Room</h1>
+            <h1 class="text-2xl font-semibold text-dark-blue-200">
+              Renter
+            </h1>
             <router-link
               :to="{
-                name: 'create-room',
+                name: 'create-renter',
                 params: {
                   residenceId,
                 },
               }"
             >
-              <Button btnType="primary">Add Room</Button>
+              <Button btnType="primary">Add Renter</Button>
             </router-link>
           </div>
-          <RoomListTable
-            :rooms="residence.data.rooms"
-            :defaultLightPriceRate="residence.data.defaultLightPriceRate"
-            :defaultWaterPriceRate="residence.data.defaultWaterPriceRate"
+          <RenterListTable
+            :residenceId="residenceId"
+            :renters="residence.data.renters"
           />
         </div>
       </div>

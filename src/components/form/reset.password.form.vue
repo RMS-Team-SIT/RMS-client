@@ -43,27 +43,26 @@ const validator = useVuelidate(rules, formData);
 
 const passwordRules = computed(() => [
   {
-    text: 'Contain 8 Letters',
+    text: 'มีความยาวอย่างน้อย 8 ตัวอักษร',
     valid: computed(() => formData.password.length >= 8),
   },
   {
-    text: 'Contain Upper Letter',
+    text: 'มีอักษรตัวพิมพ์ใหญ่',
     valid: computed(() => new RegExp(`[A-Z]`).test(formData.password)),
   },
   {
-    text: 'Contain Lower Letter',
+    text: 'มีอักษรตัวพิมพ์เล็ก',
     valid: computed(() => new RegExp(`[a-z]`).test(formData.password)),
   },
   {
-    text: 'Contain Number',
+    text: 'มีตัวเลข',
     valid: computed(() => new RegExp(`[0-9]`).test(formData.password)),
   },
   {
-    text: 'Contain Symbol',
+    text: 'มีตัวอักษรพิเศษ',
     valid: computed(() => new RegExp(`[^A-Za-z0-9]`).test(formData.password)),
   },
 ]);
-
 const validateErrorMsg = (field) => {
   return validator.value[field].$error
     ? '* ' + validator.value[field].$errors[0].$message

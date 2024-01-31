@@ -32,8 +32,8 @@ const fetchData = async () => {
   } else {
     notify({
       group: 'tr',
-      title: 'Error',
-      text: 'Failed to fetch residence data',
+      title: 'เกิดข้อผิดพลาด',
+      title: 'ไม่สามารถดึงข้อมูลห้องพักได้',
       type: 'error',
     });
     router.push({ name: 'manage' });
@@ -52,11 +52,11 @@ onMounted(async () => {
     <div class="py-10 px-10 md:px-40">
       <Breadcrumb
         :pathList="[
-          { name: 'Home', pathName: 'home' },
-          { name: 'Manage', pathName: 'manage' },
-          { name: 'Residence' },
+          { name: 'หน้าแรก', pathName: 'home' },
+          { name: 'จัดการ', pathName: 'manage' },
           { name: `${residence.data.name}` },
-          { name: 'Payment Method' },
+          { name: 'แดชบอร์ด', pathName: 'dashboard', params: { residenceId } },
+          { name: 'ช่องทางการชำระเงิน' },
         ]"
       />
       <Button
@@ -64,13 +64,13 @@ onMounted(async () => {
         class="mt-5"
         @click="router.push({ name: 'dashboard', params: { residenceId } })"
       >
-        Back
+        กลับหน้าแดชบอร์ด
       </Button>
       <div class="grid grid-cols-1">
         <div class="bg-white p-10 mt-2 shadow rounded-lg">
           <div class="flex justify-between">
             <h1 class="text-2xl font-semibold text-dark-blue-200">
-              Payment Methods
+              ช่องทางการชำระเงิน
             </h1>
             <router-link
               :to="{
@@ -80,7 +80,7 @@ onMounted(async () => {
                 },
               }"
             >
-              <Button btnType="primary">Add Payments</Button>
+              <Button btnType="primary">เพิ่มช่องทางการชำระเงิน</Button>
             </router-link>
           </div>
           <PaymentListTable

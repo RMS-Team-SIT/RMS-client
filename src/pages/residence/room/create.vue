@@ -63,7 +63,7 @@ const submitData = async () => {
   if (response.status == 201) {
     notify({
       group: 'tr',
-      title: 'Success',
+      title: 'สำเร็จ',
       text: 'Room created successfully',
       type: 'success',
     });
@@ -72,7 +72,7 @@ const submitData = async () => {
     const data = await response.json();
     notify({
       group: 'tr',
-      title: 'Error',
+      title: 'เกิดข้อผิดพลาด',
       text: 'Failed to create Room: ' + data?.message,
       type: 'error',
     });
@@ -96,8 +96,8 @@ const fetchResidenceData = async () => {
   } else {
     notify({
       group: 'tr',
-      title: 'Error',
-      text: 'Failed to fetch residence data',
+      title: 'เกิดข้อผิดพลาด',
+      title: 'ไม่สามารถดึงข้อมูลห้องพักได้',
       type: 'error',
     });
     router.push({ name: 'manage' });

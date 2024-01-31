@@ -26,8 +26,8 @@ onMounted(async () => {
     } else {
       notify({
         group: 'tr',
-        title: 'Error',
-        text: 'Failed to fetch residence data',
+        title: 'เกิดข้อผิดพลาด',
+        title: 'ไม่สามารถดึงข้อมูลห้องพักได้',
         type: 'error',
       });
       router.push({ name: 'manage' });
@@ -36,8 +36,8 @@ onMounted(async () => {
     console.error(error);
     notify({
       group: 'tr',
-      title: 'Error',
-      text: 'Failed to fetch residence data',
+      title: 'เกิดข้อผิดพลาด',
+      title: 'ไม่สามารถดึงข้อมูลห้องพักได้',
       type: 'error',
     });
     router.push({ name: 'manage' });
@@ -77,7 +77,7 @@ const submitData = async () => {
   if (response.status == 200) {
     notify({
       group: 'tr',
-      title: 'Success',
+      title: 'สำเร็จ',
       text: 'Residence updated successfully',
       type: 'success',
     });
@@ -85,7 +85,7 @@ const submitData = async () => {
   } else {
     notify({
       group: 'tr',
-      title: 'Error',
+      title: 'เกิดข้อผิดพลาด',
       text: 'Failed to update residence',
       type: 'error',
     });

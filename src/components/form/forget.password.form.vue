@@ -22,19 +22,19 @@ const submitForm = async () => {
   >
     <div class="w-full p-6 m-auto bg-white rounded-md lg:max-w-xl">
       <h1 class="text-3xl font-semibold text-dark-blue-200 px-10 md:px-40  mb-5">
-        Forget Password<br />
+        รีเซตรหัสผ่าน<br />
       </h1>
       <p class="text-sm px-10 md:px-40  mb-5">
-        Enter your email address to reset your password.
+        กรุณาป้อนที่อยู่อีเมลของคุณเพื่อรีเซ็ตรหัสผ่าน
       </p>
       <form @submit.prevent="submitForm" class="space-y-4 px-10 md:px-40 ">
         <div>
           <label class="label">
-            <span class="text-base label-text">Email</span>
+            <span class="text-base label-text">อีเมลของคุณ</span>
           </label>
           <input
             type="email"
-            placeholder="Email Address"
+            placeholder="ที่อยู่อีเมล"
             class="w-full input input-bordered bg-white  input-sm rounded-sm"
             v-model="formData.email"
             required
@@ -43,7 +43,7 @@ const submitForm = async () => {
         <div>
           <Button class="btn btn-block" type="submit">
             <ArrowRightIcon class="w-5 h-5" />
-            <p>Sent</p>
+            <p>รีเซตรหัสผ่าน</p>
           </Button>
         </div>
       </form>

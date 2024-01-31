@@ -38,16 +38,17 @@ const updateUser = async (data) => {
       userData.data = result;
       notify({
         group: 'tr',
-        title: 'Success',
-        text: 'Update user data successful',
+        title: 'สำเร็จ',
+        text: 'อัปเดตข้อมูลผู้ใช้สำเร็จ',
         type: 'success',
       });
     } else {
       const result = await response.json();
+      console.log(result);
       notify({
         group: 'tr',
-        title: 'Error',
-        text: `Update user data failed (${response.status}), ${result.message}`,
+        title: 'เกิดข้อผิดพลาด',
+        text: `ไม่สามารถอัปเดตข้อมูลผู้ใช้ได้`,
         type: 'error',
       });
     }
@@ -55,7 +56,7 @@ const updateUser = async (data) => {
     console.error('An error occurred during the update:', error);
     notify({
       group: 'tr',
-      title: 'Error',
+      title: 'เกิดข้อผิดพลาด',
       text: 'An unexpected error occurred during the update',
       type: 'error',
     });
@@ -75,7 +76,7 @@ const updatePassword = async (data) =>{
       userData.data = result;
       notify({
         group: 'tr',
-        title: 'Success',
+        title: 'สำเร็จ',
         text: 'Update user password successful',
         type: 'success',
       });
@@ -85,7 +86,7 @@ const updatePassword = async (data) =>{
       const result = await response.json();
       notify({
         group: 'tr',
-        title: 'Error',
+        title: 'เกิดข้อผิดพลาด',
         text: `Update user password failed (${response.status}), ${result.message}`,
         type: 'error',
       });
@@ -94,7 +95,7 @@ const updatePassword = async (data) =>{
     console.error('An error occurred during the update:', error);
     notify({
       group: 'tr',
-      title: 'Error',
+      title: 'เกิดข้อผิดพลาด',
       text: 'An unexpected error occurred during the update',
       type: 'error',
     });
@@ -109,7 +110,7 @@ onMounted(async () => {
   } else {
     notify({
       group: 'tr',
-      title: 'Error',
+      title: 'เกิดข้อผิดพลาด',
       text: 'Failed to fetch user data',
       type: 'error',
     });
@@ -145,7 +146,7 @@ onMounted(async () => {
             <img :src="blankprofileImg" class="w-44 rounded-full" />
           </div>
           <p class="text-center text-gray-500">
-            Member since : {{ getDate(userData.data.created_at) }}
+            เป็นสมาชิกตั้งแต่ : {{ getDate(userData.data.created_at) }}
           </p>
         </div>
         <div class="basis-2/3">

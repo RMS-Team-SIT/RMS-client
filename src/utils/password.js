@@ -1,4 +1,3 @@
-export const passwordRules = [];
 export const generatePassword = (length = 8) => {
   const charset =
     'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';

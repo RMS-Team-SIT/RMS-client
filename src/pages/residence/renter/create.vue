@@ -58,7 +58,7 @@ const submitData = async () => {
     if (uploadFileResponse.status != 201) {
       notify({
         group: 'tr',
-        title: 'Error',
+        title: 'เกิดข้อผิดพลาด',
         text: 'Failed to upload files',
         type: 'error',
       });
@@ -77,7 +77,7 @@ const submitData = async () => {
       const data = await response.json();
       notify({
         group: 'tr',
-        title: 'Error',
+        title: 'เกิดข้อผิดพลาด',
         text: 'Failed to upload files, ' + data?.message,
         type: 'error',
       });
@@ -99,7 +99,7 @@ const submitData = async () => {
   if (response.status == 201) {
     notify({
       group: 'tr',
-      title: 'Success',
+      title: 'สำเร็จ',
       text: 'Renter created successfully',
       type: 'success',
     });
@@ -108,7 +108,7 @@ const submitData = async () => {
     const data = await response.json();
     notify({
       group: 'tr',
-      title: 'Error',
+      title: 'เกิดข้อผิดพลาด',
       text: 'Failed to create Renter: ' + data?.message,
       type: 'error',
     });

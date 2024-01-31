@@ -10,8 +10,8 @@ localStorage.removeItem('token');
 router.push({ name: 'signin' });
 notify({
   group: 'tr',
-  title: 'Success',
-  text: 'Sign Out successful',
+  title: 'สำเร็จ',
+  text: 'ออกจากระบบเรียบร้อย',
   type: 'success',
 });
 </script>

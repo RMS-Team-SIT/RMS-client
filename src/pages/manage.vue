@@ -7,7 +7,6 @@ import Loading from '@/components/common/loading.vue';
 import { useNotification } from '@kyvg/vue3-notification';
 import ResidenceServices from '@/services/ResidenceServices';
 
-
 const isLoading = ref(true);
 const residences = reactive({
   data: null,
@@ -22,7 +21,7 @@ const fetch = async () => {
   } else {
     notify({
       group: 'tr',
-      title: 'Error',
+      title: 'เกิดข้อผิดพลาด',
       text: 'Failed to fetch residences',
       type: 'error',
     });
@@ -41,18 +40,17 @@ onBeforeMount(async () => {
       <div class="flex flex-row justify-between">
         <Breadcrumb
           :pathList="[
-            { name: 'Home', pathName: 'home' },
-            { name: 'Manage', pathName: 'manage' },
-            { name: 'My Residences' },
+            { name: 'หน้าแรก', pathName: 'home' },
+            { name: 'จัดการ', pathName: 'manage' },
           ]"
         />
         <router-link :to="{ name: 'create-residence' }">
-          <Button>Create New Residence</Button>
+          <Button>สร้างห้องพักในระบบ</Button>
         </router-link>
       </div>
       <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
-        <h1 class="text-3xl font-semibold text-dark-blue-200">My Residences</h1>
-        <p class="text-xs">This page will show all of your residence.</p>
+        <h1 class="text-3xl font-semibold text-dark-blue-200">ห้องพักของฉัน</h1>
+        <p class="text-xs">หน้านี้จะแสดงห้องพักทั้งหมดของคุณ</p>
         <Loading v-if="isLoading" />
         <ResidenceCard
           v-for="(residence, index) in residences.data"
@@ -60,16 +58,15 @@ onBeforeMount(async () => {
           :residence="residence"
         />
         <p
-          v-if="residences.data && residences.data.length == 0"
+          v-if="residences.data && residences.data.length === 0"
           class="text-center text-sm p-10"
         >
-          No residence found. Please
+          ยังไม่มีห้องพักในระบบ คุณสามารถสร้างห้องพักในระบบ
           <span class="underline text-dark-blue-200 cursor-pointer">
             <router-link :to="{ name: 'create-residence' }">
-              create new residence
+              ได้ที่นี่
             </router-link>
           </span>
-          .
         </p>
       </div>
     </div>

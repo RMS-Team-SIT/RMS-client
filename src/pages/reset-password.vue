@@ -18,8 +18,8 @@ const handleFormData = async (formData) => {
     let data = await response.json();
     notify({
       group: 'tr',
-      title: 'Success',
-      text: `Reset password successful`,
+      title: 'สำเร็จ',
+      text: `เปลี่ยนรหัสผ่านเรียบร้อยแล้ว`,
       type: 'success',
     });
     router.push({ name: 'signin' });
@@ -27,8 +27,9 @@ const handleFormData = async (formData) => {
     let data = await response.json();
     notify({
       group: 'tr',
-      title: 'Error',
-      text: 'Reset failed, ' + data.message + ' Please try again',
+      title: 'เกิดข้อผิดพลาด',
+      text:
+        'เปลี่ยนรหัสผ่านไม่สำเร็จ, ' + data.message + ' โปรดลองใหม่อีกครั้ง',
       type: 'error',
     });
   }
@@ -42,8 +43,8 @@ const checkValidToken = async () => {
     let data = await response.json();
     notify({
       group: 'tr',
-      title: 'Error',
-      text: data.message + ', Please try again.',
+      title: 'เกิดข้อผิดพลาด',
+      text: data.message + ', โปรดลองใหม่อีกครั้ง',
       type: 'error',
     });
     return false;
@@ -54,7 +55,7 @@ onBeforeMount(async () => {
   if (!token) {
     router.push({ name: 'signin' });
   }
-  
+
   const isValidToken = await checkValidToken();
   if (!isValidToken) {
     router.push({ name: 'signin' });

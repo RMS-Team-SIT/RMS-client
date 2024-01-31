@@ -79,7 +79,7 @@ const fetchData = async () => {
     const data = await response.json();
     notify({
       group: 'tr',
-      title: 'Error',
+      title: 'เกิดข้อผิดพลาด',
       text: 'Failed to fetch renter data: ' + data?.message,
       type: 'error',
     });
@@ -100,7 +100,7 @@ const submitData = async () => {
     if (uploadFileResponse.status != 201) {
       notify({
         group: 'tr',
-        title: 'Error',
+        title: 'เกิดข้อผิดพลาด',
         text: 'Failed to upload files',
         type: 'error',
       });
@@ -118,7 +118,7 @@ const submitData = async () => {
       const data = await response.json();
       notify({
         group: 'tr',
-        title: 'Error',
+        title: 'เกิดข้อผิดพลาด',
         text: 'Failed to upload files, ' + data?.message,
         type: 'error',
       });
@@ -138,7 +138,7 @@ const submitData = async () => {
   if (response.status == 200) {
     notify({
       group: 'tr',
-      title: 'Success',
+      title: 'สำเร็จ',
       text: 'Renter update successfully',
       type: 'success',
     });
@@ -150,7 +150,7 @@ const submitData = async () => {
     const data = await response.json();
     notify({
       group: 'tr',
-      title: 'Error',
+      title: 'เกิดข้อผิดพลาด',
       text: 'Failed to update Renter: ' + data?.message,
       type: 'error',
     });
@@ -165,12 +165,12 @@ const deactiveRenter = async () => {
     );
     if (response.status == 200) {
       swal.fire({
-        title: 'Success',
+        title: 'สำเร็จ',
         text: 'Renter deactivated',
         icon: 'success',
       });
       notify({
-        title: 'Success',
+        title: 'สำเร็จ',
         text: 'Renter deactivated',
         type: 'success',
       });
@@ -189,7 +189,7 @@ const deactiveRenter = async () => {
     }
   } catch (error) {
     notify({
-      title: 'Error',
+      title: 'เกิดข้อผิดพลาด',
       text: error.message,
       type: 'error',
       group: 'tr',
@@ -205,12 +205,12 @@ const reactiveRenter = async () => {
     );
     if (response.status == 200) {
       swal.fire({
-        title: 'Success',
+        title: 'สำเร็จ',
         text: 'Renter reactivated',
         icon: 'success',
       });
       notify({
-        title: 'Success',
+        title: 'สำเร็จ',
         text: 'Renter reactivated',
         type: 'success',
       });
@@ -229,7 +229,7 @@ const reactiveRenter = async () => {
     }
   } catch (error) {
     notify({
-      title: 'Error',
+      title: 'เกิดข้อผิดพลาด',
       text: error.message,
       type: 'error',
       group: 'tr',
@@ -264,7 +264,7 @@ onMounted(async () => {
       </div>
 
       <Alert v-if="!renterData.isActive">
-        This renter data is view only mode because this renter was deactivated.
+        ข้อมูลผู้เช่านี้เป็นโหมดดูอย่างเดียว เนื่องจากผู้เช่ารายนี้ถูกปิดใช้งานอยู่
       </Alert>
 
       <div>

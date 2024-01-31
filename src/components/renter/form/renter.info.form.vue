@@ -1,7 +1,7 @@
 <script setup>
 import Button from '@/components/common/button.vue';
 import { onMounted, reactive, watch } from 'vue';
-import { generatePassword } from '@/utils/password.util';
+import { generatePassword } from '@/utils/password';
 import Divider from '@/components/common/divider.vue';
 
 const emit = defineEmits(['getData']);

@@ -16,7 +16,7 @@ import {
 import { CheckIcon, XMarkIcon } from '@heroicons/vue/24/outline';
 import Loading from '../common/loading.vue';
 
-const emit = defineEmits(['form-data']);
+const emit = defineEmits(['submit']);
 const props = defineProps({
   isLoading: {
     type: Boolean,
@@ -36,23 +36,23 @@ const formData = reactive({
 
 const passwordRules = computed(() => [
   {
-    text: 'Contain 8 Letters',
+    text: 'มีความยาวอย่างน้อย 8 ตัวอักษร',
     valid: computed(() => formData.password.length >= 8),
   },
   {
-    text: 'Contain Upper Letter',
+    text: 'มีอักษรตัวพิมพ์ใหญ่',
     valid: computed(() => new RegExp(`[A-Z]`).test(formData.password)),
   },
   {
-    text: 'Contain Lower Letter',
+    text: 'มีอักษรตัวพิมพ์เล็ก',
     valid: computed(() => new RegExp(`[a-z]`).test(formData.password)),
   },
   {
-    text: 'Contain Number',
+    text: 'มีตัวเลข',
     valid: computed(() => new RegExp(`[0-9]`).test(formData.password)),
   },
   {
-    text: 'Contain Symbol',
+    text: 'มีตัวอักษรพิเศษ',
     valid: computed(() => new RegExp(`[^A-Za-z0-9]`).test(formData.password)),
   },
 ]);
@@ -62,23 +62,29 @@ const strongPassword = () => {
 };
 
 const rules = computed(() => {
+  const requiredMsg = helpers.withMessage('กรุณากรอกข้อมูล', required);
   return {
-    firstname: { required, maxLength: maxLength(500) },
-    lastname: { required, maxLength: maxLength(500) },
-    email: { required, email },
+    firstname: { required: requiredMsg, maxLength: maxLength(500) },
+    lastname: { required: requiredMsg, maxLength: maxLength(500) },
+    email: {
+      required: requiredMsg,
+      email: helpers.withMessage('รูปแบบอีเมลไม่ถูกต้อง', email),
+    },
     password: {
-      required,
+      required: requiredMsg,
       strongPassword: helpers.withMessage(
-        "Password doen't meet the rules",
+        'รหัสผ่านไม่ตรงตามเงื่อนไข',
         strongPassword
       ),
     },
     confirmPassword: {
-      required,
-      minLength: minLength(6),
-      sameAs: sameAs(formData.password),
+      required: requiredMsg,
+      sameAs: helpers.withMessage(
+        'รหัสผ่านไม่ตรงกัน',
+        sameAs(formData.password)
+      ),
     },
-    phone: { required },
+    phone: { required: requiredMsg },
   };
 });
 
@@ -86,7 +92,7 @@ const validator = useVuelidate(rules, formData);
 
 const submitForm = async () => {
   const result = await validator.value.$validate();
-  if (result) emit('form-data', formData);
+  if (result) emit('submit', formData);
 };
 
 const validateErrorMsg = (field) => {
@@ -102,19 +108,19 @@ const validateErrorMsg = (field) => {
   >
     <div class="w-full p-20 m-auto bg-white rounded-md lg:max-w-xl">
       <h1 class="text-3xl font-semibold text-dark-blue-200 mb-5">
-        Start Signing Up <br />
-        for Free
+        เริ่มต้นจัดการหอพักของคุณ <br />
+        ตอนนี้
       </h1>
-      <p class="text-xs mb-5">Create your account to get started.</p>
+      <p class="text-xs mb-5">สร้างบัญชีของคุณเพื่อเริ่มต้น</p>
       <form @submit.prevent="submitForm" class="space-y-0 mb-5">
         <div class="flex gap-2">
           <div class="w-full">
             <label class="label">
-              <span class="text-base label-text">Firstname</span>
+              <span class="text-base label-text">ชื่อ</span>
             </label>
             <input
               type="text"
-              placeholder="Firstname"
+              placeholder="กรุณากรอกชื่อ"
               class="w-full input-sm input input-bordered bg-white rounded-sm"
               v-model="formData.firstname"
             />
@@ -125,11 +131,11 @@ const validateErrorMsg = (field) => {
 
           <div class="w-full">
             <label class="label">
-              <span class="text-base label-text">Lastname</span>
+              <span class="text-base label-text">นามสกุล</span>
             </label>
             <input
               type="text"
-              placeholder="Lastname"
+              placeholder="กรุณากรอกนามสกุล"
               class="w-full input input-bordered bg-white input-sm rounded-sm"
               v-model="formData.lastname"
             />
@@ -140,11 +146,12 @@ const validateErrorMsg = (field) => {
         </div>
         <div>
           <label class="label">
-            <span class="text-base label-text">Phone Number</span>
+            <span class="text-base label-text">เบอร์โทรศัพท์</span>
           </label>
           <input
             type="text"
-            placeholder="Phone number"
+            maxlength="10"
+            placeholder="กรุณากรอกเบอร์โทรศัพท์ของคุณ"
             class="w-full input input-bordered bg-white input-sm rounded-sm"
             v-model="formData.phone"
           />
@@ -154,11 +161,11 @@ const validateErrorMsg = (field) => {
         </div>
         <div>
           <label class="label">
-            <span class="text-base label-text">Email</span>
+            <span class="text-base label-text">อีเมล</span>
           </label>
           <input
             type="email"
-            placeholder="Email Address"
+            placeholder="กรุณากรอกอีเมลของคุณ"
             class="w-full input input-bordered bg-white input-sm rounded-sm"
             v-model="formData.email"
           />
@@ -166,16 +173,16 @@ const validateErrorMsg = (field) => {
             validateErrorMsg('email')
           }}</span>
           <p class="text-xs text-gray-500">
-            Please use a real email address for future correspondence.
+            กรุณาใช้ที่อยู่อีเมลจริงสำหรับการติดต่อในอนาคต
           </p>
         </div>
         <div>
           <label class="label">
-            <span class="text-base label-text">Password</span>
+            <span class="text-base label-text">รหัสผ่าน</span>
           </label>
           <input
             type="password"
-            placeholder="Enter Password"
+            placeholder="กรุณาใส่รหัสผ่านของคุณ"
             class="w-full input input-bordered bg-white input-sm rounded-sm"
             v-model="formData.password"
           />
@@ -193,7 +200,7 @@ const validateErrorMsg = (field) => {
                     rule.valid.value ? 'text-green-500' : 'text-red-500',
                   ]"
                 >
-                  <p class="flex">
+                  <p class="flex items-center gap-2">
                     <CheckIcon class="w-5 h-5" v-if="rule.valid.value" />
                     <XMarkIcon class="w-5 h-5" v-else />
                     {{ rule.text }}
@@ -205,11 +212,11 @@ const validateErrorMsg = (field) => {
         </div>
         <div>
           <label class="label">
-            <span class="text-base label-text">Confirm Password</span>
+            <span class="text-base label-text">ยืนยันรหัสผ่าน</span>
           </label>
           <input
             type="password"
-            placeholder="Confirm Password"
+            placeholder="กรุณายืนยันรหัสผ่านของคุณ"
             class="w-full input input-bordered bg-white input-sm rounded-sm"
             v-model="formData.confirmPassword"
           />
@@ -218,23 +225,25 @@ const validateErrorMsg = (field) => {
           }}</span>
         </div>
         <div class="py-1">
-          <div v-if="!props.isLoading">
-            <Button class="btn btn-block mt-2" type="submit"> Sign Up </Button>
+          <div v-if="!isLoading">
+            <Button class="btn btn-block mt-2" type="submit">
+              สมัครสมาชิก
+            </Button>
           </div>
           <div v-else>
             <Button class="btn btn-block mt-2 disabled" type="disable" disabled>
-              Signing Up
+              กำลังสมัครสมาชิก
               <span class="loading loading-dots loading-xs"></span>
             </Button>
           </div>
         </div>
       </form>
       <span class="mt-10">
-        Already have an account?
+        มีบัญชีอยู่แล้ว?
         <span
           class="text-dark-blue-200 hover:underline cursor-pointer"
-          @click="router.push('signin')"
-          >Sign in</span
+          @click="router.push({ name: 'signin' })"
+          >เข้าสู่ระบบ</span
         ></span
       >
     </div>

@@ -28,8 +28,8 @@ onMounted(async () => {
     } else {
       notify({
         group: 'tr',
-        title: 'Error',
-        text: 'Failed to fetch residence data',
+        title: 'เกิดข้อผิดพลาด',
+        title: 'ไม่สามารถดึงข้อมูลห้องพักได้',
         type: 'error',
       });
     }
@@ -37,8 +37,8 @@ onMounted(async () => {
     console.error(error);
     notify({
       group: 'tr',
-      title: 'Error',
-      text: 'Failed to fetch residence data',
+      title: 'เกิดข้อผิดพลาด',
+      title: 'ไม่สามารถดึงข้อมูลห้องพักได้',
       type: 'error',
     });
   } finally {
@@ -170,7 +170,7 @@ const submitData = async () => {
             class="rounded-badge"
           >
             <ArrowLeftIcon class="w-4 h-4" />
-            Back
+            ย้อนกลับ
           </Button>
           <Button
             v-if="currentStep == numberOfSteps"
@@ -178,10 +178,10 @@ const submitData = async () => {
             class="rounded-badge"
             btnType="secondary"
           >
-            Update
+            บันทึกข้อมูล
           </Button>
           <Button @click="changeStep('next')" class="rounded-badge" v-else>
-            Next Step
+            ต่อไป
             <ArrowRightIcon class="w-4 h-4" />
           </Button>
         </div>

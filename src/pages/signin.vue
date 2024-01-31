@@ -22,7 +22,7 @@ const handleFormData = async (formData) => {
 
     notify({
       group: 'tr',
-      title: 'Success',
+      title: 'สำเร็จ',
       text: 'Sign In successful',
       type: 'success',
     });
@@ -32,7 +32,7 @@ const handleFormData = async (formData) => {
     let data = await response.json();
     notify({
       group: 'tr',
-      title: 'Error',
+      title: 'เกิดข้อผิดพลาด',
       text: `Sign In failed, ${data.message}`,
       type: 'error',
     });
@@ -45,8 +45,8 @@ const handleFormData = async (formData) => {
 <template>
   <div class="flex h-screen">
     <div class="flex-1 bg-cover flex flex-row">
-      <div class="basis-1/2">
-        <SigninForm @submit-form="handleFormData" :isLoading="isLoading" />
+      <div class="w-full md:w-1/3 lg:w-1/2">
+        <SigninForm @submit="handleFormData" :isLoading="isLoading" />
       </div>
     </div>
   </div>

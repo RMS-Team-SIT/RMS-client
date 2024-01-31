@@ -60,15 +60,15 @@ const submit = async () => {
     @submit.prevent="submit"
     class="space-y-0 p-10 mb-5 bg-white shadow-lg rounded-lg"
   >
-    <p class="font-bold text-2xl">Edit Profile</p>
+    <p class="font-bold text-2xl">แก้ไขขอมูลส่วนตัว</p>
     <div class="flex gap-2">
       <div class="w-full">
         <label class="label">
-          <span class="text-base label-text">Firstname</span>
+          <span class="text-base label-text">ชื่อ</span>
         </label>
         <input
           type="text"
-          placeholder="Firstname"
+          placeholder="ชื่อ"
           class="w-full input-sm input input-bordered bg-white  rounded-sm"
           v-model="formData.firstname"
         />
@@ -79,11 +79,11 @@ const submit = async () => {
 
       <div class="w-full">
         <label class="label">
-          <span class="text-base label-text">Lastname</span>
+          <span class="text-base label-text">นามสกุล</span>
         </label>
         <input
           type="text"
-          placeholder="Lastname"
+          placeholder="นามสกุล"
           class="w-full input input-bordered bg-white  input-sm rounded-sm"
           v-model="formData.lastname"
         />
@@ -94,11 +94,11 @@ const submit = async () => {
     </div>
     <div>
       <label class="label">
-        <span class="text-base label-text">Phone Number</span>
+        <span class="text-base label-text">เบอร์โทรศัพท์</span>
       </label>
       <input
         type="text"
-        placeholder="Phone number"
+        placeholder="เบอร์โทรศัพท์"
         class="w-full input input-bordered bg-white  input-sm rounded-sm"
         v-model="formData.phone"
       />
@@ -106,23 +106,23 @@ const submit = async () => {
     </div>
     <div>
       <label class="label">
-        <span class="text-base label-text">Email</span>
+        <span class="text-base label-text">อีเมล</span>
       </label>
       <input
         type="email"
-        placeholder="Email Address"
+        placeholder="อีเมล"
         class="w-full input input-bordered bg-white  input-sm rounded-sm"
         v-model="formData.email"
         :disabled="userData.isEmailVerified"
       />
       <span class="text-xs text-red-500" v-if="!userData.isEmailVerified">
-        * Please verify your email address
+        * อีเมลของคุณยังไม่ได้รับการยืนยัน หากทำการยืนยันจะไม่สามารถเปลี่ยนได้
       </span>
       <span class="text-xs text-red-500">{{ validateErrorMsg('email') }}</span>
     </div>
     <div class="py-1">
       <button class="btn btn-block mt-2" type="submit">
-        Update Infomation
+        บันทึกข้อมูล
       </button>
     </div>
   </form>

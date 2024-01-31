@@ -21,15 +21,15 @@ const info = () => import('@/pages/residence/info.vue');
 const createResidence = () => import('@/pages/residence/create.vue');
 const updateResidenceInfo = () => import('./pages/residence/update.info.vue');
 
-const renter = () => import('./pages/residence/renter.vue');
+const renter = () => import('./pages/residence/renter/renter.vue');
 const createRenter = () => import('./pages/residence/renter/create.vue');
 const updateRenter = () => import('./pages/residence/renter/update.vue');
 
-const room = () => import('./pages/residence/room.vue');
+const room = () => import('./pages/residence/room/room.vue');
 const createRoom = () => import('./pages/residence/room/create.vue');
 const updateRoom = () => import('./pages/residence/room/update.vue');
 
-const payment = () => import('./pages/residence/payment.vue');
+const payment = () => import('./pages/residence/payment/payment.vue');
 const createPayment = () => import('./pages/residence/payment/create.vue');
 // const updatePayment = () => import('./pages/residence/payment/update.vue');
 

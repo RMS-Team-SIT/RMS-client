@@ -16,16 +16,17 @@ const handleFormData = async (formData) => {
     let data = await response.json();
     notify({
       group: 'tr',
-      title: 'Success',
-      text: `Email sent to ${formData.email} successful`,
+      title: 'สำเร็จ',
+      text: `ส่งข้อมูลการรีเซตรหัสผ่านไปที่ ${formData.email} แล้ว`,
       type: 'success',
     });
   } else {
     let data = await response.json();
+    console.log(data);
     notify({
       group: 'tr',
-      title: 'Error',
-      text: 'Email sent failed, ' + data.message + ' Please try again',
+      title: 'เกิดข้อผิดพลาด',
+      text: 'อีเมลไม่ถูกต้อง โปรดลองใหม่อีกครั้ง',
       type: 'error',
     });
   }
@@ -35,7 +36,7 @@ const handleFormData = async (formData) => {
 <template>
   <div class="flex h-screen">
     <div class="flex-1 bg-cover flex flex-row">
-      <div class="basis-1/2">
+      <div class="w-full md:w-1/3 lg:w-1/2">
         <ForgetPasswordForm @submit-form="handleFormData" />
       </div>
     </div>

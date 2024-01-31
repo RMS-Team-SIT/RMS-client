@@ -40,26 +40,24 @@ const validator = useVuelidate(rules, formData);
 
 const passwordRules = computed(() => [
   {
-    text: 'Contain 8 Letters',
-    valid: computed(() => formData.newPassword.length >= 8),
+    text: 'มีความยาวอย่างน้อย 8 ตัวอักษร',
+    valid: computed(() => formData.password.length >= 8),
   },
   {
-    text: 'Contain Upper Letter',
-    valid: computed(() => new RegExp(`[A-Z]`).test(formData.newPassword)),
+    text: 'มีอักษรตัวพิมพ์ใหญ่',
+    valid: computed(() => new RegExp(`[A-Z]`).test(formData.password)),
   },
   {
-    text: 'Contain Lower Letter',
-    valid: computed(() => new RegExp(`[a-z]`).test(formData.newPassword)),
+    text: 'มีอักษรตัวพิมพ์เล็ก',
+    valid: computed(() => new RegExp(`[a-z]`).test(formData.password)),
   },
   {
-    text: 'Contain Number',
-    valid: computed(() => new RegExp(`[0-9]`).test(formData.newPassword)),
+    text: 'มีตัวเลข',
+    valid: computed(() => new RegExp(`[0-9]`).test(formData.password)),
   },
   {
-    text: 'Contain Symbol',
-    valid: computed(() =>
-      new RegExp(`[^A-Za-z0-9]`).test(formData.newPassword)
-    ),
+    text: 'มีตัวอักษรพิเศษ',
+    valid: computed(() => new RegExp(`[^A-Za-z0-9]`).test(formData.password)),
   },
 ]);
 
@@ -76,7 +74,6 @@ const submit = async () => {
   if (result) emit('submitData', formData);
   console.log('emit called');
 };
-
 </script>
 
 <template>
@@ -84,15 +81,15 @@ const submit = async () => {
     @submit.prevent="submit"
     class="space-y-0 p-10 mb-5 bg-white shadow-lg rounded-lg"
   >
-    <p class="font-bold text-2xl">Edit Password</p>
+    <p class="font-bold text-2xl">แก้ไขรหัสผ่าน</p>
     <div>
       <label class="label">
-        <span class="text-base label-text">Old Password</span>
+        <span class="text-base label-text">รหัสผ่านเดิม</span>
       </label>
       <input
         type="password"
-        placeholder="Enter Password"
-        class="w-full input input-bordered bg-white  input-sm rounded-sm"
+        placeholder="รหัสผ่านเดิม"
+        class="w-full input input-bordered bg-white input-sm rounded-sm"
         v-model="formData.oldPassword"
       />
       <span class="text-xs text-red-500"
@@ -101,12 +98,12 @@ const submit = async () => {
     </div>
     <div>
       <label class="label">
-        <span class="text-base label-text">New Password</span>
+        <span class="text-base label-text">รหัสผ่านใหม่</span>
       </label>
       <input
         type="password"
-        placeholder="Confirm Password"
-        class="w-full input input-bordered bg-white  input-sm rounded-sm"
+        placeholder="รหัสผ่านใหม่"
+        class="w-full input input-bordered bg-white input-sm rounded-sm"
         v-model="formData.newPassword"
       />
       <span class="text-xs text-red-500">{{
@@ -132,7 +129,7 @@ const submit = async () => {
       </div>
     </div>
     <div class="py-1">
-      <button class="btn btn-block mt-2" type="submit">Update Password</button>
+      <button class="btn btn-block mt-2" type="submit">บันทึกข้อมูลรหัสผ่าน</button>
     </div>
   </form>
 </template>

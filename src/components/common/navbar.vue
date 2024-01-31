@@ -35,11 +35,9 @@ const props = defineProps({
         class="menu menu-horizontal px-1 text-center align-middle items-center"
       >
         <li>
-          <router-link :to="{ name: 'home' }">{{
-            $t('navbar.home')
-          }}</router-link>
+          <router-link :to="{ name: 'home' }">หน้าแรก</router-link>
         </li>
-        <li><router-link :to="{ name: 'home' }">{{ $t('navbar.about') }}</router-link></li>
+        <li><router-link :to="{ name: 'home' }">เกี่ยวกับเรา</router-link></li>
         <router-link to="/signin">
           <Button btnType="primary-pill">{{ $t('navbar.signin') }}</Button>
         </router-link>
@@ -49,7 +47,7 @@ const props = defineProps({
       <ul
         class="menu menu-horizontal px-1 text-center align-middle items-center"
       >
-        <li><router-link :to="{ name: 'manage' }">{{ $t('navbar.manage') }}</router-link></li>
+        <li><router-link :to="{ name: 'manage' }">จัดการ</router-link></li>
         <div class="dropdown dropdown-end">
           <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
             <div class="indicator">
@@ -92,16 +90,16 @@ const props = defineProps({
             class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
           >
             <li>
-              <router-link :to="{ name: 'profile' }">{{ $t('navbar.profile') }}</router-link>
+              <router-link :to="{ name: 'profile' }">ข้อมูลส่วนตัว</router-link>
             </li>
             <li>
-              <router-link :to="{ name: 'signout' }">{{ $t('navbar.signout') }}</router-link>
+              <router-link :to="{ name: 'signout' }">ออกจากระบบ</router-link>
             </li>
           </ul>
         </div>
       </ul>
     </div>
-    <ChangeLang />
+    <!-- <ChangeLang /> -->
   </div>
 </template>
 

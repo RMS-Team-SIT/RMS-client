@@ -61,17 +61,19 @@ const visiblePages = computed(() => {
 
 <template>
   <div class="overflow-x-auto">
-    <p class="text-base mt-5" v-if="!props.payments.length">No renter</p>
+    <p class="text-base mt-5" v-if="!props.payments.length">
+      ไม่มีช่องทางการชำระเงิน
+    </p>
     <div v-else>
       <!-- show number of renter -->
       <p class="text-xs text-gray-500">
-        Total: {{ props.payments?.filter((r) => r.isActive).length }} Payment
-        method
+        ช่องทางการชำระเงินทั้งหมด:
+        {{ props.payments?.filter((r) => r.isActive).length }}
       </p>
       <div class="flex flex-row justify-end">
         <div class="form-control w-56">
           <label class="cursor-pointer label">
-            <span class="label-text">Show deactived payment</span>
+            <span class="label-text">แสดงข้อมูลที่โดนปิดใช้งาน</span>
             <input
               type="checkbox"
               class="toggle toggle-primary"
@@ -86,13 +88,13 @@ const visiblePages = computed(() => {
         <thead>
           <tr>
             <th>#</th>
-            <th>Payment Type</th>
-            <th>Bank Name</th>
-            <th>Account Number</th>
-            <th>Account Name</th>
-            <th>Status</th>
-            <th>Created At</th>
-            <th>Updated At</th>
+            <th>ประเภทการชำระเงิน</th>
+            <th>ชื่อธนาคาร</th>
+            <th>หมายเลขบัญชี</th>
+            <th>ชื่อบัญชี</th>
+            <th>สถานะ</th>
+            <th>สร้างเมื่อ</th>
+            <th>อัปเดตเมื่อ</th>
           </tr>
         </thead>
         <tbody>
@@ -120,7 +122,7 @@ const visiblePages = computed(() => {
               {{ dayjs(payment.updated_at).format('MM-DD-YYYY HH:mm:ss') }}
             </td>
             <th>
-              <Button btnType="ghost-pill">Edit</Button>
+              <Button btnType="ghost-pill">แก้ไข</Button>
             </th>
           </tr>
         </tbody>

@@ -56,7 +56,7 @@ const previewImages = (files) => {
     } else {
       notify({
         group: 'tr',
-        title: 'Error',
+        title: 'เกิดข้อผิดพลาด',
         text: `${file.name} is not a valid image file.`,
         type: 'error',
       });

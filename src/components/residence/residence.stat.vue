@@ -14,14 +14,14 @@ const props = defineProps({
 <template>
   <div class="stats stats-vertical lg:stats-horizontal shadow">
     <div class="stat">
-      <div class="stat-title">Rooms</div>
+      <div class="stat-title">จำนวนห้อง</div>
       <div class="stat-value">{{ stats.numberOfRooms }}</div>
-      <div class="stat-desc">Total</div>
+      <div class="stat-desc">ทั้งหมด</div>
     </div>
     <div class="stat">
-      <div class="stat-title">Renters</div>
+      <div class="stat-title">จำนวนผู้เช่า</div>
       <div class="stat-value">{{ stats.numberOfRenters }}</div>
-      <div class="stat-desc">Total</div>
+      <div class="stat-desc">ทั้งหมด</div>
     </div>
   </div>
 </template>

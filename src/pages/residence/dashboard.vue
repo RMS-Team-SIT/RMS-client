@@ -51,8 +51,8 @@ const fetchData = async () => {
   } else {
     notify({
       group: 'tr',
-      title: 'Error',
-      text: 'Failed to fetch residence data',
+      title: 'เกิดข้อผิดพลาด',
+      title: 'ไม่สามารถดึงข้อมูลห้องพักได้',
       type: 'error',
     });
     router.push({ name: 'manage' });
@@ -71,10 +71,10 @@ onMounted(async () => {
     <div class="py-10 px-10 md:px-40">
       <Breadcrumb
         :pathList="[
-          { name: 'Home', pathName: 'home' },
-          { name: 'Manage', pathName: 'manage' },
+          { name: 'หน้าแรก', pathName: 'home' },
+          { name: 'จัดการ', pathName: 'manage' },
           { name: `${residence.data.name}` },
-          { name: 'Dashboard' },
+          { name: 'แดชบอร์ด' },
         ]"
       />
 
@@ -82,7 +82,7 @@ onMounted(async () => {
         <h1
           class="text-2xl font-semibold text-dark-blue-200 my-5 flex items-center gap-2"
         >
-          <ChartPieIcon class="h-8 w-8 inline-block" /> Overview :
+          <ChartPieIcon class="h-8 w-8 inline-block" /> ข้อมูลภาพรวม :
           {{ residence.data.name }}
         </h1>
         <div class="stats shadow">
@@ -93,11 +93,11 @@ onMounted(async () => {
             <div class="stat-figure text-primary">
               <UserIcon class="h-8 w-8 inline-block" />
             </div>
-            <div class="stat-title">Renters</div>
+            <div class="stat-title">ผู้เช่าทั้งหมด</div>
             <div class="stat-value text-primary">
               <CountUp :end-val="residence.data.renters.length" />
             </div>
-            <div class="stat-desc">All renter in this residence.</div>
+            <div class="stat-desc">จำนวนผู้เช่าทั้งหมดในระบบ</div>
           </div>
 
           <div
@@ -107,11 +107,11 @@ onMounted(async () => {
             <div class="stat-figure text-secondary">
               <HomeIcon class="h-8 w-8 inline-block" />
             </div>
-            <div class="stat-title">Rooms</div>
+            <div class="stat-title">จำนวนห้อง</div>
             <div class="stat-value text-secondary">
               <CountUp :end-val="residence.data.rooms.length" />
             </div>
-            <div class="stat-desc">All room in this residence.</div>
+            <div class="stat-desc">จำนวนห้องทั้งหมดในระบบ</div>
           </div>
 
           <div
@@ -121,32 +121,32 @@ onMounted(async () => {
             <div class="stat-figure text-secondary">
               <CreditCardIcon class="h-8 w-8 inline-block" />
             </div>
-            <div class="stat-title">Payment Method</div>
+            <div class="stat-title">ช่องทางการชำระเงิน</div>
             <div class="stat-value text-secondary">
               <CountUp :end-val="residence.data.payments.length" />
             </div>
-            <div class="stat-desc">All payment method.</div>
+            <div class="stat-desc">ช่องทางการชำระเงินทั้งหมดในระบบ</div>
           </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-5">
           <div class="p-6 bg-white rounded-lg shadow-md">
             <h3 class="text-xl font-semibold mb-2 p-5">
-              Room paid bill status
+              สถานะการจ่ายค่าห้องทั้งหมด
             </h3>
             <PaidChart class="h-28 mx-auto" />
             <p class="text-xs p-5">Paid status will show here.</p>
           </div>
 
           <div class="p-6 bg-white rounded-lg shadow-md">
-            <h3 class="text-xl font-semibold mb-2 p-5">Room Available</h3>
+            <h3 class="text-xl font-semibold mb-2 p-5">ห้องว่างในระบบ</h3>
             <AvailableChart class="h-28 mx-auto" />
             <p class="text-xs p-5">Room available will show here.</p>
           </div>
 
           <div class="p-6 bg-white rounded-lg shadow-md">
             <h3 class="text-xl font-semibold mb-2 p-5">
-              Residence Income (this year)
+              รายได้ของห้องพักในปีนี้
             </h3>
             <IncomeChart />
             <p class="text-xs p-5">Residence income will show here.</p>
@@ -159,39 +159,39 @@ onMounted(async () => {
         <h1
           class="text-2xl font-semibold text-dark-blue-200 my-5 flex items-center gap-2"
         >
-          <LinkIcon class="h-8 w-8 inline-block" /> Quick Link
+          <LinkIcon class="h-8 w-8 inline-block" /> Quick Links
         </h1>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
           <div
             @click="router.push({ name: 'renter', params: { residenceId } })"
             class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
           >
-            <h3 class="text-xl font-semibold mb-2">Manage Renters</h3>
-            <p>Access to all of your renters in this residence.</p>
+            <h3 class="text-xl font-semibold mb-2">ระบบจัดการผู้เช่า</h3>
+            <p>เข้าสู่ระบบจัดการผู้เช่าในระบบ</p>
           </div>
 
           <div
             @click="router.push({ name: 'room', params: { residenceId } })"
             class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
           >
-            <h3 class="text-xl font-semibold mb-2">Manage Room</h3>
-            <p>Access to all of your room in this residence.</p>
+            <h3 class="text-xl font-semibold mb-2">ระบบจัดการห้อง</h3>
+            <p>เข้าสู่ระบบจัดการห้องในระบบ</p>
           </div>
 
           <div
             @click="router.push({ name: 'info', params: { residenceId } })"
             class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
           >
-            <h3 class="text-xl font-semibold mb-2">Manage Residence data</h3>
-            <p>Access to all of your room in this residence.</p>
+            <h3 class="text-xl font-semibold mb-2">จัดการข้อมูลทั่วไป</h3>
+            <p>เข้าสู่หน้าการจัดการข้อมูลทั่วไป</p>
           </div>
 
           <div
             @click="router.push({ name: 'payment', params: { residenceId } })"
             class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
           >
-            <h3 class="text-xl font-semibold">Manage Payment</h3>
-            <p>Access to all of your room in this residence.</p>
+            <h3 class="text-xl font-semibold">จัดการข้อมูลช่องทางการชำระเงิน</h3>
+            <p>เข้าสู่หน้าจัดการข้อมูลช่องทางการชำระเงิน </p>
           </div>
         </div>
       </section>

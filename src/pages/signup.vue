@@ -16,8 +16,8 @@ const handleFormData = async (formData) => {
     localStorage.setItem('token', data.access_token);
     notify({
       group: 'tr',
-      title: 'Success',
-      text: 'Sign Up successful',
+      title: 'สำเร็จ',
+      text: 'สมัครสมาชิกเรียบร้อยแล้ว',
       type: 'success',
     });
     router.push({ name: 'signin' });
@@ -25,8 +25,8 @@ const handleFormData = async (formData) => {
     let data = await response.json();
     notify({
       group: 'tr',
-      title: 'Error',
-      text: 'Sign Up failed, Please try again, ' + data?.message,
+      title: 'เกิดข้อผิดพลาด',
+      text: 'สมัครสมาชิกไม่สำเร็จ, โปรดลองใหม่อีกครั้ง' + data?.message,
       type: 'error',
     });
   }
@@ -37,8 +37,8 @@ const handleFormData = async (formData) => {
 <template>
   <div class="flex">
     <div class="flex-1 bg-cover flex flex-row">
-      <div class="basis-1/2">
-        <SignupForm @form-data="handleFormData" :isLoading="isLoading" />
+      <div class="w-full md:w-1/3 lg:w-1/2">
+        <SignupForm @submit="handleFormData" :isLoading="isLoading" />
       </div>
     </div>
   </div>

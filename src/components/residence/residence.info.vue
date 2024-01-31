@@ -16,7 +16,7 @@ const props = defineProps({
   <div class="bg-white p-4 shadow-md rounded">
     <div class="mb-4">
       <div class="flex justify-between items-center">
-        <Divider>Residence Infomation</Divider>
+        <Divider>ข้อมูลทั่วไป</Divider>
 
         <PencilSquareIcon
           @click="
@@ -30,54 +30,54 @@ const props = defineProps({
         />
       </div>
       <p>
-        <span class="font-bold">Residence Name</span> :
+        <span class="font-bold">ชื่อห้องพัก</span> :
         {{ residence.name }}
       </p>
       <p>
-        <span class="font-bold">Description</span> :
+        <span class="font-bold">รายละเอียด</span> :
         <span :class="{ 'text-gray-500': !residence.contact.description }">
-          {{ residence.contact.description || 'No data' }}
+          {{ residence.contact.description || 'ไม่มีข้อมูล' }}
         </span>
       </p>
       <p>
-        <span class="font-bold">Address</span> :
+        <span class="font-bold">ที่อยู่</span> :
         <span :class="{ 'text-gray-500': !residence.address }">
-          {{ residence.address || 'No data' }}
+          {{ residence.address || 'ไม่มีข้อมูล' }}
         </span>
       </p>
-      <Divider>Residence Contact</Divider>
+      <Divider>ข้อมูลการติดต่อ</Divider>
       <p>
-        <span class="font-bold">Email</span> :
+        <span class="font-bold">อีเมล</span> :
         <span :class="{ 'text-gray-500': !residence.contact.email }">
-          {{ residence.contact.email || 'No data' }}
+          {{ residence.contact.email || 'ไม่มีข้อมูล' }}
         </span>
       </p>
       <p>
-        <span class="font-bold">Phone</span> :
+        <span class="font-bold">หมายเลขโทรศัพท์</span> :
         <span :class="{ 'text-gray-500': !residence.contact.phone }">
-          {{ residence.contact.phone || 'No data' }}
+          {{ residence.contact.phone || 'ไม่มีข้อมูล' }}
         </span>
       </p>
       <p>
         <span class="font-bold">Line</span> :
         <span :class="{ 'text-gray-500': !residence.contact.line }">
-          {{ residence.contact.line || 'No data' }}
+          {{ residence.contact.line || 'ไม่มีข้อมูล' }}
         </span>
       </p>
       <p>
         <span class="font-bold">Facebook</span> :
         <span :class="{ 'text-gray-500': !residence.contact.facebook }">
-          {{ residence.contact.facebook || 'No data' }}
+          {{ residence.contact.facebook || 'ไม่มีข้อมูล' }}
         </span>
       </p>
-      <Divider>Other Setting</Divider>
+      <Divider>อื่น ๆ</Divider>
       <p>
-        <span class="font-bold">Default Water Price Rate</span> :
-        {{ residence.defaultWaterPriceRate }} Baht per unit
+        <span class="font-bold">ค่าน้ำ</span> :
+        {{ residence.defaultWaterPriceRate }} บาท / หน่วย
       </p>
       <p>
-        <span class="font-bold">Default Light Price Rate</span> :
-        {{ residence.defaultLightPriceRate }} Baht per unit
+        <span class="font-bold">ค่าไฟ</span> :
+        {{ residence.defaultLightPriceRate }} บาท / หน่วย
       </p>
     </div>
   </div>

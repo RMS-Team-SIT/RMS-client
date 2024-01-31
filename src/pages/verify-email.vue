@@ -14,8 +14,8 @@ const verify = async () => {
   if (response.status === 200) {
     notify({
       group: 'tr',
-      title: 'Success',
-      text: `Email verified successfully.`,
+      title: 'สำเร็จ',
+      text: `ยืนยันอีเมลเรียบร้อยแล้ว`,
       type: 'success',
     });
     router.push({ name: 'home' });
@@ -23,8 +23,8 @@ const verify = async () => {
     const data = await response.json();
     notify({
       group: 'tr',
-      title: 'Error',
-      text: `Email verification failed. ${data.message}` ,
+      title: 'เกิดข้อผิดพลาด',
+      text: `เกิดข้อผิดพลาด. ${data.message}` ,
       type: 'error',
     });
     router.push({ name: 'signin' });
