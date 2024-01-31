@@ -164,14 +164,10 @@ const deactiveRenter = async () => {
       renterId
     );
     if (response.status == 200) {
-      swal.fire({
-        title: 'สำเร็จ',
-        text: 'Renter deactivated',
-        icon: 'success',
-      });
       notify({
+        group: 'tr',
         title: 'สำเร็จ',
-        text: 'Renter deactivated',
+        text: 'ปิดใช้งานผู้เช่าสำเร็จ',
         type: 'success',
       });
       router.push({
@@ -204,14 +200,9 @@ const reactiveRenter = async () => {
       renterId
     );
     if (response.status == 200) {
-      swal.fire({
-        title: 'สำเร็จ',
-        text: 'Renter reactivated',
-        icon: 'success',
-      });
       notify({
         title: 'สำเร็จ',
-        text: 'Renter reactivated',
+        text: 'เปิดการใช้งานผู้เช่าสำเร็จ',
         type: 'success',
       });
       router.push({
@@ -264,11 +255,15 @@ onMounted(async () => {
       </div>
 
       <Alert v-if="!renterData.isActive">
-        ข้อมูลผู้เช่านี้เป็นโหมดดูอย่างเดียว เนื่องจากผู้เช่ารายนี้ถูกปิดใช้งานอยู่
+        ข้อมูลผู้เช่านี้เป็นโหมดดูอย่างเดียว
+        เนื่องจากผู้เช่ารายนี้ถูกปิดใช้งานอยู่
       </Alert>
 
       <div>
-        <div class="p-4 mb-4 card shadow-md bg-white" v-if="renterData.isActive">
+        <div
+          class="p-4 mb-4 card shadow-md bg-white"
+          v-if="renterData.isActive"
+        >
           <Steps
             :stepList="['ป้อนข้อมูลผู้เช่า', 'ตรวจสอบข้อมูล']"
             :currentStep="currentStep"
@@ -323,16 +318,14 @@ onMounted(async () => {
         </div>
 
         <!-- button control -->
-        <div v-if="renterData.isActive" class="flex justify-end gap-2 mt-10" >
+        <div v-if="renterData.isActive" class="flex justify-end gap-2 mt-10">
           <Button
             v-if="currentStep == 1"
-            @click="
-              router.push({ name: 'renter', params: { residenceId } })
-            "
+            @click="router.push({ name: 'renter', params: { residenceId } })"
             class="rounded-badge"
             btnType="secondary"
           >
-            Cancel
+            ยกเลิก
           </Button>
           <Button
             btnType="secondary"
@@ -341,7 +334,7 @@ onMounted(async () => {
             class="rounded-badge"
           >
             <ArrowLeftIcon class="w-4 h-4" />
-            Back
+            ย้อนกลับ
           </Button>
           <Button
             v-if="currentStep == numberOfSteps"
@@ -349,7 +342,7 @@ onMounted(async () => {
             class="rounded-badge"
             btnType="primary"
           >
-            Save
+            บันทึกข้อมูล
           </Button>
           <Button @click="changeStep('next')" class="rounded-badge" v-else>
             ถัดไป

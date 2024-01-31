@@ -23,17 +23,18 @@ const handleFormData = async (formData) => {
     notify({
       group: 'tr',
       title: 'สำเร็จ',
-      text: 'Sign In successful',
+      text: 'เข้าสู่ระบบสำเร็จ',
       type: 'success',
     });
     
     router.push({ name: 'manage' });
   } else {
     let data = await response.json();
+    console.log(data);
     notify({
       group: 'tr',
       title: 'เกิดข้อผิดพลาด',
-      text: `Sign In failed, ${data.message}`,
+      text: `ไม่สามารถเข้าสู่ระบบได้`,
       type: 'error',
     });
     store.clearUser();

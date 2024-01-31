@@ -5,7 +5,6 @@ import { useRoute, useRouter } from 'vue-router';
 import Steps from '@/components/common/steps.vue';
 import Button from '@/components/common/button.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
-import ImagePreview from '@/components/common/image.preview.vue';
 import { useNotification } from '@kyvg/vue3-notification';
 import ResidenceServices from '@/services/ResidenceServices';
 import RenterInfoForm from '@/components/renter/form/renter.info.form.vue';
@@ -100,7 +99,7 @@ const submitData = async () => {
     notify({
       group: 'tr',
       title: 'สำเร็จ',
-      text: 'Renter created successfully',
+      text: 'เพิ่มผู้เช่าสำเร็จ',
       type: 'success',
     });
     router.push({ name: 'renter', params: { residenceId: residenceId } });
@@ -109,7 +108,7 @@ const submitData = async () => {
     notify({
       group: 'tr',
       title: 'เกิดข้อผิดพลาด',
-      text: 'Failed to create Renter: ' + data?.message,
+      text: 'ไม่สามารถเพิ่มผู้เช่าได้, ' + data?.message,
       type: 'error',
     });
   }

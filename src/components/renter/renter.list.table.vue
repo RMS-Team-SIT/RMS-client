@@ -181,7 +181,7 @@ const visiblePages = computed(() => {
                   },
                 }"
               >
-                <Button btnType="ghost-pill">Edit</Button>
+                <Button btnType="ghost-pill">แก้ไข</Button>
               </router-link>
             </th>
           </tr>
