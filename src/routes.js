@@ -236,6 +236,23 @@ const routes = [
     },
   },
   {
+    name: 'bill-system',
+    path: '/manage/residence/:residenceId/bill-system',
+    component: () => import('./pages/residence/bill-system/index.vue'),
+    meta: {
+      title: 'Bill System',
+    },
+  },
+  {
+    name: 'facility-usage-system',
+    path: '/manage/residence/:residenceId/facility-usage-system',
+    component: () =>
+      import('./pages/residence/facility-usage-system/index.vue'),
+    meta: {
+      title: 'Facility Usage System',
+    },
+  },
+  {
     path: '/:path(.*)',
     component: NotFound,
     name: 'not-found',

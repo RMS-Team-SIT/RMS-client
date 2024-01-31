@@ -85,7 +85,7 @@ onMounted(async () => {
           <ChartPieIcon class="h-8 w-8 inline-block" /> ข้อมูลภาพรวม :
           {{ residence.data.name }}
         </h1>
-        <div class="stats shadow">
+        <div class="stats shadow  stats-vertical lg:stats-horizontal w-full">
           <div
             class="stat hover:cursor-pointer"
             @click="router.push({ name: 'renter', params: { residenceId } })"
@@ -192,6 +192,22 @@ onMounted(async () => {
           >
             <h3 class="text-xl font-semibold">จัดการข้อมูลช่องทางการชำระเงิน</h3>
             <p>เข้าสู่หน้าจัดการข้อมูลช่องทางการชำระเงิน </p>
+          </div>
+
+          <div
+            @click="router.push({ name: 'bill-system', params: { residenceId } })"
+            class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
+          >
+            <h3 class="text-xl font-semibold">ระบบบันทึกค่าน้ำ ค่าไฟ</h3>
+            <p>เข้าสู่หน้าระบบบันทึกค่าน้ำ ค่าไฟ</p>
+          </div>
+
+          <div
+            @click="router.push({ name: 'bill-system', params: { residenceId } })"
+            class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
+          >
+            <h3 class="text-xl font-semibold">จัดการบิล</h3>
+            <p>เข้าสู่หน้าจัดการบิล </p>
           </div>
         </div>
       </section>
