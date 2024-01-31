@@ -39,7 +39,7 @@ const props = defineProps({
         </li>
         <li><router-link :to="{ name: 'home' }">เกี่ยวกับเรา</router-link></li>
         <router-link to="/signin">
-          <Button btnType="primary-pill">{{ $t('navbar.signin') }}</Button>
+          <Button btnType="primary-pill">เข้าสู่ระบบ</Button>
         </router-link>
       </ul>
     </div>
