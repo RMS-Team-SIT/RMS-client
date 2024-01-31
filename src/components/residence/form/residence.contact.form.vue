@@ -1,5 +1,4 @@
 <script setup>
-import LabelCheckbox from '@/components/common/label-checkbox.vue';
 import { onMounted, reactive, watch } from 'vue';
 
 const emit = defineEmits(['getData']);
@@ -96,7 +95,6 @@ watch(residenceContact, () => {
       >
         Fill with your phone number.
       </p>
-      <!-- <LabelCheckbox label="Use same as your phone number" /> -->
     </div>
     <div>
       <label class="label">

@@ -47,14 +47,15 @@ watch(renterFiles, () => {
 <template>
   <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
     <h1 class="text-xl font-semibold text-dark-blue-200">
-      Renter Files
+      ไฟล์เกี่ยวกับผู้เช่า
     </h1>
-    <p class="text-xs">Please input renter basic information.</p>
+    <p class="text-xs">กรุณาป้อนข้อมูลไฟล์ของผู้เช่า</p>
 
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Renter Copy Of Id Card <span class="text-red-500">(pdf only)</span>
+          >สำเนาบัตรประชาชน
+          <span class="text-red-500">(นามสกุลไฟล์ pdf เท่านั้น)</span>
         </span>
       </label>
       <input
@@ -62,7 +63,7 @@ watch(renterFiles, () => {
         type="file"
         @change="(e) => (renterFiles.copyOfIdCard.file = e.target.files[0])"
         multiple
-        class="file-input-sm file-input file-input-bordered bg-white  w-full max-w-xs file-input-ghost"
+        class="file-input-sm file-input file-input-bordered bg-white w-full max-w-xs file-input-ghost"
       />
       <!-- Preview file name if exist -->
       <div
@@ -81,19 +82,20 @@ watch(renterFiles, () => {
             class="font-xs"
             @click="resetRenterFile('copyOfIdCard')"
             v-if="!viewOnly"
-            >Remove file</Button
+            >ลบไฟล์</Button
           >
         </span>
       </div>
       <div v-else>
-        <span class="text-sm text-gray-500">No file selected.</span>
+        <span class="text-sm text-gray-500">ยังไม่มีไฟล์ที่ถูกเลือก</span>
       </div>
     </div>
 
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Renter Contract <span class="text-red-500">(pdf only)</span>
+          >สัญญาเช่า
+          <span class="text-red-500">(นามสกุลไฟล์ pdf เท่านั้น)</span>
         </span>
       </label>
       <input
@@ -101,7 +103,7 @@ watch(renterFiles, () => {
         type="file"
         @change="(e) => (renterFiles.renterContract.file = e.target.files[0])"
         multiple
-        class="file-input-sm file-input file-input-bordered bg-white  w-full max-w-xs file-input-ghost"
+        class="file-input-sm file-input file-input-bordered bg-white w-full max-w-xs file-input-ghost"
       />
       <!-- Preview file name if exist -->
       <div
@@ -121,12 +123,12 @@ watch(renterFiles, () => {
             class="font-xs"
             v-if="!viewOnly"
             @click="resetRenterFile('renterContract')"
-            >Remove file</Button
+            >ลบไฟล์</Button
           >
         </span>
       </div>
       <div v-else>
-        <span class="text-sm text-gray-500">No file selected.</span>
+        <span class="text-sm text-gray-500">ยังไม่มีไฟล์ที่ถูกเลือก</span>
       </div>
     </div>
   </div>

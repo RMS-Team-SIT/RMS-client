@@ -51,18 +51,18 @@ watch(renterInfo, () => {
 
 <template>
   <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
-    <h1 class="text-xl font-semibold text-dark-blue-200">Renter Information</h1>
-    <p class="text-xs">Please input renter basic information.</p>
+    <h1 class="text-xl font-semibold text-dark-blue-200">ข้อมูลผู้เช่า</h1>
+    <p class="text-xs">กรุณาป้อนข้อมูลพื้นฐานของผู้เช่า</p>
 
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Renter Firstname <span class="text-red-500">*</span>
+          >ชื่อผู้เช่า <span class="text-red-500">*</span>
         </span>
       </label>
       <input
         type="text"
-        placeholder="Renter Firstname"
+        placeholder="ชื่อ"
         class="w-full input input-bordered bg-white input-sm rounded-sm"
         v-model="renterInfo.firstname"
         :disabled="viewOnly"
@@ -72,12 +72,12 @@ watch(renterInfo, () => {
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Renter Lastname <span class="text-red-500">*</span>
+          >นามสกุล <span class="text-red-500">*</span>
         </span>
       </label>
       <input
         type="text"
-        placeholder="Renter Lastname"
+        placeholder="นามสกุล"
         class="w-full input input-bordered bg-white input-sm rounded-sm"
         v-model="renterInfo.lastname"
         :disabled="viewOnly"
@@ -87,29 +87,29 @@ watch(renterInfo, () => {
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Renter Phone <span class="text-red-500">*</span>
+          >หมายเลขโทรศัพท์ <span class="text-red-500">*</span>
         </span>
       </label>
       <input
         type="text"
-        placeholder="Renter Phone"
+        placeholder="หมายเลขโทรศัพท์"
         class="w-full input input-bordered bg-white input-sm rounded-sm"
         v-model="renterInfo.phone"
         :disabled="viewOnly"
       />
     </div>
 
-    <h1 class="text-xl mt-5 font-semibold text-dark-blue-200">Renter Account Login</h1>
-    <p class="text-xs">Please input renter basic information.</p>
+    <h1 class="text-xl mt-5 font-semibold text-dark-blue-200">ข้อมูลบัญชีของผู้เช่า</h1>
+    <p class="text-xs">สร้างข้อมูลบัญชีของผู้เช่า เพื่อให้ผู้เช่าสามาถเข้าสู่ระบบของคุณ </p>
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Renter Username <span class="text-red-500">*</span>
+          >ชื่อผู้ใช้ <span class="text-red-500">*</span>
         </span>
       </label>
       <input
         type="text"
-        placeholder="Renter Username"
+        placeholder="ชื่อผู้ใช้"
         class="w-full input input-bordered bg-white input-sm rounded-sm"
         v-model="renterInfo.username"
         :disabled="viewOnly"
@@ -119,13 +119,13 @@ watch(renterInfo, () => {
     <div>
       <label class="label">
         <span class="text-base label-text"
-          >Renter Password <span class="text-red-500">*</span>
+          >รหัสผ่าน <span class="text-red-500">*</span>
         </span>
       </label>
       <div class="flex gap-2">
         <input
           type="text"
-          placeholder="Renter password"
+          placeholder="รหัสผ่าน"
           class="w-full input input-bordered bg-white input-sm rounded-sm"
           v-model="renterInfo.password"
           :disabled="viewOnly"
@@ -134,11 +134,11 @@ watch(renterInfo, () => {
           v-if="!viewOnly"
           btnType="primary-pill"
           @click="generateAndSetPassword"
-          >Generate Password</Button
+          >สุ่มรหัสผ่าน</Button
         >
       </div>
       <p class="text-xs text-gray-500 mt-2">
-        * Renter username and password used to login to your renter system.
+        * ชื่อผู้ใช้และรหัสผ่านของผู้เช่าที่ใช้ในการเข้าสู่ระบบระบบผู้เช่าของคุณ
       </p>
     </div>
   </div>

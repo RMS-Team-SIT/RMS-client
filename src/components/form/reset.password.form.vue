@@ -84,14 +84,14 @@ const submit = async () => {
     @submit.prevent="submit"
     class="p-10 mb-5 bg-white shadow-lg rounded-lg w-1/2"
   >
-    <p class="font-bold text-2xl">Reset Password</p>
+    <p class="font-bold text-2xl">เปลี่ยนรหัสผ่าน</p>
     <div>
       <label class="label">
-        <span class="text-base label-text">New Password</span>
+        <span class="text-base label-text">รหัสผ่าน</span>
       </label>
       <input
         type="password"
-        placeholder="Enter Password"
+        placeholder="รหัสผ่าน"
         class="w-full input input-bordered bg-white  input-sm rounded-sm"
         v-model="formData.password"
       />
@@ -121,11 +121,11 @@ const submit = async () => {
 
     <div>
       <label class="label">
-        <span class="text-base label-text">Confirm Password</span>
+        <span class="text-base label-text">ยืนยันรหัสผ่าน</span>
       </label>
       <input
         type="password"
-        placeholder="Confirm Password"
+        placeholder="ยืนยันรหัสผ่าน"
         class="w-full input input-bordered bg-white  input-sm rounded-sm"
         v-model="formData.confirmPassword"
       />
@@ -134,7 +134,7 @@ const submit = async () => {
       }}</span>
     </div>
     <div class="py-1">
-      <button class="btn btn-block mt-2" type="submit">Update Password</button>
+      <button class="btn btn-block mt-2" type="submit">บันทึกข้อมูล</button>
     </div>
   </form>
 </template>

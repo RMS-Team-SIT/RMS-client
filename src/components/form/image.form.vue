@@ -133,12 +133,12 @@ onMounted(() => {
       class="text-sm flex gap-2 text-gray-500 mt-2"
       v-if="imagePreviews.length > 0 && !viewOnly"
     >
-      * Click
+      * กดที่ไอคอน
       <XMarkIcon class="w-4 h-4 bg-red-500 rounded-full p-1 text-white" />
-      to remove image
+      เพื่อลบรูปภาพ
     </p>
     <p class="text-sm flex gap-2 text-gray-500" v-if="imagePreviews.length > 0">
-      * Click the image to view full size
+      * กดที่รูปภาพเพื่อดูรูปขนาดใหญ่
     </p>
 
     <!-- input -->
@@ -156,7 +156,7 @@ onMounted(() => {
       btnType="secondary-pill"
       @click="clearImages"
       class="m-5"
-      >Clear Image</Button
+      >ลบรูปภาพทั้งหมด</Button
     >
 
     <!-- modal -->
