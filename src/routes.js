@@ -92,14 +92,6 @@ const routes = [
     },
   },
   {
-    name: 'manage-residence',
-    path: '/manage/residence/:residenceId',
-    component: viewResidence,
-    meta: {
-      title: 'Manage Residence',
-    },
-  },
-  {
     name: 'create-residence',
     path: '/create/residence',
     component: createResidence,
