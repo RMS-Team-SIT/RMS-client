@@ -16,7 +16,6 @@ const forgetPassword = () => import('./pages/forget-password.vue');
 const resetPassword = () => import('./pages/reset-password.vue');
 
 const dashboard = () => import('./pages/residence/dashboard.vue');
-const viewResidence = () => import('@/pages/residence/view.vue');
 const info = () => import('@/pages/residence/info.vue');
 const createResidence = () => import('@/pages/residence/create.vue');
 const updateResidenceInfo = () => import('./pages/residence/update.info.vue');
