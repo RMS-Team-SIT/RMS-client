@@ -21,7 +21,7 @@ const props = defineProps({
 
 <template>
   <div class="overflow-x-auto">
-    <p class="text-base" v-if="!props.rooms.length">No room</p>
+    <p class="text-base mt-5" v-if="!props.rooms.length">ไม่มีห้องในระบบ กรุณาสร้าง</p>
     <table class="table table-xs" v-else>
       <thead>
         <tr>
