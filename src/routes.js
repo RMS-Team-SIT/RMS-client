@@ -59,7 +59,7 @@ const routes = [
     path: '/',
     component: index,
     meta: {
-      title: 'Home',
+      title: 'หน้าแรก',
     },
   },
   {
@@ -67,7 +67,7 @@ const routes = [
     path: '/signup',
     component: signup,
     meta: {
-      title: 'Sign Up',
+      title: 'สมัครสมาชิก',
     },
   },
   {
@@ -75,7 +75,7 @@ const routes = [
     path: '/signin',
     component: signin,
     meta: {
-      title: 'Sign In',
+      title: 'เข้าสู่ระบบ',
     },
   },
   {
@@ -83,7 +83,7 @@ const routes = [
     path: '/signout',
     component: signout,
     meta: {
-      title: 'Sign Out',
+      title: 'ออกจากระบบ',
     },
   },
   {
@@ -91,7 +91,7 @@ const routes = [
     path: '/manage',
     component: manage,
     meta: {
-      title: 'Manage',
+      title: 'จัดการ',
     },
   },
   {
@@ -99,7 +99,7 @@ const routes = [
     path: '/create/residence',
     component: createResidence,
     meta: {
-      title: 'Create Residence',
+      title: 'สร้างหอพัก',
     },
   },
   {
@@ -123,7 +123,7 @@ const routes = [
     path: '/profile',
     component: profile,
     meta: {
-      title: 'Profile',
+      title: 'ข้อมูลส่วนตัว',
     },
   },
   {
@@ -131,7 +131,7 @@ const routes = [
     path: '/forget-password',
     component: forgetPassword,
     meta: {
-      title: 'Forget Password',
+      title: 'ลืมรหัสผ่าน',
     },
   },
   {
@@ -139,7 +139,7 @@ const routes = [
     path: '/reset-password/:token',
     component: resetPassword,
     meta: {
-      title: 'Reset Password',
+      title: 'รีเซทรหัสผ่าน',
     },
   },
   {
@@ -147,7 +147,7 @@ const routes = [
     path: '/manage/residence/:residenceId/renter/create',
     component: createRenter,
     meta: {
-      title: 'Create Renter',
+      title: 'สร้างผู้เช่า',
     },
   },
   {
@@ -155,7 +155,7 @@ const routes = [
     path: '/manage/residence/:residenceId/renter/update/:renterId',
     component: updateRenter,
     meta: {
-      title: 'Update Renter',
+      title: 'อัปเดตผู้เช่า',
     },
   },
   {
@@ -171,7 +171,7 @@ const routes = [
     path: '/verify/:token',
     component: verifyEmail,
     meta: {
-      title: 'Verify Email',
+      title: 'ยืนยันอีเมล',
     },
   },
   {
@@ -179,7 +179,7 @@ const routes = [
     path: '/manage/residence/:residenceId/room/create',
     component: createRoom,
     meta: {
-      title: 'Create Room',
+      title: 'สร้างห้องพัก',
     },
   },
   {
@@ -187,7 +187,7 @@ const routes = [
     path: '/manage/residence/:residenceId/room/update/:roomId',
     component: updateRoom,
     meta: {
-      title: 'Update Room',
+      title: 'อัปเดตห้องพัก',
     },
   },
   {
@@ -195,7 +195,7 @@ const routes = [
     path: '/manage/residence/:residenceId/dashboard',
     component: dashboard,
     meta: {
-      title: 'Dashboard',
+      title: 'แดชบอร์ด',
     },
   },
   {
