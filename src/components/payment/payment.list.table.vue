@@ -5,6 +5,7 @@ import { computed, inject, onMounted, reactive, ref } from 'vue';
 import ResidenceServices from '@/services/ResidenceServices';
 import { useNotification } from '@kyvg/vue3-notification';
 import dayjs from 'dayjs';
+import BankIcon from '@/components/common/bank-icon.vue';
 
 const props = defineProps({
   payments: {
@@ -88,6 +89,7 @@ const visiblePages = computed(() => {
         <thead>
           <tr>
             <th>#</th>
+            <th>โลโก</th>
             <th>ประเภทการชำระเงิน</th>
             <th>ชื่อธนาคาร</th>
             <th>หมายเลขบัญชี</th>
@@ -103,11 +105,14 @@ const visiblePages = computed(() => {
             <td>
               {{ index + 1 }}
             </td>
+            <td>
+              <BankIcon :bank="payment.bank.bank" size="xxxl"/>
+            </td>
             <td class="">
               <span> {{ payment.type }}</span>
             </td>
             <td>
-              {{ payment.bank.bank }}
+              {{ payment.bank.thai_name }}
             </td>
             <td>{{ payment.account_number }}</td>
             <td>{{ payment.account_name }}</td>

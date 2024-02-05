@@ -203,7 +203,7 @@ const routes = [
     path: '/manage/residence/:residenceId/payment',
     component: payment,
     meta: {
-      title: 'ช่องทางการชำระเงิน',
+      title: 'จัดการช่องทางการชำระเงิน',
     },
   },
   {
@@ -219,7 +219,7 @@ const routes = [
     path: '/manage/residence/:residenceId/room',
     component: room,
     meta: {
-      title: 'Room',
+      title: 'จัดการห้องพัก',
     },
   },
   {
@@ -227,7 +227,7 @@ const routes = [
     path: '/manage/residence/:residenceId/info',
     component: info,
     meta: {
-      title: 'Information',
+      title: 'ข้อมูลหอพัก',
     },
   },
   {
@@ -235,7 +235,7 @@ const routes = [
     path: '/manage/residence/:residenceId/payment/create',
     component: createPayment,
     meta: {
-      title: 'Create Payment',
+      title: 'เพิ่มช่องทางการชำระเงิน',
     },
   },
   {
@@ -259,7 +259,7 @@ const routes = [
     component: NotFound,
     name: 'not-found',
     meta: {
-      title: 'Page Not Found',
+      title: 'ไม่พบหน้านี้',
     },
   },
 ];
