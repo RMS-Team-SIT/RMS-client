@@ -55,7 +55,7 @@ onMounted(async () => {
           { name: 'จัดการ', pathName: 'manage' },
           { name: `${residence.data.name}` },
           { name: 'แดชบอร์ด', pathName: 'dashboard', params: { residenceId } },
-          { name: 'ช่องทางการชำระเงิน' },
+          { name: 'ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ' },
         ]"
       />
       <Button
@@ -72,12 +72,31 @@ onMounted(async () => {
           </h1>
         </div>
       </div>
-      <div class="card w-96 bg-base-100 shadow-xl">
-        <div class="card-body">
-          <h2 class="card-title">Card title!</h2>
-          <p>If a dog chews shoes whose shoes does he choose?</p>
-          <div class="card-actions justify-end">
-            <button class="btn btn-primary">Buy Now</button>
+      <div class="grid grid-cols-4 gap-4 mt-5">
+        <div class="card w-full bg-base-100 shadow-xl col-span-1">
+          <div class="card-body">
+            <h2 class="card-title">Card title!</h2>
+            <p>If a dog chews shoes whose shoes does he choose?</p>
+            <div class="card-actions justify-end">
+              <button class="btn btn-primary">Buy Now</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card w-full bg-base-100 shadow-xl col-span-3">
+          <div class="card-body">
+            <h2 class="card-title text-center">ยังไม่มีใบจดมิเตอร์</h2>
+            <p class="text-red-500 text-base">
+              การใช้งานครั้งแรก กรุณาสร้างใบบันทึกเลขมิเตอร์ปัจจุบัน
+            </p>
+            <Button
+              btnType="primary"
+              @click="
+                router.push({ name: 'meter-record', params: { residenceId } })
+              "
+            >
+              สร้างใบบันทึกเลขมิเตอร์
+            </Button>
           </div>
         </div>
       </div>

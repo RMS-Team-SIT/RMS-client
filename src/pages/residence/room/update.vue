@@ -31,8 +31,6 @@ const roomData = reactive({
   isUseDefaultLightPriceRate: true,
   defaultWaterPriceRate: 0,
   defaultLightPriceRate: 0,
-  currentWaterGauge: 0,
-  currentLightGauge: 0,
   currentRenter: null,
   roomRentalPrice: 0,
 });
@@ -102,8 +100,6 @@ const fetchRoomData = async () => {
     roomData.isUseDefaultLightPriceRate = result.isUseDefaultLightPriceRate;
     roomData.defaultWaterPriceRate = result.defaultWaterPriceRate;
     roomData.defaultLightPriceRate = result.defaultLightPriceRate;
-    roomData.currentWaterGauge = result.currentWaterGauge;
-    roomData.currentLightGauge = result.currentLightGauge;
     roomData.currentRenter = result.currentRenter;
     roomData.roomRentalPrice = result.roomRentalPrice;
   } else {

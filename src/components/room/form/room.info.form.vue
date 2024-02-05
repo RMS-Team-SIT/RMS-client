@@ -22,8 +22,6 @@ const roomInfo = reactive({
   lightPriceRate: 0,
   isUseDefaultWaterPriceRate: true,
   isUseDefaultLightPriceRate: true,
-  currentWaterGauge: 0,
-  currentLightGauge: 0,
   roomRentalPrice: 0,
 });
 
@@ -162,36 +160,6 @@ watch(roomInfo, () => {
           />
         </label>
       </div>
-    </div>
-
-    <div>
-      <label class="label">
-        <span class="text-base label-text"
-          >Current Electric Gauge<span class="text-red-500">*</span>
-        </span>
-      </label>
-      <input
-        type="number"
-        placeholder="Current Light Gauge"
-        class="w-full input input-bordered bg-white input-sm rounded-sm"
-        v-model="roomInfo.currentLightGauge"
-        :disabled="viewOnly"
-      />
-    </div>
-
-    <div>
-      <label class="label">
-        <span class="text-base label-text"
-          >Current Water Gauge<span class="text-red-500">*</span>
-        </span>
-      </label>
-      <input
-        type="number"
-        placeholder="Current Water Gauge"
-        class="w-full input input-bordered bg-white input-sm rounded-sm"
-        v-model="roomInfo.currentWaterGauge"
-        :disabled="viewOnly"
-      />
     </div>
   </div>
 </template>

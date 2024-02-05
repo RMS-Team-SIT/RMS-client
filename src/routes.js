@@ -251,7 +251,7 @@ const routes = [
     path: '/manage/residence/:residenceId/facility-usage',
     component: facility,
     meta: {
-      title: 'Facility Usage',
+      title: 'ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ',
     },
   },
   {
