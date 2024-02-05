@@ -2,7 +2,7 @@
 import { onMounted, ref, watch } from 'vue';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
 import Button from '@/components/common/button.vue';
-import { isImage } from '@/utils';
+import { isImage } from '@/utils/file';
 
 const isModalOpen = ref(false);
 const selectedImage = ref(null);
@@ -114,3 +114,4 @@ onMounted(() => {
     </div>
   </div>
 </template>
+@/utils/request

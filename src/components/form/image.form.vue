@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue';
-import { isImage } from '@/utils';
+import { isImage } from '@/utils/file';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
 import Button from '@/components/common/button.vue';
 import { useNotification } from '@kyvg/vue3-notification';
@@ -182,3 +182,4 @@ onMounted(() => {
     </div>
   </div>
 </template>
+@/utils/request

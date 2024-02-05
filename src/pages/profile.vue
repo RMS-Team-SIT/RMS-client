@@ -6,7 +6,7 @@ import blankprofileImg from '@/assets/img/bp.webp';
 import { useNotification } from '@kyvg/vue3-notification';
 import UserInfoForm from '@/components/form/user.info.form.vue';
 import UserPasswordFormVue from '@/components/form/user.password.form.vue';
-import { getDate } from '@/utils';
+import { getDate } from '@/utils/date';
 import UserService from '@/services/UserServices.js';
 import { CameraIcon } from '@heroicons/vue/24/outline';
 import { useRouter } from 'vue-router';
@@ -63,7 +63,7 @@ const updateUser = async (data) => {
   }
 };
 
-const updatePassword = async (data) =>{
+const updatePassword = async (data) => {
   console.log(data);
   console.log('upd pass');
   const { _id } = userData.data;
@@ -100,7 +100,7 @@ const updatePassword = async (data) =>{
       type: 'error',
     });
   }
-}
+};
 
 onMounted(async () => {
   const response = await UserService.me();
@@ -159,3 +159,4 @@ onMounted(async () => {
 </template>
 
 <style scoped></style>
+@/utils/request
