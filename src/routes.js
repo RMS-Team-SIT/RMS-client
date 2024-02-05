@@ -282,12 +282,14 @@ router.beforeEach(async (to, from, next) => {
     console.log('User logged in:', userStore.isLoggedIn);
 
     const isPublicRoute = publicRoutes.includes(to.name);
-    const isRestrictedRoute = restrictedRoutesForLoggedInUsers.includes(
+    const isRestrictedForLoggedIn = restrictedRoutesForLoggedInUsers.includes(
       to.name
     );
 
     if (!isPublicRoute) {
       if (!userStore.isLoggedIn) return next({ name: 'signin' });
+    } else if (isRestrictedForLoggedIn && userStore.isLoggedIn) {
+      return next({ name: 'manage' });
     }
 
     return next();

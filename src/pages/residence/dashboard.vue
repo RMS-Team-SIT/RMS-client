@@ -31,10 +31,10 @@ const residence = reactive({
 const stats = reactive({
   renterCount: 0,
   roomCount: 0,
-  avaiableRoomCount: 0,
-  notavaiableRoomCount: 0,
-  paidRoomCount: 0,
-  unpaidRoomCount: 0,
+  avaiableRoomCount: 10,
+  notavaiableRoomCount: 30,
+  paidRoomCount: 25,
+  unpaidRoomCount: 5,
   income: 0,
 });
 
@@ -85,7 +85,7 @@ onMounted(async () => {
           <ChartPieIcon class="h-8 w-8 inline-block" /> ข้อมูลภาพรวม :
           {{ residence.data.name }}
         </h1>
-        <div class="stats shadow  stats-vertical lg:stats-horizontal w-full">
+        <div class="stats shadow stats-vertical lg:stats-horizontal w-full">
           <div
             class="stat hover:cursor-pointer"
             @click="router.push({ name: 'renter', params: { residenceId } })"
@@ -134,13 +134,21 @@ onMounted(async () => {
             <h3 class="text-xl font-semibold mb-2 p-5">
               สถานะการจ่ายค่าห้องทั้งหมด
             </h3>
-            <PaidChart class="h-28 mx-auto" />
+            <PaidChart
+              class="h-28 mx-auto"
+              :paid="stats.paidRoomCount"
+              :unpaid="stats.unpaidRoomCount"
+            />
             <p class="text-xs p-5">Paid status will show here.</p>
           </div>
 
           <div class="p-6 bg-white rounded-lg shadow-md">
             <h3 class="text-xl font-semibold mb-2 p-5">ห้องว่างในระบบ</h3>
-            <AvailableChart class="h-28 mx-auto" />
+            <AvailableChart
+              class="h-28 mx-auto"
+              :available="stats.avaiableRoomCount"
+              :not-available="stats.notavaiableRoomCount"
+            />
             <p class="text-xs p-5">Room available will show here.</p>
           </div>
 
@@ -161,7 +169,9 @@ onMounted(async () => {
         >
           <LinkIcon class="h-8 w-8 inline-block" /> Quick Links
         </h1>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2"
+        >
           <div
             @click="router.push({ name: 'renter', params: { residenceId } })"
             class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
@@ -190,12 +200,16 @@ onMounted(async () => {
             @click="router.push({ name: 'payment', params: { residenceId } })"
             class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
           >
-            <h3 class="text-xl font-semibold">จัดการข้อมูลช่องทางการชำระเงิน</h3>
-            <p>เข้าสู่หน้าจัดการข้อมูลช่องทางการชำระเงิน </p>
+            <h3 class="text-xl font-semibold">
+              จัดการข้อมูลช่องทางการชำระเงิน
+            </h3>
+            <p>เข้าสู่หน้าจัดการข้อมูลช่องทางการชำระเงิน</p>
           </div>
 
           <div
-            @click="router.push({ name: 'bill-system', params: { residenceId } })"
+            @click="
+              router.push({ name: 'bill-system', params: { residenceId } })
+            "
             class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
           >
             <h3 class="text-xl font-semibold">ระบบบันทึกค่าน้ำ ค่าไฟ</h3>
@@ -203,11 +217,13 @@ onMounted(async () => {
           </div>
 
           <div
-            @click="router.push({ name: 'bill-system', params: { residenceId } })"
+            @click="
+              router.push({ name: 'bill-system', params: { residenceId } })
+            "
             class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
           >
             <h3 class="text-xl font-semibold">จัดการบิล</h3>
-            <p>เข้าสู่หน้าจัดการบิล </p>
+            <p>เข้าสู่หน้าจัดการบิล</p>
           </div>
         </div>
       </section>

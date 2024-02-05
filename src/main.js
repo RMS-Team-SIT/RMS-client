@@ -6,8 +6,6 @@ import App from '@/app.vue';
 import router from '@/routes.js';
 import { createPinia } from 'pinia';
 import Notifications from '@kyvg/vue3-notification';
-import Vue3EasyDataTable from 'vue3-easy-data-table';
-import 'vue3-easy-data-table/dist/style.css';
 import VueSweetalert2 from 'vue-sweetalert2';
 import '@sweetalert2/themes/material-ui/material-ui.min.css';
 import { baseUrl, baseGetFileUrl } from './services/constants';
@@ -15,8 +13,6 @@ import i18n from './i18n';
 
 const pinia = createPinia();
 const app = createApp(App);
-
-app.component('EasyDataTable', Vue3EasyDataTable);
 
 app.use(Notifications);
 app.use(VueSweetalert2);
@@ -26,8 +22,8 @@ app.use(i18n);
 
 app.mount('#app');
 
-console.log(import.meta.env.MODE);
-console.log(import.meta.env.VITE_MODE);
-console.log(import.meta.env);
-console.log(baseUrl);
-console.log(baseGetFileUrl);
+console.log('envMode', import.meta.env.MODE);
+console.log('viteMode', import.meta.env.VITE_MODE);
+console.log('env', import.meta.env);
+console.log('baseUrl', baseUrl);
+console.log('baseGetFile', baseGetFileUrl);
