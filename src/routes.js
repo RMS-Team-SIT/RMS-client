@@ -32,11 +32,14 @@ const payment = () => import('./pages/residence/payment/payment.vue');
 const createPayment = () => import('./pages/residence/payment/create.vue');
 // const updatePayment = () => import('./pages/residence/payment/update.vue');
 
+const bill = () => import('./pages/residence/bill-system/index.vue');
+
+const facility = () => import('./pages/residence/facility-usage/index.vue');
+
 const publicRoutes = [
   'home',
   'signup',
   'signin',
-  'signout',
   'forget-password',
   'reset-password',
   'verify-email',
@@ -238,18 +241,17 @@ const routes = [
   {
     name: 'bill-system',
     path: '/manage/residence/:residenceId/bill-system',
-    component: () => import('./pages/residence/bill-system/index.vue'),
+    component: bill,
     meta: {
       title: 'Bill System',
     },
   },
   {
-    name: 'facility-usage-system',
-    path: '/manage/residence/:residenceId/facility-usage-system',
-    component: () =>
-      import('./pages/residence/facility-usage-system/index.vue'),
+    name: 'facility-usage',
+    path: '/manage/residence/:residenceId/facility-usage',
+    component: facility,
     meta: {
-      title: 'Facility Usage System',
+      title: 'Facility Usage',
     },
   },
   {

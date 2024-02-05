@@ -85,7 +85,7 @@ onMounted(async () => {
           <ChartPieIcon class="h-8 w-8 inline-block" /> ข้อมูลภาพรวม :
           {{ residence.data.name }}
         </h1>
-        <div class="stats shadow stats-vertical lg:stats-horizontal w-full">
+        <div class="stats shadow stats-vertical lg:stats-horizontal w-full lg:w-auto">
           <div
             class="stat hover:cursor-pointer"
             @click="router.push({ name: 'renter', params: { residenceId } })"
@@ -208,7 +208,7 @@ onMounted(async () => {
 
           <div
             @click="
-              router.push({ name: 'bill-system', params: { residenceId } })
+              router.push({ name: 'facility-usage', params: { residenceId } })
             "
             class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
           >
