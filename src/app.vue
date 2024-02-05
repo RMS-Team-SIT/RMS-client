@@ -3,7 +3,7 @@ import { computed, inject, onMounted, ref, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import navbar from './components/common/navbar.vue';
 import Footer from './components/common/footer.vue';
-import { projectName } from './constants';
+import { projectName } from './utils/constants';
 import { useUserStore } from './stores/user.store';
 import Loading from './components/common/loading.vue';
 import { useI18n } from 'vue-i18n';
@@ -82,3 +82,4 @@ onMounted(async () => {
 </template>
 
 <style scoped></style>
+./utils/constants

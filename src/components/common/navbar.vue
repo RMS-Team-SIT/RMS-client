@@ -1,5 +1,5 @@
 <script setup>
-import { projectName, projectFullName } from '@/constants';
+import { projectName, projectFullName } from '@/utils/constants';
 import { useRouter } from 'vue-router';
 import Button from './button.vue';
 import blankprofileImg from '@/assets/img/bp.webp';
@@ -104,3 +104,4 @@ const props = defineProps({
 </template>
 
 <style scoped></style>
+@/utils/constants
