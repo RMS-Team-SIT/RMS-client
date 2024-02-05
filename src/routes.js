@@ -203,7 +203,7 @@ const routes = [
     path: '/manage/residence/:residenceId/payment',
     component: payment,
     meta: {
-      title: 'Payment Method',
+      title: 'ช่องทางการชำระเงิน',
     },
   },
   {
@@ -211,7 +211,7 @@ const routes = [
     path: '/manage/residence/:residenceId/renter',
     component: renter,
     meta: {
-      title: 'Renter',
+      title: 'จัดการผู้เช่า',
     },
   },
   {
