@@ -7,6 +7,8 @@ import ResidenceServices from '@/services/ResidenceServices';
 import Loading from '@/components/common/loading.vue';
 import PaymentListTable from '@/components/payment/payment.list.table.vue';
 import Button from '@/components/common/button.vue';
+import MeterRecordListTable from '@/components/meter-record/meter-record.list.table.vue';
+import NoRecord from '@/components/meter-record/no-record.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -22,7 +24,6 @@ const fetchData = async () => {
   const response = await ResidenceServices.fetchResidence(residenceId);
   if (response.status === 200) {
     let result = await response.json();
-    console.log(result);
     residence.data = result;
   } else {
     notify({
@@ -43,13 +44,17 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
-  <div v-if="residence.data" class="bg-gray-50">
+  <div v-if="residence.data" class="bg-gray-50 min-h-screen">
     <div class="py-10 px-10 md:px-40">
       <Breadcrumb
         :pathList="[
           { name: 'หน้าแรก', pathName: 'home' },
           { name: 'จัดการ', pathName: 'manage' },
-          { name: `${residence.data.name}`, pathName: 'dashboard', params: { residenceId }  },
+          {
+            name: `${residence.data.name}`,
+            pathName: 'dashboard',
+            params: { residenceId },
+          },
           { name: 'ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ' },
         ]"
       />
@@ -78,21 +83,12 @@ onMounted(async () => {
           </div>
         </div>
 
-        <div class="card w-full bg-base-100 shadow-xl col-span-3">
-          <div class="card-body">
-            <h2 class="card-title text-center">ยังไม่มีใบจดมิเตอร์</h2>
-            <p class="text-red-500 text-base">
-              การใช้งานครั้งแรก กรุณาสร้างใบบันทึกเลขมิเตอร์ปัจจุบัน
-            </p>
-            <Button
-              btnType="primary"
-              @click="
-                router.push({ name: 'meter-record', params: { residenceId } })
-              "
-            >
-              สร้างใบบันทึกเลขมิเตอร์
-            </Button>
-          </div>
+        <div class="col-span-3">
+          <MeterRecordListTable
+            v-if="residence.data?.meterRecord.length"
+            :meterRecord="residence.data.meterRecord"
+          />
+          <NoRecord v-else :residenceId="residenceId" />
         </div>
       </div>
     </div>

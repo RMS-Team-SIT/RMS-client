@@ -66,7 +66,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="card w-full">
+  <div class="card w-full min-h-screen">
     <div class="card-body px-10 md:px-40">
       <Breadcrumb
         :pathList="[

@@ -203,7 +203,7 @@ onMounted(async () => {
 
           <div
             @click="
-              router.push({ name: 'facility-usage', params: { residenceId } })
+              router.push({ name: 'meter-record', params: { residenceId } })
             "
             class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
           >

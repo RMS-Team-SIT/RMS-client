@@ -34,7 +34,8 @@ const updatePayment = () => import('./pages/residence/payment/update.vue');
 
 const bill = () => import('./pages/residence/bill-system/index.vue');
 
-const facility = () => import('./pages/residence/facility-usage/index.vue');
+const meterRecord = () => import('./pages/residence/meter-record/index.vue');
+const createMeterRecord = () => import('./pages/residence/meter-record/create.vue');
 
 const publicRoutes = [
   'home',
@@ -255,11 +256,19 @@ const routes = [
     },
   },
   {
-    name: 'facility-usage',
-    path: '/manage/residence/:residenceId/facility-usage',
-    component: facility,
+    name: 'meter-record',
+    path: '/manage/residence/:residenceId/meter-record',
+    component: meterRecord,
     meta: {
       title: 'ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ',
+    },
+  },
+  {
+    name: 'create-meter-record',
+    path: '/manage/residence/:residenceId/meter-record/create',
+    component: createMeterRecord,
+    meta: {
+      title: 'สร้างระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ',
     },
   },
   {
