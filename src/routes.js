@@ -30,7 +30,7 @@ const updateRoom = () => import('./pages/residence/room/update.vue');
 
 const payment = () => import('./pages/residence/payment/payment.vue');
 const createPayment = () => import('./pages/residence/payment/create.vue');
-// const updatePayment = () => import('./pages/residence/payment/update.vue');
+const updatePayment = () => import('./pages/residence/payment/update.vue');
 
 const bill = () => import('./pages/residence/bill-system/index.vue');
 
@@ -236,6 +236,14 @@ const routes = [
     component: createPayment,
     meta: {
       title: 'เพิ่มช่องทางการชำระเงิน',
+    },
+  },
+  {
+    name: 'update-payment',
+    path: '/manage/residence/:residenceId/payment/update/:paymentId',
+    component: updatePayment,
+    meta: {
+      title: 'แก้ไขช่องทางการชำระเงิน',
     },
   },
   {

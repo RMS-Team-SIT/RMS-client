@@ -5,8 +5,8 @@ import { useRoute, useRouter } from 'vue-router';
 import Button from '@/components/common/button.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 import { useNotification } from '@kyvg/vue3-notification';
-import ResidenceServices from '@/services/ResidenceServices';
 import BankService from '@/services/BankService';
+import PaymentService from '@/services/PaymentService';
 
 const router = useRouter();
 const route = useRoute();
@@ -23,14 +23,14 @@ const data = reactive({
 
 const submitData = async () => {
   // Create renter
-  const response = await ResidenceServices.createPayment(residenceId, {
+  const response = await PaymentService.createPayment(residenceId, {
     ...data,
   });
   if (response.status == 201) {
     notify({
       group: 'tr',
       title: 'สำเร็จ',
-      text: 'Payment created successfully',
+      text: 'สร้างช่องทางการชำระเงินสำเร็จ',
       type: 'success',
     });
     router.push({ name: 'payment', params: { residenceId: residenceId } });

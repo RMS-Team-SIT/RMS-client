@@ -6,7 +6,6 @@ class BankService {
     this.baseUrl = baseUrl;
   }
 
-  // Residence
   fetchBanks = async () => sendRequest(this.baseUrl, '/bank', 'GET');
 }
 

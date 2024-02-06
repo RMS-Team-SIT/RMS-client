@@ -6,6 +6,7 @@ import ResidenceServices from '@/services/ResidenceServices';
 import { useNotification } from '@kyvg/vue3-notification';
 import dayjs from 'dayjs';
 import BankIcon from '@/components/common/bank-icon.vue';
+import { useRouter } from 'vue-router';
 
 const props = defineProps({
   payments: {
@@ -23,6 +24,7 @@ const currentPage = ref(1);
 const perPage = ref(5);
 const showDeactive = ref(false);
 const { notify } = useNotification();
+const router = useRouter();
 
 const computedPayments = computed(() => {
   const start = (currentPage.value - 1) * perPage.value;
@@ -106,7 +108,7 @@ const visiblePages = computed(() => {
               {{ index + 1 }}
             </td>
             <td>
-              <BankIcon :bank="payment.bank.bank" size="xxxl"/>
+              <BankIcon :bank="payment.bank.bank" size="xxxl" />
             </td>
             <td class="">
               <span> {{ payment.type }}</span>
@@ -127,7 +129,20 @@ const visiblePages = computed(() => {
               {{ dayjs(payment.updated_at).format('MM-DD-YYYY HH:mm:ss') }}
             </td>
             <th>
-              <Button btnType="ghost-pill">แก้ไข</Button>
+              <Button
+                btnType="ghost-pill"
+                @click="
+                  router.push({
+                    name: 'update-payment',
+                    params: {
+                      residenceId,
+                      paymentId: payment._id,
+                    },
+                  })
+                "
+              >
+                แก้ไข
+              </Button>
             </th>
           </tr>
         </tbody>
