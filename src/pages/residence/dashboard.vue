@@ -68,7 +68,7 @@ onMounted(async () => {
         :pathList="[
           { name: 'หน้าแรก', pathName: 'home' },
           { name: 'จัดการ', pathName: 'manage' },
-          { name: `${residence.data.name}` },
+          { name: `${residence.data.name}`, pathName: 'dashboard', params: { residenceId }},
           { name: 'แดชบอร์ด' },
         ]"
       />

@@ -49,8 +49,7 @@ onMounted(async () => {
         :pathList="[
           { name: 'หน้าแรก', pathName: 'home' },
           { name: 'จัดการ', pathName: 'manage' },
-          { name: `${residence.data.name}` },
-          { name: 'แดชบอร์ด', pathName: 'dashboard', params: { residenceId } },
+          { name: `${residence.data.name}`, pathName: 'dashboard', params: { residenceId }  },
           { name: 'ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ' },
         ]"
       />

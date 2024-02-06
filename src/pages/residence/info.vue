@@ -53,11 +53,14 @@ onMounted(async () => {
     <div class="py-10 px-10 md:px-40">
       <Breadcrumb
         :pathList="[
-          { name: 'Home', pathName: 'home' },
-          { name: 'Manage', pathName: 'manage' },
-          { name: 'Residence' },
-          { name: `${residence.data.name}` },
-          { name: 'Information' },
+          { name: 'หน้าแรก', pathName: 'home' },
+          { name: 'จัดการ', pathName: 'manage' },
+          {
+            name: `${residence.data.name}`,
+            pathName: 'dashboard',
+            params: { residenceId },
+          },
+          { name: 'ข้อมูลทั่วไป' },
         ]"
       />
       <Button

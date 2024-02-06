@@ -20,7 +20,6 @@ const residence = reactive({
   data: null,
 });
 
-
 const fetchData = async () => {
   const response = await ResidenceServices.fetchResidence(residenceId);
   if (response.status === 200) {
@@ -56,8 +55,12 @@ onMounted(async () => {
         :pathList="[
           { name: 'หน้าแรก', pathName: 'home' },
           { name: 'จัดการ', pathName: 'manage' },
-          { name: `${residence.data.name}` },
-          { name: 'ผู้เช่า' },
+          {
+            name: `${residence.data.name}`,
+            pathName: 'dashboard',
+            params: { residenceId },
+          },
+          { name: 'จัดการผู้เช่า' },
         ]"
       />
       <Button

@@ -139,7 +139,7 @@ const submitData = async () => {
     notify({
       group: 'tr',
       title: 'สำเร็จ',
-      text: 'Renter update successfully',
+      text: 'แก้ไขข้อมูลผู้เช่าสำเร็จ',
       type: 'success',
     });
     router.push({
@@ -151,7 +151,7 @@ const submitData = async () => {
     notify({
       group: 'tr',
       title: 'เกิดข้อผิดพลาด',
-      text: 'Failed to update Renter: ' + data?.message,
+      text: 'แก้ไขข้อมูลผู้เช่าไม่สำเร็จ: ' + data?.message,
       type: 'error',
     });
   }
@@ -241,15 +241,19 @@ onMounted(async () => {
       <div class="flex flex-row justify-between">
         <Breadcrumb
           :pathList="[
-            { name: 'Home', pathName: 'home' },
-            { name: 'Manage', pathName: 'manage' },
+            { name: 'หน้าแรก', pathName: 'home' },
+            { name: 'จัดการ', pathName: 'manage' },
             {
-              name: 'Residence',
+              name: 'แดชบอร์ด',
               pathName: 'dashboard',
               params: { residenceId },
             },
-            { name: 'Update Renter' },
-            { name: renterId },
+            {
+              name: 'ผู้เช่า',
+              pathName: 'renter',
+              params: { residenceId },
+            },
+            { name: 'แก้ไขข้อมูลผู้เช่า' },
           ]"
         />
       </div>
