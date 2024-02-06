@@ -65,7 +65,7 @@ const submitData = async () => {
       text: 'Room created successfully',
       type: 'success',
     });
-    router.push({ name: 'manage-residence', params: { residenceId: residenceId } });
+    router.push({ name: 'room', params: { residenceId: residenceId } });
   } else {
     const data = await response.json();
     notify({

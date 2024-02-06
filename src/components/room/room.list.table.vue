@@ -28,8 +28,8 @@ const props = defineProps({
           <th>#</th>
           <th>ชื่อ</th>
           <th>คำอธิบาย</th>
-          <th>ผู้เช่า</th>
           <th>ชั้น</th>
+          <th>ผู้เช่า</th>
           <th>อัตราค่าน้ำ</th>
           <th>อัตราค่าไฟ</th>
           <th>สถานะ</th>
@@ -50,6 +50,7 @@ const props = defineProps({
               {{ room.description || 'ไม่มีข้อมูล' }}
             </span>
           </td>
+          <td>{{ room.floor }}</td>
           <td>
             <router-link
               v-if="room.currentRenter"
@@ -67,7 +68,6 @@ const props = defineProps({
             </router-link>
             <span v-else class="text-red-500"> ไม่มีผู้เช่า </span>
           </td>
-          <td>{{ room.floor }}</td>
           <td>
             {{
               room.isUseDefaultWaterPriceRate
