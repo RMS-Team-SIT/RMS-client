@@ -150,13 +150,13 @@ onMounted(async () => {
             <div>
               <label class="label">
                 <span class="text-base label-text"
-                  >หมายเลขบัญชี/หมายเลขพร้อมเพย์
+                  >หมายเลขบัญชี
                   <span class="text-red-500">*</span>
                 </span>
               </label>
               <input
                 type="text"
-                placeholder="หมายเลขบัญชี/หมายเลขพร้อมเพย์"
+                placeholder="หมายเลขบัญชี"
                 class="w-full input input-bordered bg-white"
                 v-model="data.account_number"
               />
