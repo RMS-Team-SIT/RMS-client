@@ -21,6 +21,7 @@ const data = reactive({
   account_number: '',
   account_name: '',
   type: 'bank_transfer',
+  isActive: true,
 });
 
 const submitData = async () => {
@@ -74,6 +75,7 @@ const fetchPayment = async () => {
     data.bankId = result.bank;
     data.account_number = result.account_number;
     data.account_name = result.account_name;
+    data.isActive = result.isActive;
   } else {
     notify({
       group: 'tr',
@@ -107,7 +109,7 @@ onMounted(async () => {
           { name: 'สร้างช่องทางการชำระเงิน' },
         ]"
       />
-      <div class="flex gap-4 shadow-md rounded">
+      <div class="flex-row gap-4 shadow-md rounded">
         <div class="bg-white p-10 space-y-4">
           <h1 class="text-xl font-semibold text-dark-blue-200">
             ตั้งค่าช่องทางการชำระเงิน
@@ -158,6 +160,28 @@ onMounted(async () => {
                 class="w-full input input-bordered bg-white"
                 v-model="data.account_number"
               />
+            </div>
+
+            <div>
+              <label class="label">
+                <span class="text-base label-text"
+                  >เปิดใช้งานช่องทางการชำระเงิน
+                  <span class="text-red-500">*</span>
+                </span>
+              </label>
+              <div class="form-control">
+                <label class="label cursor-pointer">
+                  <span class="label-text" v-if="data.isActive"
+                    >เปิดใช้งานอยู่</span
+                  >
+                  <span class="label-text text-gray-500" v-else>ปิดใช้งานอยู่</span>
+                  <input
+                    type="checkbox"
+                    class="toggle"
+                    v-model="data.isActive"
+                  />
+                </label>
+              </div>
             </div>
           </div>
         </div>

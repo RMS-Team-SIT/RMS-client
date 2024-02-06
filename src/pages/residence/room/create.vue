@@ -188,7 +188,7 @@ onMounted(async () => {
             class="rounded-badge"
           >
             <ArrowLeftIcon class="w-4 h-4" />
-            Back
+            ย้อนกลับ
           </Button>
           <Button
             v-if="currentStep == numberOfSteps"
@@ -196,7 +196,7 @@ onMounted(async () => {
             class="rounded-badge"
             btnType="primary"
           >
-            Submit
+            บันทึกข้อมูล
           </Button>
           <Button @click="changeStep('next')" class="rounded-badge" v-else>
             ถัดไป

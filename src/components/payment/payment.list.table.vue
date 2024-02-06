@@ -94,8 +94,8 @@ const visiblePages = computed(() => {
             <th>โลโก</th>
             <th>ประเภทการชำระเงิน</th>
             <th>ชื่อธนาคาร</th>
-            <th>หมายเลขบัญชี</th>
             <th>ชื่อบัญชี</th>
+            <th>หมายเลขบัญชี</th>
             <th>สถานะ</th>
             <th>สร้างเมื่อ</th>
             <th>อัปเดตเมื่อ</th>
@@ -116,8 +116,8 @@ const visiblePages = computed(() => {
             <td>
               {{ payment.bank.thai_name }}
             </td>
-            <td>{{ payment.account_number }}</td>
             <td>{{ payment.account_name }}</td>
+            <td>{{ payment.account_number }}</td>
             <td>
               <Badge v-if="payment.isActive" badgeType="success">Active</Badge>
               <Badge v-else badgeType="error">Deactive</Badge>
