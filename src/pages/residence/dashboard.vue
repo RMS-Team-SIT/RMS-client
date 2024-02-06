@@ -4,7 +4,6 @@ import { onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useNotification } from '@kyvg/vue3-notification';
 import ResidenceServices from '@/services/ResidenceServices';
-import FileService from '@/services/FileService';
 import Loading from '@/components/common/loading.vue';
 import PaidChart from '@/components/residence/charts/paid.chart.vue';
 import AvailableChart from '@/components/residence/charts/available.chart.vue';
@@ -44,10 +43,6 @@ const fetchData = async () => {
     let result = await response.json();
     console.log(result);
     residence.data = result;
-    // parse residenceImage by adding base url
-    residence.data.images = residence.data.images.map((imageName) => {
-      return FileService.getFile(imageName);
-    });
   } else {
     notify({
       group: 'tr',

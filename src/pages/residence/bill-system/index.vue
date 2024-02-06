@@ -24,10 +24,6 @@ const fetchData = async () => {
     let result = await response.json();
     console.log(result);
     residence.data = result;
-    // parse residenceImage by adding base url
-    residence.data.images = residence.data.images.map((imageName) => {
-      return FileService.getFile(imageName);
-    });
   } else {
     notify({
       group: 'tr',
