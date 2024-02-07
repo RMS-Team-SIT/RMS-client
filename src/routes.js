@@ -35,7 +35,8 @@ const updatePayment = () => import('./pages/residence/payment/update.vue');
 const bill = () => import('./pages/residence/bill-system/index.vue');
 
 const meterRecord = () => import('./pages/residence/meter-record/index.vue');
-const createMeterRecord = () => import('./pages/residence/meter-record/create.vue');
+const createMeterRecord = () =>
+  import('./pages/residence/meter-record/create.vue');
 
 const publicRoutes = [
   'home',
@@ -44,6 +45,7 @@ const publicRoutes = [
   'forget-password',
   'reset-password',
   'verify-email',
+  'upload',
 ];
 
 const restrictedRoutesForLoggedInUsers = [
@@ -269,6 +271,14 @@ const routes = [
     component: createMeterRecord,
     meta: {
       title: 'สร้างระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ',
+    },
+  },
+  {
+    path: '/upload',
+    component: () => import('./pages/upload.vue'),
+    name: 'upload',
+    meta: {
+      title: 'Upload',
     },
   },
   {
