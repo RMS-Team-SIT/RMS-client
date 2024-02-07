@@ -32,9 +32,3 @@ app.use(VueFire, {
 });
 
 app.mount('#app');
-
-console.log('envMode', import.meta.env.MODE);
-console.log('viteMode', import.meta.env.VITE_MODE);
-console.log('env', import.meta.env);
-console.log('baseUrl', baseUrl);
-console.log('baseGetFile', baseGetFileUrl);
