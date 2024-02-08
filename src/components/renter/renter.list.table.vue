@@ -26,7 +26,7 @@ const computedrenters = computed(() => {
   const start = (currentPage.value - 1) * perPage.value;
   const end = start + perPage.value;
   return props.renters
-    .filter((renter) => (showDeactive.value ? true : renter.isActive))
+    .filter((renter) => renter.isActive !== showDeactive.value)
     .slice(start, end);
 });
 

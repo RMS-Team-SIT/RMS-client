@@ -38,7 +38,7 @@ const computedRooms = computed(() => {
   const start = (currentPage.value - 1) * perPage.value;
   const end = start + perPage.value;
   return props.rooms
-    .filter((room) => (showDeactive.value ? true : room.isActive))
+    .filter((room) => room.isActive !== showDeactive.value)
     .slice(start, end);
 });
 
@@ -79,7 +79,8 @@ const visiblePages = computed(() => {
       <!-- show number of renter -->
       <p class="text-xs text-gray-500">
         จำนวนห้องทั้งหมด:
-        {{ props.rooms?.filter((r) => r.isActive).length }}
+        {{ props.rooms?.filter((r) => r.isActive).length }} (เปิดใช้งาน),
+        {{ props.rooms?.filter((r) => !r.isActive).length }} (ปิดใช้งาน)
       </p>
       <div class="flex flex-row justify-end">
         <div class="form-control w-56">

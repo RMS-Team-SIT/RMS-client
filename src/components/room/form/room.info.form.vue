@@ -23,6 +23,7 @@ const roomInfo = reactive({
   isUseDefaultWaterPriceRate: true,
   isUseDefaultLightPriceRate: true,
   roomRentalPrice: 0,
+  isActive: true,
 });
 
 const emitData = () => {
@@ -156,6 +157,19 @@ watch(roomInfo, () => {
             type="checkbox"
             class="toggle toggle-primary"
             v-model="roomInfo.isUseDefaultLightPriceRate"
+            :disabled="viewOnly"
+          />
+        </label>
+      </div>
+
+      <hr />
+      <div class="form-control w-full mt-5">
+        <label class="cursor-pointer label">
+          <span class="label-text">เปิด/ปิดใช้งานห้องพัก</span>
+          <input
+            type="checkbox"
+            class="toggle toggle-primary"
+            v-model="roomInfo.isActive"
             :disabled="viewOnly"
           />
         </label>

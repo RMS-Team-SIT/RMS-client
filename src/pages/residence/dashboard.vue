@@ -48,10 +48,10 @@ const fetchData = async () => {
     stats.renterCount = result.renters.length;
     stats.roomCount = result.rooms.length;
     stats.avaiableRoomCount = result.rooms.filter(
-      (room) => !room.currentRenter
+      (room) => !room.currentRenter && room.isActive
     ).length;
     stats.notavaiableRoomCount = result.rooms.filter(
-      (room) => room.currentRenter
+      (room) => room.currentRenter && room.isActive
     ).length;
   } else {
     notify({
@@ -162,6 +162,10 @@ onMounted(async () => {
               :available="stats.avaiableRoomCount"
               :not-available="stats.notavaiableRoomCount"
             />
+            <p class="p-5 text-xs">
+              ห้องว่าง: {{ stats.avaiableRoomCount }}, ไม่ว่าง:
+              {{ stats.notavaiableRoomCount }}
+            </p>
           </div>
 
           <div class="p-6 bg-white rounded-lg shadow-md">

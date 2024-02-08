@@ -33,6 +33,7 @@ const roomData = reactive({
   defaultLightPriceRate: 0,
   currentRenter: null,
   roomRentalPrice: 0,
+  isActive: true,
 });
 
 const changeStep = (action) => {
@@ -102,6 +103,7 @@ const fetchRoomData = async () => {
     roomData.defaultLightPriceRate = result.defaultLightPriceRate;
     roomData.currentRenter = result.currentRenter;
     roomData.roomRentalPrice = result.roomRentalPrice;
+    roomData.isActive = result.isActive;
   } else {
     notify({
       group: 'tr',

@@ -30,7 +30,7 @@ const computedPayments = computed(() => {
   const start = (currentPage.value - 1) * perPage.value;
   const end = start + perPage.value;
   return props.payments
-    .filter((payment) => (showDeactive.value ? true : payment.isActive))
+    .filter((payment) => payment.isActive !== showDeactive.value)
     .slice(start, end);
 });
 
@@ -71,7 +71,8 @@ const visiblePages = computed(() => {
       <!-- show number of renter -->
       <p class="text-xs text-gray-500">
         ช่องทางการชำระเงินทั้งหมด:
-        {{ props.payments?.filter((r) => r.isActive).length }}
+        {{ props.payments?.filter((r) => r.isActive).length }} (เปิดใช้งาน),
+        {{ props.payments?.filter((r) => !r.isActive).length }} (ปิดใช้งาน)
       </p>
       <div class="flex flex-row justify-end">
         <div class="form-control w-56">
