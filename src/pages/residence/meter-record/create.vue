@@ -59,8 +59,8 @@ const fetchRooms = async () => {
     payload.meterRecordItems = data.map((room) => {
       return {
         room: room._id,
-        currentWaterMeter: findRecord(room._id)?.currentWaterMeter,
-        currentElectricMeter: findRecord(room._id)?.currentElectricMeter,
+        currentWaterMeter: findRecord(room._id)?.currentWaterMeter || 0,
+        currentElectricMeter: findRecord(room._id)?.currentElectricMeter || 0,
       };
     });
   } else {
