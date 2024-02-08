@@ -28,6 +28,7 @@ const residence = reactive({
   data: null,
 });
 const stats = reactive({
+  paymentCount: 0,
   renterCount: 0,
   roomCount: 0,
   avaiableRoomCount: 10,
@@ -46,12 +47,18 @@ const fetchData = async () => {
 
     // Calculate stats
     stats.renterCount = result.renters.length;
-    stats.roomCount = result.rooms.length;
+    stats.roomCount = result.rooms.filter((room) => room.isActive).length;
     stats.avaiableRoomCount = result.rooms.filter(
       (room) => !room.currentRenter && room.isActive
     ).length;
     stats.notavaiableRoomCount = result.rooms.filter(
       (room) => room.currentRenter && room.isActive
+    ).length;
+    stats.paymentCount = result.payments.filter(
+      (payment) => payment.isActive
+    ).length;
+    stats.renterCount = result.renters.filter(
+      (renter) => renter.isActive
     ).length;
   } else {
     notify({
@@ -106,7 +113,7 @@ onMounted(async () => {
             </div>
             <div class="stat-title">ผู้เช่าทั้งหมด</div>
             <div class="stat-value text-primary">
-              <CountUp :end-val="residence.data.renters.length" />
+              <CountUp :end-val="stats.renterCount" />
             </div>
             <div class="stat-desc">จำนวนผู้เช่าทั้งหมดในระบบ</div>
           </div>
@@ -120,7 +127,7 @@ onMounted(async () => {
             </div>
             <div class="stat-title">จำนวนห้อง</div>
             <div class="stat-value text-secondary">
-              <CountUp :end-val="residence.data.rooms.length" />
+              <CountUp :end-val="stats.roomCount" />
             </div>
             <div class="stat-desc">จำนวนห้องทั้งหมดในระบบ</div>
           </div>
@@ -134,7 +141,7 @@ onMounted(async () => {
             </div>
             <div class="stat-title">ช่องทางการชำระเงิน</div>
             <div class="stat-value text-secondary">
-              <CountUp :end-val="residence.data.payments.length" />
+              <CountUp :end-val="stats.paymentCount" />
             </div>
             <div class="stat-desc">ช่องทางการชำระเงินทั้งหมดในระบบ</div>
           </div>

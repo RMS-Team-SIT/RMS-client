@@ -33,12 +33,19 @@ const perPage = ref(5);
 const showDeactive = ref(false);
 const { notify } = useNotification();
 const router = useRouter();
+const search = ref('');
 
 const computedRooms = computed(() => {
   const start = (currentPage.value - 1) * perPage.value;
   const end = start + perPage.value;
   return props.rooms
     .filter((room) => room.isActive !== showDeactive.value)
+    .filter((room) => {
+      return (
+        room.name.toLowerCase().includes(search.value.toLowerCase()) ||
+        room.description.toLowerCase().includes(search.value.toLowerCase())
+      );
+    })
     .slice(start, end);
 });
 
@@ -82,7 +89,16 @@ const visiblePages = computed(() => {
         {{ props.rooms?.filter((r) => r.isActive).length }} (เปิดใช้งาน),
         {{ props.rooms?.filter((r) => !r.isActive).length }} (ปิดใช้งาน)
       </p>
-      <div class="flex flex-row justify-end">
+      <div class="w-full flex align-middle items-center justify-end">
+        <label class="label">
+          <span class="label-text">ค้นหาห้องพัก:</span>
+        </label>
+        <input
+          type="text"
+          placeholder="ค้นหาห้องพัก"
+          class="input input-xs input-bordered bg-white rounded"
+          v-model="search"
+        />
         <div class="form-control w-56">
           <label class="cursor-pointer label">
             <span class="label-text">แสดงข้อมูลที่โดนปิดใช้งาน</span>

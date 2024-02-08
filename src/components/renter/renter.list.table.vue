@@ -21,12 +21,21 @@ const currentPage = ref(1);
 const perPage = ref(5);
 const showDeactive = ref(false);
 const { notify } = useNotification();
+const search = ref('');
 
 const computedrenters = computed(() => {
   const start = (currentPage.value - 1) * perPage.value;
   const end = start + perPage.value;
   return props.renters
     .filter((renter) => renter.isActive !== showDeactive.value)
+    .filter((renter) => {
+      return (
+        renter.firstname.toLowerCase().includes(search.value.toLowerCase()) ||
+        renter.lastname.toLowerCase().includes(search.value.toLowerCase()) ||
+        renter.username.toLowerCase().includes(search.value.toLowerCase()) ||
+        renter.phone.toLowerCase().includes(search.value.toLowerCase())
+      );
+    })
     .slice(start, end);
 });
 
@@ -60,16 +69,28 @@ const visiblePages = computed(() => {
 
 <template>
   <div class="overflow-x-auto">
-    <p class="text-base mt-5" v-if="!props.renters.length">ไม่พบผู้เช่าในระบบ กรุณาสร้าง</p>
+    <p class="text-base mt-5" v-if="!props.renters.length">
+      ไม่พบผู้เช่าในระบบ กรุณาสร้าง
+    </p>
     <div v-else>
       <!-- show number of renter -->
       <p class="text-xs text-gray-500">
-        มีผู้เช่าในระบบทั้งหมด: {{ props.renters?.filter((r) => r.isActive).length }} ข้อมูล
+        มีผู้เช่าในระบบทั้งหมด:
+        {{ props.renters?.filter((r) => r.isActive).length }} ข้อมูล
       </p>
-      <div class="flex flex-row justify-end">
+      <div class="w-full flex align-middle items-center justify-end">
+        <label class="label">
+          <span class="label-text">ค้นหาผู้เช่า:</span>
+        </label>
+        <input
+          type="text"
+          placeholder="ค้นหาผู้เช่า"
+          class="input input-xs input-bordered bg-white rounded"
+          v-model="search"
+        />
         <div class="form-control w-56">
           <label class="cursor-pointer label">
-            <span class="label-text">แสดงข้อมูลที่ถูกปิดใช้งาน</span>
+            <span class="label-text">แสดงข้อมูลที่โดนปิดใช้งาน</span>
             <input
               type="checkbox"
               class="toggle toggle-primary"
