@@ -67,28 +67,25 @@ onMounted(async () => {
       </Button>
       <div class="grid grid-cols-1">
         <div class="bg-white p-10 mt-2 shadow rounded-lg">
-          <h1 class="text-2xl font-semibold text-dark-blue-200">
-            ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ
-          </h1>
-        </div>
-      </div>
-      <div class="grid grid-cols-4 gap-4 mt-5">
-        <div class="card w-full bg-base-100 shadow-xl col-span-1">
-          <div class="card-body">
-            <h2 class="card-title">Card title!</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div class="card-actions justify-end">
-              <button class="btn btn-primary">Buy Now</button>
-            </div>
+          <div class="flex justify-between">
+            <h1 class="text-2xl font-semibold text-dark-blue-200">
+              ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ
+            </h1>
+            <router-link
+              :to="{
+                name: 'create-meter-record',
+                params: {
+                  residenceId,
+                },
+              }"
+            >
+              <Button btnType="primary">สร้างใบบันทึกค่ามิเตอร์</Button>
+            </router-link>
           </div>
-        </div>
-
-        <div class="col-span-3">
           <MeterRecordListTable
-            v-if="residence.data?.meterRecord.length"
-            :meterRecord="residence.data.meterRecord"
+            :residenceId="residenceId"
+            :meter-records="residence.data.meterRecord"
           />
-          <NoRecord v-else :residenceId="residenceId" />
         </div>
       </div>
     </div>

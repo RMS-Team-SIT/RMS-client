@@ -2,12 +2,18 @@
 // See https://vueuse.org/core/useFileDialog
 import { useFileDialog } from '@vueuse/core';
 import { ref as storageRef } from 'firebase/storage';
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { useFirebaseStorage, useStorageFile } from 'vuefire';
 
 const storage = useFirebaseStorage();
 const filename = ref('');
 const { files, open, reset } = useFileDialog();
+const uploadStatus = reactive({
+  url: '',
+  uploadProgress: 0,
+  uploadError: null,
+  uploadTask: null,
+});
 
 function uploadPicture() {
   const fileRef = storageRef(storage, files.value?.item(0).name);
@@ -22,6 +28,11 @@ function uploadPicture() {
     upload,
   } = useStorageFile(fileRef);
 
+  uploadStatus.uploadError = uploadError;
+  uploadStatus.uploadProgress = uploadProgress;
+  uploadStatus.uploadTask = uploadTask;
+  uploadStatus.url = url;
+
   const data = files.value?.item(0);
   if (data) {
     upload(data);
@@ -30,6 +41,8 @@ function uploadPicture() {
 </script>
 
 <template>
+  <img v-if="uploadStatus.url" :src="uploadStatus.url" />
+ {{ uploadStatus }}
   <form @submit.prevent="uploadPicture">
     <!-- disable the form while uploading -->
     <fieldset :disabled="!!uploadTask">

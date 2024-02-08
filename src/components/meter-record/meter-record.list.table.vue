@@ -2,9 +2,10 @@
 import Badge from '../common/badge.vue';
 import Button from '@/components/common/button.vue';
 import blankprofileImg from '@/assets/img/bp.webp';
+import dayjs from 'dayjs';
 
 const props = defineProps({
-  meterRecord: {
+  meterRecords: {
     type: Array,
     default: () => [],
   },
@@ -13,87 +14,32 @@ const props = defineProps({
 
 <template>
   <div class="overflow-x-auto">
-    <p class="text-base mt-5" v-if="!props.meterRecord.length">
+    <p class="text-base mt-5" v-if="!meterRecords.length">
       การใช้งานครั้งแรก กรุณาสร้างใบบันทึกเลขมิเตอร์ปัจจุบัน
     </p>
-    <table class="table table-xs" v-else>
+
+    <table class="table table-xs " v-else>
       <thead>
         <tr>
           <th>#</th>
           <th>ชื่อ</th>
-          <th>คำอธิบาย</th>
-          <th>ชั้น</th>
-          <th>ผู้เช่า</th>
-          <th>อัตราค่าน้ำ</th>
-          <th>อัตราค่าไฟ</th>
-          <th>สถานะ</th>
-          <th></th>
-          <th></th>
+          <th>วันที่จด</th>
+          <th>บันทึกค่าน้ำ/ไฟบิลนี้</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(room, index) in rooms" :key="index">
+        <tr v-for="(meterRecord, index) in meterRecords" :key="index">
           <td>
             {{ index + 1 }}
           </td>
           <td>
-            {{ room.name }}
+            {{ meterRecord.meterRecordName }}
           </td>
           <td>
-            <span :class="{ 'text-gray-500': !room.description }">
-              {{ room.description || 'ไม่มีข้อมูล' }}
-            </span>
+            {{ dayjs(meterRecord.record_date).format('DD/MM/YYYY') }}
           </td>
-          <td>{{ room.floor }}</td>
-          <td>
-            <router-link
-              v-if="room.currentRenter"
-              class="text-dark-blue-200 underline"
-              :to="{
-                name: 'update-renter',
-                params: {
-                  residenceId: $route.params.residenceId,
-                  renterId: room.currentRenter._id,
-                },
-              }"
-            >
-              {{ room.currentRenter.firstname }}
-              {{ room.currentRenter.lastname }}
-            </router-link>
-            <span v-else class="text-red-500"> ไม่มีผู้เช่า </span>
-          </td>
-          <td>
-            {{
-              room.isUseDefaultWaterPriceRate
-                ? defaultWaterPriceRate
-                : room.waterPriceRate
-            }}
-            <Badge badgeType="ghost" v-if="room.isUseDefaultWaterPriceRate"
-              >ค่าเริ่มต้น</Badge
-            >
-            <Badge badgeType="primary" v-else>กำหนดเอง</Badge>
-          </td>
-          <td>
-            {{
-              room.isUseDefaultLightPriceRate
-                ? defaultLightPriceRate
-                : room.lightPriceRate
-            }}
-            <Badge badgeType="ghost" v-if="room.isUseDefaultLightPriceRate"
-              >ค่าเริ่มต้น</Badge
-            >
-            <Badge badgeType="primary" v-else>กำหนดเอง</Badge>
-          </td>
-          <td>
-            <Badge badgeType="success" v-if="!room.currentRenter">ว่าง</Badge>
-            <Badge badgeType="error" v-else>ไม่ว่าง</Badge>
-          </td>
-          <!-- <td>
-            <Badge badgeType="success">Paid</Badge>
-            <Badge badgeType="error">Not Paid</Badge>
-          </td> -->
           <th>
-            <router-link
+            <!-- <router-link
               :to="{
                 name: 'update-room',
                 params: {
@@ -102,8 +48,8 @@ const props = defineProps({
                 },
               }"
             >
-              <Button btnType="ghost-pill">แก้ไข</Button>
-            </router-link>
+            </router-link> -->
+            <Button btnType="ghost-pill">แก้ไข</Button>
           </th>
         </tr>
       </tbody>
