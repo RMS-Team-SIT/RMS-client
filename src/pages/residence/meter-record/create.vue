@@ -1,6 +1,6 @@
 <script setup>
 import Breadcrumb from '@/components/common/breadcrumb.vue';
-import { computed, onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useNotification } from '@kyvg/vue3-notification';
 import Button from '@/components/common/button.vue';
@@ -27,6 +27,9 @@ const payload = reactive({
 const submit = async () => {
   const response = await MeterRecordService.create(residenceId, {
     ...payload,
+    record_date: isFirstTime.value
+      ? dayjs(0).format('YYYY-MM-DD')
+      : payload.record_date,
   });
   if (response.status == 201) {
     notify({
@@ -56,8 +59,8 @@ const fetchRooms = async () => {
     payload.meterRecordItems = data.map((room) => {
       return {
         room: room._id,
-        currentWaterMeter: 0,
-        currentElectricMeter: 0,
+        currentWaterMeter: findRecord(room._id)?.currentWaterMeter,
+        currentElectricMeter: findRecord(room._id)?.currentElectricMeter,
       };
     });
   } else {
@@ -87,10 +90,10 @@ const fetchPrevMeterRecord = async () => {
     if (prevMeterRecordList.value.length > 0) {
       isFirstTime.value = false;
     }
+
     lastPrevMeterRecord.value =
       prevMeterRecordList.value[prevMeterRecordList.value.length - 1];
 
-    console.log('lastPrevMeterRecord', lastPrevMeterRecord.value);
   } else {
     notify({
       group: 'tr',
@@ -102,16 +105,34 @@ const fetchPrevMeterRecord = async () => {
 };
 
 const findRecord = (roomId) => {
+  if (isFirstTime.value) return null;
   return lastPrevMeterRecord.value.meterRecordItems.find(
     (item) => item.room === roomId
   );
 };
 
+const calcualteTotalWaterMeterUsage = (roomId) => {
+  if (isFirstTime.value) return 0;
+  return (
+    payload.meterRecordItems[findIndex(roomId)].currentWaterMeter -
+    findRecord(roomId)?.currentWaterMeter
+  );
+};
+
+const calcualteTotalElectricMeterUsage = (roomId) => {
+  if (isFirstTime.value) return 0;
+  return (
+    payload.meterRecordItems[findIndex(roomId)].currentElectricMeter -
+    findRecord(roomId)?.currentElectricMeter
+  );
+};
+
 onMounted(async () => {
-  await fetchRooms();
   await fetchPrevMeterRecord();
+  await fetchRooms();
   isLoading.value = false;
 });
+
 </script>
 
 <template>
@@ -136,12 +157,13 @@ onMounted(async () => {
       >
         กลับหน้ามิเตอร์ทั้งหมด
       </Button>
+      {{ payload }}
       <div class="grid grid-cols-4 gap-2">
         <!-- col 1 -->
         <div class="card w-full bg-base-100 shadow-xl mt-5">
           <div class="card-body">
             <h2 class="card-title text-center">สร้างใบจดบันทึกใหม่</h2>
-            <div>
+            <div v-if="!isFirstTime">
               <label class="label">
                 <span class="text-base label-text"
                   >วันที่จด <span class="text-red-500">*</span>
@@ -154,16 +176,27 @@ onMounted(async () => {
                 v-model="payload.record_date"
               />
             </div>
+            <div v-else>
+              <p class="text-red-500 font-bold text-base" v-if="isFirstTime">
+                เป็นการบันทึกรอบแรกในระบบ<br />
+                ให้บันทึกมิเตอร์รอบก่อนหน้าในช่องปัจจุบัน <br />
+                จากนั้นสร้างบันทึกใหม่
+              </p>
+            </div>
 
             <p>
               รอบบิลที่แล้ว จดครั้งล่าสุด :
-              <Badge type="info" class="text-sm">
+              <Badge type="info" class="text-sm" v-if="isFirstTime">
+                ยังไม่มีประวัติการจด
+              </Badge>
+              <Badge type="info" class="text-sm" v-else>
                 {{
                   dayjs(lastPrevMeterRecord.record_date).format('DD/MM/YYYY')
                 }}
               </Badge>
               <Alert
                 v-if="
+                  lastPrevMeterRecord &&
                   dayjs(lastPrevMeterRecord.record_date).isSame(
                     payload.record_date,
                     'month'
@@ -184,7 +217,11 @@ onMounted(async () => {
               <h2 class="card-title text-center">บันทึกค่าน้ำและค่าไฟ</h2>
             </div>
 
-            <p class="text-red-500 font-bold">เป็นการบันทึกรอบแรกในระบบ *</p>
+            <p class="text-red-500 font-bold" v-if="isFirstTime">
+              เป็นการบันทึกรอบแรกในระบบ
+              ให้บันทึกมิเตอร์รอบก่อนหน้าในช่องปัจจุบัน * <br />
+              จากนั้นสร้างบันทึกใหม่
+            </p>
 
             <!-- List all room -->
             <div class="overflow-x-auto">
@@ -208,7 +245,7 @@ onMounted(async () => {
                     <td>
                       <input
                         type="number"
-                        placeholder="Type here"
+                        placeholder="มิเตอร์น้ำรอบที่แล้ว"
                         class="input input-bordered w-full max-w-xs disabled input-sm"
                         :value="findRecord(room._id)?.currentWaterMeter"
                         disabled
@@ -229,16 +266,15 @@ onMounted(async () => {
                       {{
                         (payload.meterRecordItems[
                           findIndex(room._id)
-                        ].totalWaterMeterUsage =
-                          payload.meterRecordItems[findIndex(room._id)]
-                            .currentWaterMeter -
-                          findRecord(room._id)?.currentWaterMeter)
+                        ].totalWaterMeterUsage = calcualteTotalWaterMeterUsage(
+                          room._id
+                        ))
                       }}
                     </td>
                     <td>
                       <input
                         type="number"
-                        placeholder="Type here"
+                        placeholder="มิเตอร์ไฟฟ้ารอบที่แล้ว"
                         class="input input-bordered w-full max-w-xs disabled input-sm"
                         :value="findRecord(room._id)?.currentElectricMeter"
                         disabled
@@ -260,9 +296,7 @@ onMounted(async () => {
                         (payload.meterRecordItems[
                           findIndex(room._id)
                         ].totalElectricMeterUsage =
-                          payload.meterRecordItems[findIndex(room._id)]
-                            .currentElectricMeter -
-                          findRecord(room._id)?.currentElectricMeter)
+                          calcualteTotalElectricMeterUsage(room._id))
                       }}
                     </td>
                   </tr>
