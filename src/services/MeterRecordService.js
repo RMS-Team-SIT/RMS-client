@@ -13,7 +13,17 @@ class MeterRecordService {
       'POST',
       meterRecord
     );
-    
+
+  findAllByResidenceId = async (residenceId) =>
+    sendRequest(this.baseUrl, `/residence/${residenceId}/meter-record`, 'GET');
+
+  findById = async (residenceId, meterRecordId) =>
+    sendRequest(
+      this.baseUrl,
+      `/residence/${residenceId}/meter-record/${meterRecordId}`,
+      'GET'
+    );
+  
 }
 
 export default new MeterRecordService();

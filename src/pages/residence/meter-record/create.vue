@@ -1,6 +1,6 @@
 <script setup>
 import Breadcrumb from '@/components/common/breadcrumb.vue';
-import { onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useNotification } from '@kyvg/vue3-notification';
 import Button from '@/components/common/button.vue';
@@ -8,12 +8,16 @@ import MeterRecordService from '@/services/MeterRecordService';
 import { AdjustmentsHorizontalIcon, BellIcon } from '@heroicons/vue/24/outline';
 import Loading from '@/components/common/loading.vue';
 import RoomService from '@/services/RoomService';
+import dayjs from 'dayjs';
+import Badge from '@/components/common/badge.vue';
+import Alert from '@/components/common/alert.vue';
 
 const router = useRouter();
 const route = useRoute();
 const residenceId = route.params.residenceId;
 const { notify } = useNotification();
 const isLoading = ref(true);
+const isFirstTime = ref(true);
 
 const payload = reactive({
   record_date: '',
@@ -47,7 +51,7 @@ const fetchRooms = async () => {
   const response = await RoomService.fetchAllRoomByResidence(residenceId);
   if (response.status === 200) {
     const data = await response.json();
-    console.log(data);
+    console.log('rooms', data);
     rooms.value = data;
     payload.meterRecordItems = data.map((room) => {
       return {
@@ -68,8 +72,44 @@ const fetchRooms = async () => {
 const findIndex = (id) => {
   return rooms.value.findIndex((room) => room._id === id);
 };
+
+const prevMeterRecordList = ref([]);
+const lastPrevMeterRecord = ref(null);
+
+const fetchPrevMeterRecord = async () => {
+  const response = await MeterRecordService.findAllByResidenceId(residenceId);
+  if (response.status === 200) {
+    let result = await response.json();
+    prevMeterRecordList.value = result;
+
+    console.log('Previous Meter Record List', result);
+
+    if (prevMeterRecordList.value.length > 0) {
+      isFirstTime.value = false;
+    }
+    lastPrevMeterRecord.value =
+      prevMeterRecordList.value[prevMeterRecordList.value.length - 1];
+
+    console.log('lastPrevMeterRecord', lastPrevMeterRecord.value);
+  } else {
+    notify({
+      group: 'tr',
+      title: 'เกิดข้อผิดพลาด',
+      text: 'ไม่สามารถดึงข้อมูลมิเตอร์เก่าได้',
+      type: 'error',
+    });
+  }
+};
+
+const findRecord = (roomId) => {
+  return lastPrevMeterRecord.value.meterRecordItems.find(
+    (item) => item.room === roomId
+  );
+};
+
 onMounted(async () => {
   await fetchRooms();
+  await fetchPrevMeterRecord();
   isLoading.value = false;
 });
 </script>
@@ -96,7 +136,6 @@ onMounted(async () => {
       >
         กลับหน้ามิเตอร์ทั้งหมด
       </Button>
-      {{ payload }}
       <div class="grid grid-cols-4 gap-2">
         <!-- col 1 -->
         <div class="card w-full bg-base-100 shadow-xl mt-5">
@@ -116,9 +155,24 @@ onMounted(async () => {
               />
             </div>
 
-            <div>
-              <p>รอบบิลที่แล้ว จดครั้งล่าสุด : {{ new Date() }}</p>
-            </div>
+            <p>
+              รอบบิลที่แล้ว จดครั้งล่าสุด :
+              <Badge type="info" class="text-sm">
+                {{
+                  dayjs(lastPrevMeterRecord.record_date).format('DD/MM/YYYY')
+                }}
+              </Badge>
+              <Alert
+                v-if="
+                  dayjs(lastPrevMeterRecord.record_date).isSame(
+                    payload.record_date,
+                    'month'
+                  )
+                "
+              >
+                คุณได้ทำการบันทึกค่าน้ำและค่าไฟไปแล้วในเดือนนี้
+              </Alert>
+            </p>
           </div>
         </div>
 
@@ -129,6 +183,8 @@ onMounted(async () => {
               <AdjustmentsHorizontalIcon class="w-10 h-10 text-blue-500" />
               <h2 class="card-title text-center">บันทึกค่าน้ำและค่าไฟ</h2>
             </div>
+
+            <p class="text-red-500 font-bold">เป็นการบันทึกรอบแรกในระบบ *</p>
 
             <!-- List all room -->
             <div class="overflow-x-auto">
@@ -154,7 +210,7 @@ onMounted(async () => {
                         type="number"
                         placeholder="Type here"
                         class="input input-bordered w-full max-w-xs disabled input-sm"
-                        value="20"
+                        :value="findRecord(room._id)?.currentWaterMeter"
                         disabled
                       />
                     </td>
@@ -169,13 +225,22 @@ onMounted(async () => {
                         "
                       />
                     </td>
-                    <td>20</td>
+                    <td>
+                      {{
+                        (payload.meterRecordItems[
+                          findIndex(room._id)
+                        ].totalWaterMeterUsage =
+                          payload.meterRecordItems[findIndex(room._id)]
+                            .currentWaterMeter -
+                          findRecord(room._id)?.currentWaterMeter)
+                      }}
+                    </td>
                     <td>
                       <input
                         type="number"
                         placeholder="Type here"
                         class="input input-bordered w-full max-w-xs disabled input-sm"
-                        value="20"
+                        :value="findRecord(room._id)?.currentElectricMeter"
                         disabled
                       />
                     </td>
@@ -190,7 +255,16 @@ onMounted(async () => {
                         "
                       />
                     </td>
-                    <td>20</td>
+                    <td>
+                      {{
+                        (payload.meterRecordItems[
+                          findIndex(room._id)
+                        ].totalElectricMeterUsage =
+                          payload.meterRecordItems[findIndex(room._id)]
+                            .currentElectricMeter -
+                          findRecord(room._id)?.currentElectricMeter)
+                      }}
+                    </td>
                   </tr>
                 </tbody>
               </table>

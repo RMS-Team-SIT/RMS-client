@@ -9,6 +9,7 @@ import PaymentListTable from '@/components/payment/payment.list.table.vue';
 import Button from '@/components/common/button.vue';
 import MeterRecordListTable from '@/components/meter-record/meter-record.list.table.vue';
 import NoRecord from '@/components/meter-record/no-record.vue';
+import MeterRecordService from '@/services/MeterRecordService';
 
 const router = useRouter();
 const route = useRoute();
@@ -20,11 +21,18 @@ const residence = reactive({
   data: null,
 });
 
-const fetchData = async () => {
+const fetchResidence = async () => {
   const response = await ResidenceServices.fetchResidence(residenceId);
   if (response.status === 200) {
     let result = await response.json();
+    console.log("residence", result);
     residence.data = result;
+
+    // sort meter record by record_date
+    residence.data.meterRecord.sort((a, b) => {
+      return new Date(b.record_date) - new Date(a.record_date);
+    });
+
   } else {
     notify({
       group: 'tr',
@@ -37,7 +45,7 @@ const fetchData = async () => {
 };
 
 onMounted(async () => {
-  await fetchData();
+  await fetchResidence();
   isLoading.value = false;
 });
 </script>

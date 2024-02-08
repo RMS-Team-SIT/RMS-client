@@ -1,8 +1,8 @@
 <script setup>
-import Badge from '../common/badge.vue';
 import Button from '@/components/common/button.vue';
 import blankprofileImg from '@/assets/img/bp.webp';
 import dayjs from 'dayjs';
+import Badge from '../common/badge.vue';
 
 const props = defineProps({
   meterRecords: {
@@ -18,13 +18,14 @@ const props = defineProps({
       การใช้งานครั้งแรก กรุณาสร้างใบบันทึกเลขมิเตอร์ปัจจุบัน
     </p>
 
-    <table class="table table-xs " v-else>
+    <table class="table table-xs" v-else>
       <thead>
         <tr>
           <th>#</th>
           <th>ชื่อ</th>
           <th>วันที่จด</th>
-          <th>บันทึกค่าน้ำ/ไฟบิลนี้</th>
+          <th>เพิ่มเติม</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -33,10 +34,13 @@ const props = defineProps({
             {{ index + 1 }}
           </td>
           <td>
-            {{ meterRecord.meterRecordShortName }}
+            {{ meterRecord.meterRecordShortname }}
           </td>
           <td>
             {{ dayjs(meterRecord.record_date).format('DD/MM/YYYY') }}
+          </td>
+          <td>
+            <Badge :type="info" v-if="index == 0"> จดล่าสุด </Badge>
           </td>
           <th>
             <!-- <router-link

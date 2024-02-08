@@ -5,8 +5,7 @@ import { resolve } from "path";
 
 export default ({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
-  console.log('mode', mode);
-  console.log(process.env);
+  console.log('running on mode:', mode);
   return defineConfig({
     base: process.env.VITE_BASE,
     plugins: [
