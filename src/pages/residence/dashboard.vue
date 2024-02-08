@@ -196,19 +196,19 @@ onMounted(async () => {
           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2"
         >
           <div
-            @click="router.push({ name: 'renter', params: { residenceId } })"
-            class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
-          >
-            <h3 class="text-xl font-semibold mb-2">ระบบจัดการผู้เช่า</h3>
-            <p>เข้าสู่ระบบจัดการผู้เช่าในระบบ</p>
-          </div>
-
-          <div
             @click="router.push({ name: 'room', params: { residenceId } })"
             class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
           >
             <h3 class="text-xl font-semibold mb-2">ระบบจัดการห้อง</h3>
             <p>เข้าสู่ระบบจัดการห้องในระบบ</p>
+          </div>
+          
+          <div
+            @click="router.push({ name: 'renter', params: { residenceId } })"
+            class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
+          >
+            <h3 class="text-xl font-semibold mb-2">ระบบจัดการผู้เช่า</h3>
+            <p>เข้าสู่ระบบจัดการผู้เช่าในระบบ</p>
           </div>
 
           <div

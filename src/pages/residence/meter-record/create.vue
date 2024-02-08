@@ -157,7 +157,6 @@ onMounted(async () => {
       >
         กลับหน้ามิเตอร์ทั้งหมด
       </Button>
-      {{ payload }}
       <div class="grid grid-cols-4 gap-2">
         <!-- col 1 -->
         <div class="card w-full bg-base-100 shadow-xl mt-5">
