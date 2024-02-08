@@ -26,6 +26,7 @@ const updateRenter = () => import('./pages/residence/renter/update.vue');
 
 const room = () => import('./pages/residence/room/room.vue');
 const createRoom = () => import('./pages/residence/room/create.vue');
+const createManyRoom = () => import('./pages/residence/room/create-many.vue');
 const updateRoom = () => import('./pages/residence/room/update.vue');
 
 const payment = () => import('./pages/residence/payment/payment.vue');
@@ -182,7 +183,15 @@ const routes = [
     path: '/manage/residence/:residenceId/room/create',
     component: createRoom,
     meta: {
-      title: 'สร้างห้องพัก',
+      title: 'สร้างห้องพักในระบบ',
+    },
+  },
+  {
+    name: 'create-many-room',
+    path: '/manage/residence/:residenceId/room/create-many',
+    component: createManyRoom,
+    meta: {
+      title: 'สร้างห้องพักในระบบ',
     },
   },
   {

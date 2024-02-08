@@ -11,6 +11,7 @@ import Breadcrumb from '@/components/common/breadcrumb.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 import RoomRenterForm from '@/components/room/form/room.renter.form.vue';
 import RoomService from '@/services/RoomService';
+import RoomCreateManyForm from '@/components/room/form/room.create-many.form.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -20,18 +21,14 @@ const currentStep = ref(1);
 const { notify } = useNotification();
 const isLoading = ref(true);
 
-const roomData = reactive({
-  name: '',
-  description: '',
-  floor: 1,
+const payload = reactive({
+  numberOfFloor: 0,
+  numberOfRoomEachFloor: 0,
   waterPriceRate: 0,
+  roomRentalPrice: 0,
   lightPriceRate: 0,
   isUseDefaultWaterPriceRate: true,
   isUseDefaultLightPriceRate: true,
-  defaultWaterPriceRate: 0,
-  defaultLightPriceRate: 0,
-  currentRenter: null,
-  roomRentalPrice: 0,
 });
 
 const changeStep = (action) => {
@@ -50,14 +47,14 @@ const changeStep = (action) => {
 
 const getChildData = (data) => {
   for (const key in data) {
-    roomData[key] = data[key];
+    payload[key] = data[key];
   }
 };
 
 const submitData = async () => {
   // Create renter
-  const response = await RoomService.createRoom(residenceId, {
-    ...roomData,
+  const response = await RoomService.createManyRoom(residenceId, {
+    ...payload,
   });
   if (response.status == 201) {
     notify({
@@ -87,11 +84,8 @@ const fetchResidenceData = async () => {
   if (response.status === 200) {
     let result = await response.json();
     residence.data = result;
-    // set default value of roomData
-    roomData.lightPriceRate = residence.data.defaultLightPriceRate;
-    roomData.defaultLightPriceRate = residence.data.defaultLightPriceRate;
-    roomData.waterPriceRate = residence.data.defaultWaterPriceRate;
-    roomData.defaultWaterPriceRate = residence.data.defaultWaterPriceRate;
+    payload.lightPriceRate = residence.data.defaultLightPriceRate;
+    payload.waterPriceRate = residence.data.defaultWaterPriceRate;
   } else {
     notify({
       group: 'tr',
@@ -111,22 +105,26 @@ onMounted(async () => {
 
 <template>
   <loading v-if="isLoading" class="min-h-screen" />
-  <div class="card w-full " v-else>
-    <div class="card-body px-10 md:px-40 ">
+  <div class="card w-full" v-else>
+    <div class="card-body px-10 md:px-40">
       <div class="flex flex-row justify-between">
         <Breadcrumb
-        :pathList="[
-          { name: 'หน้าแรก', pathName: 'home' },
-          { name: 'จัดการ', pathName: 'manage' },
-          { name: 'แดชบอร์ด', pathName: 'dashboard', params: { residenceId } },
-          {
-            name: 'ห้องพัก',
-            pathName: 'room',
-            params: { residenceId },
-          },
-          { name: 'สร้างห้องพัก' },
-        ]"
-      />
+          :pathList="[
+            { name: 'หน้าแรก', pathName: 'home' },
+            { name: 'จัดการ', pathName: 'manage' },
+            {
+              name: 'แดชบอร์ด',
+              pathName: 'dashboard',
+              params: { residenceId },
+            },
+            {
+              name: 'ห้องพัก',
+              pathName: 'room',
+              params: { residenceId },
+            },
+            { name: 'สร้างห้องพัก' },
+          ]"
+        />
       </div>
       <div>
         <div class="p-4 mb-4 card shadow-xl bg-white">
@@ -135,36 +133,22 @@ onMounted(async () => {
             :currentStep="currentStep"
           />
         </div>
-
         <!-- step 1 -->
         <div v-if="currentStep == 1" class="flex gap-4">
-          <RoomInfoForm
-            class="basis-1/2"
+          <RoomCreateManyForm
+            class="w-full"
             @getData="getChildData"
-            :roomData="roomData"
-          />
-          <RoomRenterForm
-            class="basis-1/2"
-            @getData="getChildData"
-            :roomData="roomData"
-            :renterData="residence.data.renters"
+            :payload="payload"
           />
         </div>
 
         <!-- step 2 -->
         <div v-if="currentStep == 2" class="flex gap-4 flex-col">
           <div class="flex gap-4">
-            <RoomInfoForm
-              class="basis-1/2"
+            <RoomCreateManyForm
+              class="w-full"
               @getData="getChildData"
-              :roomData="roomData"
-              :viewOnly="true"
-            />
-            <RoomRenterForm
-              class="basis-1/2"
-              @getData="getChildData"
-              :roomData="roomData"
-              :renterData="residence.data.renters"
+              :payload="payload"
               :viewOnly="true"
             />
           </div>
@@ -174,9 +158,7 @@ onMounted(async () => {
         <div class="flex justify-end gap-2 mt-10">
           <Button
             btn-type="secondary"
-            @click="
-              router.push({ name: 'room', params: { residenceId } })
-            "
+            @click="router.push({ name: 'room', params: { residenceId } })"
             v-if="currentStep == 1"
             class="rounded-badge"
           >

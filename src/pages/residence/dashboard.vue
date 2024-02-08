@@ -43,6 +43,14 @@ const fetchData = async () => {
     let result = await response.json();
     console.log(result);
     residence.data = result;
+
+    // Calculate stats
+    stats.renterCount = result.renters.length;
+    stats.roomCount = result.rooms.length;
+    stats.avaiableRoomCount = result.rooms.filter((room) => !room.currentRenter).length;
+    stats.notavaiableRoomCount = result.rooms.filter(
+      (room) => room.currentRenter
+    ).length;
   } else {
     notify({
       group: 'tr',
@@ -68,7 +76,11 @@ onMounted(async () => {
         :pathList="[
           { name: 'หน้าแรก', pathName: 'home' },
           { name: 'จัดการ', pathName: 'manage' },
-          { name: `${residence.data.name}`, pathName: 'dashboard', params: { residenceId }},
+          {
+            name: `${residence.data.name}`,
+            pathName: 'dashboard',
+            params: { residenceId },
+          },
           { name: 'แดชบอร์ด' },
         ]"
       />
@@ -80,7 +92,9 @@ onMounted(async () => {
           <ChartPieIcon class="h-8 w-8 inline-block" /> ข้อมูลภาพรวม :
           {{ residence.data.name }}
         </h1>
-        <div class="stats shadow stats-vertical lg:stats-horizontal w-full lg:w-auto">
+        <div
+          class="stats shadow stats-vertical lg:stats-horizontal w-full lg:w-auto"
+        >
           <div
             class="stat hover:cursor-pointer"
             @click="router.push({ name: 'renter', params: { residenceId } })"

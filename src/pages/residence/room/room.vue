@@ -75,6 +75,8 @@ onMounted(async () => {
             <h1 class="text-2xl font-semibold text-dark-blue-200">
               ห้องพักในระบบ
             </h1>
+            <div>
+
             <router-link
               :to="{
                 name: 'create-room',
@@ -85,8 +87,20 @@ onMounted(async () => {
             >
               <Button btnType="primary">เพิ่มข้อมูลห้องพัก</Button>
             </router-link>
+            <router-link
+              :to="{
+                name: 'create-many-room',
+                params: {
+                  residenceId,
+                },
+              }"
+            >
+              <Button btnType="primary">เพิ่มข้อมูลห้องพักหลายห้อง</Button>
+            </router-link>
           </div>
-          <RoomListTable
+
+          </div>
+          <RoomListTable class="mt-5"
             :rooms="residence.data.rooms"
             :defaultLightPriceRate="residence.data.defaultLightPriceRate"
             :defaultWaterPriceRate="residence.data.defaultWaterPriceRate"
