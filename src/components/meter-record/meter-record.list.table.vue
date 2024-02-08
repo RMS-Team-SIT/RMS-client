@@ -33,7 +33,7 @@ const props = defineProps({
             {{ index + 1 }}
           </td>
           <td>
-            {{ meterRecord.meterRecordName }}
+            {{ meterRecord.meterRecordShortName }}
           </td>
           <td>
             {{ dayjs(meterRecord.record_date).format('DD/MM/YYYY') }}

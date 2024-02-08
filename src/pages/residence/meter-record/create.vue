@@ -5,7 +5,9 @@ import { useRoute, useRouter } from 'vue-router';
 import { useNotification } from '@kyvg/vue3-notification';
 import Button from '@/components/common/button.vue';
 import MeterRecordService from '@/services/MeterRecordService';
-import { AdjustmentsHorizontalIcon } from '@heroicons/vue/24/outline';
+import { AdjustmentsHorizontalIcon, BellIcon } from '@heroicons/vue/24/outline';
+import Loading from '@/components/common/loading.vue';
+import RoomService from '@/services/RoomService';
 
 const router = useRouter();
 const route = useRoute();
@@ -13,14 +15,14 @@ const residenceId = route.params.residenceId;
 const { notify } = useNotification();
 const isLoading = ref(true);
 
-const data = reactive({
-  meterRecordName: '',
-  record_date: new Date(),
+const payload = reactive({
+  record_date: '',
+  meterRecordItems: [],
 });
 
 const submit = async () => {
   const response = await MeterRecordService.create(residenceId, {
-    ...data,
+    ...payload,
   });
   if (response.status == 201) {
     notify({
@@ -40,10 +42,41 @@ const submit = async () => {
     });
   }
 };
+const rooms = ref([]);
+const fetchRooms = async () => {
+  const response = await RoomService.fetchAllRoomByResidence(residenceId);
+  if (response.status === 200) {
+    const data = await response.json();
+    console.log(data);
+    rooms.value = data;
+    payload.meterRecordItems = data.map((room) => {
+      return {
+        room: room._id,
+        currentWaterMeter: 0,
+        currentElectricMeter: 0,
+      };
+    });
+  } else {
+    notify({
+      group: 'tr',
+      title: 'เกิดข้อผิดพลาด',
+      text: 'ไม่สามารถดึงข้อมูลห้องพักได้',
+      type: 'error',
+    });
+  }
+};
+const findIndex = (id) => {
+  return rooms.value.findIndex((room) => room._id === id);
+};
+onMounted(async () => {
+  await fetchRooms();
+  isLoading.value = false;
+});
 </script>
 
 <template>
-  <div class="bg-gray-50">
+  <Loading v-if="isLoading" />
+  <div class="bg-gray-50" v-else>
     <div class="py-10 px-10 md:px-40">
       <Breadcrumb
         :pathList="[
@@ -63,7 +96,7 @@ const submit = async () => {
       >
         กลับหน้ามิเตอร์ทั้งหมด
       </Button>
-
+      {{ payload }}
       <div class="grid grid-cols-4 gap-2">
         <!-- col 1 -->
         <div class="card w-full bg-base-100 shadow-xl mt-5">
@@ -79,8 +112,12 @@ const submit = async () => {
                 type="date"
                 placeholder="วันที่จด"
                 class="w-full input input-bordered bg-white"
-                v-model="data.record_date"
+                v-model="payload.record_date"
               />
+            </div>
+
+            <div>
+              <p>รอบบิลที่แล้ว จดครั้งล่าสุด : {{ new Date() }}</p>
             </div>
           </div>
         </div>
@@ -88,11 +125,12 @@ const submit = async () => {
         <!-- col 2 -->
         <div class="card w-full bg-base-100 shadow-xl mt-5 col-span-3">
           <div class="card-body">
-            <h2 class="card-title text-center">บันทึกค่าน้ำ</h2>
-            <AdjustmentsHorizontalIcon class="w-10 h-10 text-blue-500" />
+            <div class="flex gap-2">
+              <AdjustmentsHorizontalIcon class="w-10 h-10 text-blue-500" />
+              <h2 class="card-title text-center">บันทึกค่าน้ำและค่าไฟ</h2>
+            </div>
 
             <!-- List all room -->
-
             <div class="overflow-x-auto">
               <table class="table">
                 <!-- head -->
@@ -102,12 +140,15 @@ const submit = async () => {
                     <th>มิเตอร์น้ำรอบที่แล้ว</th>
                     <th>มิเตอร์น้ำรอบปัจจุบัน</th>
                     <th>จำนวนหน่วย</th>
+                    <th>มิเตอร์ไฟฟ้ารอบที่แล้ว</th>
+                    <th>มิเตอร์ไฟฟ้ารอบปัจจุบัน</th>
+                    <th>จำนวนหน่วย</th>
                   </tr>
                 </thead>
                 <tbody>
                   <!-- row 1 -->
-                  <tr>
-                    <th>101</th>
+                  <tr v-for="(room, index) in rooms" :key="index">
+                    <th>{{ room.name }}</th>
                     <td>
                       <input
                         type="number"
@@ -122,23 +163,34 @@ const submit = async () => {
                         type="number"
                         placeholder="มิเตอร์น้ำรอบปัจจุบัน"
                         class="input input-bordered w-full max-w-xs input-sm"
+                        v-model="
+                          payload.meterRecordItems[findIndex(room._id)]
+                            .currentWaterMeter
+                        "
                       />
                     </td>
                     <td>20</td>
-                  </tr>
-                  <!-- row 2 -->
-                  <tr class="hover">
-                    <th>2</th>
-                    <td>Hart Hagerty</td>
-                    <td>Desktop Support Technician</td>
-                    <td>Purple</td>
-                  </tr>
-                  <!-- row 3 -->
-                  <tr>
-                    <th>3</th>
-                    <td>Brice Swyre</td>
-                    <td>Tax Accountant</td>
-                    <td>Red</td>
+                    <td>
+                      <input
+                        type="number"
+                        placeholder="Type here"
+                        class="input input-bordered w-full max-w-xs disabled input-sm"
+                        value="20"
+                        disabled
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        placeholder="มิเตอร์ไฟฟ้ารอบปัจจุบัน"
+                        class="input input-bordered w-full max-w-xs input-sm"
+                        v-model="
+                          payload.meterRecordItems[findIndex(room._id)]
+                            .currentElectricMeter
+                        "
+                      />
+                    </td>
+                    <td>20</td>
                   </tr>
                 </tbody>
               </table>
@@ -150,7 +202,7 @@ const submit = async () => {
               @click="submit"
               :loading="isLoading"
             >
-              สร้างใบบันทึก
+              บันทึกข้อมูล
             </Button>
           </div>
         </div>

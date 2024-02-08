@@ -47,7 +47,9 @@ const fetchData = async () => {
     // Calculate stats
     stats.renterCount = result.renters.length;
     stats.roomCount = result.rooms.length;
-    stats.avaiableRoomCount = result.rooms.filter((room) => !room.currentRenter).length;
+    stats.avaiableRoomCount = result.rooms.filter(
+      (room) => !room.currentRenter
+    ).length;
     stats.notavaiableRoomCount = result.rooms.filter(
       (room) => room.currentRenter
     ).length;
@@ -153,12 +155,13 @@ onMounted(async () => {
 
           <div class="p-6 bg-white rounded-lg shadow-md">
             <h3 class="text-xl font-semibold mb-2 p-5">ห้องว่างในระบบ</h3>
+            <p v-if="!stats.avaiableRoomCount" class="p-5">ไม่มีห้องในระบบ</p>
             <AvailableChart
+              v-else
               class="h-28 mx-auto"
               :available="stats.avaiableRoomCount"
               :not-available="stats.notavaiableRoomCount"
             />
-            <p class="text-xs p-5">Room available will show here.</p>
           </div>
 
           <div class="p-6 bg-white rounded-lg shadow-md">
