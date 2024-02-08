@@ -78,7 +78,7 @@ const visiblePages = computed(() => {
     <div v-else>
       <!-- show number of renter -->
       <p class="text-xs text-gray-500">
-        จำนวนห้องทั้งหมด:
+        ช่องทางการชำระเงินทั้งหมด:
         {{ props.rooms?.filter((r) => r.isActive).length }}
       </p>
       <div class="flex flex-row justify-end">
@@ -111,7 +111,7 @@ const visiblePages = computed(() => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(room, index) in computedRooms" :key="index">
+          <tr v-for="(room, index) in rooms" :key="index">
             <td>
               {{ index + 1 }}
             </td>

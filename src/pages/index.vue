@@ -1,6 +1,5 @@
 <script setup>
 import img6 from '@/assets/img/6.jpg';
-
 </script>
 
 <template>
@@ -18,10 +17,11 @@ import img6 from '@/assets/img/6.jpg';
           ระบบการจัดการหอพักเป็นระบบที่ช่วยให้คุณจัดการที่อยู่อาศัยของคุณอย่างง่ายดาย
         </p>
         <p class="mt-4 text-gray-700">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod,
-          diam id tincidunt dapibus, velit diam vulputate augue, eget lacinia
-          ipsum nisi eget velit. Sed euismod, diam id tincidunt dapibus, velit
-          diam vulputate augue, eget lacinia ipsum nisi eget velit.
+          <b>RMS</b> เป็น <b>Web Application</b>
+          ที่ช่วยให้ผู้ประกอบการธุรกิจหอพักบริหารจัดการหอพักของตัวเองได้อย่างสะดวกสบาย
+          ลดปัญหาจากการบริหารที่ผิดพลาดและระยะเวลาในการบริหารจัดการของผู้ประกอบการ
+          เพื่ออำนวยความสะดวกในการจัดการหอพักของผู้ประกอบการ
+          และให้ผู้เช่าได้รับความสะดวกสบายตลอดระยะเวลาที่พักอาศัย
         </p>
       </div>
     </section>

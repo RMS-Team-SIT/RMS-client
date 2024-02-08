@@ -15,13 +15,8 @@ const props = defineProps({
 });
 
 const payload = reactive({
-  numberOfFloor: 0,
-  numberOfRoomEachFloor: 0,
-  waterPriceRate: 0,
-  roomRentalPrice: 0,
-  lightPriceRate: 0,
-  isUseDefaultWaterPriceRate: true,
-  isUseDefaultLightPriceRate: true,
+  numberOfFloor: 1,
+  numberOfRoomEachFloor: [],
 });
 
 const emitData = () => {
@@ -38,8 +33,14 @@ onMounted(() => {
   setDataFromProps();
 });
 
-watch(payload, () => {
+watch(payload, (prev, curr) => {
+  if (payload.numberOfRoomEachFloor.length > payload.numberOfFloor)
+    payload.numberOfRoomEachFloor.pop();
   emitData();
+});
+
+watch(payload.numberOfFloor, () => {
+  console.log('number of floor change');
 });
 </script>
 
@@ -50,11 +51,14 @@ watch(payload, () => {
 
     <div>
       <label class="label">
-        <span class="text-base label-text">จำนวนชั้นทั้งหมดในหอพัก <span class="text-red-500">*</span></span>
+        <span class="text-base label-text"
+          >จำนวนชั้นทั้งหมดในหอพัก <span class="text-red-500">*</span></span
+        >
       </label>
       <input
         type="number"
         min="1"
+        max="20"
         placeholder="จำนวนชั้นทั้งหมดในหอพัก"
         class="w-full input input-bordered bg-white input-sm rounded-sm"
         v-model="payload.numberOfFloor"
@@ -64,88 +68,26 @@ watch(payload, () => {
 
     <div>
       <label class="label">
-        <span class="text-base label-text">จำนวนห้องในแต่ละชั้น<span class="text-red-500">*</span></span> 
-        
-      </label>
-      <input
-        type="number"
-        min="1"
-        placeholder="จำนวนห้องในแต่ละชั้น"
-        class="w-full input input-bordered bg-white input-sm rounded-sm"
-        v-model="payload.numberOfRoomEachFloor"
-        :disabled="viewOnly"
-      />
-    </div>
-
-    <div>
-      <label class="label">
         <span class="text-base label-text"
-          >อัตราค่าเช่าต่อเดือน (บาท)<span class="text-red-500">*</span>
-        </span>
+          >จำนวนห้องในแต่ละชั้น<span class="text-red-500">*</span></span
+        >
       </label>
-      <input
-        type="number"
-        min="0"
-        placeholder="อัตราค่าเช่าต่อเดือน"
-        class="w-full input input-bordered bg-white input-sm rounded-sm"
-        v-model="payload.roomRentalPrice"
-        :disabled="viewOnly"
-      />
-    </div>
-
-    <div>
-      <label class="label">
-        <span class="text-base label-text"
-          >อัตราค่าน้ำ (บาท) <span class="text-red-500">*</span>
-        </span>
-      </label>
-      <div class="form-control w-full">
+      <div v-for="(_, index) in payload.numberOfFloor" :key="index" class="p-1">
+        <p class="text-base">จำนวนห้องในชั้น {{ index + 1 }}</p>
         <input
           type="number"
-          placeholder="อัตราค่าน้ำ"
+          min="1"
+          max="100"
+          :placeholder="`จำนวนห้องชั้น ${index + 1}`"
           class="w-full input input-bordered bg-white input-sm rounded-sm"
-          v-model="payload.waterPriceRate"
-          :disabled="viewOnly || payload.isUseDefaultWaterPriceRate"
-          :hidden="payload.isUseDefaultWaterPriceRate"
+          v-model="payload.numberOfRoomEachFloor[index]"
+          :disabled="viewOnly"
         />
-        <label class="cursor-pointer label">
-          <span class="label-text">ใช้อัตราเริ่มต้นของหอพัก</span>
-          <input
-            type="checkbox"
-            class="toggle toggle-primary"
-            v-model="payload.isUseDefaultWaterPriceRate"
-            :disabled="viewOnly"
-          />
-        </label>
       </div>
-    </div>
-
-    <div>
-      <label class="label">
-        <span class="text-base label-text">
-          อัตราค่าไฟ (บาท) <span class="text-red-500">*</span>
-        </span>
-      </label>
-
-      <div class="form-control w-full">
-        <input
-          type="number"
-          placeholder="Light Price Rate"
-          class="w-full input input-bordered bg-white input-sm rounded-sm"
-          v-model="payload.lightPriceRate"
-          :disabled="viewOnly || payload.isUseDefaultLightPriceRate"
-          :hidden="payload.isUseDefaultLightPriceRate"
-        />
-        <label class="cursor-pointer label">
-          <span class="label-text">ใช้อัตราเริ่มต้นของหอพัก</span>
-          <input
-            type="checkbox"
-            class="toggle toggle-primary"
-            v-model="payload.isUseDefaultLightPriceRate"
-            :disabled="viewOnly"
-          />
-        </label>
-      </div>
+      <p class="text-sm text-red-500 p-1">
+        ระบบจะสร้างห้องทั้งหมด
+        {{ payload.numberOfRoomEachFloor.reduce((a, b) => a + b, 0) }} ห้อง
+      </p>
     </div>
   </div>
 </template>

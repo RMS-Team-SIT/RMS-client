@@ -111,7 +111,7 @@ const submit = async () => {
       }}</span>
       <div class="card w-full bg-base-100 shadow-sm mt-2">
         <div class="p-5">
-          <h2 class="text-sm font-semibold">Password Rules</h2>
+          <h2 class="text-sm font-semibold">เงื่อนไขในการตั้งรหัสผ่าน</h2>
           <ul class="text-xs">
             <li
               v-for="(rule, index) in passwordRules"

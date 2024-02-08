@@ -64,7 +64,7 @@ const submitData = async () => {
     notify({
       group: 'tr',
       title: 'สำเร็จ',
-      text: 'Update room successfully',
+      text: 'แก้ไขข้อมูลห้องพักสำเร็จ',
       type: 'success',
     });
     router.push({ name: 'room', params: { residenceId: residenceId } });

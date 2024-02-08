@@ -126,8 +126,8 @@ onMounted(async () => {
       <div class="flex flex-row justify-between">
         <Breadcrumb
           :pathList="[
-            { name: 'Home', pathName: 'home' },
-            { name: 'Profile', pathName: 'profile' },
+            { name: 'หน้าแรก', pathName: 'home' },
+            { name: 'ข้อมูลส่วนตัว', pathName: 'profile' },
           ]"
         />
       </div>

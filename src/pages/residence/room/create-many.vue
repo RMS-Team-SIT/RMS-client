@@ -12,6 +12,7 @@ import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 import RoomRenterForm from '@/components/room/form/room.renter.form.vue';
 import RoomService from '@/services/RoomService';
 import RoomCreateManyForm from '@/components/room/form/room.create-many.form.vue';
+import RoomCreateManyMoreForm from '@/components/room/form/room.create-many-more.form.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -22,8 +23,8 @@ const { notify } = useNotification();
 const isLoading = ref(true);
 
 const payload = reactive({
-  numberOfFloor: 0,
-  numberOfRoomEachFloor: 0,
+  numberOfFloor: 1,
+  numberOfRoomEachFloor: [],
   waterPriceRate: 0,
   roomRentalPrice: 0,
   lightPriceRate: 0,
@@ -140,6 +141,11 @@ onMounted(async () => {
             @getData="getChildData"
             :payload="payload"
           />
+          <RoomCreateManyMoreForm
+            class="w-full"
+            @getData="getChildData"
+            :payload="payload"
+          />
         </div>
 
         <!-- step 2 -->
@@ -151,6 +157,12 @@ onMounted(async () => {
               :payload="payload"
               :viewOnly="true"
             />
+            <RoomCreateManyMoreForm
+            class="w-full"
+            @getData="getChildData"
+            :payload="payload"
+            :viewOnly="true"
+          />
           </div>
         </div>
 
