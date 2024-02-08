@@ -80,7 +80,7 @@ const visiblePages = computed(() => {
 <template>
   <div class="overflow-x-auto">
     <p class="text-base mt-5" v-if="!props.rooms.length">
-      ไม่มีช่องทางการชำระเงิน
+      ไม่มีห้องในระบบ กรุณาสร้างห้องใหม่
     </p>
     <div v-else>
       <!-- show number of renter -->
