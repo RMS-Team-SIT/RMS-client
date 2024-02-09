@@ -15,6 +15,7 @@ import Alert from '@/components/common/alert.vue';
 const router = useRouter();
 const route = useRoute();
 const residenceId = route.params.residenceId;
+const meterRecordId = route.params.meterRecordId;
 const { notify } = useNotification();
 const isLoading = ref(true);
 const isFirstTime = ref(true);
@@ -25,7 +26,7 @@ const payload = reactive({
 });
 
 const submit = async () => {
-  const response = await MeterRecordService.create(residenceId, {
+  const response = await MeterRecordService.update(residenceId, {
     ...payload,
     record_date: isFirstTime.value
       ? dayjs(0).format('YYYY-MM-DD')
@@ -49,7 +50,6 @@ const submit = async () => {
     });
   }
 };
-
 const rooms = ref([]);
 const fetchRooms = async () => {
   const response = await RoomService.fetchAllRoomByResidence(residenceId);
@@ -57,6 +57,13 @@ const fetchRooms = async () => {
     const data = await response.json();
     console.log('rooms', data);
     rooms.value = data;
+    payload.meterRecordItems = data.map((room) => {
+      return {
+        room: room._id,
+        currentWaterMeter: findRecord(room._id)?.currentWaterMeter || 0,
+        currentElectricMeter: findRecord(room._id)?.currentElectricMeter || 0,
+      };
+    });
   } else {
     notify({
       group: 'tr',
@@ -66,24 +73,27 @@ const fetchRooms = async () => {
     });
   }
 };
-
 const findIndex = (id) => {
   return rooms.value.findIndex((room) => room._id === id);
 };
 
+const prevMeterRecordList = ref([]);
 const lastPrevMeterRecord = ref(null);
 
-const fetchLastPrevMeterRecord = async () => {
+const fetchPrevMeterRecord = async () => {
   const response = await MeterRecordService.findAllByResidenceId(residenceId);
   if (response.status === 200) {
     let result = await response.json();
+    prevMeterRecordList.value = result;
 
-    if (result.length > 0) {
+    console.log('Previous Meter Record List', result);
+
+    if (prevMeterRecordList.value.length > 0) {
       isFirstTime.value = false;
     }
 
-    lastPrevMeterRecord.value = result[result.length - 1];
-    console.log('Previous Meter Record List', result[result.length - 1]);
+    lastPrevMeterRecord.value =
+      prevMeterRecordList.value[prevMeterRecordList.value.length - 1];
   } else {
     notify({
       group: 'tr',
@@ -117,22 +127,9 @@ const calcualteTotalElectricMeterUsage = (roomId) => {
   );
 };
 
-const setDefaultMeterRecordItems = async () => {
-  payload.meterRecordItems = rooms.value.map((room) => {
-    return {
-      room: room._id,
-      currentWaterMeter: findRecord(room._id)?.currentWaterMeter || 0,
-      currentElectricMeter: findRecord(room._id)?.currentElectricMeter || 0,
-      previousWaterMeter: findRecord(room._id)?.currentWaterMeter || 0,
-      previousElectricMeter: findRecord(room._id)?.currentElectricMeter || 0,
-    };
-  });
-};
-
 onMounted(async () => {
-  await fetchLastPrevMeterRecord();
+  await fetchPrevMeterRecord();
   await fetchRooms();
-  await setDefaultMeterRecordItems();
   isLoading.value = false;
 });
 </script>
@@ -159,7 +156,6 @@ onMounted(async () => {
       >
         กลับหน้ามิเตอร์ทั้งหมด
       </Button>
-      {{ payload }}
       <div class="grid grid-cols-4 gap-2">
         <!-- col 1 -->
         <div class="card w-full bg-base-100 shadow-xl mt-5">

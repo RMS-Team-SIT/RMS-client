@@ -22,7 +22,6 @@ const props = defineProps({
       <thead>
         <tr>
           <th>#</th>
-          <th>ชื่อ</th>
           <th>วันที่จด</th>
           <th>เพิ่มเติม</th>
           <th></th>
@@ -34,27 +33,38 @@ const props = defineProps({
             {{ index + 1 }}
           </td>
           <td>
-            {{ meterRecord.meterRecordShortname }}
-          </td>
-          <td>
-            {{ dayjs(meterRecord.record_date).format('DD/MM/YYYY') }}
+            {{ dayjs(meterRecord.record_date).format('DD-MM-YYYY') }}
           </td>
           <td>
             <Badge :type="info" v-if="index == 0"> จดล่าสุด </Badge>
           </td>
-          <th>
-            <!-- <router-link
+          <td>
+            <router-link
               :to="{
-                name: 'update-room',
+                name: 'view-meter-record',
                 params: {
                   residenceId: $route.params.residenceId,
-                  roomId: room._id,
+                  meterRecordId: meterRecord._id,
                 },
               }"
             >
-            </router-link> -->
-            <Button btnType="ghost-pill">แก้ไข</Button>
-          </th>
+              <Button btnType="ghost-pill">ดูข้อมูล</Button>
+            </router-link>
+          </td>
+          <td>
+            <router-link
+              v-if="index == 0"
+              :to="{
+                name: 'update-meter-record',
+                params: {
+                  residenceId: $route.params.residenceId,
+                  meterRecordId: meterRecord._id,
+                },
+              }"
+            >
+              <Button btnType="ghost-pill">แก้ไข</Button>
+            </router-link>
+          </td>
         </tr>
       </tbody>
     </table>

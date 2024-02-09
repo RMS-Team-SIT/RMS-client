@@ -38,6 +38,10 @@ const bill = () => import('./pages/residence/bill-system/index.vue');
 const meterRecord = () => import('./pages/residence/meter-record/index.vue');
 const createMeterRecord = () =>
   import('./pages/residence/meter-record/create.vue');
+const updateMeterRecord = () =>
+  import('./pages/residence/meter-record/update.vue');
+const viewMeterRecord = () =>
+  import('./pages/residence/meter-record/view.vue');
 
 const publicRoutes = [
   'home',
@@ -280,6 +284,22 @@ const routes = [
     component: createMeterRecord,
     meta: {
       title: 'สร้างระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ',
+    },
+  },
+  {
+    name: 'update-meter-record',
+    path: '/manage/residence/:residenceId/meter-record/update/:meterRecordId',
+    component: updateMeterRecord,
+    meta: {
+      title: 'แก้ไขบันทึกค่าน้ำ ค่าไฟ',
+    },
+  },
+  {
+    name: 'view-meter-record',
+    path: '/manage/residence/:residenceId/meter-record/:meterRecordId',
+    component: viewMeterRecord,
+    meta: {
+      title: 'ดูข้อมูลบันทึกค่าน้ำ ค่าไฟ',
     },
   },
   {

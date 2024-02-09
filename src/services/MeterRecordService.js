@@ -23,7 +23,14 @@ class MeterRecordService {
       `/residence/${residenceId}/meter-record/${meterRecordId}`,
       'GET'
     );
-  
+
+  update = async (residenceId, meterRecordId, meterRecord) =>
+    sendRequest(
+      this.baseUrl,
+      `/residence/${residenceId}/meter-record/${meterRecordId}`,
+      'PUT',
+      meterRecord
+    );
 }
 
 export default new MeterRecordService();
