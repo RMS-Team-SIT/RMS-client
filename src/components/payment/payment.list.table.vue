@@ -2,7 +2,6 @@
 import Badge from '../common/badge.vue';
 import Button from '@/components/common/button.vue';
 import { computed, inject, onMounted, reactive, ref } from 'vue';
-import ResidenceServices from '@/services/ResidenceServices';
 import { useNotification } from '@kyvg/vue3-notification';
 import dayjs from 'dayjs';
 import BankIcon from '@/components/common/bank-icon.vue';

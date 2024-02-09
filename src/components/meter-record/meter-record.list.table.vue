@@ -3,6 +3,7 @@ import Button from '@/components/common/button.vue';
 import blankprofileImg from '@/assets/img/bp.webp';
 import dayjs from 'dayjs';
 import Badge from '../common/badge.vue';
+import { PencilIcon } from '@heroicons/vue/24/outline';
 
 const props = defineProps({
   meterRecords: {
@@ -17,14 +18,13 @@ const props = defineProps({
     <p class="text-base mt-5" v-if="!meterRecords.length">
       การใช้งานครั้งแรก กรุณาสร้างใบบันทึกเลขมิเตอร์ปัจจุบัน
     </p>
-
     <table class="table table-xs" v-else>
       <thead>
         <tr>
           <th>#</th>
           <th>วันที่จด</th>
           <th>เพิ่มเติม</th>
-          <th></th>
+          <th>ดู/แก้ไขข้อมูล</th>
         </tr>
       </thead>
       <tbody>
@@ -36,20 +36,10 @@ const props = defineProps({
             {{ dayjs(meterRecord.record_date).format('DD-MM-YYYY') }}
           </td>
           <td>
-            <Badge :type="info" v-if="index == 0"> จดล่าสุด </Badge>
-          </td>
-          <td>
-            <router-link
-              :to="{
-                name: 'view-meter-record',
-                params: {
-                  residenceId: $route.params.residenceId,
-                  meterRecordId: meterRecord._id,
-                },
-              }"
-            >
-              <Button btnType="ghost-pill">ดูข้อมูล</Button>
-            </router-link>
+            <Badge type="info" v-if="index == 0"> จดล่าสุด </Badge>
+            <Badge badgeType="warning" v-if="index == meterRecords.length - 1">
+              จดครั้งแรก
+            </Badge>
           </td>
           <td>
             <router-link
@@ -62,7 +52,19 @@ const props = defineProps({
                 },
               }"
             >
-              <Button btnType="ghost-pill">แก้ไข</Button>
+              <Button btnType="ghost-pill">แก้ไขข้อมูล </Button>
+            </router-link>
+            <router-link
+              v-else
+              :to="{
+                name: 'view-meter-record',
+                params: {
+                  residenceId: $route.params.residenceId,
+                  meterRecordId: meterRecord._id,
+                },
+              }"
+            >
+              <Button btnType="ghost-pill">ดูข้อมูล</Button>
             </router-link>
           </td>
         </tr>

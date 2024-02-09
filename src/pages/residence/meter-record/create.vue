@@ -24,32 +24,6 @@ const payload = reactive({
   meterRecordItems: [],
 });
 
-const submit = async () => {
-  const response = await MeterRecordService.create(residenceId, {
-    ...payload,
-    record_date: isFirstTime.value
-      ? dayjs(0).format('YYYY-MM-DD')
-      : payload.record_date,
-  });
-  if (response.status == 201) {
-    notify({
-      group: 'tr',
-      title: 'สำเร็จ',
-      text: 'สร้างใบบันทึกเลขมิเตอร์สำเร็จ',
-      type: 'success',
-    });
-    router.push({ name: 'meter-record', params: { residenceId: residenceId } });
-  } else {
-    const data = await response.json();
-    notify({
-      group: 'tr',
-      title: 'เกิดข้อผิดพลาด',
-      text: 'สร้างใบบันทึกเลขมิเตอร์ไม่สำเร็จ: ' + data?.message,
-      type: 'error',
-    });
-  }
-};
-
 const rooms = ref([]);
 const fetchRooms = async () => {
   const response = await RoomService.fetchAllRoomByResidence(residenceId);
@@ -103,6 +77,7 @@ const findRecord = (roomId) => {
 
 const calcualteTotalWaterMeterUsage = (roomId) => {
   if (isFirstTime.value) return 0;
+  if (!findRecord(roomId)) return 0;
   return (
     payload.meterRecordItems[findIndex(roomId)].currentWaterMeter -
     findRecord(roomId)?.currentWaterMeter
@@ -111,6 +86,7 @@ const calcualteTotalWaterMeterUsage = (roomId) => {
 
 const calcualteTotalElectricMeterUsage = (roomId) => {
   if (isFirstTime.value) return 0;
+  if (!findRecord(roomId)) return 0;
   return (
     payload.meterRecordItems[findIndex(roomId)].currentElectricMeter -
     findRecord(roomId)?.currentElectricMeter
@@ -129,6 +105,37 @@ const setDefaultMeterRecordItems = async () => {
   });
 };
 
+
+const submit = async () => {
+  isLoading.value = true;
+  
+  const response = await MeterRecordService.create(residenceId, {
+    ...payload,
+    record_date: isFirstTime.value
+      ? dayjs(0).format('YYYY-MM-DD')
+      : payload.record_date,
+  });
+  if (response.status == 201) {
+    notify({
+      group: 'tr',
+      title: 'สำเร็จ',
+      text: 'สร้างใบบันทึกเลขมิเตอร์สำเร็จ',
+      type: 'success',
+    });
+    router.push({ name: 'meter-record', params: { residenceId: residenceId } });
+  } else {
+    const data = await response.json();
+    notify({
+      group: 'tr',
+      title: 'เกิดข้อผิดพลาด',
+      text: 'สร้างใบบันทึกเลขมิเตอร์ไม่สำเร็จ: ' + data?.message,
+      type: 'error',
+    });
+  }
+  isLoading.value = false;
+};
+
+
 onMounted(async () => {
   await fetchLastPrevMeterRecord();
   await fetchRooms();
@@ -146,6 +153,7 @@ onMounted(async () => {
           { name: 'หน้าแรก', pathName: 'home' },
           { name: 'จัดการ', pathName: 'manage' },
           {
+            name: 'dashboard',
             pathName: 'dashboard',
             params: { residenceId },
           },
@@ -159,7 +167,7 @@ onMounted(async () => {
       >
         กลับหน้ามิเตอร์ทั้งหมด
       </Button>
-      {{ payload }}
+
       <div class="grid grid-cols-4 gap-2">
         <!-- col 1 -->
         <div class="card w-full bg-base-100 shadow-xl mt-5">
@@ -197,6 +205,7 @@ onMounted(async () => {
                 }}
               </Badge>
               <Alert
+                class="mt-2"
                 v-if="
                   lastPrevMeterRecord &&
                   dayjs(lastPrevMeterRecord.record_date).isSame(
@@ -206,6 +215,17 @@ onMounted(async () => {
                 "
               >
                 คุณได้ทำการบันทึกค่าน้ำและค่าไฟไปแล้วในเดือนนี้
+              </Alert>
+              <Alert
+                class="mt-2"
+                v-if="
+                  lastPrevMeterRecord &&
+                  dayjs(payload.record_date).isBefore(
+                    lastPrevMeterRecord.record_date
+                  )
+                "
+              >
+                คุณได้ทำการบันทึกค่าน้ำและค่าไฟไปแล้วในอดีต
               </Alert>
             </p>
           </div>
@@ -312,7 +332,7 @@ onMounted(async () => {
               @click="submit"
               :loading="isLoading"
             >
-              บันทึกข้อมูล
+              สร้างใบจดบันทึกใหม่
             </Button>
           </div>
         </div>

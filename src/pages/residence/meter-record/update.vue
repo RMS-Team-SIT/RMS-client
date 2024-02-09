@@ -18,82 +18,22 @@ const residenceId = route.params.residenceId;
 const meterRecordId = route.params.meterRecordId;
 const { notify } = useNotification();
 const isLoading = ref(true);
-const isFirstTime = ref(true);
 
-const payload = reactive({
+const meterRecord = reactive({
   record_date: '',
   meterRecordItems: [],
 });
 
-const submit = async () => {
-  const response = await MeterRecordService.update(residenceId, {
-    ...payload,
-    record_date: isFirstTime.value
-      ? dayjs(0).format('YYYY-MM-DD')
-      : payload.record_date,
-  });
-  if (response.status == 201) {
-    notify({
-      group: 'tr',
-      title: 'สำเร็จ',
-      text: 'สร้างใบบันทึกเลขมิเตอร์สำเร็จ',
-      type: 'success',
-    });
-    router.push({ name: 'meter-record', params: { residenceId: residenceId } });
-  } else {
-    const data = await response.json();
-    notify({
-      group: 'tr',
-      title: 'เกิดข้อผิดพลาด',
-      text: 'สร้างใบบันทึกเลขมิเตอร์ไม่สำเร็จ: ' + data?.message,
-      type: 'error',
-    });
-  }
-};
-const rooms = ref([]);
-const fetchRooms = async () => {
-  const response = await RoomService.fetchAllRoomByResidence(residenceId);
-  if (response.status === 200) {
-    const data = await response.json();
-    console.log('rooms', data);
-    rooms.value = data;
-    payload.meterRecordItems = data.map((room) => {
-      return {
-        room: room._id,
-        currentWaterMeter: findRecord(room._id)?.currentWaterMeter || 0,
-        currentElectricMeter: findRecord(room._id)?.currentElectricMeter || 0,
-      };
-    });
-  } else {
-    notify({
-      group: 'tr',
-      title: 'เกิดข้อผิดพลาด',
-      text: 'ไม่สามารถดึงข้อมูลห้องพักได้',
-      type: 'error',
-    });
-  }
-};
-const findIndex = (id) => {
-  return rooms.value.findIndex((room) => room._id === id);
-};
-
-const prevMeterRecordList = ref([]);
-const lastPrevMeterRecord = ref(null);
-
-const fetchPrevMeterRecord = async () => {
-  const response = await MeterRecordService.findAllByResidenceId(residenceId);
+const fetchMeterRecord = async () => {
+  const response = await MeterRecordService.findById(
+    residenceId,
+    meterRecordId
+  );
   if (response.status === 200) {
     let result = await response.json();
-    prevMeterRecordList.value = result;
-
-    console.log('Previous Meter Record List', result);
-
-    if (prevMeterRecordList.value.length > 0) {
-      isFirstTime.value = false;
-    }
-
-    lastPrevMeterRecord.value =
-      prevMeterRecordList.value[prevMeterRecordList.value.length - 1];
+    console.log('result', result);
+    meterRecord.record_date = result.record_date;
+    meterRecord.meterRecordItems = result.meterRecordItems;
   } else {
     notify({
       group: 'tr',
@@ -104,32 +44,52 @@ const fetchPrevMeterRecord = async () => {
   }
 };
 
-const findRecord = (roomId) => {
-  if (isFirstTime.value) return null;
-  return lastPrevMeterRecord.value.meterRecordItems.find(
-    (item) => item.room === roomId
-  );
-};
+const submit = async () => {
+  isLoading.value = true;
+  // change room to room._id
+  const payload = {
+    record_date: meterRecord.record_date,
+    meterRecordItems: meterRecord.meterRecordItems.map((item) => {
+      return {
+        room: item.room._id,
+        previousWaterMeter: item.previousWaterMeter,
+        currentWaterMeter: item.currentWaterMeter,
+        totalWaterMeterUsage: item.totalWaterMeterUsage,
+        previousElectricMeter: item.previousElectricMeter,
+        currentElectricMeter: item.currentElectricMeter,
+        totalElectricMeterUsage: item.totalElectricMeterUsage,
+      };
+    }),
+  };
 
-const calcualteTotalWaterMeterUsage = (roomId) => {
-  if (isFirstTime.value) return 0;
-  return (
-    payload.meterRecordItems[findIndex(roomId)].currentWaterMeter -
-    findRecord(roomId)?.currentWaterMeter
+  const response = await MeterRecordService.update(
+    residenceId,
+    meterRecordId,
+    payload
   );
-};
 
-const calcualteTotalElectricMeterUsage = (roomId) => {
-  if (isFirstTime.value) return 0;
-  return (
-    payload.meterRecordItems[findIndex(roomId)].currentElectricMeter -
-    findRecord(roomId)?.currentElectricMeter
-  );
+  if (response.status === 200) {
+    notify({
+      group: 'tr',
+      title: 'แก้ไขข้อมูลใบจดบันทึกสำเร็จ',
+      text: 'ข้อมูลใบจดบันทึกได้รับการแก้ไขเรียบร้อยแล้ว',
+      type: 'success',
+    });
+    router.push({ name: 'meter-record', params: { residenceId } });
+  } else {
+    const data = await response.json();
+    notify({
+      group: 'tr',
+      title: 'เกิดข้อผิดพลาด',
+      text: 'ไม่สามารถแก้ไขข้อมูลใบจดบันทึกได้: ' + data.message,
+      type: 'error',
+    });
+  }
+  isLoading.value = false;
 };
 
 onMounted(async () => {
-  await fetchPrevMeterRecord();
-  await fetchRooms();
+  await fetchMeterRecord();
   isLoading.value = false;
 });
 </script>
@@ -143,6 +103,7 @@ onMounted(async () => {
           { name: 'หน้าแรก', pathName: 'home' },
           { name: 'จัดการ', pathName: 'manage' },
           {
+            name: 'dashboard',
             pathName: 'dashboard',
             params: { residenceId },
           },
@@ -156,54 +117,24 @@ onMounted(async () => {
       >
         กลับหน้ามิเตอร์ทั้งหมด
       </Button>
+      {{ payload }}
       <div class="grid grid-cols-4 gap-2">
         <!-- col 1 -->
         <div class="card w-full bg-base-100 shadow-xl mt-5">
           <div class="card-body">
-            <h2 class="card-title text-center">สร้างใบจดบันทึกใหม่</h2>
-            <div v-if="!isFirstTime">
+            <h2 class="card-title text-center">แก้ไขข้อมูลใบจดบันทึก</h2>
+            <div>
               <label class="label">
                 <span class="text-base label-text"
-                  >วันที่จด <span class="text-red-500">*</span>
+                  >วันที่จด:
+                  <Badge>
+                    {{
+                      dayjs(meterRecord.record_date).format('DD/MM/YYYY')
+                    }}</Badge
+                  >
                 </span>
               </label>
-              <input
-                type="date"
-                placeholder="วันที่จด"
-                class="w-full input input-bordered bg-white"
-                v-model="payload.record_date"
-              />
             </div>
-            <div v-else>
-              <p class="text-red-500 font-bold text-base" v-if="isFirstTime">
-                เป็นการบันทึกรอบแรกในระบบ<br />
-                ให้บันทึกมิเตอร์รอบก่อนหน้าในช่องปัจจุบัน <br />
-                จากนั้นสร้างบันทึกใหม่
-              </p>
-            </div>
-
-            <p>
-              รอบบิลที่แล้ว จดครั้งล่าสุด :
-              <Badge type="info" class="text-sm" v-if="isFirstTime">
-                ยังไม่มีประวัติการจด
-              </Badge>
-              <Badge type="info" class="text-sm" v-else>
-                {{
-                  dayjs(lastPrevMeterRecord.record_date).format('DD/MM/YYYY')
-                }}
-              </Badge>
-              <Alert
-                v-if="
-                  lastPrevMeterRecord &&
-                  dayjs(lastPrevMeterRecord.record_date).isSame(
-                    payload.record_date,
-                    'month'
-                  )
-                "
-              >
-                คุณได้ทำการบันทึกค่าน้ำและค่าไฟไปแล้วในเดือนนี้
-              </Alert>
-            </p>
           </div>
         </div>
 
@@ -212,14 +143,8 @@ onMounted(async () => {
           <div class="card-body">
             <div class="flex gap-2">
               <AdjustmentsHorizontalIcon class="w-10 h-10 text-blue-500" />
-              <h2 class="card-title text-center">บันทึกค่าน้ำและค่าไฟ</h2>
+              <h2 class="card-title text-center">มิเตอร์น้ำและค่าไฟ</h2>
             </div>
-
-            <p class="text-red-500 font-bold" v-if="isFirstTime">
-              เป็นการบันทึกรอบแรกในระบบ
-              ให้บันทึกมิเตอร์รอบก่อนหน้าในช่องปัจจุบัน * <br />
-              จากนั้นสร้างบันทึกใหม่
-            </p>
 
             <!-- List all room -->
             <div class="overflow-x-auto">
@@ -238,78 +163,95 @@ onMounted(async () => {
                 </thead>
                 <tbody>
                   <!-- row 1 -->
-                  <tr v-for="(room, index) in rooms" :key="index">
-                    <th>{{ room.name }}</th>
+                  <tr
+                    v-for="(
+                      meterRecordItem, index
+                    ) in meterRecord.meterRecordItems"
+                    :key="index"
+                  >
+                    <td>
+                      {{ meterRecordItem.room.name }}
+                    </td>
+
                     <td>
                       <input
                         type="number"
                         placeholder="มิเตอร์น้ำรอบที่แล้ว"
                         class="input input-bordered w-full max-w-xs disabled input-sm"
-                        :value="findRecord(room._id)?.currentWaterMeter"
+                        :value="meterRecordItem.previousWaterMeter"
                         disabled
                       />
                     </td>
+
                     <td>
                       <input
                         type="number"
-                        placeholder="มิเตอร์น้ำรอบปัจจุบัน"
-                        class="input input-bordered w-full max-w-xs input-sm"
+                        placeholder="มิเตอร์น้ำรอบที่แล้ว"
+                        class="input input-bordered w-full max-w-xs disabled input-sm"
                         v-model="
-                          payload.meterRecordItems[findIndex(room._id)]
-                            .currentWaterMeter
+                          meterRecord.meterRecordItems[index].currentWaterMeter
                         "
                       />
                     </td>
                     <td>
                       {{
-                        (payload.meterRecordItems[
-                          findIndex(room._id)
-                        ].totalWaterMeterUsage = calcualteTotalWaterMeterUsage(
-                          room._id
-                        ))
+                        (meterRecordItem.totalWaterMeterUsage =
+                          meterRecordItem.currentWaterMeter -
+                          meterRecordItem.previousWaterMeter)
                       }}
                     </td>
+
                     <td>
                       <input
                         type="number"
-                        placeholder="มิเตอร์ไฟฟ้ารอบที่แล้ว"
+                        placeholder="มิเตอร์น้ำรอบที่แล้ว"
                         class="input input-bordered w-full max-w-xs disabled input-sm"
-                        :value="findRecord(room._id)?.currentElectricMeter"
+                        :value="meterRecordItem.previousElectricMeter"
                         disabled
                       />
                     </td>
                     <td>
                       <input
                         type="number"
-                        placeholder="มิเตอร์ไฟฟ้ารอบปัจจุบัน"
-                        class="input input-bordered w-full max-w-xs input-sm"
+                        placeholder="มิเตอร์น้ำรอบที่แล้ว"
+                        class="input input-bordered w-full max-w-xs disabled input-sm"
                         v-model="
-                          payload.meterRecordItems[findIndex(room._id)]
+                          meterRecord.meterRecordItems[index]
                             .currentElectricMeter
                         "
                       />
                     </td>
                     <td>
                       {{
-                        (payload.meterRecordItems[
-                          findIndex(room._id)
-                        ].totalElectricMeterUsage =
-                          calcualteTotalElectricMeterUsage(room._id))
+                        (meterRecordItem.totalElectricMeterUsage =
+                          meterRecordItem.currentElectricMeter -
+                          meterRecordItem.previousElectricMeter)
                       }}
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
-
-            <Button
-              btnType="primary"
-              class="mt-5"
-              @click="submit"
-              :loading="isLoading"
-            >
-              บันทึกข้อมูล
-            </Button>
+            <div class="flex gap-2 justify-end">
+              <Button
+                btnType="secondary"
+                class="mt-5"
+                @click="
+                  router.push({ name: 'meter-record', params: { residenceId } })
+                "
+                :loading="isLoading"
+              >
+                ยกเลิก
+              </Button>
+              <Button
+                btnType="primary"
+                class="mt-5"
+                @click="submit"
+                :loading="isLoading"
+              >
+                แก้ไขใบจดบันทึก
+              </Button>
+            </div>
           </div>
         </div>
       </div>

@@ -25,14 +25,13 @@ const fetchResidence = async () => {
   const response = await ResidenceServices.fetchResidence(residenceId);
   if (response.status === 200) {
     let result = await response.json();
-    console.log("residence", result);
+    console.log('residence', result);
     residence.data = result;
 
     // sort meter record by record_date
     residence.data.meterRecord.sort((a, b) => {
       return new Date(b.record_date) - new Date(a.record_date);
     });
-
   } else {
     notify({
       group: 'tr',
@@ -91,9 +90,11 @@ onMounted(async () => {
             </router-link>
           </div>
           <MeterRecordListTable
+            class="mt-5"
             :residenceId="residenceId"
             :meter-records="residence.data.meterRecord"
           />
+          <p class="mt-5">หมายเหตุ: สามารถแก้ไขข้อมูลได้เฉพาะ การจดครั้งล่าสุดเท่านั้น</p>
         </div>
       </div>
     </div>
