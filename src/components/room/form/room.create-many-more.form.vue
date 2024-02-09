@@ -99,7 +99,7 @@ watch(payload, () => {
       <div class="form-control w-full">
         <input
           type="number"
-          placeholder="Light Price Rate"
+          placeholder="อัตราค่าไฟฟ้า"
           class="w-full input input-bordered bg-white input-sm rounded-sm"
           v-model="payload.lightPriceRate"
           :disabled="viewOnly || payload.isUseDefaultLightPriceRate"

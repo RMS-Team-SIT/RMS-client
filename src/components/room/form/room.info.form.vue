@@ -145,7 +145,7 @@ watch(roomInfo, () => {
       <div class="form-control w-full">
         <input
           type="number"
-          placeholder="Light Price Rate"
+          placeholder="อัตราค่าไฟฟ้า"
           class="w-full input input-bordered bg-white input-sm rounded-sm"
           v-model="roomInfo.lightPriceRate"
           :disabled="viewOnly || roomInfo.isUseDefaultLightPriceRate"

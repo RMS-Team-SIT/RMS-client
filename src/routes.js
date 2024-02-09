@@ -33,7 +33,7 @@ const payment = () => import('./pages/residence/payment/payment.vue');
 const createPayment = () => import('./pages/residence/payment/create.vue');
 const updatePayment = () => import('./pages/residence/payment/update.vue');
 
-const bill = () => import('./pages/residence/bill-system/index.vue');
+const bill = () => import('./pages/residence/bill/index.vue');
 
 const meterRecord = () => import('./pages/residence/meter-record/index.vue');
 const createMeterRecord = () =>
@@ -263,11 +263,11 @@ const routes = [
     },
   },
   {
-    name: 'bill-system',
-    path: '/manage/residence/:residenceId/bill-system',
+    name: 'bill',
+    path: '/manage/residence/:residenceId/bill',
     component: bill,
     meta: {
-      title: 'Bill System',
+      title: 'ระบบจัดการเรียกเก็บเงิน',
     },
   },
   {

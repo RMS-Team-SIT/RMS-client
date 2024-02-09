@@ -7,6 +7,7 @@ import ResidenceServices from '@/services/ResidenceServices';
 import Loading from '@/components/common/loading.vue';
 import PaymentListTable from '@/components/payment/payment.list.table.vue';
 import Button from '@/components/common/button.vue';
+import Badge from '@/components/common/badge.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -43,13 +44,17 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
-  <div v-if="residence.data" class="bg-gray-50">
+  <div v-if="residence.data" class="bg-gray-50 min-h-screen">
     <div class="py-10 px-10 md:px-40">
       <Breadcrumb
         :pathList="[
           { name: 'หน้าแรก', pathName: 'home' },
           { name: 'จัดการ', pathName: 'manage' },
-          { name: `${residence.data.name}`, pathName: 'dashboard', params: { residenceId } },
+          {
+            name: `${residence.data.name}`,
+            pathName: 'dashboard',
+            params: { residenceId },
+          },
           { name: 'ช่องทางการชำระเงิน' },
         ]"
       />
@@ -63,16 +68,23 @@ onMounted(async () => {
       <div class="grid grid-cols-1">
         <div class="bg-white p-10 mt-2 shadow rounded-lg">
           <h1 class="text-2xl font-semibold text-dark-blue-200">
-            ระบบจัดการการเรียกเก็บเงิน
+            ระบบจัดการเรียกเก็บเงิน
           </h1>
         </div>
       </div>
-      <div class="card w-96 bg-base-100 shadow-xl">
-        <div class="card-body">
-          <h2 class="card-title">Card title!</h2>
-          <p>If a dog chews shoes whose shoes does he choose?</p>
-          <div class="card-actions justify-end">
-            <button class="btn btn-primary">Buy Now</button>
+      <div class="grid grid-cols-4 gap-2">
+        <div class="card w-full bg-base-100 shadow-xl rounded-lg mt-5 col-span-1">
+          <div class="card-body">
+            <h2 class="card-title">ตั้งค่าการเรียกเก็บเงิน</h2>
+            <p class="text-lg">เก็บเงินอัตโนมัติ: <Badge>เปิดใช้งาน</Badge></p>
+            <p class="text-lg">เก็บเงินทุกวันที่:วันที่ 1 ของทุกเดือน</p>
+          </div>
+        </div>
+        <div class="card w-full bg-base-100 shadow-xl rounded-lg mt-5 col-span-3 ">
+          <div class="card-body">
+            <h2 class="card-title">ตั้งค่าการเรียกเก็บเงิน</h2>
+            <p class="text-lg">เก็บเงินอัตโนมัติ: <Badge>เปิดใช้งาน</Badge></p>
+            <p class="text-lg">เก็บเงินทุกวันที่:วันที่ 1 ของทุกเดือน</p>
           </div>
         </div>
       </div>

@@ -241,7 +241,7 @@ onMounted(async () => {
 
           <div
             @click="
-              router.push({ name: 'bill-system', params: { residenceId } })
+              router.push({ name: 'bill', params: { residenceId } })
             "
             class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
           >

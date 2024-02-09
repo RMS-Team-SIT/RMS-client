@@ -49,8 +49,8 @@ onBeforeMount(async () => {
         </router-link>
       </div>
       <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
-        <h1 class="text-3xl font-semibold text-dark-blue-200">ห้องพักของฉัน</h1>
-        <p class="text-xs">หน้านี้จะแสดงห้องพักทั้งหมดของคุณ</p>
+        <h1 class="text-3xl font-semibold text-dark-blue-200">หอพักของฉัน</h1>
+        <p class="text-xs">หน้านี้จะแสดงหงพักทั้งหมดของคุณ</p>
         <Loading v-if="isLoading" />
         <ResidenceCard
           v-for="(residence, index) in residences.data"

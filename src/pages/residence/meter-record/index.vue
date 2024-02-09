@@ -94,7 +94,9 @@ onMounted(async () => {
             :residenceId="residenceId"
             :meter-records="residence.data.meterRecord"
           />
-          <p class="mt-5">หมายเหตุ: สามารถแก้ไขข้อมูลได้เฉพาะ การจดครั้งล่าสุดเท่านั้น</p>
+          <p class="mt-5">
+            หมายเหตุ: สามารถแก้ไขข้อมูลได้เฉพาะ การจดครั้งล่าสุดเท่านั้น
+          </p>
         </div>
       </div>
     </div>

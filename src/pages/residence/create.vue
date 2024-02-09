@@ -127,11 +127,11 @@ const submitData = async () => {
             @getData="getChildData"
             :residenceData="residenceData"
           />
-          <ResidenceContactForm
+          <ResidenceSettingForm
             @getData="getChildData"
             :residenceData="residenceData"
           />
-          <ResidenceSettingForm
+          <ResidenceContactForm
             @getData="getChildData"
             :residenceData="residenceData"
           />
@@ -159,12 +159,12 @@ const submitData = async () => {
               :residenceData="residenceData"
               :viewOnly="true"
             />
-            <ResidenceContactForm
+            <ResidenceSettingForm
               @getData="getChildData"
               :residenceData="residenceData"
               :viewOnly="true"
             />
-            <ResidenceSettingForm
+            <ResidenceContactForm
               @getData="getChildData"
               :residenceData="residenceData"
               :viewOnly="true"
