@@ -92,7 +92,7 @@ const visiblePages = computed(() => {
           <tr>
             <th>#</th>
             <th>โลโก</th>
-            <th>ประเภทการชำระเงิน</th>
+            <!-- <th>ประเภทการชำระเงิน</th> -->
             <th>ชื่อธนาคาร</th>
             <th>ชื่อบัญชี</th>
             <th>หมายเลขบัญชี</th>
@@ -110,17 +110,17 @@ const visiblePages = computed(() => {
             <td>
               <BankIcon :bank="payment.bank.bank" size="xxxl" />
             </td>
-            <td class="">
+            <!-- <td class="">
               <span> {{ payment.type }}</span>
-            </td>
+            </td> -->
             <td>
               {{ payment.bank.thai_name }}
             </td>
             <td>{{ payment.account_name }}</td>
             <td>{{ payment.account_number }}</td>
             <td>
-              <Badge v-if="payment.isActive" badgeType="success">Active</Badge>
-              <Badge v-else badgeType="error">Deactive</Badge>
+              <Badge v-if="payment.isActive" badgeType="success">เปิดใช้งาน</Badge>
+              <Badge v-else badgeType="error">ปิดใช้งาน</Badge>
             </td>
             <td>
               {{ dayjs(payment.created_at).format('MM-DD-YYYY HH:mm:ss') }}

@@ -122,8 +122,7 @@ const visiblePages = computed(() => {
             <th>ผู้เช่า</th>
             <th>อัตราค่าน้ำ</th>
             <th>อัตราค่าไฟ</th>
-            <th>สถานะ</th>
-            <th></th>
+            <th>สถานะห้อง</th>
             <th></th>
           </tr>
         </thead>
@@ -184,6 +183,10 @@ const visiblePages = computed(() => {
               <Badge badgeType="success" v-if="!room.currentRenter">ว่าง</Badge>
               <Badge badgeType="error" v-else>ไม่ว่าง</Badge>
             </td>
+            <!-- <td>
+              <Badge badgeType="success" v-if="room.isActive">เปิดใช้งาน</Badge>
+              <Badge badgeType="error" v-else>ปิดใช้งาน</Badge>
+            </td> -->
             <!-- <td>
             <Badge badgeType="success">Paid</Badge>
             <Badge badgeType="error">Not Paid</Badge>
