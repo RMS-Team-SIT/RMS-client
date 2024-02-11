@@ -159,4 +159,3 @@ onMounted(async () => {
 </template>
 
 <style scoped></style>
-@/utils/request

@@ -36,7 +36,7 @@ const handleFormData = async (formData) => {
 <template>
   <div class="flex h-screen">
     <div class="flex-1 bg-cover flex flex-row">
-      <div class="w-full md:w-1/3 lg:w-1/2">
+      <div class="w-full md:w-2/3 lg:w-1/2">
         <ForgetPasswordForm @submit-form="handleFormData" />
       </div>
     </div>

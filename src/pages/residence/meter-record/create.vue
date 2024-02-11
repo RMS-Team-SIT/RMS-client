@@ -105,10 +105,9 @@ const setDefaultMeterRecordItems = async () => {
   });
 };
 
-
 const submit = async () => {
   isLoading.value = true;
-  
+
   const response = await MeterRecordService.create(residenceId, {
     ...payload,
     record_date: isFirstTime.value
@@ -134,7 +133,6 @@ const submit = async () => {
   }
   isLoading.value = false;
 };
-
 
 onMounted(async () => {
   await fetchLastPrevMeterRecord();
@@ -239,101 +237,99 @@ onMounted(async () => {
               <h2 class="card-title text-center">บันทึกค่าน้ำและค่าไฟ</h2>
             </div>
 
-            <p class="text-red-500 font-bold" v-if="isFirstTime">
-              เป็นการบันทึกรอบแรกในระบบ
-              ให้บันทึกมิเตอร์รอบก่อนหน้าในช่องปัจจุบัน * <br />
-              จากนั้นสร้างบันทึกใหม่
-            </p>
-
             <!-- List all room -->
-            <div class="overflow-x-auto">
-              <table class="table">
-                <!-- head -->
-                <thead>
-                  <tr>
-                    <th>ชื่อห้อง</th>
-                    <th>มิเตอร์น้ำรอบที่แล้ว</th>
-                    <th>มิเตอร์น้ำรอบปัจจุบัน</th>
-                    <th>จำนวนหน่วย</th>
-                    <th>มิเตอร์ไฟฟ้ารอบที่แล้ว</th>
-                    <th>มิเตอร์ไฟฟ้ารอบปัจจุบัน</th>
-                    <th>จำนวนหน่วย</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- row 1 -->
-                  <tr v-for="(room, index) in rooms" :key="index">
-                    <th>{{ room.name }}</th>
-                    <td>
-                      <input
-                        type="number"
-                        placeholder="มิเตอร์น้ำรอบที่แล้ว"
-                        class="input input-bordered w-full max-w-xs disabled input-sm"
-                        :value="findRecord(room._id)?.currentWaterMeter"
-                        disabled
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        placeholder="มิเตอร์น้ำรอบปัจจุบัน"
-                        class="input input-bordered w-full max-w-xs input-sm"
-                        v-model="
-                          payload.meterRecordItems[findIndex(room._id)]
-                            .currentWaterMeter
-                        "
-                      />
-                    </td>
-                    <td>
-                      {{
-                        (payload.meterRecordItems[
-                          findIndex(room._id)
-                        ].totalWaterMeterUsage = calcualteTotalWaterMeterUsage(
-                          room._id
-                        ))
-                      }}
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        placeholder="มิเตอร์ไฟฟ้ารอบที่แล้ว"
-                        class="input input-bordered w-full max-w-xs disabled input-sm"
-                        :value="findRecord(room._id)?.currentElectricMeter"
-                        disabled
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        placeholder="มิเตอร์ไฟฟ้ารอบปัจจุบัน"
-                        class="input input-bordered w-full max-w-xs input-sm"
-                        v-model="
-                          payload.meterRecordItems[findIndex(room._id)]
-                            .currentElectricMeter
-                        "
-                      />
-                    </td>
-                    <td>
-                      {{
-                        (payload.meterRecordItems[
-                          findIndex(room._id)
-                        ].totalElectricMeterUsage =
-                          calcualteTotalElectricMeterUsage(room._id))
-                      }}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <div v-if="rooms.length">
+              <div class="overflow-x-auto" v-if="rooms.length">
+                <table class="table">
+                  <!-- head -->
+                  <thead>
+                    <tr>
+                      <th>ชื่อห้อง</th>
+                      <th>มิเตอร์น้ำรอบที่แล้ว</th>
+                      <th>มิเตอร์น้ำรอบปัจจุบัน</th>
+                      <th>จำนวนหน่วย</th>
+                      <th>มิเตอร์ไฟฟ้ารอบที่แล้ว</th>
+                      <th>มิเตอร์ไฟฟ้ารอบปัจจุบัน</th>
+                      <th>จำนวนหน่วย</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- row 1 -->
+                    <tr v-for="(room, index) in rooms" :key="index">
+                      <th>{{ room.name }}</th>
+                      <td>
+                        <input
+                          type="number"
+                          placeholder="มิเตอร์น้ำรอบที่แล้ว"
+                          class="input input-bordered w-full max-w-xs disabled input-sm"
+                          :value="findRecord(room._id)?.currentWaterMeter"
+                          disabled
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          placeholder="มิเตอร์น้ำรอบปัจจุบัน"
+                          class="input input-bordered w-full max-w-xs input-sm"
+                          v-model="
+                            payload.meterRecordItems[findIndex(room._id)]
+                              .currentWaterMeter
+                          "
+                        />
+                      </td>
+                      <td>
+                        {{
+                          (payload.meterRecordItems[
+                            findIndex(room._id)
+                          ].totalWaterMeterUsage =
+                            calcualteTotalWaterMeterUsage(room._id))
+                        }}
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          placeholder="มิเตอร์ไฟฟ้ารอบที่แล้ว"
+                          class="input input-bordered w-full max-w-xs disabled input-sm"
+                          :value="findRecord(room._id)?.currentElectricMeter"
+                          disabled
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          placeholder="มิเตอร์ไฟฟ้ารอบปัจจุบัน"
+                          class="input input-bordered w-full max-w-xs input-sm"
+                          v-model="
+                            payload.meterRecordItems[findIndex(room._id)]
+                              .currentElectricMeter
+                          "
+                        />
+                      </td>
+                      <td>
+                        {{
+                          (payload.meterRecordItems[
+                            findIndex(room._id)
+                          ].totalElectricMeterUsage =
+                            calcualteTotalElectricMeterUsage(room._id))
+                        }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
 
-            <Button
-              btnType="primary"
-              class="mt-5"
-              @click="submit"
-              :loading="isLoading"
-            >
-              สร้างใบจดบันทึกใหม่
-            </Button>
+              <Button
+                btnType="primary"
+                class="mt-5"
+                @click="submit"
+                :loading="isLoading"
+              >
+                สร้างใบจดบันทึกใหม่
+              </Button>
+            </div>
+            <div v-else>
+              <p class="text-red-500 font-bold text-base mt-5">ไม่มีห้องพักในระบบ กรุณาสร้างห้องพักในหอ</p>
+            </div>
           </div>
         </div>
       </div>

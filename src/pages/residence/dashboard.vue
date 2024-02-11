@@ -15,8 +15,10 @@ import {
   HomeIcon,
   LinkIcon,
   UserIcon,
+  AdjustmentsHorizontalIcon
 } from '@heroicons/vue/24/outline';
-import CountUp from 'vue-countup-v3';
+import QuickLinkCard from '@/components/common/quick-link-card.vue';
+import ResidenceStat from '@/components/residence/residence.stat.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -101,52 +103,17 @@ onMounted(async () => {
           <ChartPieIcon class="h-8 w-8 inline-block" /> ข้อมูลภาพรวม :
           {{ residence.data.name }}
         </h1>
-        <div
-          class="stats shadow stats-vertical lg:stats-horizontal w-full lg:w-auto"
-        >
-          <div
-            class="stat hover:cursor-pointer"
-            @click="router.push({ name: 'renter', params: { residenceId } })"
-          >
-            <div class="stat-figure text-primary">
-              <UserIcon class="h-8 w-8 inline-block" />
-            </div>
-            <div class="stat-title">ผู้เช่าทั้งหมด</div>
-            <div class="stat-value text-primary">
-              <CountUp :end-val="stats.renterCount" />
-            </div>
-            <div class="stat-desc">จำนวนผู้เช่าทั้งหมดในระบบ</div>
-          </div>
 
-          <div
-            class="stat hover:cursor-pointer"
-            @click="router.push({ name: 'room', params: { residenceId } })"
-          >
-            <div class="stat-figure text-secondary">
-              <HomeIcon class="h-8 w-8 inline-block" />
-            </div>
-            <div class="stat-title">จำนวนห้อง</div>
-            <div class="stat-value text-secondary">
-              <CountUp :end-val="stats.roomCount" />
-            </div>
-            <div class="stat-desc">จำนวนห้องทั้งหมดในระบบ</div>
-          </div>
+        <!-- Stats -->
+        <ResidenceStat
+          :stats="{
+            renterCount: stats.renterCount,
+            roomCount: stats.roomCount,
+            paymentCount: stats.paymentCount,
+          }"
+        />
 
-          <div
-            class="stat hover:cursor-pointer"
-            @click="router.push({ name: 'payment', params: { residenceId } })"
-          >
-            <div class="stat-figure text-secondary">
-              <CreditCardIcon class="h-8 w-8 inline-block" />
-            </div>
-            <div class="stat-title">ช่องทางการชำระเงิน</div>
-            <div class="stat-value text-secondary">
-              <CountUp :end-val="stats.paymentCount" />
-            </div>
-            <div class="stat-desc">ช่องทางการชำระเงินทั้งหมดในระบบ</div>
-          </div>
-        </div>
-
+        <!-- Graph -->
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-5">
           <div class="p-6 bg-white rounded-lg shadow-md">
             <h3 class="text-xl font-semibold mb-2 p-5">
@@ -169,8 +136,9 @@ onMounted(async () => {
               :available="stats.avaiableRoomCount"
               :not-available="stats.notavaiableRoomCount"
             />
-            <p class="p-5 text-xs">
-              ห้องว่าง: {{ stats.avaiableRoomCount }}, ไม่ว่าง:
+            <p class="p-5 text-xs" v-if="stats.avaiableRoomCount">
+              ห้องว่าง: {{ stats.avaiableRoomCount }} <br />
+              ไม่ว่าง:
               {{ stats.notavaiableRoomCount }}
             </p>
           </div>
@@ -195,59 +163,47 @@ onMounted(async () => {
         <div
           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2"
         >
-          <div
-            @click="router.push({ name: 'room', params: { residenceId } })"
-            class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
-          >
-            <h3 class="text-xl font-semibold mb-2">ระบบจัดการห้อง</h3>
-            <p>เข้าสู่ระบบจัดการห้องในระบบ</p>
-          </div>
-          
-          <div
-            @click="router.push({ name: 'renter', params: { residenceId } })"
-            class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
-          >
-            <h3 class="text-xl font-semibold mb-2">ระบบจัดการผู้เช่า</h3>
-            <p>เข้าสู่ระบบจัดการผู้เช่าในระบบ</p>
-          </div>
+          <QuickLinkCard
+            :router-path="{ name: 'room', params: { residenceId } }"
+            title="ระบบจัดการห้อง"
+            text="เข้าสู่ระบบจัดการห้องในระบบ"
+            :icon="HomeIcon"
+          />
 
-          <div
-            @click="router.push({ name: 'info', params: { residenceId } })"
-            class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
-          >
-            <h3 class="text-xl font-semibold mb-2">จัดการข้อมูลทั่วไป</h3>
-            <p>เข้าสู่หน้าการจัดการข้อมูลทั่วไป</p>
-          </div>
+          <QuickLinkCard
+            :router-path="{ name: 'renter', params: { residenceId } }"
+            title="ระบบจัดการผู้เช่า"
+            text="เข้าสู่ระบบจัดการผู้เช่าในระบบ"
+            :icon="UserIcon"
+          />
 
-          <div
-            @click="router.push({ name: 'payment', params: { residenceId } })"
-            class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
-          >
-            <h3 class="text-xl font-semibold">
-              จัดการข้อมูลช่องทางการชำระเงิน
-            </h3>
-            <p>เข้าสู่หน้าจัดการข้อมูลช่องทางการชำระเงิน</p>
-          </div>
+          <QuickLinkCard
+            :router-path="{ name: 'info', params: { residenceId } }"
+            title="จัดการข้อมูลทั่วไป"
+            text="เข้าสู่หน้าการจัดการข้อมูลทั่วไป"
+            :icon="LinkIcon"
+          />
 
-          <div
-            @click="
-              router.push({ name: 'meter-record', params: { residenceId } })
-            "
-            class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
-          >
-            <h3 class="text-xl font-semibold">ระบบบันทึกค่าน้ำ ค่าไฟ</h3>
-            <p>เข้าสู่หน้าระบบบันทึกค่าน้ำ ค่าไฟ</p>
-          </div>
+          <QuickLinkCard
+            :router-path="{ name: 'payment', params: { residenceId } }"
+            title="จัดการข้อมูลช่องทางการชำระเงิน"
+            text="เข้าสู่หน้าจัดการข้อมูลช่องทางการชำระเงิน"
+            :icon="CreditCardIcon"
+          />
 
-          <div
-            @click="
-              router.push({ name: 'bill', params: { residenceId } })
-            "
-            class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
-          >
-            <h3 class="text-xl font-semibold">จัดการบิล</h3>
-            <p>เข้าสู่หน้าจัดการบิล</p>
-          </div>
+          <QuickLinkCard
+            :router-path="{ name: 'meter-record', params: { residenceId } }"
+            title="ระบบบันทึกค่าน้ำ ค่าไฟ"
+            text="เข้าสู่หน้าระบบบันทึกค่าน้ำ ค่าไฟ"
+            :icon="AdjustmentsHorizontalIcon"
+          />
+
+          <QuickLinkCard
+            :router-path="{ name: 'bill', params: { residenceId } }"
+            title="จัดการบิล"
+            text="เข้าสู่หน้าจัดการบิล"
+            :icon="BanknotesIcon"
+          />
         </div>
       </section>
     </div>

@@ -86,7 +86,7 @@ onMounted(() => {
       </div>
     </div>
     <p class="text-sm flex gap-2 text-gray-500" v-if="imagePreviews.length > 0">
-      * Click the image to view full size
+      * คลิกที่รูปภาพเพื่อดูขนาดใหญ่
     </p>
 
     <p v-else>ไม่มีรูปภาพในระบบ</p>
@@ -114,4 +114,3 @@ onMounted(() => {
     </div>
   </div>
 </template>
-@/utils/request

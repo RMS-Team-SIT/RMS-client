@@ -182,4 +182,3 @@ onMounted(() => {
     </div>
   </div>
 </template>
-@/utils/request

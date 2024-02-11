@@ -20,14 +20,14 @@ const submitForm = async () => {
   <div
     class="relative flex flex-col justify-center min-h-screen overflow-hidden bg-white"
   >
-    <div class="w-full p-6 m-auto bg-white rounded-md lg:max-w-xl">
-      <h1 class="text-3xl font-semibold text-dark-blue-200 px-10 md:px-40  mb-5">
+    <div class="w-full p-6 m-auto bg-white rounded-md">
+      <h1 class="text-3xl font-semibold text-dark-blue-200 px-10 md:px-40 mb-5">
         รีเซตรหัสผ่าน<br />
       </h1>
-      <p class="text-sm px-10 md:px-40  mb-5">
+      <p class="text-sm px-10 md:px-40 mb-5">
         กรุณาป้อนที่อยู่อีเมลของคุณเพื่อรีเซ็ตรหัสผ่าน
       </p>
-      <form @submit.prevent="submitForm" class="space-y-4 px-10 md:px-40 ">
+      <form @submit.prevent="submitForm" class="space-y-4 px-10 md:px-40">
         <div>
           <label class="label">
             <span class="text-base label-text">อีเมลของคุณ</span>
@@ -35,7 +35,7 @@ const submitForm = async () => {
           <input
             type="email"
             placeholder="ที่อยู่อีเมล"
-            class="w-full input input-bordered bg-white  input-sm rounded-sm"
+            class="w-full input input-bordered bg-white input-sm rounded-sm"
             v-model="formData.email"
             required
           />
