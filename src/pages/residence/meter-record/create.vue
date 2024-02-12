@@ -145,21 +145,29 @@ const canSubmit = computed(() => {
         item.currentElectricMeter &&
         item.currentWaterMeter >= item.previousWaterMeter &&
         item.currentElectricMeter >= item.previousElectricMeter
-    ) && !isSameMonth.value && !isBefore.value
+    ) &&
+    !isSameMonth.value &&
+    !isBefore.value
   );
 });
 
 const isSameMonth = computed(() => {
+  console.log(
+    'latestRecord',
+    latestRecord.record_date,
+    'payload',
+    payload.record_date
+  );
   return (
     latestRecord &&
-    dayjs(latestRecord.record_date).isSame(payload.record_date, 'month')
+    dayjs(latestRecord.value.record_date).isSame(payload.record_date, 'month')
   );
 });
 
 const isBefore = computed(() => {
   return (
     latestRecord &&
-    dayjs(payload.record_date).isBefore(latestRecord.record_date)
+    dayjs(payload.record_date).isBefore(latestRecord.value.record_date)
   );
 });
 
@@ -175,8 +183,8 @@ onMounted(async () => {
   <Loading v-if="isLoading" />
   <div class="bg-gray-50" v-else>
     <div class="py-10 px-10 md:px-40">
-      {{ canSubmit }}
-      {{ isFirstTime }}
+      {{ isSameMonth }}
+      {{ isBefore }}
       <Breadcrumb
         :pathList="[
           { name: 'หน้าแรก', pathName: 'home' },
@@ -223,7 +231,9 @@ onMounted(async () => {
                 class="w-full input input-bordered bg-white"
                 v-model="payload.record_date"
               />
-              <p class="text-red-500 text-sm" v-if="!payload.record_date">* กรุณากรอกวันที่จดบิล</p>
+              <p class="text-red-500 text-sm" v-if="!payload.record_date">
+                * กรุณากรอกวันที่จดมิเตอร์
+              </p>
             </div>
             <div v-else>
               <p class="text-red-500 font-bold text-base" v-if="isFirstTime">
@@ -234,32 +244,17 @@ onMounted(async () => {
             </div>
 
             <p>
-              รอบบิลที่แล้ว จดครั้งล่าสุด :
+              การจดมิเตอร์ครั้งล่าสุด :
               <Badge type="info" class="text-sm" v-if="isFirstTime">
                 ยังไม่มีประวัติการจด
               </Badge>
               <Badge type="info" class="text-sm" v-else>
                 {{ dayjs(latestRecord.record_date).format('DD/MM/YYYY') }}
               </Badge>
-              <Alert
-                class="mt-2"
-                v-if="
-                  latestRecord &&
-                  dayjs(latestRecord.record_date).isSame(
-                    payload.record_date,
-                    'month'
-                  )
-                "
-              >
+              <Alert class="mt-2" v-if="isSameMonth">
                 คุณได้ทำการบันทึกค่าน้ำและค่าไฟไปแล้วในเดือนนี้
               </Alert>
-              <Alert
-                class="mt-2"
-                v-if="
-                  latestRecord &&
-                  dayjs(payload.record_date).isBefore(latestRecord.record_date)
-                "
-              >
+              <Alert class="mt-2" v-if="isBefore">
                 คุณได้ทำการบันทึกค่าน้ำและค่าไฟไปแล้วในอดีต
               </Alert>
             </p>

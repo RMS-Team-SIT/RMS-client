@@ -80,7 +80,7 @@ onMounted(async () => {
             </h1>
             <router-link
               :to="{
-                name: 'create-meter-record',
+                name: 'create-bill',
                 params: {
                   residenceId,
                 },
