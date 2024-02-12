@@ -59,10 +59,20 @@ onMounted(async () => {
           { name: 'หน้าแรก', pathName: 'home' },
           { name: 'จัดการ', pathName: 'manage' },
           {
+            name: 'แดชบอร์ด',
             pathName: 'dashboard',
             params: { residenceId },
           },
-          { name: 'ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ' },
+          {
+            name: 'ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ',
+            pathName: 'meter-record',
+            params: { residenceId },
+          },
+          {
+            name: 'ดูข้อมูลใบจดบันทึก',
+            pathName: 'view-meter-record',
+            params: { residenceId, meterRecordId },
+          },
         ]"
       />
       <Button
@@ -81,10 +91,14 @@ onMounted(async () => {
             <div>
               <label class="label">
                 <span class="text-base label-text"
-                  >วันที่จด: <Badge> {{ dayjs(meterRecord.record_date).format('DD/MM/YYYY') }}</Badge>
+                  >วันที่จด:
+                  <Badge>
+                    {{
+                      dayjs(meterRecord.record_date).format('DD/MM/YYYY')
+                    }}</Badge
+                  >
                 </span>
               </label>
-             
             </div>
           </div>
         </div>

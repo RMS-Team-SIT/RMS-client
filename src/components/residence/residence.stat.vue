@@ -1,4 +1,5 @@
 <script setup>
+import { UserIcon, HomeIcon, CreditCardIcon } from '@heroicons/vue/24/outline';
 import CountUp from 'vue-countup-v3';
 import { useRouter } from 'vue-router';
 

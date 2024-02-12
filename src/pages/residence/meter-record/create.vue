@@ -17,7 +17,7 @@ const route = useRoute();
 const residenceId = route.params.residenceId;
 const { notify } = useNotification();
 const isLoading = ref(true);
-const isFirstTime = ref(true);
+const isFirstTime = ref(false);
 
 const payload = reactive({
   record_date: '',
@@ -45,19 +45,20 @@ const findIndex = (id) => {
   return rooms.value.findIndex((room) => room._id === id);
 };
 
-const lastPrevMeterRecord = ref(null);
+const latestRecord = ref(null);
 
 const fetchLastPrevMeterRecord = async () => {
-  const response = await MeterRecordService.findAllByResidenceId(residenceId);
+  // const response = await MeterRecordService.findAllByResidenceId(residenceId);
+  const response = await MeterRecordService.findLatest(residenceId);
   if (response.status === 200) {
-    let result = await response.json();
-
-    if (result.length > 0) {
-      isFirstTime.value = false;
+    const result = await response.json();
+    if (!result.latestdMeterRecord) {
+      isFirstTime.value = true;
+      return;
     }
 
-    lastPrevMeterRecord.value = result[result.length - 1];
-    console.log('Previous Meter Record List', result[result.length - 1]);
+    latestRecord.value = result.latestdMeterRecord;
+    console.log('latestRecord', result.latestdMeterRecord);
   } else {
     notify({
       group: 'tr',
@@ -70,7 +71,7 @@ const fetchLastPrevMeterRecord = async () => {
 
 const findRecord = (roomId) => {
   if (isFirstTime.value) return null;
-  return lastPrevMeterRecord.value.meterRecordItems.find(
+  return latestRecord.value.meterRecordItems.find(
     (item) => item.room === roomId
   );
 };
@@ -134,6 +135,34 @@ const submit = async () => {
   isLoading.value = false;
 };
 
+const canSubmit = computed(() => {
+  if (isFirstTime.value) return true;
+  return (
+    payload.record_date &&
+    payload.meterRecordItems.every(
+      (item) =>
+        item.currentWaterMeter &&
+        item.currentElectricMeter &&
+        item.currentWaterMeter >= item.previousWaterMeter &&
+        item.currentElectricMeter >= item.previousElectricMeter
+    ) && !isSameMonth.value && !isBefore.value
+  );
+});
+
+const isSameMonth = computed(() => {
+  return (
+    latestRecord &&
+    dayjs(latestRecord.record_date).isSame(payload.record_date, 'month')
+  );
+});
+
+const isBefore = computed(() => {
+  return (
+    latestRecord &&
+    dayjs(payload.record_date).isBefore(latestRecord.record_date)
+  );
+});
+
 onMounted(async () => {
   await fetchLastPrevMeterRecord();
   await fetchRooms();
@@ -146,6 +175,8 @@ onMounted(async () => {
   <Loading v-if="isLoading" />
   <div class="bg-gray-50" v-else>
     <div class="py-10 px-10 md:px-40">
+      {{ canSubmit }}
+      {{ isFirstTime }}
       <Breadcrumb
         :pathList="[
           { name: 'หน้าแรก', pathName: 'home' },
@@ -155,7 +186,16 @@ onMounted(async () => {
             pathName: 'dashboard',
             params: { residenceId },
           },
-          { name: 'ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ' },
+          {
+            name: 'ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ',
+            pathName: 'meter-record',
+            params: { residenceId },
+          },
+          {
+            name: 'เพิ่มข้อมูลใบจดบันทึก',
+            pathName: 'create-meter-record',
+            params: { residenceId, meterRecordId },
+          },
         ]"
       />
       <Button
@@ -183,6 +223,7 @@ onMounted(async () => {
                 class="w-full input input-bordered bg-white"
                 v-model="payload.record_date"
               />
+              <p class="text-red-500 text-sm" v-if="!payload.record_date">* กรุณากรอกวันที่จดบิล</p>
             </div>
             <div v-else>
               <p class="text-red-500 font-bold text-base" v-if="isFirstTime">
@@ -198,15 +239,13 @@ onMounted(async () => {
                 ยังไม่มีประวัติการจด
               </Badge>
               <Badge type="info" class="text-sm" v-else>
-                {{
-                  dayjs(lastPrevMeterRecord.record_date).format('DD/MM/YYYY')
-                }}
+                {{ dayjs(latestRecord.record_date).format('DD/MM/YYYY') }}
               </Badge>
               <Alert
                 class="mt-2"
                 v-if="
-                  lastPrevMeterRecord &&
-                  dayjs(lastPrevMeterRecord.record_date).isSame(
+                  latestRecord &&
+                  dayjs(latestRecord.record_date).isSame(
                     payload.record_date,
                     'month'
                   )
@@ -217,10 +256,8 @@ onMounted(async () => {
               <Alert
                 class="mt-2"
                 v-if="
-                  lastPrevMeterRecord &&
-                  dayjs(payload.record_date).isBefore(
-                    lastPrevMeterRecord.record_date
-                  )
+                  latestRecord &&
+                  dayjs(payload.record_date).isBefore(latestRecord.record_date)
                 "
               >
                 คุณได้ทำการบันทึกค่าน้ำและค่าไฟไปแล้วในอดีต
@@ -323,12 +360,15 @@ onMounted(async () => {
                 class="mt-5"
                 @click="submit"
                 :loading="isLoading"
+                :disabled="!canSubmit"
               >
                 สร้างใบจดบันทึกใหม่
               </Button>
             </div>
             <div v-else>
-              <p class="text-red-500 font-bold text-base mt-5">ไม่มีห้องพักในระบบ กรุณาสร้างห้องพักในหอ</p>
+              <p class="text-red-500 font-bold text-base mt-5">
+                ไม่มีห้องพักในระบบ กรุณาสร้างห้องพักในหอ
+              </p>
             </div>
           </div>
         </div>

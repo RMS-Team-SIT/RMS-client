@@ -106,6 +106,7 @@ onMounted(async () => {
 
         <!-- Stats -->
         <ResidenceStat
+          :residenceId="residenceId"
           :stats="{
             renterCount: stats.renterCount,
             roomCount: stats.roomCount,

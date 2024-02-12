@@ -34,6 +34,7 @@ const imageSrc = computed(() => {
       <p>ที่อยู่ : {{ props.residence?.contact?.address || 'ไม่มีข้อมูล' }}</p>
       <div class="card-actions justify-between items-center">
         <ResidenceStat
+          :residenceId="props.residence._id"
           :stats="{
             roomCount: props.residence?.rooms?.length ?? 0,
             paymentCount: props.residence?.payments?.length ?? 0,

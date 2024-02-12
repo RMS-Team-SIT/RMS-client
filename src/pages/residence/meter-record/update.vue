@@ -22,6 +22,7 @@ const isLoading = ref(true);
 const meterRecord = reactive({
   record_date: '',
   meterRecordItems: [],
+  isLocked: false,
 });
 
 const fetchMeterRecord = async () => {
@@ -34,6 +35,7 @@ const fetchMeterRecord = async () => {
     console.log('result', result);
     meterRecord.record_date = result.record_date;
     meterRecord.meterRecordItems = result.meterRecordItems;
+    meterRecord.isLocked = result.isLocked;
   } else {
     notify({
       group: 'tr',
@@ -90,6 +92,18 @@ const submit = async () => {
 
 onMounted(async () => {
   await fetchMeterRecord();
+  if (meterRecord.isLocked) {
+    notify({
+      group: 'tr',
+      title: 'เกิดข้อผิดพลาด',
+      text: 'ไม่สามารถแก้ไขข้อมูลใบจดบันทึกได้: ใบจดบันทึกถูกล็อคแล้ว',
+      type: 'error',
+    });
+    router.push({
+      name: 'view-meter-record',
+      params: { residenceId, meterRecordId },
+    });
+  }
   isLoading.value = false;
 });
 </script>
@@ -107,7 +121,16 @@ onMounted(async () => {
             pathName: 'dashboard',
             params: { residenceId },
           },
-          { name: 'ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ' },
+          {
+            name: 'ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ',
+            pathName: 'meter-record',
+            params: { residenceId },
+          },
+          {
+            name: 'แก้ไขข้อมูลใบจดบันทึก',
+            pathName: 'update-meter-record',
+            params: { residenceId, meterRecordId },
+          },
         ]"
       />
       <Button

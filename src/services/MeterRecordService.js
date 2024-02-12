@@ -24,6 +24,13 @@ class MeterRecordService {
       'GET'
     );
 
+  findLatest = async (residenceId) =>
+    sendRequest(
+      this.baseUrl,
+      `/residence/${residenceId}/meter-record/latest`,
+      'GET'
+    );
+
   update = async (residenceId, meterRecordId, meterRecord) =>
     sendRequest(
       this.baseUrl,

@@ -15,10 +15,7 @@ const { routerPath, title } = defineProps({
     type: String,
     required: true,
   },
-  icon: {
-    type: Object,
-    required: true,
-  },
+  icon: {},
 });
 </script>
 
