@@ -183,8 +183,6 @@ onMounted(async () => {
   <Loading v-if="isLoading" />
   <div class="bg-gray-50" v-else>
     <div class="py-10 px-10 md:px-40">
-      {{ isSameMonth }}
-      {{ isBefore }}
       <Breadcrumb
         :pathList="[
           { name: 'หน้าแรก', pathName: 'home' },
