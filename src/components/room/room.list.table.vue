@@ -29,7 +29,7 @@ const props = defineProps({
 
 const swal = inject('$swal');
 const currentPage = ref(1);
-const perPage = ref(5);
+const perPage = ref(10);
 const showDeactive = ref(false);
 const { notify } = useNotification();
 const router = useRouter();
