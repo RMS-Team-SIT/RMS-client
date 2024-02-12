@@ -7,6 +7,8 @@ import ResidenceServices from '@/services/ResidenceServices';
 import Loading from '@/components/common/loading.vue';
 import Button from '@/components/common/button.vue';
 import BillService from '@/services/BillService';
+import BillListTable from '@/components/bill/bill.list.table.vue';
+import dayjs from 'dayjs';
 
 const router = useRouter();
 const route = useRoute();
@@ -106,9 +108,25 @@ onMounted(async () => {
             </router-link>
           </div>
           <p class="text-dark-blue-200 mt-5">บิลทั้งหมดในระบบ</p>
-          {{ bills }}
+          <!-- <BillListTable :bills="bills" :residenceId="residenceId" /> -->
+          <div
+            :tabindex="index"
+            class="collapse collapse-arrow border border-base-300 shadow-sm m-2"
+            v-for="(bill, index) in bills"
+            :key="index"
+          >
+            <div class="collapse-title text-base font-medium">
+              บิลวันที่ {{ dayjs(bill.record_date).format('DD/MM/YYYY') }}
+              <br />
+              รอบมิเตอร์
+              {{ dayjs(bill.meterRecord.record_date).format('DD/MM/YYYY') }}
+            </div>
+            <div class="collapse-content">
+              {{ bill }}
+            </div>
+          </div>
           <p class="mt-5">
-            หมายเหตุ: สามารถแก้ไขข้อมูลได้เฉพาะ การจดครั้งล่าสุดเท่านั้น
+            หมายเหตุ: คลิกเพื่อดูรายละเอียดเพิ่มเติม
           </p>
         </div>
       </div>

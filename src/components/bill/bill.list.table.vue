@@ -6,7 +6,7 @@ import { useNotification } from '@kyvg/vue3-notification';
 import dayjs from 'dayjs';
 
 const props = defineProps({
-  renters: {
+  bills: {
     type: Array,
     default: () => [],
   },
@@ -23,20 +23,10 @@ const showDeactive = ref(false);
 const { notify } = useNotification();
 const search = ref('');
 
-const computedrenters = computed(() => {
+const computedBills = computed(() => {
   const start = (currentPage.value - 1) * perPage.value;
   const end = start + perPage.value;
-  return props.renters
-    .filter((renter) => renter.isActive !== showDeactive.value)
-    .filter((renter) => {
-      return (
-        renter.firstname.toLowerCase().includes(search.value.toLowerCase()) ||
-        renter.lastname.toLowerCase().includes(search.value.toLowerCase()) ||
-        renter.username.toLowerCase().includes(search.value.toLowerCase()) ||
-        renter.phone.toLowerCase().includes(search.value.toLowerCase())
-      );
-    })
-    .slice(start, end);
+  return props.bills.filter((i) => true).slice(start, end);
 });
 
 const changePage = (page) => {
@@ -46,7 +36,7 @@ const changePage = (page) => {
 };
 
 const totalPages = computed(() => {
-  return Math.ceil(props.renters.length / perPage.value);
+  return Math.ceil(props.bills.length / perPage.value);
 });
 
 const visiblePages = computed(() => {
@@ -69,142 +59,53 @@ const visiblePages = computed(() => {
 
 <template>
   <div class="overflow-x-auto">
-    <p class="text-base mt-5" v-if="!props.renters.length">
-      ไม่พบผู้เช่าในระบบ กรุณาสร้าง
+    <p class="text-base mt-5" v-if="!props.bills.length">
+      ไม่พบบิลในระบบ กรุณาสร้าง
     </p>
     <div v-else>
       <!-- show number of renter -->
       <p class="text-xs text-gray-500">
-        มีผู้เช่าในระบบทั้งหมด:
-        {{ props.renters?.filter((r) => r.isActive).length }} ข้อมูล
+        มีบิลในระบบทั้งหมด:
+        {{ props.bills.length }} ข้อมูล
       </p>
       <div class="w-full flex align-middle items-center justify-end">
         <label class="label">
-          <span class="label-text">ค้นหาผู้เช่า:</span>
+          <span class="label-text">ค้นหาบิล:</span>
         </label>
         <input
           type="text"
-          placeholder="ค้นหาผู้เช่า"
+          placeholder="ค้นหาบิล"
           class="input input-xs input-bordered bg-white rounded"
           v-model="search"
         />
-        <div class="form-control w-56">
-          <label class="cursor-pointer label">
-            <span class="label-text">แสดงข้อมูลที่โดนปิดใช้งาน</span>
-            <input
-              type="checkbox"
-              class="toggle toggle-primary"
-              v-model="showDeactive"
-            />
-          </label>
-        </div>
       </div>
       <table class="table table-xs">
         <!-- head -->
-        <!-- show number of renter -->
         <thead>
           <tr>
             <th>#</th>
-            <th>ชื่อ</th>
-            <th>ชื่อผู้ใช้</th>
-            <th>โทรศัพท์</th>
-            <th>สถานะ</th>
-            <th>ห้องปัจจุบัน</th>
-            <th>สำเนาบัตรประชาชน</th>
-            <th>สัญญาเช่า</th>
-            <th>สร้างเมื่อ</th>
-            <th>อัปเดตเมื่อ</th>
+            <th>วันที่สร้าง</th>
+            <th>ใบมิเตอร์</th>
+            <th>ดูข้อมูล</th>
           </tr>
         </thead>
         <tbody>
           <!-- row 1 -->
-          <tr v-for="(renter, index) in computedrenters" :key="index">
-            <td>
+          <tr v-for="(bill, index) in computedBills" :key="index">
+            <!-- <td>
               {{ index + 1 }}
             </td>
-            <td class="">
-              <span> {{ renter.firstname }} {{ renter.lastname }}</span>
+            <td>
+              <span> {{ dayjs(bill.record_date).format('DD/MM/YYYY') }}</span>
             </td>
             <td>
-              {{ renter.username }}
-            </td>
-            <td>{{ renter.phone }}</td>
-            <td>
-              <Badge v-if="renter.isActive" badgeType="success">Active</Badge>
-              <Badge v-else badgeType="error">Deactive</Badge>
-            </td>
-            <td>
-              <div v-if="renter.room" class="underline">
-                <router-link
-                  :to="{
-                    name: 'update-room',
-                    params: {
-                      roomId: renter.room._id,
-                      residenceId: residenceId,
-                    },
-                  }"
-                >
-                  {{ renter.room.name }}
-                </router-link>
-              </div>
-              <div v-else>
-                <span class="text-red-500">ไม่พบ</span>
-              </div>
-            </td>
-            <td>
-              <div v-if="renter.copyOfIdCard" class="underline">
-                <router-link
-                  target="_blank"
-                  :to="{
-                    name: 'pdf-preview',
-                    query: {
-                      filename: renter.copyOfIdCard,
-                    },
-                  }"
-                >
-                  ดูไฟล์
-                </router-link>
-              </div>
-              <div v-else>
-                <span class="text-red-500">ไม่พบ</span>
-              </div>
-            </td>
-            <td>
-              <div v-if="renter.renterContract" class="underline">
-                <router-link
-                  target="_blank"
-                  :to="{
-                    name: 'pdf-preview',
-                    query: {
-                      filename: renter.renterContract,
-                    },
-                  }"
-                >
-                  Preview
-                </router-link>
-              </div>
-              <div v-else>
-                <span class="text-red-500">ไม่พบ</span>
-              </div>
-            </td>
-            <td>
-              {{ dayjs(renter.created_at).format('MM-DD-YYYY HH:mm:ss') }}
-            </td>
-            <td>
-              {{ dayjs(renter.updated_at).format('MM-DD-YYYY HH:mm:ss') }}
-            </td>
-            <th>
-              <router-link
-                :to="{
-                  name: 'update-renter',
-                  params: {
-                    renterId: renter._id,
-                  },
-                }"
+              <span>
+                {{
+                  dayjs(bill.meterRecord.record_date).format('DD/MM/YYYY')
+                }}</span
               >
-                <Button btnType="ghost-pill">แก้ไข</Button>
-              </router-link>
-            </th>
+            </td> -->
+           
           </tr>
         </tbody>
       </table>
