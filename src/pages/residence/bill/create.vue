@@ -1,12 +1,74 @@
 <script setup>
 import Breadcrumb from '@/components/common/breadcrumb.vue';
-import { onMounted, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import Button from '@/components/common/button.vue';
+import MeterRecordService from '@/services/MeterRecordService';
+import { BanknotesIcon } from '@heroicons/vue/24/outline';
+import dayjs from 'dayjs';
+import { computed, onMounted, reactive, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import BillService from '@/services/BillService';
+import { notify } from '@kyvg/vue3-notification';
 
 const isLoading = ref(true);
 const router = useRouter();
+const route = useRoute();
+const residenceId = route.params.residenceId;
+const payload = reactive({
+  record_date: '',
+  meterRecord: '', // MeterRecordId
+});
 
-onMounted(() => {
+const canSubmit = computed(() => {
+  return payload.record_date && payload.meterRecord;
+});
+
+const meterRecords = ref([]);
+const currentMeterRecord = computed(() => {
+  return meterRecords.value.find(
+    (record) => record._id === payload.meterRecord
+  );
+});
+
+const fetchMeterRecord = async () => {
+  //fetch meter record
+  const response = await MeterRecordService.findAllByResidenceId(residenceId);
+  if (response.status === 200) {
+    let result = await response.json();
+    console.log('meter record', result);
+    meterRecords.value = result;
+  } else {
+    notify({
+      group: 'tr',
+      title: 'เกิดข้อผิดพลาด',
+      text: 'Failed to fetch meter record data',
+      type: 'error',
+    });
+  }
+};
+
+const submit = async () => {
+  console.log('submit', payload);
+  const response = await BillService.create(residenceId, payload);
+  if (response.status === 201) {
+    notify({
+      group: 'tr',
+      title: 'สร้างบิลสำเร็จ',
+      text: 'บิลถูกสร้างเรียบร้อยแล้ว',
+      type: 'success',
+    });
+    router.push({ name: 'bill', params: { residenceId } });
+  } else {
+    notify({
+      group: 'tr',
+      title: 'เกิดข้อผิดพลาด',
+      text: 'ไม่สามารถสร้างบิลได้',
+      type: 'error',
+    });
+  }
+};
+
+onMounted(async () => {
+  await fetchMeterRecord();
   isLoading.value = false;
 });
 </script>
@@ -15,8 +77,6 @@ onMounted(() => {
   <Loading v-if="isLoading" />
   <div class="bg-gray-50" v-else>
     <div class="py-10 px-10 md:px-40">
-      {{ canSubmit }}
-      {{ isFirstTime }}
       <Breadcrumb
         :pathList="[
           { name: 'หน้าแรก', pathName: 'home' },
@@ -41,20 +101,21 @@ onMounted(() => {
       <Button
         btnType="primary"
         class="mt-5"
-        @click="router.push({ name: 'meter-record', params: { residenceId } })"
+        @click="router.push({ name: 'bill', params: { residenceId } })"
       >
-        กลับหน้ามิเตอร์ทั้งหมด
+        กลับหน้าบิลทั้งหมด
       </Button>
 
       <div class="grid grid-cols-4 gap-2">
         <!-- col 1 -->
         <div class="card w-full bg-base-100 shadow-xl mt-5">
           <div class="card-body">
-            <h2 class="card-title text-center">สร้างใบจดบันทึกใหม่</h2>
-            <div v-if="!isFirstTime">
+            <h2 class="card-title text-center">สร้างบิล</h2>
+
+            <div>
               <label class="label">
                 <span class="text-base label-text"
-                  >วันที่จด <span class="text-red-500">*</span>
+                  >วันที่สร้าง <span class="text-red-500">*</span>
                 </span>
               </label>
               <input
@@ -67,44 +128,41 @@ onMounted(() => {
                 * กรุณากรอกวันที่จดบิล
               </p>
             </div>
-            <div v-else>
-              <p class="text-red-500 font-bold text-base" v-if="isFirstTime">
-                เป็นการบันทึกรอบแรกในระบบ<br />
-                ให้บันทึกมิเตอร์รอบก่อนหน้าในช่องปัจจุบัน <br />
-                จากนั้นสร้างบันทึกใหม่
+
+            <div>
+              <label class="label">
+                <span class="text-base label-text"
+                  >เลือกรอบมิเตอร์ <span class="text-red-500">*</span>
+                </span>
+              </label>
+              <select
+                class="select select-bordered w-full"
+                v-model="payload.meterRecord"
+              >
+                <option value="">เลือกรอบมิเตอร์</option>
+                <option
+                  v-for="meterRecord in meterRecords"
+                  :key="meterRecord._id"
+                  :value="meterRecord._id"
+                >
+                  {{ dayjs(meterRecord.record_date).format('DD/MM/YYYY') }}
+                </option>
+              </select>
+              <p class="text-red-500 text-sm" v-if="!payload.meterRecord">
+                * กรุณากรอกวันที่จดบิล
               </p>
             </div>
 
-            <p>
-              รอบบิลที่แล้ว จดครั้งล่าสุด :
-              <Badge type="info" class="text-sm" v-if="isFirstTime">
-                ยังไม่มีประวัติการจด
-              </Badge>
-              <Badge type="info" class="text-sm" v-else>
-                {{ dayjs(latestRecord.record_date).format('DD/MM/YYYY') }}
-              </Badge>
-              <Alert
-                class="mt-2"
-                v-if="
-                  latestRecord &&
-                  dayjs(latestRecord.record_date).isSame(
-                    payload.record_date,
-                    'month'
-                  )
-                "
+            <div class="mt-5">
+              <Button
+                btnType="primary"
+                class="w-full"
+                :disabled="!canSubmit"
+                @click="submit"
               >
-                คุณได้ทำการบันทึกค่าน้ำและค่าไฟไปแล้วในเดือนนี้
-              </Alert>
-              <Alert
-                class="mt-2"
-                v-if="
-                  latestRecord &&
-                  dayjs(payload.record_date).isBefore(latestRecord.record_date)
-                "
-              >
-                คุณได้ทำการบันทึกค่าน้ำและค่าไฟไปแล้วในอดีต
-              </Alert>
-            </p>
+                สร้างบิล
+              </Button>
+            </div>
           </div>
         </div>
 
@@ -112,105 +170,14 @@ onMounted(() => {
         <div class="card w-full bg-base-100 shadow-xl mt-5 col-span-3">
           <div class="card-body">
             <div class="flex gap-2">
-              <AdjustmentsHorizontalIcon class="w-10 h-10 text-blue-500" />
-              <h2 class="card-title text-center">บันทึกค่าน้ำและค่าไฟ</h2>
+              <BanknotesIcon class="w-10 h-10 text-blue-500" />
+              <h2 class="card-title text-center">บันทึกบิล</h2>
             </div>
-
-            <!-- List all room -->
-            <div v-if="rooms.length">
-              <div class="overflow-x-auto" v-if="rooms.length">
-                <table class="table">
-                  <!-- head -->
-                  <thead>
-                    <tr>
-                      <th>ชื่อห้อง</th>
-                      <th>มิเตอร์น้ำรอบที่แล้ว</th>
-                      <th>มิเตอร์น้ำรอบปัจจุบัน</th>
-                      <th>จำนวนหน่วย</th>
-                      <th>มิเตอร์ไฟฟ้ารอบที่แล้ว</th>
-                      <th>มิเตอร์ไฟฟ้ารอบปัจจุบัน</th>
-                      <th>จำนวนหน่วย</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <!-- row 1 -->
-                    <tr v-for="(room, index) in rooms" :key="index">
-                      <th>{{ room.name }}</th>
-                      <td>
-                        <input
-                          type="number"
-                          placeholder="มิเตอร์น้ำรอบที่แล้ว"
-                          class="input input-bordered w-full max-w-xs disabled input-sm"
-                          :value="findRecord(room._id)?.currentWaterMeter"
-                          disabled
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="number"
-                          placeholder="มิเตอร์น้ำรอบปัจจุบัน"
-                          class="input input-bordered w-full max-w-xs input-sm"
-                          v-model="
-                            payload.meterRecordItems[findIndex(room._id)]
-                              .currentWaterMeter
-                          "
-                        />
-                      </td>
-                      <td>
-                        {{
-                          (payload.meterRecordItems[
-                            findIndex(room._id)
-                          ].totalWaterMeterUsage =
-                            calcualteTotalWaterMeterUsage(room._id))
-                        }}
-                      </td>
-                      <td>
-                        <input
-                          type="number"
-                          placeholder="มิเตอร์ไฟฟ้ารอบที่แล้ว"
-                          class="input input-bordered w-full max-w-xs disabled input-sm"
-                          :value="findRecord(room._id)?.currentElectricMeter"
-                          disabled
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="number"
-                          placeholder="มิเตอร์ไฟฟ้ารอบปัจจุบัน"
-                          class="input input-bordered w-full max-w-xs input-sm"
-                          v-model="
-                            payload.meterRecordItems[findIndex(room._id)]
-                              .currentElectricMeter
-                          "
-                        />
-                      </td>
-                      <td>
-                        {{
-                          (payload.meterRecordItems[
-                            findIndex(room._id)
-                          ].totalElectricMeterUsage =
-                            calcualteTotalElectricMeterUsage(room._id))
-                        }}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <Button
-                btnType="primary"
-                class="mt-5"
-                @click="submit"
-                :loading="isLoading"
-                :disabled="!canSubmit"
-              >
-                สร้างใบจดบันทึกใหม่
-              </Button>
-            </div>
+            <p class="mt-5" v-if="!payload.meterRecord">
+              กรุณาเลือกรอบมิเตอร์ที่ต้องการสร้างบิล
+            </p>
             <div v-else>
-              <p class="text-red-500 font-bold text-base mt-5">
-                ไม่มีห้องพักในระบบ กรุณาสร้างห้องพักในหอ
-              </p>
+              {{ currentMeterRecord }}
             </div>
           </div>
         </div>

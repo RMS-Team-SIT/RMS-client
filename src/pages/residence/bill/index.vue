@@ -5,11 +5,8 @@ import { useRoute, useRouter } from 'vue-router';
 import { useNotification } from '@kyvg/vue3-notification';
 import ResidenceServices from '@/services/ResidenceServices';
 import Loading from '@/components/common/loading.vue';
-import PaymentListTable from '@/components/payment/payment.list.table.vue';
 import Button from '@/components/common/button.vue';
-import MeterRecordListTable from '@/components/meter-record/meter-record.list.table.vue';
-import NoRecord from '@/components/meter-record/no-record.vue';
-import MeterRecordService from '@/services/MeterRecordService';
+import BillService from '@/services/BillService';
 
 const router = useRouter();
 const route = useRoute();
@@ -20,6 +17,8 @@ const isLoading = ref(true);
 const residence = reactive({
   data: null,
 });
+
+const bills = ref([]);
 
 const fetchResidence = async () => {
   const response = await ResidenceServices.fetchResidence(residenceId);
@@ -43,8 +42,25 @@ const fetchResidence = async () => {
   }
 };
 
+const fetchBills = async () => {
+  const response = await BillService.findAllByResidenceId(residenceId);
+  if (response.status === 200) {
+    let result = await response.json();
+    console.log('bills', result);
+    bills.value = result;
+  } else {
+    notify({
+      group: 'tr',
+      title: 'เกิดข้อผิดพลาด',
+      text: 'ไม่สามารถดึงข้อมูลบิลได้',
+      type: 'error',
+    });
+  }
+};
+
 onMounted(async () => {
   await fetchResidence();
+  await fetchBills();
   isLoading.value = false;
 });
 </script>
@@ -90,11 +106,7 @@ onMounted(async () => {
             </router-link>
           </div>
           <p class="text-dark-blue-200 mt-5">บิลทั้งหมดในระบบ</p>
-          <MeterRecordListTable
-            class="mt-5"
-            :residenceId="residenceId"
-            :meter-records="residence.data.meterRecord"
-          />
+          {{ bills }}
           <p class="mt-5">
             หมายเหตุ: สามารถแก้ไขข้อมูลได้เฉพาะ การจดครั้งล่าสุดเท่านั้น
           </p>
