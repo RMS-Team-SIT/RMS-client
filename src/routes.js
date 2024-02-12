@@ -34,14 +34,16 @@ const createPayment = () => import('./pages/residence/payment/create.vue');
 const updatePayment = () => import('./pages/residence/payment/update.vue');
 
 const bill = () => import('./pages/residence/bill/index.vue');
+const createBill = () => import('./pages/residence/bill/create.vue');
+const updateBill = () => import('./pages/residence/bill/update.vue');
+const viewBill = () => import('./pages/residence/bill/view.vue');
 
 const meterRecord = () => import('./pages/residence/meter-record/index.vue');
 const createMeterRecord = () =>
   import('./pages/residence/meter-record/create.vue');
 const updateMeterRecord = () =>
   import('./pages/residence/meter-record/update.vue');
-const viewMeterRecord = () =>
-  import('./pages/residence/meter-record/view.vue');
+const viewMeterRecord = () => import('./pages/residence/meter-record/view.vue');
 
 const publicRoutes = [
   'home',
@@ -267,7 +269,31 @@ const routes = [
     path: '/manage/residence/:residenceId/bill',
     component: bill,
     meta: {
-      title: 'ระบบจัดการเรียกเก็บเงิน',
+      title: 'ระบบจัดการบิล',
+    },
+  },
+  {
+    name: 'create-bill',
+    path: '/manage/residence/:residenceId/bill/create',
+    component: createBill,
+    meta: {
+      title: 'สร้างบิล',
+    },
+  },
+  {
+    name: 'update-bill',
+    path: '/manage/residence/:residenceId/bill/update/:billId',
+    component: updateBill,
+    meta: {
+      title: 'แก้ไขบิล',
+    },
+  },
+  {
+    name: 'view-bill',
+    path: '/manage/residence/:residenceId/bill/:billId',
+    component: viewBill,
+    meta: {
+      title: 'ดูบิล',
     },
   },
   {

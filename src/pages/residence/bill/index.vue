@@ -7,7 +7,9 @@ import ResidenceServices from '@/services/ResidenceServices';
 import Loading from '@/components/common/loading.vue';
 import PaymentListTable from '@/components/payment/payment.list.table.vue';
 import Button from '@/components/common/button.vue';
-import Badge from '@/components/common/badge.vue';
+import MeterRecordListTable from '@/components/meter-record/meter-record.list.table.vue';
+import NoRecord from '@/components/meter-record/no-record.vue';
+import MeterRecordService from '@/services/MeterRecordService';
 
 const router = useRouter();
 const route = useRoute();
@@ -19,12 +21,17 @@ const residence = reactive({
   data: null,
 });
 
-const fetchData = async () => {
+const fetchResidence = async () => {
   const response = await ResidenceServices.fetchResidence(residenceId);
   if (response.status === 200) {
     let result = await response.json();
-    console.log(result);
+    console.log('residence', result);
     residence.data = result;
+
+    // sort meter record by record_date
+    residence.data.meterRecord.sort((a, b) => {
+      return new Date(b.record_date) - new Date(a.record_date);
+    });
   } else {
     notify({
       group: 'tr',
@@ -37,7 +44,7 @@ const fetchData = async () => {
 };
 
 onMounted(async () => {
-  await fetchData();
+  await fetchResidence();
   isLoading.value = false;
 });
 </script>
@@ -55,7 +62,7 @@ onMounted(async () => {
             pathName: 'dashboard',
             params: { residenceId },
           },
-          { name: 'ช่องทางการชำระเงิน' },
+          { name: 'ระบบจัดการบิล' },
         ]"
       />
       <Button
@@ -67,25 +74,30 @@ onMounted(async () => {
       </Button>
       <div class="grid grid-cols-1">
         <div class="bg-white p-10 mt-2 shadow rounded-lg">
-          <h1 class="text-2xl font-semibold text-dark-blue-200">
-            ระบบจัดการเรียกเก็บเงิน
-          </h1>
-        </div>
-      </div>
-      <div class="grid grid-cols-4 gap-2">
-        <div class="card w-full bg-base-100 shadow-xl rounded-lg mt-5 col-span-1">
-          <div class="card-body">
-            <h2 class="card-title">ตั้งค่าการเรียกเก็บเงิน</h2>
-            <p class="text-lg">เก็บเงินอัตโนมัติ: <Badge>เปิดใช้งาน</Badge></p>
-            <p class="text-lg">เก็บเงินทุกวันที่:วันที่ 1 ของทุกเดือน</p>
+          <div class="flex justify-between">
+            <h1 class="text-2xl font-semibold text-dark-blue-200">
+              ระบบจัดการบิล
+            </h1>
+            <router-link
+              :to="{
+                name: 'create-meter-record',
+                params: {
+                  residenceId,
+                },
+              }"
+            >
+              <Button btnType="primary">สร้างบิลใหม่</Button>
+            </router-link>
           </div>
-        </div>
-        <div class="card w-full bg-base-100 shadow-xl rounded-lg mt-5 col-span-3 ">
-          <div class="card-body">
-            <h2 class="card-title">ตั้งค่าการเรียกเก็บเงิน</h2>
-            <p class="text-lg">เก็บเงินอัตโนมัติ: <Badge>เปิดใช้งาน</Badge></p>
-            <p class="text-lg">เก็บเงินทุกวันที่:วันที่ 1 ของทุกเดือน</p>
-          </div>
+          <p class="text-dark-blue-200 mt-5">บิลทั้งหมดในระบบ</p>
+          <MeterRecordListTable
+            class="mt-5"
+            :residenceId="residenceId"
+            :meter-records="residence.data.meterRecord"
+          />
+          <p class="mt-5">
+            หมายเหตุ: สามารถแก้ไขข้อมูลได้เฉพาะ การจดครั้งล่าสุดเท่านั้น
+          </p>
         </div>
       </div>
     </div>

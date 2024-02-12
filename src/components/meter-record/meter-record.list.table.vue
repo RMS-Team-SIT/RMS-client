@@ -43,7 +43,7 @@ const props = defineProps({
           </td>
           <td>
             <router-link
-              v-if="index == 0"
+              v-if="!meterRecord.isLocked"
               :to="{
                 name: 'update-meter-record',
                 params: {

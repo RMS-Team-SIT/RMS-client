@@ -89,6 +89,7 @@ onMounted(async () => {
               <Button btnType="primary">สร้างใบบันทึกค่ามิเตอร์</Button>
             </router-link>
           </div>
+          <p class="text-dark-blue-200 mt-5">บันทึกทั้งหมดในระบบ</p>
           <MeterRecordListTable
             class="mt-5"
             :residenceId="residenceId"
