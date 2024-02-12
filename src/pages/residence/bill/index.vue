@@ -10,6 +10,7 @@ import BillService from '@/services/BillService';
 import BillListTable from '@/components/bill/bill.list.table.vue';
 import dayjs from 'dayjs';
 import Divider from '@/components/common/divider.vue';
+import Badge from '@/components/common/badge.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -201,7 +202,9 @@ onMounted(async () => {
                         ค่าเช่าห้อง:
                         <b>{{ meterRecordItem.room.roomRentalPrice }}</b> บาท
                       </p>
-                      <p class="text-lg font-bold mt-5 bg-dark-blue-200 rounded-full p-2 text-white">
+                      <p
+                        class="text-lg font-bold mt-5 rounded-full"
+                      >
                         รวม:
                         {{
                           meterRecordItem.room.roomRentalPrice +
@@ -214,6 +217,12 @@ onMounted(async () => {
                       </p>
                     </div>
                   </div>
+                  <Divider />
+                  <p>
+                    สถานะการจ่าย :
+                    <Badge v-if="meterRecordItem.isPaid">จ่ายแล้ว</Badge>
+                    <Badge v-else badgeType="error">ยังไม่ได้จ่าย</Badge>
+                  </p>
                 </div>
               </div>
             </div>
