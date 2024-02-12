@@ -158,17 +158,16 @@ const isSameMonth = computed(() => {
     'payload',
     payload.record_date
   );
-  return (
-    latestRecord &&
-    dayjs(latestRecord.value.record_date).isSame(payload.record_date, 'month')
+  if (isFirstTime.value) return false;
+  return dayjs(latestRecord.value.record_date).isSame(
+    payload.record_date,
+    'month'
   );
 });
 
 const isBefore = computed(() => {
-  return (
-    latestRecord &&
-    dayjs(payload.record_date).isBefore(latestRecord.value.record_date)
-  );
+  if (isFirstTime.value) return false;
+  return dayjs(payload.record_date).isBefore(latestRecord.value.record_date);
 });
 
 onMounted(async () => {

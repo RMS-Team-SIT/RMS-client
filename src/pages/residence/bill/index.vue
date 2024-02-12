@@ -9,6 +9,7 @@ import Button from '@/components/common/button.vue';
 import BillService from '@/services/BillService';
 import BillListTable from '@/components/bill/bill.list.table.vue';
 import dayjs from 'dayjs';
+import Divider from '@/components/common/divider.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -108,26 +109,106 @@ onMounted(async () => {
             </router-link>
           </div>
           <p class="text-dark-blue-200 mt-5">บิลทั้งหมดในระบบ</p>
-          <!-- <BillListTable :bills="bills" :residenceId="residenceId" /> -->
+          <p class="mt-5" v-if="!bills.length">ไม่มีบิลในระบบ กรุณาสร้าง</p>
+          <!-- Bill Collapse -->
           <div
-            :tabindex="index"
             class="collapse collapse-arrow border border-base-300 shadow-sm m-2"
             v-for="(bill, index) in bills"
             :key="index"
           >
-            <div class="collapse-title text-base font-medium">
-              บิลวันที่ {{ dayjs(bill.record_date).format('DD/MM/YYYY') }}
-              <br />
-              รอบมิเตอร์
+            <input type="checkbox" />
+            <div class="collapse-title text-lg">
+              <b>บิลรอบมิเตอร์: </b>
               {{ dayjs(bill.meterRecord.record_date).format('DD/MM/YYYY') }}
             </div>
             <div class="collapse-content">
-              {{ bill }}
+              <!-- BillRoom -->
+              <div
+                class="collapse collapse-arrow border border-base-300 shadow-sm m-2"
+                v-for="(meterRecordItem, index) in bill.meterRecord
+                  .meterRecordItems"
+                :key="index"
+              >
+                <input type="checkbox" />
+                <div class="collapse-title text-lg font-medium">
+                  ห้อง {{ meterRecordItem.room.name }}
+                </div>
+                <div class="collapse-content">
+                  <p class="text-lg font-bold">ค่าน้ำ</p>
+                  <p>
+                    มิเตอร์น้ำครั้งก่อน:
+                    {{ meterRecordItem.previousWaterMeter }}
+                  </p>
+                  <p>
+                    มิเตอร์น้ำครั้งนี้: {{ meterRecordItem.currentWaterMeter }}
+                  </p>
+                  <p>
+                    จำนวนหน่วย: {{ meterRecordItem.totalWaterMeterUsage }} หน่วย
+                  </p>
+                  <p>
+                    อัตราค่าน้ำต่อหน่วย:
+                    {{ meterRecordItem.room.waterPriceRate }} บาท
+                  </p>
+                  <p>
+                    บิลค่าน้ำ :
+                    <b
+                      >{{
+                        meterRecordItem.room.waterPriceRate *
+                        meterRecordItem.totalWaterMeterUsage
+                      }}
+                      บาท</b
+                    >
+                  </p>
+                  <Divider />
+                  <p class="text-lg font-bold">ค่าไฟ</p>
+                  <p>
+                    มิเตอร์ไฟครั้งก่อน:
+                    {{ meterRecordItem.previousElectricMeter }}
+                  </p>
+                  <p>
+                    มิเตอร์ไฟครั้งนี้:
+                    {{ meterRecordItem.currentElectricMeter }}
+                  </p>
+                  <p>
+                    จำนวนหน่วย: {{ meterRecordItem.totalElectricMeterUsage }}
+                  </p>
+                  <p>
+                    อัตราค่าไฟต่อหน่วย:
+                    {{ meterRecordItem.room.lightPriceRate }}
+                  </p>
+                  <p>
+                    บิลค่าไฟ :
+                    <b
+                      >{{
+                        meterRecordItem.room.lightPriceRate *
+                        meterRecordItem.totalElectricMeterUsage
+                      }}
+                      บาท</b
+                    >
+                  </p>
+                  <Divider />
+                  <p class="text-lg font-bold">ค่าเช่า</p>
+                  <p>
+                    ค่าเช่าห้อง:
+                    <b>{{ meterRecordItem.room.roomRentalPrice }}</b> บาท
+                  </p>
+                  <Divider />
+                  <p class="text-lg font-bold">
+                    รวม:
+                    {{
+                      meterRecordItem.room.roomRentalPrice +
+                      meterRecordItem.room.lightPriceRate *
+                        meterRecordItem.totalElectricMeterUsage +
+                      meterRecordItem.room.waterPriceRate *
+                        meterRecordItem.totalWaterMeterUsage
+                    }}
+                    บาท
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
-          <p class="mt-5">
-            หมายเหตุ: คลิกเพื่อดูรายละเอียดเพิ่มเติม
-          </p>
+          <p class="mt-5">หมายเหตุ: คลิกเพื่อดูรายละเอียดเพิ่มเติม</p>
         </div>
       </div>
     </div>
