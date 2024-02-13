@@ -1,5 +1,14 @@
 <script setup>
 import img6 from '@/assets/img/6.jpg';
+import Carousel from '@/components/common/carousel.vue';
+import QuickLinkCard from '@/components/common/quick-link-card.vue';
+import {
+  BanknotesIcon,
+  CreditCardIcon,
+  HomeIcon,
+  LinkIcon,
+  UserIcon,
+} from '@heroicons/vue/24/outline';
 </script>
 
 <template>
@@ -27,34 +36,25 @@ import img6 from '@/assets/img/6.jpg';
     </section>
 
     <!-- Services Section -->
-    <section class="mt-12">
-      <h2 class="text-3xl font-semibold mb-6">Our Services</h2>
+    <section class="mt-12 mb-12">
+      <h2 class="text-3xl font-semibold mb-6">บริการของเรา</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Service Card -->
-        <div class="p-6 bg-white rounded-lg shadow-md">
-          <h3 class="text-xl font-semibold mb-2">Manage your residence</h3>
-          <p class="text-gray-700">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          </p>
-        </div>
+        <QuickLinkCard
+          title="ระบบจัดการห้อง"
+          text="เข้าสู่ระบบจัดการห้องในระบบ"
+        />
 
-        <!-- Service Card -->
-        <div class="p-6 bg-white rounded-lg shadow-md">
-          <h3 class="text-xl font-semibold mb-2">Service 2</h3>
-          <p class="text-gray-700">
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
-          </p>
-        </div>
+        <QuickLinkCard
+          title="ระบบจัดการผู้เช่า"
+          text="เข้าสู่ระบบจัดการผู้เช่าในระบบ"
+        />
 
-        <!-- Service Card -->
-        <div class="p-6 bg-white rounded-lg shadow-md">
-          <h3 class="text-xl font-semibold mb-2">Service 3</h3>
-          <p class="text-gray-700">
-            Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          </p>
-        </div>
+        <QuickLinkCard title="จัดการบิล" text="เข้าสู่หน้าจัดการบิล" />
       </div>
     </section>
+
+    <!-- <h2 class="text-3xl font-semibold mb-6">Show cases</h2>
+    <Carousel class="mt-12" :images="['demo1.png', 'demo2.png', 'demo3.png']" /> -->
   </div>
 </template>
 
