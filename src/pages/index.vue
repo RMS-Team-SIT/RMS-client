@@ -42,11 +42,7 @@
         style="clip-path: polygon(10% 0, 100% 0%, 100% 100%, 0 100%)"
       >
         <div
-          class="h-full object-cover"
-          style="
-            background-image: url('/8.jpg');
-            background-size: cover;
-          "
+          class="h-full object-cover bg-cover"
         >
           <div class="h-full bg-black opacity-25"></div>
         </div>
@@ -55,4 +51,9 @@
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.bg-cover {
+  background-image: url('/8.jpg');
+  background-position: center;
+}
+</style>
