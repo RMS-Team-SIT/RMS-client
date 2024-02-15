@@ -83,7 +83,7 @@ const submitData = async () => {
     notify({
       group: 'tr',
       title: 'สำเร็จ',
-      text: 'Residence created successfully',
+      text: 'สร้างหอพักสำเร็จแล้ว',
       type: 'success',
     });
     router.push({ name: 'manage' });
@@ -93,7 +93,7 @@ const submitData = async () => {
     notify({
       group: 'tr',
       title: 'เกิดข้อผิดพลาด',
-      text: 'Failed to create residence. ' + data?.message,
+      text: 'ไม่สามารถสร้างหอพักได้. ' + data?.message,
       type: 'error',
     });
   }
