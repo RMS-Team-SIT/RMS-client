@@ -22,7 +22,7 @@ const { routerPath, title } = defineProps({
 <template>
   <div
     @click="router.push(routerPath)"
-    class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer"
+    class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer border border-gray-200" 
   >
     <div class="flex flex-between items-center">
       <div class="flex-1">

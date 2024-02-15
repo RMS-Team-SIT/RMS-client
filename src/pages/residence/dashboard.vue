@@ -81,7 +81,7 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
-  <div v-if="residence.data" class="bg-gray-50 min-h-screen">
+  <div v-if="residence.data" class="min-h-screen bg-gray-50">
     <div class="py-10 px-10 md:px-40">
       <Breadcrumb
         :pathList="[
@@ -116,7 +116,7 @@ onMounted(async () => {
 
         <!-- Graph -->
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-5">
-          <div class="p-6 bg-white rounded-lg shadow-md">
+          <div class="p-6 bg-white rounded-lg shadow-md border border-gray-200">
             <h3 class="text-xl font-semibold mb-2 p-5">
               สถานะการจ่ายค่าห้องทั้งหมด
             </h3>
@@ -128,7 +128,7 @@ onMounted(async () => {
             <p class="text-xs p-5">Paid status will show here.</p>
           </div>
 
-          <div class="p-6 bg-white rounded-lg shadow-md">
+          <div class="p-6 bg-white rounded-lg shadow-md border border-gray-200">
             <h3 class="text-xl font-semibold mb-2 p-5">ห้องว่างในระบบ</h3>
             <p v-if="!stats.avaiableRoomCount" class="p-5">ไม่มีห้องในระบบ</p>
             <AvailableChart
@@ -144,7 +144,7 @@ onMounted(async () => {
             </p>
           </div>
 
-          <div class="p-6 bg-white rounded-lg shadow-md">
+          <div class="p-6 bg-white rounded-lg shadow-md border border-gray-200">
             <h3 class="text-xl font-semibold mb-2 p-5">
               รายได้ของหอพักในปีนี้
             </h3>

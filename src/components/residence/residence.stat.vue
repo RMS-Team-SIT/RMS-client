@@ -21,7 +21,7 @@ const { stats } = defineProps({
 </script>
 
 <template>
-  <div class="stats shadow stats-vertical lg:stats-horizontal w-full lg:w-auto">
+  <div class="stats shadow stats-vertical lg:stats-horizontal w-full lg:w-auto border border-gray-200">
     <div
       class="stat hover:cursor-pointer"
       @click="router.push({ name: 'renter', params: { residenceId } })"

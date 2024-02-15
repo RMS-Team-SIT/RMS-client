@@ -24,9 +24,9 @@ const imageSrc = computed(() => {
 </script>
 
 <template>
-  <div class="card card-side bg-base-100 shadow-xl mt-5">
+  <div class="card card-side bg-base-100 border border-gray-200 mt-5">
     <figure>
-      <img class="w-60 h-60 rounded-lg shadow-xl" :src="imageSrc" />
+      <img class="w-60 h-60 rounded-lg" :src="imageSrc" />
     </figure>
     <div class="card-body">
       <h2 class="card-title">ชื่อหอพัก : {{ props.residence?.name }}</h2>
