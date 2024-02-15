@@ -381,8 +381,6 @@ router.beforeEach(async (to, from, next) => {
     const userStore = useUserStore();
     await userStore.fetchUserData();
 
-    console.log('User logged in:', userStore.isLoggedIn);
-
     const isPublicRoute = publicRoutes.includes(to.name);
     const isRestrictedForLoggedIn = restrictedRoutesForLoggedInUsers.includes(
       to.name

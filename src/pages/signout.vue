@@ -7,14 +7,14 @@ const { notify } = useNotification();
 const router = useRouter();
 const userStore = useUserStore();
 
-// clear user from store
+// Redirect to login page
+router.push({ name: 'signin' });
+
+// Clear user from store
 userStore.clearUser();
 
-// clear token from local storage
+// Clear token from local storage
 localStorage.removeItem('token');
-
-// redirect to login page
-router.push({ name: 'signin' });
 
 // show notification
 notify({

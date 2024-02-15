@@ -104,4 +104,3 @@ const props = defineProps({
 </template>
 
 <style scoped></style>
-@/utils/constants
