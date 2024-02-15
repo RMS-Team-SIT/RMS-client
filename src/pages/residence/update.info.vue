@@ -1,6 +1,6 @@
 <script setup>
 import Breadcrumb from '@/components/common/breadcrumb.vue';
-import { onBeforeMount, onMounted, reactive, ref } from 'vue';
+import { onBeforeMount, onMounted, reactive, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import ResidenceBasicInfoForm from '@/components/residence/form/residence.basic.info.form.vue';
 import ResidenceContactForm from '@/components/residence/form/residence.contact.form.vue';
@@ -78,22 +78,30 @@ const submitData = async () => {
     notify({
       group: 'tr',
       title: 'สำเร็จ',
-      text: 'Residence updated successfully',
+      text: 'แก้ไขข้อมูลหอพักสำเร็จ',
       type: 'success',
     });
-    goBack();
+    router.push({ name: 'dashboard', params: { residenceId: residenceId } });
   } else {
     notify({
       group: 'tr',
       title: 'เกิดข้อผิดพลาด',
-      text: 'Failed to update residence',
+      text: 'ไม่สามารถแก้ไขข้อมูลหอพักได้',
       type: 'error',
     });
   }
 };
-const goBack = () => {
-  router.go(-1);
-};
+
+const canSubmit = ref(false);
+watch(residenceData, () => {
+  canSubmit.value =
+    residenceData.data.name &&
+    residenceData.data.defaultLightPriceRate &&
+    residenceData.data.defaultLightPriceRate > 0 &&
+    residenceData.data.defaultWaterPriceRate &&
+    residenceData.data.defaultWaterPriceRate > 0;
+});
+
 </script>
 
 <template>
@@ -130,10 +138,14 @@ const goBack = () => {
 
         <!-- button control -->
         <div class="flex justify-end gap-2 mt-2">
-          <Button @click="goBack" class="rounded-badge" btnType="secondary">
+          <Button
+            @click="router.go(-1)"
+            class="rounded-badge"
+            btnType="secondary"
+          >
             ยกเลิก
           </Button>
-          <Button @click="submitData" class="rounded-badge" btnType="primary">
+          <Button @click="submitData" class="rounded-badge" btnType="primary" :disabled="!canSubmit">
             บันทึกข้อมูล
           </Button>
         </div>

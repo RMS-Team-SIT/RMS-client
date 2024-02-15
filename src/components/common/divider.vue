@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <div class="divider divider-start text-lg font-bold"><slot /></div>
+  <div class="divider divider-start text-base font-bold"><slot /></div>
 </template>
 
 <style scoped></style>

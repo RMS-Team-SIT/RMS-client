@@ -19,6 +19,11 @@ const residenceSettings = reactive({
   defaultLightPriceRate: 0.0,
 });
 
+const error = reactive({
+  defaultWaterPriceRate: false,
+  defaultLightPriceRate: false,
+});
+
 const emitData = () => {
   emit('getData', residenceSettings);
 };
@@ -35,6 +40,13 @@ onMounted(() => {
 });
 
 watch(residenceSettings, () => {
+  error.defaultLightPriceRate =
+    residenceSettings.defaultLightPriceRate < 0 ||
+    residenceSettings.defaultLightPriceRate === '';
+  error.defaultWaterPriceRate =
+    residenceSettings.defaultWaterPriceRate < 0 ||
+    residenceSettings.defaultWaterPriceRate === '';
+
   emitData();
 });
 </script>
@@ -58,6 +70,9 @@ watch(residenceSettings, () => {
         v-model="residenceSettings.defaultWaterPriceRate"
         :disabled="viewOnly"
       />
+      <p class="text-xs text-red-500" v-if="error.defaultWaterPriceRate">
+        ค่าน้ำห้ามต่ำกว่า 0 *
+      </p>
     </div>
 
     <div>
@@ -74,6 +89,9 @@ watch(residenceSettings, () => {
         v-model="residenceSettings.defaultLightPriceRate"
         :disabled="viewOnly"
       />
+      <p class="text-xs text-red-500" v-if="error.defaultLightPriceRate">
+        ค่าไฟฟ้าห้ามต่ำกว่า 0 *
+      </p>
     </div>
   </div>
 </template>

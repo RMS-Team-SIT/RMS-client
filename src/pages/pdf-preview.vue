@@ -5,11 +5,13 @@ import { useRoute, useRouter } from 'vue-router';
 import FileService from '@/services/FileService';
 import Button from '@/components/common/button.vue';
 import Loading from '@/components/common/loading.vue';
+import { useNotification } from '@kyvg/vue3-notification';
 
 const router = useRouter();
 const route = useRoute();
 const isLoading = ref(false);
-const timeoutTime = 1000 * 10; // 10 secounds = 1000 * 10 milliseconds
+const timeoutTime = 1000 * 3; // 3 secounds = 1000 * 10 milliseconds
+const { notify } = useNotification();
 
 const fileName = route.query.filename;
 if (!fileName) {
@@ -20,24 +22,25 @@ const page = ref(1);
 const scale = ref(0.5);
 const { pdf, pages } = usePDF(FileService.getFile(fileName));
 
-const timeout = setTimeout(() => {
-  isLoading.value = false;
-}, timeoutTime);
-
 onBeforeMount(() => {
-  if (pdf) {
-    clearTimeout(timeout);
-    isLoading.value = false;
-  }
-});
-const temp = computed(() => {
-  return pdf;
+  const timeout = setTimeout(() => {
+    if (!pdf.value) {
+      notify({
+        group: 'tr',
+        title: 'เกิดข้อผิดพลาด',
+        text: 'ไม่สามารถดึงข้อมูลไฟล์ได้',
+        type: 'error',
+      });
+      router.push({ name: 'home' });
+    }
+  }, timeoutTime);
+  return () => clearTimeout(timeout);
 });
 </script>
 
 <template>
   <div class="relative bg-white p-10 shadow-md rounded">
-    <div v-if="temp">
+    <div v-if="pdf">
       <h1 class="text-xl font-semibold text-dark-blue-200 text-center">
         {{ fileName }}
       </h1>
@@ -67,8 +70,10 @@ const temp = computed(() => {
     </div>
     <div v-else>
       <div class="flex gap-2 justify-center items-center min-h-screen">
-        <span class="p-10">No file founded.</span>
-        <Loading />
+        <div>
+          <span class="p-10">กำลังดึงข้อมูล...</span>
+          <Loading />
+        </div>
       </div>
     </div>
   </div>

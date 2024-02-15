@@ -1,6 +1,6 @@
 <script setup>
 import Breadcrumb from '@/components/common/breadcrumb.vue';
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Steps from '@/components/common/steps.vue';
 import ResidenceBasicInfoForm from '@/components/residence/form/residence.basic.info.form.vue';
@@ -15,10 +15,12 @@ import FileService from '@/services/FileService';
 import ImageUploadForm from '@/components/form/image.form.vue';
 
 const router = useRouter();
+const { notify } = useNotification();
 const route = useRoute();
+
 const numberOfSteps = 3;
 const currentStep = ref(1);
-const { notify } = useNotification();
+const canNext = ref(false);
 
 const residenceData = reactive({
   name: '',
@@ -96,11 +98,20 @@ const submitData = async () => {
     });
   }
 };
+
+watch(residenceData, () => {
+  canNext.value =
+    residenceData.name &&
+    residenceData.defaultLightPriceRate &&
+    residenceData.defaultLightPriceRate > 0 &&
+    residenceData.defaultWaterPriceRate &&
+    residenceData.defaultWaterPriceRate > 0;
+});
 </script>
 
 <template>
-  <div class="card w-full ">
-    <div class="card-body px-10 md:px-40 ">
+  <div class="card w-full">
+    <div class="card-body px-10 md:px-40">
       <div class="flex flex-row justify-between">
         <Breadcrumb
           :pathList="[
@@ -113,16 +124,15 @@ const submitData = async () => {
       <div>
         <div class="p-4 mb-4 card shadow-xl bg-white">
           <Steps
-            :stepList="[
-              'กรอกข้อมูล',
-              'เพิ่มรูปภาพ',
-              'ตรวจสอบข้อมูล',
-            ]"
+            :stepList="['กรอกข้อมูล', 'เพิ่มรูปภาพ', 'ตรวจสอบข้อมูล']"
             :currentStep="currentStep"
           />
         </div>
         <!-- step 1 -->
-        <div v-if="currentStep == 1" class="grid grid-cols-1 lg:grid-cols-3 gap-2">
+        <div
+          v-if="currentStep == 1"
+          class="grid grid-cols-1 lg:grid-cols-3 gap-2"
+        >
           <ResidenceBasicInfoForm
             @getData="getChildData"
             :residenceData="residenceData"
@@ -139,7 +149,9 @@ const submitData = async () => {
 
         <!-- step 2 -->
         <div v-if="currentStep == 2" class="flex gap-4">
-          <div class="relative bg-white p-10 space-y-4 shadow-md rounded basis-full">
+          <div
+            class="relative bg-white p-10 space-y-4 shadow-md rounded basis-full"
+          >
             <h1 class="text-xl font-semibold text-dark-blue-200">
               อัพโหลดรูปภาพ
             </h1>
@@ -195,7 +207,12 @@ const submitData = async () => {
           >
             บันทึกข้อมูล
           </Button>
-          <Button @click="changeStep('next')" class="rounded-badge" v-else>
+          <Button
+            @click="changeStep('next')"
+            class="rounded-badge"
+            v-else
+            :disabled="!canNext"
+          >
             ถัดไป
             <ArrowRightIcon class="w-4 h-4" />
           </Button>

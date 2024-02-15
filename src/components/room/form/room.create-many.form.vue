@@ -17,6 +17,7 @@ const props = defineProps({
 const payload = reactive({
   numberOfFloor: 1,
   numberOfRoomEachFloor: [],
+  useSameNumberOfRoom: false,
 });
 
 const emitData = () => {
@@ -72,6 +73,7 @@ watch(payload.numberOfFloor, () => {
           >จำนวนห้องในแต่ละชั้น<span class="text-red-500">*</span></span
         >
       </label>
+
       <div v-for="(_, index) in payload.numberOfFloor" :key="index" class="p-1">
         <p class="text-base">จำนวนห้องในชั้น {{ index + 1 }}</p>
         <input

@@ -124,6 +124,7 @@ const visiblePages = computed(() => {
             <th>อัตราค่าไฟ</th>
             <th>สถานะห้อง</th>
             <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -191,6 +192,19 @@ const visiblePages = computed(() => {
             <Badge badgeType="success">Paid</Badge>
             <Badge badgeType="error">Not Paid</Badge>
           </td> -->
+            <th>
+              <router-link
+                :to="{
+                  name: 'view-room',
+                  params: {
+                    residenceId: $route.params.residenceId,
+                    roomId: room._id,
+                  },
+                }"
+              >
+                <Button btnType="ghost-pill">ดูข้อมูล</Button>
+              </router-link>
+            </th>
             <th>
               <router-link
                 :to="{

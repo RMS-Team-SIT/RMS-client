@@ -4,6 +4,7 @@ import Button from '@/components/common/button.vue';
 import { computed, inject, onMounted, reactive, ref } from 'vue';
 import { useNotification } from '@kyvg/vue3-notification';
 import dayjs from 'dayjs';
+import { ArrowTopRightOnSquareIcon } from '@heroicons/vue/24/outline';
 
 const props = defineProps({
   renters: {
@@ -155,6 +156,7 @@ const visiblePages = computed(() => {
               <div v-if="renter.copyOfIdCard" class="underline">
                 <router-link
                   target="_blank"
+                  class="flex items-center gap-2"
                   :to="{
                     name: 'pdf-preview',
                     query: {
@@ -162,17 +164,18 @@ const visiblePages = computed(() => {
                     },
                   }"
                 >
-                  ดูไฟล์
+                  ดูไฟล์ <ArrowTopRightOnSquareIcon class="h-4 w-4" />
                 </router-link>
               </div>
               <div v-else>
-                <span class="text-red-500">ไม่พบ</span>
+                <span class="text-red-500">ไม่มีไฟล์</span>
               </div>
             </td>
             <td>
               <div v-if="renter.renterContract" class="underline">
                 <router-link
                   target="_blank"
+                  class="flex items-center gap-2"
                   :to="{
                     name: 'pdf-preview',
                     query: {
@@ -180,11 +183,11 @@ const visiblePages = computed(() => {
                     },
                   }"
                 >
-                  Preview
+                  ดูไฟล์ <ArrowTopRightOnSquareIcon class="h-4 w-4" />
                 </router-link>
               </div>
               <div v-else>
-                <span class="text-red-500">ไม่พบ</span>
+                <span class="text-red-500">ไม่มีไฟล์</span>
               </div>
             </td>
             <td>
