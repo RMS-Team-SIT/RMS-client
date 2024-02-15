@@ -103,7 +103,9 @@ onMounted(() => {
             </Button>
           </div>
           <!-- Body -->
+          <!-- row 1 -->
           <div class="mt-5 grid grid-cols-2 gap-4">
+            <!-- ข้อมูลห้องพัก -->
             <div class="space-y-3 border border-base-300 rounded-lg m-2 p-5">
               <div class="flex justify-between">
                 <h1 class="text-base font-semibold text-dark-blue-200">
@@ -142,8 +144,8 @@ onMounted(() => {
                 <Badge badgeType="primary" v-else>กำหนดเอง</Badge>
               </p>
               <p>
-                ค่าไฟ: {{ room.lightPriceRate }} บาท/หน่วย
-                <Badge badgeType="ghost" v-if="room.isUseDefaultLightPriceRate"
+                ค่าไฟ: {{ room.electricPriceRate }} บาท/หน่วย
+                <Badge badgeType="ghost" v-if="room.isUseDefaultElectricPriceRate"
                   >ค่าเริ่มต้น</Badge
                 >
                 <Badge badgeType="primary" v-else>กำหนดเอง</Badge>
@@ -156,6 +158,7 @@ onMounted(() => {
                 แก้ไขล่าสุด: {{ dayjs(room.updated_at).format('DD/MM/YYYY') }}
               </p>
             </div>
+            <!-- ข้อมูลผู้เช่า -->
             <div class="space-y-3 border border-base-300 rounded-lg m-2 p-5">
               <div class="flex justify-between">
                 <h1 class="text-base font-semibold text-dark-blue-200">
@@ -266,6 +269,32 @@ onMounted(() => {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <!-- row 2 -->
+          <div class="mt-5 grid grid-cols-1 gap-4">
+            <!-- ข้อมูลห้องพัก -->
+            <div class="space-y-3 border border-base-300 rounded-lg m-2 p-5">
+              <div class="flex justify-between">
+                <h1 class="text-base font-semibold text-dark-blue-200">
+                  ข้อมูลบิล
+                </h1>
+                <router-link
+                  v-if="room.currentRenter"
+                  class="text-dark-blue-200 underline"
+                  :to="{
+                    name: 'update-room',
+                    params: {
+                      residenceId: $route.params.residenceId,
+                      roomId,
+                    },
+                  }"
+                >
+                  <ArrowTopRightOnSquareIcon class="h-6 w-6" />
+                </router-link>
+              </div>
+              {{ room.bills }}
             </div>
           </div>
         </div>

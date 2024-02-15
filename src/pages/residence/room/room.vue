@@ -102,7 +102,7 @@ onMounted(async () => {
           </div>
           <RoomListTable class="mt-5"
             :rooms="residence.data.rooms"
-            :defaultLightPriceRate="residence.data.defaultLightPriceRate"
+            :defaultElectricPriceRate="residence.data.defaultElectricPriceRate"
             :defaultWaterPriceRate="residence.data.defaultWaterPriceRate"
           />
         </div>

@@ -17,9 +17,9 @@ const props = defineProps({
 const roomInfo = reactive({
   numberOfFloor: 0,
   waterPriceRate: 0,
-  lightPriceRate: 0,
+  electricPriceRate: 0,
   isUseDefaultWaterPriceRate: true,
-  isUseDefaultLightPriceRate: true,
+  isUseDefaultElectricPriceRate: true,
   roomRentalPrice: 0,
 });
 
@@ -144,16 +144,16 @@ watch(roomInfo, () => {
           type="number"
           placeholder="อัตราค่าไฟฟ้า"
           class="w-full input input-bordered bg-white input-sm rounded-sm"
-          v-model="roomInfo.lightPriceRate"
-          :disabled="viewOnly || roomInfo.isUseDefaultLightPriceRate"
-          :hidden="roomInfo.isUseDefaultLightPriceRate"
+          v-model="roomInfo.electricPriceRate"
+          :disabled="viewOnly || roomInfo.isUseDefaultElectricPriceRate"
+          :hidden="roomInfo.isUseDefaultElectricPriceRate"
         />
         <label class="cursor-pointer label">
           <span class="label-text">Use Default Electric Price Rate</span>
           <input
             type="checkbox"
             class="toggle toggle-primary"
-            v-model="roomInfo.isUseDefaultLightPriceRate"
+            v-model="roomInfo.isUseDefaultElectricPriceRate"
             :disabled="viewOnly"
           />
         </label>

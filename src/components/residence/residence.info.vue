@@ -77,7 +77,7 @@ const props = defineProps({
       </p>
       <p>
         <span class="font-bold">ค่าไฟ</span> :
-        {{ residence.defaultLightPriceRate }} บาท / หน่วย
+        {{ residence.defaultElectricPriceRate }} บาท / หน่วย
       </p>
     </div>
   </div>

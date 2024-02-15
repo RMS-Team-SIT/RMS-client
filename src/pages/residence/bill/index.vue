@@ -182,13 +182,13 @@ onMounted(async () => {
                       </p>
                       <p>
                         อัตราค่าไฟต่อหน่วย:
-                        {{ meterRecordItem.room.lightPriceRate }}
+                        {{ meterRecordItem.room.electricPriceRate }}
                       </p>
                       <p>
                         บิลค่าไฟ :
                         <b
                           >{{
-                            meterRecordItem.room.lightPriceRate *
+                            meterRecordItem.room.electricPriceRate *
                             meterRecordItem.totalElectricMeterUsage
                           }}
                           บาท</b
@@ -208,7 +208,7 @@ onMounted(async () => {
                         รวม:
                         {{
                           meterRecordItem.room.roomRentalPrice +
-                          meterRecordItem.room.lightPriceRate *
+                          meterRecordItem.room.electricPriceRate *
                             meterRecordItem.totalElectricMeterUsage +
                           meterRecordItem.room.waterPriceRate *
                             meterRecordItem.totalWaterMeterUsage

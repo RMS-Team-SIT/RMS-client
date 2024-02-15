@@ -58,7 +58,7 @@ const residenceData = reactive({
       email: '',
     },
     defaultWaterPriceRate: 0.0,
-    defaultLightPriceRate: 0.0,
+    defaultElectricPriceRate: 0.0,
   },
 });
 
@@ -96,8 +96,8 @@ const canSubmit = ref(false);
 watch(residenceData, () => {
   canSubmit.value =
     residenceData.data.name &&
-    residenceData.data.defaultLightPriceRate &&
-    residenceData.data.defaultLightPriceRate > 0 &&
+    residenceData.data.defaultElectricPriceRate &&
+    residenceData.data.defaultElectricPriceRate > 0 &&
     residenceData.data.defaultWaterPriceRate &&
     residenceData.data.defaultWaterPriceRate > 0;
 });

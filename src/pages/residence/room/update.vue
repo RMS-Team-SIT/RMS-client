@@ -26,11 +26,11 @@ const roomData = reactive({
   description: '',
   floor: 1,
   waterPriceRate: 0,
-  lightPriceRate: 0,
+  electricPriceRate: 0,
   isUseDefaultWaterPriceRate: true,
-  isUseDefaultLightPriceRate: true,
+  isUseDefaultElectricPriceRate: true,
   defaultWaterPriceRate: 0,
-  defaultLightPriceRate: 0,
+  defaultElectricPriceRate: 0,
   currentRenter: null,
   roomRentalPrice: 0,
   isActive: true,
@@ -96,11 +96,11 @@ const fetchRoomData = async () => {
     roomData.description = result.description;
     roomData.floor = result.floor;
     roomData.waterPriceRate = result.waterPriceRate;
-    roomData.lightPriceRate = result.lightPriceRate;
+    roomData.electricPriceRate = result.electricPriceRate;
     roomData.isUseDefaultWaterPriceRate = result.isUseDefaultWaterPriceRate;
-    roomData.isUseDefaultLightPriceRate = result.isUseDefaultLightPriceRate;
+    roomData.isUseDefaultElectricPriceRate = result.isUseDefaultElectricPriceRate;
     roomData.defaultWaterPriceRate = result.defaultWaterPriceRate;
-    roomData.defaultLightPriceRate = result.defaultLightPriceRate;
+    roomData.defaultElectricPriceRate = result.defaultElectricPriceRate;
     roomData.currentRenter = result.currentRenter;
     roomData.roomRentalPrice = result.roomRentalPrice;
     roomData.isActive = result.isActive;
@@ -121,8 +121,8 @@ const fetchResidenceData = async () => {
     let result = await response.json();
     residence.data = result;
     // set default value of roomData
-    roomData.lightPriceRate = residence.data.defaultLightPriceRate;
-    roomData.defaultLightPriceRate = residence.data.defaultLightPriceRate;
+    roomData.electricPriceRate = residence.data.defaultElectricPriceRate;
+    roomData.defaultElectricPriceRate = residence.data.defaultElectricPriceRate;
     roomData.waterPriceRate = residence.data.defaultWaterPriceRate;
     roomData.defaultWaterPriceRate = residence.data.defaultWaterPriceRate;
   } else {

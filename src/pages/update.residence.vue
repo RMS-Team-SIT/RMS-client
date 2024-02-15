@@ -62,7 +62,7 @@ const residenceData = reactive({
       email: '',
     },
     defaultWaterPriceRate: 0.0,
-    defaultLightPriceRate: 0.0,
+    defaultElectricPriceRate: 0.0,
     rooms: [],
   },
 });

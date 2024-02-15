@@ -34,7 +34,7 @@ const residenceData = reactive({
     email: '',
   },
   defaultWaterPriceRate: 0.0,
-  defaultLightPriceRate: 0.0,
+  defaultElectricPriceRate: 0.0,
   imageFiles: [],
 });
 
@@ -102,8 +102,8 @@ const submitData = async () => {
 watch(residenceData, () => {
   canNext.value =
     residenceData.name &&
-    residenceData.defaultLightPriceRate &&
-    residenceData.defaultLightPriceRate > 0 &&
+    residenceData.defaultElectricPriceRate &&
+    residenceData.defaultElectricPriceRate > 0 &&
     residenceData.defaultWaterPriceRate &&
     residenceData.defaultWaterPriceRate > 0;
 });

@@ -27,9 +27,9 @@ const payload = reactive({
   numberOfRoomEachFloor: [],
   waterPriceRate: 0,
   roomRentalPrice: 0,
-  lightPriceRate: 0,
+  electricPriceRate: 0,
   isUseDefaultWaterPriceRate: true,
-  isUseDefaultLightPriceRate: true,
+  isUseDefaultElectricPriceRate: true,
 });
 
 const changeStep = (action) => {
@@ -85,7 +85,7 @@ const fetchResidenceData = async () => {
   if (response.status === 200) {
     let result = await response.json();
     residence.data = result;
-    payload.lightPriceRate = residence.data.defaultLightPriceRate;
+    payload.electricPriceRate = residence.data.defaultElectricPriceRate;
     payload.waterPriceRate = residence.data.defaultWaterPriceRate;
   } else {
     notify({

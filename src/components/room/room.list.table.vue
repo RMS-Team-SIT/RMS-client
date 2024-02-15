@@ -13,7 +13,7 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
-  defaultLightPriceRate: {
+  defaultElectricPriceRate: {
     type: Number,
     default: 0,
   },
@@ -171,11 +171,11 @@ const visiblePages = computed(() => {
             </td>
             <td>
               {{
-                room.isUseDefaultLightPriceRate
-                  ? defaultLightPriceRate
-                  : room.lightPriceRate
+                room.isUseDefaultElectricPriceRate
+                  ? defaultElectricPriceRate
+                  : room.electricPriceRate
               }}
-              <Badge badgeType="ghost" v-if="room.isUseDefaultLightPriceRate"
+              <Badge badgeType="ghost" v-if="room.isUseDefaultElectricPriceRate"
                 >ค่าเริ่มต้น</Badge
               >
               <Badge badgeType="primary" v-else>กำหนดเอง</Badge>

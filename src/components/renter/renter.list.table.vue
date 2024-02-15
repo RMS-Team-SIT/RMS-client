@@ -137,15 +137,17 @@ const visiblePages = computed(() => {
             <td>
               <div v-if="renter.room" class="underline">
                 <router-link
+                  class="flex items-center gap-2"
+                  target="_blank"
                   :to="{
-                    name: 'update-room',
+                    name: 'view-room',
                     params: {
                       roomId: renter.room._id,
                       residenceId: residenceId,
                     },
                   }"
                 >
-                  {{ renter.room.name }}
+                  {{ renter.room.name }} <ArrowTopRightOnSquareIcon class="h-4 w-4" />
                 </router-link>
               </div>
               <div v-else>
