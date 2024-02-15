@@ -60,13 +60,18 @@ const setLang = () => {
 };
 
 onMounted(async () => {
-  setLang();
-  isLoading.value = false;
+  // setLang();
+  // set time out to show the loading screen
+  setTimeout(() => {
+    isLoading.value = false;
+  }, 500);
+  // isLoading.value = false;
 });
 </script>
 
 <template>
-  <div class="font-noto">
+  <Loading v-if="isLoading" class="min-h-screen" />
+  <div class="font-noto" v-else>
     <navbar v-if="shouldShowNavbar" :isLoggedIn="userStore.isLoggedIn" />
     <router-view class="min-h-screen" />
     <notifications group="tr" position="top right" class="text-md" />
