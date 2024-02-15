@@ -276,7 +276,7 @@ onMounted(() => {
 
           <!-- row 2 -->
           <div class="mt-5 grid grid-cols-1 gap-4">
-            <!-- ข้อมูลห้องพัก -->
+            <!-- ข้อมูลบิลในอดีต -->
             <div class="space-y-3 border border-base-300 rounded-lg m-2 p-5">
               <div class="flex justify-between">
                 <h1 class="text-base font-semibold text-dark-blue-200">
@@ -296,16 +296,21 @@ onMounted(() => {
                   <ArrowTopRightOnSquareIcon class="h-6 w-6" />
                 </router-link> -->
               </div>
+              <div v-if="!room.billRooms.length">ไม่มีบิลในอดีตในระบบ</div>
               <div
                 class="collapse collapse-arrow border border-base-300 shadow-sm m-2"
-                v-for="(bill, index) in room.bills"
+                v-for="(bill, index) in room.billRooms"
                 :key="index"
               >
-                <input type="checkbox" :checked="index == 0" />
+                <input type="checkbox" :checked="index == room.billRooms.length - 1" />
                 <div class="collapse-title text-lg font-bold underline">
                   บิลรอบมิเตอร์
-                  {{ dayjs(bill.created_at).format('MM/YYYY') }}
-                  <Badge badgeType="success" v-if="index == 0">บิลล่าสุด</Badge>
+                  {{ dayjs(bill.meterRecord.record_date).format('MM/YYYY') }}
+                  <Badge
+                    badgeType="success"
+                    v-if="index == room.billRooms.length - 1"
+                    >บิลล่าสุด</Badge
+                  >
                 </div>
                 <div class="collapse-content">
                   <div class="flex w-full">

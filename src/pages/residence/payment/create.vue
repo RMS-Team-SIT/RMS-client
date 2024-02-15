@@ -1,6 +1,6 @@
 <script setup>
 import Breadcrumb from '@/components/common/breadcrumb.vue';
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Button from '@/components/common/button.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
@@ -20,6 +20,8 @@ const data = reactive({
   account_name: '',
   type: 'bank_transfer',
 });
+
+const canSubmit = ref(false);
 
 const submitData = async () => {
   // Create renter
@@ -62,6 +64,14 @@ const fetchData = async () => {
 };
 onMounted(async () => {
   await fetchData();
+});
+
+watch(data, () => {
+  if (data.bankId && data.account_number && data.account_name) {
+    canSubmit.value = true;
+  } else {
+    canSubmit.value = false;
+  }
 });
 </script>
 
@@ -148,7 +158,12 @@ onMounted(async () => {
           ยกเลิก
         </Button>
 
-        <Button @click="submitData" class="rounded-badge" btnType="primary">
+        <Button
+          @click="submitData"
+          class="rounded-badge"
+          btnType="primary"
+          :disabled="!canSubmit"
+        >
           บันทึกข้อมูล
         </Button>
       </div>

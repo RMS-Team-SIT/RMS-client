@@ -37,16 +37,18 @@ const props = defineProps({
             {{ dayjs(meterRecord.record_date).format('DD-MM-YYYY') }}
           </td>
           <td>
-            <Badge type="info" v-if="index == 0"> จดล่าสุด </Badge>
+            <Badge type="info" v-if="index == 0"> จดครั้งล่าสุด </Badge>
             <Badge badgeType="warning" v-if="index == meterRecords.length - 1">
               จดครั้งแรก
             </Badge>
           </td>
           <td>
-            <Badge badge-type="success" v-if="meterRecord.isBillGenerated">
-              สร้างบิลแล้ว
-            </Badge>
-            <Badge badge-type="error" v-else> ยังไม่ได้สร้างบิล </Badge>
+            <div v-if="!meterRecord.isFirstInitRecord">
+              <Badge badge-type="success" v-if="meterRecord.isBillGenerated">
+                สร้างบิลแล้ว
+              </Badge>
+              <Badge badge-type="error" v-else> ยังไม่ได้สร้างบิล </Badge>
+            </div>
           </td>
           <td>
             <router-link

@@ -347,15 +347,20 @@ onMounted(async () => {
                 </table>
               </div>
 
-              <Button
-                btnType="primary"
-                class="mt-5"
-                @click="submit"
-                :loading="isLoading"
-                :disabled="!canSubmit"
-              >
-                สร้างใบจดบันทึกใหม่
-              </Button>
+              <div class="flex gap-2 items-center mt-5">
+                <Button
+                  btnType="primary"
+                  @click="submit"
+                  :loading="isLoading"
+                  :disabled="!canSubmit"
+                >
+                  สร้างใบจดบันทึกใหม่
+                </Button>
+                <p class="text-red-500" v-if="!isFirstTime">
+                  * หากคุณสร้างใบจดบันทึกใหม่
+                  คุณจะไม่สามารถแก้ไขใบจดบันทึกครั้งก่อนได้อีก
+                </p>
+              </div>
             </div>
             <div v-else>
               <p class="text-red-500 font-bold text-base mt-5">
