@@ -87,6 +87,7 @@ watch(roomInfo, () => {
       <input
         type="number"
         placeholder="ชั้น"
+        min="1"
         class="w-full input input-bordered bg-white input-sm rounded-sm"
         v-model="roomInfo.floor"
         :disabled="viewOnly"
