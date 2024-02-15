@@ -6,7 +6,7 @@ const thisYear = new Date().getFullYear();
 </script>
 
 <template>
-  <footer class="footer p-10 bg-base-200 text-base-content">
+  <footer class="footer p-10 bg-white text-base-content border-t">
     <aside>
       <Logo />
       <p>
