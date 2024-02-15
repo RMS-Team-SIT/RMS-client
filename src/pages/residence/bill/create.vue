@@ -35,7 +35,7 @@ const fetchMeterRecord = async () => {
   if (response.status === 200) {
     let result = await response.json();
     console.log('meter record', result);
-    meterRecords.value = result.filter((record) => record.isBillGenerated === false);
+    meterRecords.value = result.filter((record) => record.isBillGenerated === false && record.isFirstInitRecord === false);
   } else {
     notify({
       group: 'tr',

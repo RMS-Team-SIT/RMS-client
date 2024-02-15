@@ -4,12 +4,11 @@ import { onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useNotification } from '@kyvg/vue3-notification';
 import ResidenceServices from '@/services/ResidenceServices';
+import FileService from '@/services/FileService';
 import Loading from '@/components/common/loading.vue';
-import PaymentListTable from '@/components/payment/payment.list.table.vue';
+import { ChartPieIcon, HomeIcon, UserIcon } from '@heroicons/vue/24/outline';
 import Button from '@/components/common/button.vue';
-import MeterRecordListTable from '@/components/meter-record/meter-record.list.table.vue';
-import NoRecord from '@/components/meter-record/no-record.vue';
-import MeterRecordService from '@/services/MeterRecordService';
+import RenterListTable from '@/components/renter/renter.list.table.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -21,16 +20,15 @@ const residence = reactive({
   data: null,
 });
 
-const fetchResidence = async () => {
+const fetchData = async () => {
   const response = await ResidenceServices.fetchResidence(residenceId);
   if (response.status === 200) {
     let result = await response.json();
-    console.log('residence', result);
+    console.log(result);
     residence.data = result;
-
-    // sort meter record by record_date
-    residence.data.meterRecord.sort((a, b) => {
-      return new Date(b.record_date) - new Date(a.record_date);
+    // parse residenceImage by adding base url
+    residence.data.images = residence.data.images.map((imageName) => {
+      return FileService.getFile(imageName);
     });
   } else {
     notify({
@@ -44,7 +42,7 @@ const fetchResidence = async () => {
 };
 
 onMounted(async () => {
-  await fetchResidence();
+  await fetchData();
   isLoading.value = false;
 });
 </script>
@@ -62,7 +60,7 @@ onMounted(async () => {
             pathName: 'dashboard',
             params: { residenceId },
           },
-          { name: 'ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ' },
+          { name: 'จัดการผู้เช่า' },
         ]"
       />
       <Button
@@ -76,30 +74,9 @@ onMounted(async () => {
         <div class="bg-white p-10 mt-2 shadow rounded-lg">
           <div class="flex justify-between">
             <h1 class="text-2xl font-semibold text-dark-blue-200">
-              ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ
+              ดูข้อมูลผู้เช่า
             </h1>
-            <router-link
-              :to="{
-                name: 'create-meter-record',
-                params: {
-                  residenceId,
-                },
-              }"
-            >
-              <Button btnType="primary">สร้างใบบันทึกค่ามิเตอร์</Button>
-            </router-link>
           </div>
-          <p class="text-dark-blue-200 mt-5">บันทึกทั้งหมดในระบบ</p>
-          <MeterRecordListTable
-            class="mt-5"
-            :residenceId="residenceId"
-            :meter-records="residence.data.meterRecord"
-          />
-          <p class="mt-5">
-            หมายเหตุ: สามารถ<b>แก้ไข</b>ข้อมูลได้เฉพาะ
-            <b>การจดครั้งล่าสุด</b> และ
-            <b>มิเตอร์ที่ยังไม่ได้สร้างบิล</b> เท่านั้น
-          </p>
         </div>
       </div>
     </div>

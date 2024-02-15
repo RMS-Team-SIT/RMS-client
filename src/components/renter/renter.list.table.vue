@@ -115,6 +115,8 @@ const visiblePages = computed(() => {
             <th>สัญญาเช่า</th>
             <th>สร้างเมื่อ</th>
             <th>อัปเดตเมื่อ</th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -198,7 +200,19 @@ const visiblePages = computed(() => {
             <td>
               {{ dayjs(renter.updated_at).format('MM-DD-YYYY HH:mm:ss') }}
             </td>
-            <th>
+            <td>
+              <router-link
+                :to="{
+                  name: 'view-renter',
+                  params: {
+                    renterId: renter._id,
+                  },
+                }"
+              >
+                <Button btnType="ghost-pill">ดูข้อมูล</Button>
+              </router-link>
+            </td>
+            <td>
               <router-link
                 :to="{
                   name: 'update-renter',
@@ -209,7 +223,7 @@ const visiblePages = computed(() => {
               >
                 <Button btnType="ghost-pill">แก้ไข</Button>
               </router-link>
-            </th>
+            </td>
           </tr>
         </tbody>
       </table>

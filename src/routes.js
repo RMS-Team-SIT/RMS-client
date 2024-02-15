@@ -23,6 +23,7 @@ const updateResidenceInfo = () => import('./pages/residence/update.info.vue');
 const renter = () => import('./pages/residence/renter/renter.vue');
 const createRenter = () => import('./pages/residence/renter/create.vue');
 const updateRenter = () => import('./pages/residence/renter/update.vue');
+const viewRenter = () => import('./pages/residence/renter/view.vue');
 
 const room = () => import('./pages/residence/room/room.vue');
 const viewRoom = () => import('./pages/residence/room/view.vue');
@@ -167,6 +168,14 @@ const routes = [
     component: updateRenter,
     meta: {
       title: 'อัปเดตผู้เช่า',
+    },
+  },
+  {
+    name: 'view-renter',
+    path: '/manage/residence/:residenceId/renter/:renterId',
+    component: viewRenter,
+    meta: {
+      title: 'ดูข้อมูลผู้เช่า',
     },
   },
   {

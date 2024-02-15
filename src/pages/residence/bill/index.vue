@@ -52,6 +52,14 @@ const fetchBills = async () => {
     let result = await response.json();
     console.log('bills', result);
     bills.value = result;
+    
+    // sort bills by record_date
+    bills.value.sort((a, b) => {
+      return (
+        new Date(b.meterRecord.record_date) -
+        new Date(a.meterRecord.record_date)
+      );
+    });
   } else {
     notify({
       group: 'tr',
@@ -202,9 +210,7 @@ onMounted(async () => {
                         ค่าเช่าห้อง:
                         <b>{{ meterRecordItem.room.roomRentalPrice }}</b> บาท
                       </p>
-                      <p
-                        class="text-lg font-bold mt-5 rounded-full"
-                      >
+                      <p class="text-lg font-bold mt-5 rounded-full">
                         รวม:
                         {{
                           meterRecordItem.room.roomRentalPrice +
