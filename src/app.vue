@@ -1,5 +1,5 @@
 <script setup>
-import { computed, inject, onMounted, ref, watchEffect } from 'vue';
+import { computed, inject, onMounted, onUpdated, ref, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import navbar from './components/common/navbar.vue';
 import Footer from './components/common/footer.vue';
@@ -66,20 +66,14 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Loading v-if="isLoading" class="min-h-screen" />
-  <!-- <div :class="{ 'font-maitree': isThai }" v-else> -->
-  <div class="font-noto" v-else>
+  <div class="font-noto">
     <navbar v-if="shouldShowNavbar" :isLoggedIn="userStore.isLoggedIn" />
     <router-view class="min-h-screen" />
     <div>
-      <notifications group="tc" position="top center" class="text-md" />
       <notifications group="tr" position="top right" class="text-md" />
-      <notifications group="bl" position="bottom left" class="text-md" />
-      <notifications group="br" position="bottom right" class="text-md" />
     </div>
     <Footer v-if="shouldShowFooter" />
   </div>
 </template>
 
 <style scoped></style>
-./utils/constants
