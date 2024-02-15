@@ -24,6 +24,7 @@ const props = defineProps({
           <th>#</th>
           <th>วันที่จด</th>
           <th>เพิ่มเติม</th>
+          <th>สถานะการสร้างบิล</th>
           <th>ดู/แก้ไขข้อมูล</th>
         </tr>
       </thead>
@@ -40,6 +41,12 @@ const props = defineProps({
             <Badge badgeType="warning" v-if="index == meterRecords.length - 1">
               จดครั้งแรก
             </Badge>
+          </td>
+          <td>
+            <Badge badge-type="success" v-if="meterRecord.isBillGenerated">
+              สร้างบิลแล้ว
+            </Badge>
+            <Badge badge-type="error" v-else> ยังไม่ได้สร้างบิล </Badge>
           </td>
           <td>
             <router-link

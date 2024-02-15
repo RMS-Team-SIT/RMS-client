@@ -13,7 +13,6 @@ const handleFormData = async (formData) => {
   const response = await UserService.signUp(formData);
   if (response.status === 201) {
     let data = await response.json();
-    localStorage.setItem('token', data.access_token);
     notify({
       group: 'tr',
       title: 'สำเร็จ',
@@ -26,7 +25,7 @@ const handleFormData = async (formData) => {
     notify({
       group: 'tr',
       title: 'เกิดข้อผิดพลาด',
-      text: 'สมัครสมาชิกไม่สำเร็จ, โปรดลองใหม่อีกครั้ง' + data?.message,
+      text: 'สมัครสมาชิกไม่สำเร็จ, โปรดลองใหม่อีกครั้ง',
       type: 'error',
     });
   }
