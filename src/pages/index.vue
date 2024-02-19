@@ -1,4 +1,5 @@
 <script setup>
+import { projectFullName } from '@/utils/constants';
 </script>
 
 <template>
@@ -10,17 +11,19 @@
         <div class="p-20">
           <img src="/logo.png" alt="logo" class="w-30 h-30 mx-auto lg:mx-0" />
           <h2 class="text-3xl font-semibold text-gray-800 md:text-4xl">
-            จัดการ <span class="text-light-red">หอพักของคุณ</span>
+            Residence <span class="text-light-red"> Management System</span>
           </h2>
           <p class="text-lg leading-relaxed">
             ระบบการจัดการหอพักเป็นระบบที่ช่วยให้คุณจัดการที่อยู่อาศัยของคุณอย่างง่ายดาย
           </p>
           <p class="mt-4 text-gray-700">
-            <b>RMS</b> เป็น <b>Web Application</b>
-            ที่ช่วยให้ผู้ประกอบการธุรกิจหอพักบริหารจัดการหอพักของตัวเองได้อย่างสะดวกสบาย <br/>
-            ลดปัญหาจากการบริหารที่ผิดพลาดและระยะเวลาในการบริหารจัดการของผู้ประกอบการ <br/>
-            เพื่ออำนวยความสะดวกในการจัดการหอพักของผู้ประกอบการ <br/>
-            และให้ผู้เช่าได้รับความสะดวกสบายตลอดระยะเวลาที่พักอาศัย<br/>
+            <b>เว็บแอพลิเคชั่น</b>
+            ที่ช่วยให้ผู้ประกอบการธุรกิจหอพักบริหารจัดการหอพักของตัวเองได้อย่างสะดวกสบาย
+            <br />
+            ลดปัญหาจากการบริหารที่ผิดพลาดและระยะเวลาในการบริหารจัดการของผู้ประกอบการ
+            <br />
+            เพื่ออำนวยความสะดวกในการจัดการหอพักของผู้ประกอบการ <br />
+            และให้ผู้เช่าได้รับความสะดวกสบายตลอดระยะเวลาที่พักอาศัย<br />
           </p>
           <div class="flex justify-center lg:justify-start mt-6">
             <router-link
@@ -41,9 +44,7 @@
         class="hidden lg:block lg:w-1/2"
         style="clip-path: polygon(10% 0, 100% 0%, 100% 100%, 0 100%)"
       >
-        <div
-          class="h-full object-cover bg-cover"
-        >
+        <div class="h-full object-cover bg-cover">
           <div class="h-full bg-black opacity-25"></div>
         </div>
       </div>

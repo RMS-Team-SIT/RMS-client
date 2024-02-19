@@ -1,7 +1,7 @@
 <script setup>
 import Button from '../common/button.vue';
 import { useRouter } from 'vue-router';
-import { computed, reactive } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import {
   required,
@@ -13,7 +13,11 @@ import {
   numeric,
   helpers,
 } from '@vuelidate/validators';
-import { CheckIcon, XMarkIcon } from '@heroicons/vue/24/outline';
+import {
+  CheckIcon,
+  InformationCircleIcon,
+  XMarkIcon,
+} from '@heroicons/vue/24/outline';
 import Loading from '../common/loading.vue';
 
 const emit = defineEmits(['submit']);
@@ -24,6 +28,7 @@ const props = defineProps({
   },
 });
 const router = useRouter();
+const isShowPasswordRules = ref(false);
 
 const formData = reactive({
   firstname: '',
@@ -111,8 +116,10 @@ const validateErrorMsg = (field) => {
         เริ่มต้นจัดการหอพักของคุณ <br />
         ตอนนี้
       </h1>
-      <p class="text-xs mb-5">สร้างบัญชีของคุณเพื่อเริ่มต้น</p>
-      <form @submit.prevent="submitForm" class="space-y-0 mb-5">
+      <p class="text-base mb-5">
+        สร้างบัญชี <b>เจ้าของหอพัก</b> ของคุณเพื่อเริ่มต้น
+      </p>
+      <form @submit.prevent="submitForm" class="space-y-3 mb-5">
         <div class="flex gap-2">
           <div class="w-full">
             <label class="label">
@@ -176,20 +183,34 @@ const validateErrorMsg = (field) => {
             กรุณาใช้ที่อยู่อีเมลจริงสำหรับการติดต่อในอนาคต
           </p>
         </div>
+
         <div>
           <label class="label">
             <span class="text-base label-text">รหัสผ่าน</span>
           </label>
-          <input
-            type="password"
-            placeholder="กรุณาใส่รหัสผ่านของคุณ"
-            class="w-full input input-bordered bg-white input-sm rounded-sm"
-            v-model="formData.password"
-          />
+          <div class="flex w-full items-center gap-2">
+            <input
+              type="password"
+              placeholder="กรุณาใส่รหัสผ่านของคุณ"
+              class="w-full input input-bordered bg-white input-sm rounded-sm"
+              v-model="formData.password"
+            />
+            <div
+              class="tooltip tooltip-right"
+              data-tip="กดเพื่อแสดงเงื่อนไข"
+              v-on:click="isShowPasswordRules = !isShowPasswordRules"
+            >
+              <InformationCircleIcon class="w-6" />
+            </div>
+          </div>
+
           <span class="text-xs text-red-500"
             >{{ validateErrorMsg('password') }}
           </span>
-          <div class="card w-full bg-base-100 shadow-sm mt-2">
+          <div
+            class="card w-full bg-base-100 shadow-sm mt-2"
+            v-show="isShowPasswordRules"
+          >
             <div class="p-5">
               <h2 class="text-sm font-semibold">เงื่อนไขในการตั้งรหัสผ่าน</h2>
               <ul class="text-xs">
@@ -210,6 +231,7 @@ const validateErrorMsg = (field) => {
             </div>
           </div>
         </div>
+
         <div>
           <label class="label">
             <span class="text-base label-text">ยืนยันรหัสผ่าน</span>
@@ -220,6 +242,9 @@ const validateErrorMsg = (field) => {
             class="w-full input input-bordered bg-white input-sm rounded-sm"
             v-model="formData.confirmPassword"
           />
+          <p class="text-xs text-gray-500">
+            กรุณาใส่รหัสผ่านอีกครั้งเพื่อยืนยัน
+          </p>
           <span class="text-xs text-red-500">{{
             validateErrorMsg('confirmPassword')
           }}</span>
@@ -239,7 +264,7 @@ const validateErrorMsg = (field) => {
         </div>
       </form>
       <span class="mt-10">
-        มีบัญชีอยู่แล้ว?
+        มีบัญชี<b>เจ้าของหอพัก</b>อยู่แล้ว?
         <span
           class="text-dark-blue-200 hover:underline cursor-pointer"
           @click="router.push({ name: 'signin' })"

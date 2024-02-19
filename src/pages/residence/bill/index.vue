@@ -210,7 +210,11 @@ onMounted(async () => {
                         ค่าเช่าห้อง:
                         <b>{{ meterRecordItem.room.roomRentalPrice }}</b> บาท
                       </p>
-                      <p class="text-lg font-bold mt-5 rounded-full">
+                      
+                    </div>
+                  </div>
+                  <Divider />
+                  <p class="text-lg font-bold mt-5 rounded-full">
                         รวม:
                         {{
                           meterRecordItem.room.roomRentalPrice +
@@ -221,9 +225,6 @@ onMounted(async () => {
                         }}
                         บาท
                       </p>
-                    </div>
-                  </div>
-                  <Divider />
                   <p>
                     สถานะการจ่าย :
                     <Badge v-if="meterRecordItem.isPaid">จ่ายแล้ว</Badge>

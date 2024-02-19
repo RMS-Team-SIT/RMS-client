@@ -152,13 +152,12 @@ onMounted(() => {
                 >
                 <Badge badgeType="primary" v-else>กำหนดเอง</Badge>
               </p>
-
-              <p>
+              <!-- <p>
                 วันที่สร้าง: {{ dayjs(room.created_at).format('DD/MM/YYYY') }}
               </p>
               <p>
                 แก้ไขล่าสุด: {{ dayjs(room.updated_at).format('DD/MM/YYYY') }}
-              </p>
+              </p> -->
             </div>
             <!-- ข้อมูลผู้เช่า -->
             <div class="space-y-3 border border-base-300 rounded-lg m-2 p-5">
@@ -225,7 +224,7 @@ onMounted(() => {
                 <div class="flex gap-2">
                   สำเนาบัตรประชาชน:
                   <div
-                    v-if="room.currentRenter.renterContract"
+                    v-if="room.currentRenter.copyOfIdCard"
                     class="underline"
                   >
                     <router-link
@@ -234,7 +233,7 @@ onMounted(() => {
                       :to="{
                         name: 'pdf-preview',
                         query: {
-                          filename: room.currentRenter.renterContract,
+                          filename: room.currentRenter.copyOfIdCard,
                         },
                       }"
                     >
@@ -379,7 +378,11 @@ onMounted(() => {
                         ค่าเช่าห้อง:
                         <b>{{ bill.roomRentalPrice }}</b> บาท
                       </p>
-                      <p class="text-lg font-bold mt-5 rounded-full">
+                      
+                    </div>
+                  </div>
+                  <Divider />
+                  <p class="text-lg font-bold mt-5 rounded-full">
                         รวม:
                         {{
                           bill.roomRentalPrice +
@@ -389,9 +392,6 @@ onMounted(() => {
                         }}
                         บาท
                       </p>
-                    </div>
-                  </div>
-                  <Divider />
                   <p>
                     สถานะการจ่าย :
                     <Badge v-if="bill.isPaid">จ่ายแล้ว</Badge>

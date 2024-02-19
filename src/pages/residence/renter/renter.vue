@@ -73,7 +73,8 @@ onMounted(async () => {
       <div class="grid grid-cols-1">
         <div class="bg-white p-10 mt-2 shadow rounded-lg">
           <div class="flex justify-between">
-            <h1 class="text-2xl font-semibold text-dark-blue-200">
+            <h1 class="text-2xl font-semibold text-dark-blue-200 flex gap-2">
+              <UserIcon class="w-8 h-8" />
               ผู้เช่าทั้งหมด
             </h1>
             <router-link

@@ -27,7 +27,7 @@ const props = defineProps({
     >
       <img class="w-12 h-12" :src="logoImg" alt="" />
       <a class="text-xl">
-        <span class="font-bold text-dark-blue-200">{{ projectName }}</span>
+        <!-- <span class="font-bold text-dark-blue-200">{{ projectFullName }}</span> -->
       </a>
     </div>
     <div class="flex-none" v-if="!isLoggedIn">
