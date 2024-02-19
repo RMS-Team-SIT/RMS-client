@@ -3,7 +3,10 @@ import Button from '@/components/common/button.vue';
 import blankprofileImg from '@/assets/img/bp.webp';
 import dayjs from 'dayjs';
 import Badge from '../common/badge.vue';
-import { PencilIcon } from '@heroicons/vue/24/outline';
+import {
+  ArrowTopRightOnSquareIcon,
+  PencilIcon,
+} from '@heroicons/vue/24/outline';
 
 const props = defineProps({
   meterRecords: {
@@ -37,7 +40,12 @@ const props = defineProps({
             {{ dayjs(meterRecord.record_date).format('DD-MM-YYYY') }}
           </td>
           <td>
-            <Badge type="info" v-if="index == 0 && !meterRecord.isFirstInitRecord"> จดครั้งล่าสุด </Badge>
+            <Badge
+              type="info"
+              v-if="index == 0 && !meterRecord.isFirstInitRecord"
+            >
+              จดครั้งล่าสุด
+            </Badge>
             <Badge badgeType="warning" v-if="meterRecord.isFirstInitRecord">
               จดครั้งแรก
             </Badge>
@@ -45,17 +53,26 @@ const props = defineProps({
           <td>
             <div v-if="!meterRecord.isFirstInitRecord">
               <Badge badgeType="warning" v-if="meterRecord.isFirstInitRecord">
-              จดครั้งแรก
-            </Badge>
-              <Badge badge-type="success" v-if="meterRecord.isBillGenerated">
-                สร้างบิลแล้ว
+                จดครั้งแรก
               </Badge>
-              <Badge badge-type="error" v-else> ยังไม่ได้สร้างบิล </Badge>
+              <router-link
+                v-if="meterRecord.isBillGenerated"
+                :to="{
+                  name: 'bill',
+                  params: {
+                    residenceId: $route.params.residenceId,
+                  },
+                }"
+                target="_blank"
+              >
+                <Badge badge-type="success">
+                  สร้างบิลแล้ว <ArrowTopRightOnSquareIcon class="h-4 w-4" />
+                </Badge>
+              </router-link>
 
+              <Badge badge-type="error" v-else> ยังไม่ได้สร้างบิล </Badge>
             </div>
-            <Badge badgeType="warning" v-else>
-              สร้างบิลไม่ได้
-            </Badge>
+            <Badge badgeType="warning" v-else> สร้างบิลไม่ได้ </Badge>
           </td>
           <td>
             <router-link
