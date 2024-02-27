@@ -25,7 +25,7 @@ const handleFormData = async (formData) => {
     notify({
       group: 'tr',
       title: 'เกิดข้อผิดพลาด',
-      text: 'สมัครสมาชิกไม่สำเร็จ, โปรดลองใหม่อีกครั้ง',
+      text: 'สมัครสมาชิกไม่สำเร็จ, โปรดลองใหม่อีกครั้ง: ' + data.message,
       type: 'error',
     });
   }

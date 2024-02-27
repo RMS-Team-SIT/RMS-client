@@ -6,11 +6,11 @@ const NotFound = () => import('@/pages/not-found.vue');
 const signup = () => import('@/pages/signup.vue');
 const signin = () => import('@/pages/signin.vue');
 const signout = () => import('@/pages/signout.vue');
-const manage = () => import('@/pages/manage.vue');
+const manage = () => import('@/pages/user/manage.vue');
 
 const PdfPreview = () => import('./pages/pdf-preview.vue');
 
-const profile = () => import('./pages/profile.vue');
+const profile = () => import('./pages/user/profile.vue');
 const verifyEmail = () => import('./pages/verify-email.vue');
 const forgetPassword = () => import('./pages/forget-password.vue');
 const resetPassword = () => import('./pages/reset-password.vue');
@@ -47,6 +47,8 @@ const updateMeterRecord = () =>
   import('./pages/residence/meter-record/update.vue');
 const viewMeterRecord = () => import('./pages/residence/meter-record/view.vue');
 
+const adminDashboard = () => import('./pages/admin/dashboard.vue');
+
 const publicRoutes = [
   'home',
   'signup',
@@ -64,6 +66,8 @@ const restrictedRoutesForLoggedInUsers = [
   'forget-password',
   'reset-password',
 ];
+
+const routeForAdmin = ['admin-dashboard'];
 
 const routes = [
   {
@@ -355,6 +359,14 @@ const routes = [
     },
   },
   {
+    name: 'admin-dashboard',
+    path: '/admin/dashboard',
+    component: adminDashboard,
+    meta: {
+      title: 'แดชบอร์ดผู้ดูแลระบบ',
+    },
+  },
+  {
     path: '/:path(.*)',
     component: NotFound,
     name: 'not-found',
@@ -380,15 +392,28 @@ router.beforeEach(async (to, from, next) => {
   try {
     const userStore = useUserStore();
     await userStore.fetchUserData();
+    const user = userStore.getUser;
+    console.log(user);
 
     const isPublicRoute = publicRoutes.includes(to.name);
     const isRestrictedForLoggedIn = restrictedRoutesForLoggedInUsers.includes(
       to.name
     );
+    const isAdminRoute = routeForAdmin.includes(to.name);
 
-    if (!isPublicRoute) {
-      if (!userStore.isLoggedIn) return next({ name: 'signin' });
-    } else if (isRestrictedForLoggedIn && userStore.isLoggedIn) {
+    if (isAdminRoute && user.role !== 'admin') {
+      return next({ name: 'home' });
+    }
+
+    if (!isAdminRoute && user.role === 'admin') {
+      return next({ name: 'admin-dashboard' });
+    }
+
+    if (!isPublicRoute && !userStore.isLoggedIn) {
+      return next({ name: 'signin' });
+    }
+
+    if (isRestrictedForLoggedIn && userStore.isLoggedIn) {
       return next({ name: 'manage' });
     }
 

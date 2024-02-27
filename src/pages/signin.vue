@@ -26,8 +26,14 @@ const handleFormData = async (formData) => {
       text: 'เข้าสู่ระบบสำเร็จ',
       type: 'success',
     });
-    
-    router.push({ name: 'manage' });
+
+    // check if user is admin
+    if (store.user.role === 'admin') {
+      router.push({ name: 'admin' });
+    } else {
+      router.push({ name: 'manage' });
+    }
+
   } else {
     let data = await response.json();
     console.log(data);

@@ -20,6 +20,7 @@ export const useUserStore = defineStore({
         ...state.user,
         fullname: `${state.user.firstname} ${state.user.lastname}`,
         isLoggedIn: state.isLoggedIn,
+        role: state.user.role,
       };
     },
   },
