@@ -113,11 +113,10 @@ const validateErrorMsg = (field) => {
   >
     <div class="w-full p-20 m-auto bg-white rounded-md lg:max-w-xl">
       <h1 class="text-3xl font-semibold text-dark-blue-200 mb-5">
-        เริ่มต้นจัดการหอพักของคุณ <br />
-        ตอนนี้
+        เริ่มต้นจัดการหอพักของคุณ
       </h1>
       <p class="text-base mb-5">
-        สร้างบัญชี <b>เจ้าของหอพัก</b> ของคุณเพื่อเริ่มต้น
+        โดยการสร้างบัญชี <b>เจ้าของหอพัก</b> ของคุณเพื่อเริ่มต้น
       </p>
       <form @submit.prevent="submitForm" class="space-y-3 mb-5">
         <div class="flex gap-2">
