@@ -72,7 +72,7 @@ onMounted(async () => {
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
   <div class="font-noto" v-else>
-    <navbar v-if="shouldShowNavbar" :isLoggedIn="userStore.isLoggedIn" />
+    <navbar v-if="shouldShowNavbar" :isLoggedIn="userStore.isLoggedIn" :user="userStore.getUser" />
     <router-view class="min-h-screen" />
     <notifications group="tr" position="top right" class="text-md" />
     <Footer v-if="shouldShowFooter" />

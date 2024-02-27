@@ -67,7 +67,7 @@ const restrictedRoutesForLoggedInUsers = [
   'reset-password',
 ];
 
-const routeForAdmin = ['admin-dashboard', 'pdf-preview', 'upload', 'signout'];
+const routeForAdmin = ['admin-dashboard', 'pdf-preview', 'upload', 'signout', 'profile'];
 
 const routes = [
   {

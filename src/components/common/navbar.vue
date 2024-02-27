@@ -16,6 +16,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  user: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 </script>
 
@@ -79,23 +83,28 @@ const props = defineProps({
             </div>
           </div>
         </div>
-        <div class="dropdown dropdown-end">
-          <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-            <div class="w-10 rounded-full">
-              <img alt="image profile" :src="blankprofileImg" />
-            </div>
-          </label>
-          <ul
-            tabindex="0"
-            class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
-          >
-            <li>
-              <router-link :to="{ name: 'profile' }">ข้อมูลส่วนตัว</router-link>
-            </li>
-            <li>
-              <router-link :to="{ name: 'signout' }">ออกจากระบบ</router-link>
-            </li>
-          </ul>
+        <div class="flex gap-2 items-center  rounded-lg p-2">
+          <p>{{ user.fullname }} : {{ user.role }}</p>
+          <div class="dropdown dropdown-end">
+            <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+              <div class="w-10 rounded-full">
+                <img alt="image profile" :src="blankprofileImg" />
+              </div>
+            </label>
+            <ul
+              tabindex="0"
+              class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+            >
+              <li>
+                <router-link :to="{ name: 'profile' }"
+                  >ข้อมูลส่วนตัว</router-link
+                >
+              </li>
+              <li>
+                <router-link :to="{ name: 'signout' }">ออกจากระบบ</router-link>
+              </li>
+            </ul>
+          </div>
         </div>
       </ul>
     </div>
