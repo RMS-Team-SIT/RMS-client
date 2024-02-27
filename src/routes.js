@@ -67,7 +67,7 @@ const restrictedRoutesForLoggedInUsers = [
   'reset-password',
 ];
 
-const routeForAdmin = ['admin-dashboard'];
+const routeForAdmin = ['admin-dashboard', 'pdf-preview', 'upload', 'signout'];
 
 const routes = [
   {
@@ -401,7 +401,12 @@ router.beforeEach(async (to, from, next) => {
     );
     const isAdminRoute = routeForAdmin.includes(to.name);
 
-    console.log(isPublicRoute, isRestrictedForLoggedIn, isAdminRoute, user.role);
+    console.log(
+      isPublicRoute,
+      isRestrictedForLoggedIn,
+      isAdminRoute,
+      user.role
+    );
     if (isAdminRoute && user.role !== 'admin') {
       return next({ name: 'home' });
     }
