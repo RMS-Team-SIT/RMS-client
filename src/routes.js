@@ -67,7 +67,7 @@ const restrictedRoutesForLoggedInUsers = [
   'reset-password',
 ];
 
-const routeForAdmin = ['admin-dashboard', 'pdf-preview', 'upload', 'signout', 'profile'];
+const routeForAdmin = ['admin-dashboard'];
 
 const routes = [
   {
@@ -422,7 +422,6 @@ router.beforeEach(async (to, from, next) => {
     if (isRestrictedForLoggedIn && userStore.isLoggedIn) {
       return next({ name: 'manage' });
     }
-
     return next();
   } catch (error) {
     console.error('Error in navigation guard:', error);
