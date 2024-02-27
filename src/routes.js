@@ -401,6 +401,7 @@ router.beforeEach(async (to, from, next) => {
     );
     const isAdminRoute = routeForAdmin.includes(to.name);
 
+    console.log(isPublicRoute, isRestrictedForLoggedIn, isAdminRoute, user.role);
     if (isAdminRoute && user.role !== 'admin') {
       return next({ name: 'home' });
     }
