@@ -27,13 +27,13 @@ const handleFormData = async (formData) => {
       type: 'success',
     });
 
+    const user = store.getUser;
     // check if user is admin
-    if (store.user.role === 'admin') {
-      router.push({ name: 'admin' });
+    if (user.role === 'admin') {
+      router.push({ name: 'admin-dashboard' });
     } else {
       router.push({ name: 'manage' });
     }
-
   } else {
     let data = await response.json();
     console.log(data);

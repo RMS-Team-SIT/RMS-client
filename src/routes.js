@@ -14,6 +14,7 @@ const profile = () => import('./pages/user/profile.vue');
 const verifyEmail = () => import('./pages/verify-email.vue');
 const forgetPassword = () => import('./pages/forget-password.vue');
 const resetPassword = () => import('./pages/reset-password.vue');
+const kyc = () => import('./pages/user/kyc.vue');
 
 const dashboard = () => import('./pages/residence/dashboard.vue');
 const info = () => import('@/pages/residence/info.vue');
@@ -67,7 +68,7 @@ const restrictedRoutesForLoggedInUsers = [
   'reset-password',
 ];
 
-const routeForAdmin = ['admin-dashboard'];
+const adminRoutes = ['admin-dashboard'];
 
 const routes = [
   {
@@ -367,6 +368,14 @@ const routes = [
     },
   },
   {
+    name: 'kyc',
+    path: '/kyc',
+    component: kyc,
+    meta: {
+      title: 'KYC',
+    },
+  },
+  {
     path: '/:path(.*)',
     component: NotFound,
     name: 'not-found',
@@ -399,7 +408,7 @@ router.beforeEach(async (to, from, next) => {
     const isRestrictedForLoggedIn = restrictedRoutesForLoggedInUsers.includes(
       to.name
     );
-    const isAdminRoute = routeForAdmin.includes(to.name);
+    const isAdminRoute = adminRoutes.includes(to.name);
 
     console.log(
       isPublicRoute,
@@ -407,13 +416,27 @@ router.beforeEach(async (to, from, next) => {
       isAdminRoute,
       user.role
     );
+
+    // Admin
+    if(user.role === 'admin') {
+
+    }
+    // User
+    else if(user.role === 'user') {
+      
+    }
+    // Non-User
+    else {
+      
+    }
+
     if (isAdminRoute && user.role !== 'admin') {
       return next({ name: 'home' });
     }
 
-    if (!isAdminRoute && user.role === 'admin') {
-      return next({ name: 'admin-dashboard' });
-    }
+    // if (!isAdminRoute && user.role === 'admin') {
+    //   return next({ name: 'admin-dashboard' });
+    // }
 
     if (!isPublicRoute && !userStore.isLoggedIn) {
       return next({ name: 'signin' });

@@ -61,11 +61,10 @@ const setLang = () => {
 
 onMounted(async () => {
   // setLang();
-  // set time out to show the loading screen
   setTimeout(() => {
     isLoading.value = false;
   }, 500);
-  // isLoading.value = false;
+
 });
 </script>
 

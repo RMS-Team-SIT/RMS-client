@@ -8,6 +8,7 @@ import { BellIcon } from '@heroicons/vue/24/outline';
 import Divider from './divider.vue';
 import Badge from './badge.vue';
 import ChangeLang from './change-lang.vue';
+import NavNotification from './nav-notification.vue';
 
 const router = useRouter();
 
@@ -52,38 +53,8 @@ const props = defineProps({
         class="menu menu-horizontal px-1 text-center align-middle items-center"
       >
         <li><router-link :to="{ name: 'manage' }">จัดการ</router-link></li>
-        <div class="dropdown dropdown-end">
-          <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
-            <div class="indicator">
-              <BellIcon class="w-6 h-6" />
-              <span class="badge badge-sm indicator-item">8</span>
-            </div>
-          </div>
-          <div
-            tabindex="0"
-            class="mt-3 z-[1] card card-compact dropdown-content w-96 bg-base-100 shadow max-h-[500px] overflow-y-auto"
-          >
-            <div class="card-body">
-              <span class="font-bold text-lg">8 Notifications</span>
-              <div v-for="(val, index) in new Array(8).fill(0)" :key="index">
-                <div
-                  class="border-2 border-neutral rounded hover:bg-slate-200 p-5 pt-0"
-                >
-                  <Divider class="text-xs">[12-07-2023 03:20:39]</Divider>
-                  <div class="text-left">Siriwat just upload paid evidence</div>
-                  <div class="text-left">
-                    <Badge badgeType="neutral">The Residence</Badge>
-                    <Badge badgeType="primary">Room 101</Badge>
-                  </div>
-                </div>
-              </div>
-              <div class="card-actions">
-                <button class="btn btn-primary btn-block">View All</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flex gap-2 items-center  rounded-lg p-2">
+        <NavNotification :notifications="user.notifications" />
+        <div class="flex gap-2 items-center rounded-lg p-2">
           <p>{{ user.fullname }} : {{ user.role }}</p>
           <div class="dropdown dropdown-end">
             <label tabindex="0" class="btn btn-ghost btn-circle avatar">
