@@ -14,7 +14,11 @@ const profile = () => import('./pages/user/profile.vue');
 const verifyEmail = () => import('./pages/verify-email.vue');
 const forgetPassword = () => import('./pages/forget-password.vue');
 const resetPassword = () => import('./pages/reset-password.vue');
-const kyc = () => import('./pages/user/kyc/kyc.vue');
+// KYC
+const kycVerifyEmail = () => import('./pages/user/kyc/verify-email.vue');
+const kycPolicy = () => import('./pages/user/kyc/policy.vue');
+const kycIdcard = () => import('./pages/user/kyc/id-card.vue');
+const kycApprovalStatus = () => import('./pages/user/kyc/approval-status.vue');
 
 const dashboard = () => import('./pages/residence/dashboard.vue');
 const info = () => import('@/pages/residence/info.vue');
@@ -69,7 +73,6 @@ const restrictedRoutesForLoggedInUsers = [
 ];
 
 const adminRoutes = ['admin-dashboard'];
-const restricedRoutesForAdmin = [];
 
 const routes = [
   {
@@ -369,11 +372,35 @@ const routes = [
     },
   },
   {
-    name: 'kyc',
-    path: '/kyc',
-    component: kyc,
+    name: 'kyc-verify-email',
+    path: '/kyc/step/verify-email',
+    component: kycVerifyEmail,
     meta: {
-      title: 'KYC',
+      title: 'ยืนยันอีเมล',
+    },
+  },
+  {
+    name: 'kyc-policy',
+    path: '/kyc/step/policy',
+    component: kycPolicy,
+    meta: {
+      title: 'เงื่อนไขการใช้งาน',
+    },
+  },
+  {
+    name: 'kyc-id-card',
+    path: '/kyc/step/idcard',
+    component: kycIdcard,
+    meta: {
+      title: 'ยืนยันตัวตน',
+    },
+  },
+  {
+    name: 'kyc-approval-status',
+    path: '/kyc/step/approval-status',
+    component: kycApprovalStatus,
+    meta: {
+      title: 'รอการอนุมัติ',
     },
   },
   {
@@ -439,8 +466,45 @@ router.beforeEach(async (to, from, next) => {
       }
 
       // Non kyc user can only access kyc route
-      if (!user.isApprovedKYC && to.name !== 'kyc' && to.name !== 'signout') {
-        return next({ name: 'kyc' });
+      if (!user.isEmailVerified && to.name !== 'kyc-verify-email') {
+        if (to.name === 'signout' || to.name === 'verify-email') return next();
+        return next({ name: 'kyc-verify-email' });
+      } else if (
+        user.isEmailVerified &&
+        !user.isAcceptedPolicy &&
+        to.name !== 'kyc-policy'
+      ) {
+        if (to.name === 'signout') return next();
+        return next({ name: 'kyc-policy' });
+      } else if (
+        user.isEmailVerified &&
+        user.isAcceptedPolicy &&
+        !user.idcardNumber &&
+        to.name !== 'kyc-id-card'
+      ) {
+        if (to.name === 'signout') return next();
+        return next({ name: 'kyc-id-card' });
+      } else if (
+        user.isEmailVerified &&
+        user.isAcceptedPolicy &&
+        user.idcardNumber &&
+        !user.isApprovedKYC &&
+        to.name !== 'kyc-approval-status'
+      ) {
+        if (to.name === 'signout') return next();
+        return next({ name: 'kyc-approval-status' });
+      } else if (
+        user.isEmailVerified &&
+        user.isAcceptedPolicy &&
+        user.idcardNumber &&
+        user.isApprovedKYC &&
+        (to.name === 'kyc-verify-email' ||
+          to.name === 'kyc-policy' ||
+          to.name === 'kyc-id-card' ||
+          to.name === 'kyc-approval-status')
+      ) {
+        console.log('User is verified');
+        return next({ name: 'manage' });
       }
 
       return next();

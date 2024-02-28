@@ -26,6 +26,9 @@ class UserService {
   
   resendVerifyEmail = async (id) => sendRequest(this.baseUrl, `/users/resend-verify-email/${id}`, 'GET');
 
+  acceptPolicy = async (id) => sendRequest(this.baseUrl, `/users/accept-policy/${id}`, 'GET');
+
+  uploadIdCard = async (id, data) => sendRequest(this.baseUrl, `/users/${id}/upload-id-card`, 'POST', data);
 }
 
 export default new UserService();

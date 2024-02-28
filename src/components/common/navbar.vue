@@ -52,10 +52,12 @@ const props = defineProps({
       <ul
         class="menu menu-horizontal px-1 text-center align-middle items-center"
       >
-        <li><router-link :to="{ name: 'manage' }">จัดการ</router-link></li>
+        <!-- <li><router-link :to="{ name: 'manage' }">จัดการ</router-link></li> -->
         <NavNotification :notifications="user.notifications" />
         <div class="flex gap-2 items-center rounded-lg p-2">
-          <p>{{ user.fullname }} : {{ user.role }}</p>
+          <p>
+            {{ user.fullname }} {{ user.role === 'admin' ? ': admin' : '' }}
+          </p>
           <div class="dropdown dropdown-end">
             <label tabindex="0" class="btn btn-ghost btn-circle avatar">
               <div class="w-10 rounded-full">

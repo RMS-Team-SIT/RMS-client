@@ -25,7 +25,7 @@ const props = defineProps({
     </div>
     <div
       tabindex="0"
-      class="mt-3 z-[1] card card-compact dropdown-content w-96 bg-base-100 shadow max-h-[500px] overflow-y-auto"
+      class="mt-3 z-[10] card card-compact dropdown-content w-96 bg-base-100 shadow max-h-[500px] overflow-y-auto"
     >
       <div class="card-body">
         <span class="font-bold text-lg"
