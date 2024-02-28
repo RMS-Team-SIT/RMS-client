@@ -120,6 +120,20 @@ const submit = async () => {
       </span>
       <span class="text-xs text-red-500">{{ validateErrorMsg('email') }}</span>
     </div>
+    <div>
+      <label class="label">
+        <span class="text-base label-text">เลขประจำตัวประชาชน</span>
+      </label>
+      <input
+        type="text"
+        placeholder="เลขประจำตัวประชาชน"
+        class="w-full input input-bordered bg-white  input-sm rounded-sm"
+        v-model="userData.idcardNumber"
+        :disabled="true"
+      />
+     
+      <span class="text-xs text-red-500">{{ validateErrorMsg('email') }}</span>
+    </div>
     <div class="py-1">
       <button class="btn btn-block mt-2" type="submit">
         บันทึกข้อมูล

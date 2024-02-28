@@ -122,7 +122,7 @@ const validateErrorMsg = (field) => {
         <div class="flex gap-2">
           <div class="w-full">
             <label class="label">
-              <span class="text-base label-text">ชื่อ</span>
+              <span class="text-base label-text">ชื่อ (ภาษาไทย)</span>
             </label>
             <input
               type="text"
@@ -137,7 +137,7 @@ const validateErrorMsg = (field) => {
 
           <div class="w-full">
             <label class="label">
-              <span class="text-base label-text">นามสกุล</span>
+              <span class="text-base label-text">นามสกุล (ภาษาไทย)</span>
             </label>
             <input
               type="text"
@@ -161,6 +161,7 @@ const validateErrorMsg = (field) => {
             class="w-full input input-bordered bg-white input-sm rounded-sm"
             v-model="formData.phone"
           />
+          <p class="text-xs text-gray-500">ตัวอย่าง: 085xxxxxxx</p>
           <span class="text-xs text-red-500">{{
             validateErrorMsg('phone')
           }}</span>

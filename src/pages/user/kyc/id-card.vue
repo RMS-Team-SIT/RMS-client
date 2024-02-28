@@ -10,6 +10,7 @@ import Steps from '@/components/common/steps.vue';
 import { useUserStore } from '@/stores/user.store';
 import UserServices from '@/services/UserServices';
 import { useRouter } from 'vue-router';
+import { validateIdcardNumber } from '@/utils/idcard';
 
 const isLoading = ref(true);
 const currentStep = 3;
@@ -28,6 +29,19 @@ const uploadIdcard = async () => {
   try {
     isLoading.value = true;
     disableUploadIdcard.value = true;
+
+    if (!validateIdcardNumber(idCardData.idCardNumber)) {
+      notify({
+        type: 'error',
+        title: 'เกิดข้อผิดพลาด',
+        text: 'เลขบัตรประจำตัวประชาชนไม่ถูกต้อง',
+        group: 'tr',
+      });
+      disableUploadIdcard.value = false;
+      isLoading.value = false;
+      return;
+    }
+
     const response = await UserServices.uploadIdCard(
       currentUser.value._id,
       idCardData

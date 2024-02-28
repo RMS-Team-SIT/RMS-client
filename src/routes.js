@@ -458,7 +458,7 @@ router.beforeEach(async (to, from, next) => {
     // User can access all routes except admin routes and restricted routes for logged in users
     else if (user.role === 'user') {
       if (isAdminRoute) {
-        return next({ name: 'home' });
+        return next({ name: 'manage' });
       }
 
       if (isRestrictedForLoggedIn) {
