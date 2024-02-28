@@ -50,7 +50,7 @@ onBeforeMount(async () => {
       </div>
       <div class="relative bg-white p-10 space-y-4 rounded border border-gray-200">
         <h1 class="text-3xl font-semibold text-dark-blue-200">หอพักของฉัน</h1>
-        <p class="text-xs">หน้านี้จะแสดงหงพักทั้งหมดของคุณ</p>
+        <p class="text-xs">หน้านี้จะแสดงหอพักทั้งหมดของคุณ</p>
         <Loading v-if="isLoading" />
         <ResidenceCard
           v-for="(residence, index) in residences.data"

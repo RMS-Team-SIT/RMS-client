@@ -14,7 +14,7 @@ const profile = () => import('./pages/user/profile.vue');
 const verifyEmail = () => import('./pages/verify-email.vue');
 const forgetPassword = () => import('./pages/forget-password.vue');
 const resetPassword = () => import('./pages/reset-password.vue');
-const kyc = () => import('./pages/user/kyc.vue');
+const kyc = () => import('./pages/user/kyc/kyc.vue');
 
 const dashboard = () => import('./pages/residence/dashboard.vue');
 const info = () => import('@/pages/residence/info.vue');
@@ -69,6 +69,7 @@ const restrictedRoutesForLoggedInUsers = [
 ];
 
 const adminRoutes = ['admin-dashboard'];
+const restricedRoutesForAdmin = [];
 
 const routes = [
   {
@@ -418,34 +419,41 @@ router.beforeEach(async (to, from, next) => {
     );
 
     // Admin
-    if(user.role === 'admin') {
-
+    // Admin can access all routes
+    if (user.role === 'admin') {
+      if (isRestrictedForLoggedIn) {
+        return next({ name: 'admin-dashboard' });
+      }
+      return next();
     }
+
     // User
-    else if(user.role === 'user') {
-      
+    // User can access all routes except admin routes and restricted routes for logged in users
+    else if (user.role === 'user') {
+      if (isAdminRoute) {
+        return next({ name: 'home' });
+      }
+
+      if (isRestrictedForLoggedIn) {
+        return next({ name: 'manage' });
+      }
+
+      // Non kyc user can only access kyc route
+      if (!user.isApprovedKYC && to.name !== 'kyc' && to.name !== 'signout') {
+        return next({ name: 'kyc' });
+      }
+
+      return next();
     }
+
     // Non-User
+    // Non-User can access only public routes
     else {
-      
+      if (!isPublicRoute) {
+        return next({ name: 'signin' });
+      }
+      return next();
     }
-
-    if (isAdminRoute && user.role !== 'admin') {
-      return next({ name: 'home' });
-    }
-
-    // if (!isAdminRoute && user.role === 'admin') {
-    //   return next({ name: 'admin-dashboard' });
-    // }
-
-    if (!isPublicRoute && !userStore.isLoggedIn) {
-      return next({ name: 'signin' });
-    }
-
-    if (isRestrictedForLoggedIn && userStore.isLoggedIn) {
-      return next({ name: 'manage' });
-    }
-    return next();
   } catch (error) {
     console.error('Error in navigation guard:', error);
   }

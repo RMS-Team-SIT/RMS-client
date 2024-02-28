@@ -18,7 +18,7 @@ const handleFormData = async (formData) => {
     let data = await response.json();
 
     localStorage.setItem('token', data.access_token);
-    store.fetchUserData();
+    await store.fetchUserData();
 
     notify({
       group: 'tr',
@@ -28,6 +28,7 @@ const handleFormData = async (formData) => {
     });
 
     const user = store.getUser;
+    
     // check if user is admin
     if (user.role === 'admin') {
       router.push({ name: 'admin-dashboard' });
