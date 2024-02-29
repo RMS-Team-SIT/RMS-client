@@ -13,14 +13,28 @@ import { useNotification } from '@kyvg/vue3-notification';
 import ResidenceServices from '@/services/ResidenceServices';
 import FileService from '@/services/FileService';
 import ImageUploadForm from '@/components/form/image.form.vue';
+import { useUserStore } from '@/stores/user.store';
 
 const router = useRouter();
 const { notify } = useNotification();
 const route = useRoute();
 
-const numberOfSteps = 3;
+const stepList = [
+  'กรอกข้อมูลหอพัก',
+  'อัปโหลดเอกสารของหอพัก',
+  'สร้างรูปแบบห้องพัก',
+  'กำหนดค่าบริการต่าง ๆ',
+  'สร้างห้องพัก',
+  'เพิ่มช่องทางการชำระเงิน',
+  'ตรวจสอบข้อมูล',
+  'สถานะการสร้าง',
+];
+const numberOfSteps = stepList.length;
+
 const currentStep = ref(1);
-const canNext = ref(false);
+const canNext = ref(new Array(numberOfSteps).fill(true));
+const userStore = useUserStore();
+const user = userStore.getUser;
 
 const residenceData = reactive({
   name: '',
@@ -28,14 +42,16 @@ const residenceData = reactive({
   address: '',
   images: [],
   contact: {
+    contactName: user.fullname,
     facebook: '',
     line: '',
-    phone: '',
-    email: '',
+    phone: user.phone,
+    email: user.email,
   },
   defaultWaterPriceRate: 0.0,
   defaultElectricPriceRate: 0.0,
   imageFiles: [],
+  residenceBusinessLicense: { fileName: null, file: null, isEdited: false },
 });
 
 const changeStep = (action) => {
@@ -100,12 +116,12 @@ const submitData = async () => {
 };
 
 watch(residenceData, () => {
-  canNext.value =
-    residenceData.name &&
-    residenceData.defaultElectricPriceRate &&
-    residenceData.defaultElectricPriceRate > 0 &&
-    residenceData.defaultWaterPriceRate &&
-    residenceData.defaultWaterPriceRate > 0;
+  // canNext.value =
+  //   residenceData.name &&
+  //   residenceData.defaultElectricPriceRate &&
+  //   residenceData.defaultElectricPriceRate > 0 &&
+  //   residenceData.defaultWaterPriceRate &&
+  //   residenceData.defaultWaterPriceRate > 0;
 });
 </script>
 
@@ -121,101 +137,163 @@ watch(residenceData, () => {
           ]"
         />
       </div>
-      <div>
-        <div class="p-4 mb-4 card shadow-xl bg-white">
+
+      <div class="grid grid-cols-12">
+        <div class="p-4 mb-4 card bg-white col-span-3">
           <Steps
-            :stepList="['กรอกข้อมูล', 'เพิ่มรูปภาพ', 'ตรวจสอบข้อมูล']"
+            class="steps-vertical text-left"
+            :stepList="[
+              'กรอกข้อมูลหอพัก',
+              'อัปโหลดเอกสารของหอพัก',
+              'สร้างรูปแบบห้องพัก',
+              'กำหนดค่าบริการต่าง ๆ',
+              'สร้างห้องพัก',
+              'เพิ่มช่องทางการชำระเงิน',
+              'ตรวจสอบข้อมูล',
+              'สถานะการสร้าง',
+            ]"
             :currentStep="currentStep"
           />
         </div>
-        <!-- step 1 -->
-        <div
-          v-if="currentStep == 1"
-          class="grid grid-cols-1 lg:grid-cols-3 gap-2"
-        >
-          <ResidenceBasicInfoForm
-            @getData="getChildData"
-            :residenceData="residenceData"
-          />
-          <ResidenceSettingForm
-            @getData="getChildData"
-            :residenceData="residenceData"
-          />
-          <ResidenceContactForm
-            @getData="getChildData"
-            :residenceData="residenceData"
-          />
-        </div>
 
-        <!-- step 2 -->
-        <div v-if="currentStep == 2" class="flex gap-4">
-          <div
-            class="relative bg-white p-10 space-y-4 shadow-md rounded basis-full"
-          >
-            <h1 class="text-xl font-semibold text-dark-blue-200">
-              อัพโหลดรูปภาพ
-            </h1>
-            <p class="text-xs">อัพโหลดรูปภาพของหอพัก</p>
-            <ImageUploadForm
-              @getImageFiles="getChildData"
-              :imageFiles="residenceData.imageFiles"
-            />
-          </div>
-        </div>
-
-        <!-- step 3 -->
-        <div v-if="currentStep == 3" class="flex gap-4 flex-col">
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-2">
+        <div class="p-4 mb-4 card bg-white col-span-9">
+          <!-- step 1 -->
+          <div v-if="currentStep == 1" class="w-full">
             <ResidenceBasicInfoForm
               @getData="getChildData"
               :residenceData="residenceData"
-              :viewOnly="true"
             />
-            <ResidenceSettingForm
-              @getData="getChildData"
-              :residenceData="residenceData"
-              :viewOnly="true"
-            />
+            <div
+              class="relative bg-white p-10 space-y-4 shadow-md rounded basis-full"
+            >
+              <h1 class="text-xl font-semibold text-dark-blue-200">
+                อัพโหลดรูปภาพ
+              </h1>
+              <p class="text-xs">อัพโหลดรูปภาพของหอพัก</p>
+              <ImageUploadForm
+                @getImageFiles="getChildData"
+                :imageFiles="residenceData.imageFiles"
+              />
+            </div>
             <ResidenceContactForm
               @getData="getChildData"
               :residenceData="residenceData"
-              :viewOnly="true"
             />
           </div>
-          <ImagePreview
-            class="basis-full"
-            :imageFiles="residenceData.imageFiles"
-          />
-        </div>
 
-        <!-- button control -->
-        <div class="flex justify-end gap-2 mt-10">
-          <Button
-            btn-type="secondary"
-            @click="changeStep('back')"
-            v-if="currentStep > 1"
-            class="rounded-badge"
-          >
-            <ArrowLeftIcon class="w-4 h-4" />
-            ย้อนกลับ
-          </Button>
-          <Button
-            v-if="currentStep == numberOfSteps"
-            @click="submitData"
-            class="rounded-badge"
-            btnType="primary"
-          >
-            บันทึกข้อมูล
-          </Button>
-          <Button
-            @click="changeStep('next')"
-            class="rounded-badge"
-            v-else
-            :disabled="!canNext"
-          >
-            ถัดไป
-            <ArrowRightIcon class="w-4 h-4" />
-          </Button>
+          <!-- step 2 -->
+          <div v-if="currentStep == 2" class="flex gap-4">
+            <div
+              class="relative bg-white p-10 space-y-4 shadow-md rounded basis-full"
+            >
+              <h1 class="text-xl font-semibold text-dark-blue-200">
+                อัพโหลดเอกสารประกอบการหอพัก
+              </h1>
+              <p class="text-xs">
+                กรุณาอัพโหลดเอกสารประกอบการหอพัก
+                เพื่อใช้ในการยืนยันข้อมูลของหอพัก
+              </p>
+              <div>
+                <label class="label">
+                  <span class="text-base label-text"
+                    >เอกสารประกอบการหอพัก
+                    <span class="text-red-500">(pdf เท่านั้น)</span>
+                  </span>
+                </label>
+                <input
+                  v-if="!viewOnly"
+                  type="file"
+                  @change="
+                    (e) => (residenceBusinessLicense.file = e.target.files[0])
+                  "
+                  multiple
+                  class="file-input-sm file-input file-input-bordered bg-white w-full max-w-xs file-input-ghost"
+                />
+                <!-- Preview file name if exist -->
+                <div
+                  v-if="
+                    residenceBusinessLicense?.file ||
+                    residenceBusinessLicense?.fileName
+                  "
+                  class="mt-2"
+                >
+                  <span class="text-sm text-gray-500">
+                    {{
+                      residenceBusinessLicense.file?.name ||
+                      renterFiles.residenceBusinessLicense?.fileName
+                    }}
+                    <Button
+                      btn-type="ghost"
+                      class="font-xs"
+                      v-if="!viewOnly"
+                      >ลบไฟล์</Button
+                    >
+                  </span>
+                </div>
+                <div v-else>
+                  <span class="text-sm text-gray-500"
+                    >ยังไม่มีไฟล์ที่ถูกเลือก</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- step 3 -->
+          <div v-if="currentStep == 3" class="flex gap-4 flex-col">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-2">
+              <ResidenceBasicInfoForm
+                @getData="getChildData"
+                :residenceData="residenceData"
+                :viewOnly="true"
+              />
+              <ResidenceSettingForm
+                @getData="getChildData"
+                :residenceData="residenceData"
+                :viewOnly="true"
+              />
+              <ResidenceContactForm
+                @getData="getChildData"
+                :residenceData="residenceData"
+                :viewOnly="true"
+              />
+            </div>
+            <ImagePreview
+              class="basis-full"
+              :imageFiles="residenceData.imageFiles"
+            />
+          </div>
+
+          <!-- button control -->
+
+          <div class="flex justify-end gap-2 mt-10">
+            <Button
+              btn-type="secondary"
+              @click="changeStep('back')"
+              v-if="currentStep > 1"
+              class="rounded-badge"
+            >
+              <ArrowLeftIcon class="w-4 h-4" />
+              ย้อนกลับ
+            </Button>
+            <Button
+              v-if="currentStep == numberOfSteps"
+              @click="submitData"
+              class="rounded-badge"
+              btnType="primary"
+            >
+              บันทึกข้อมูล
+            </Button>
+            <Button
+              @click="changeStep('next')"
+              class="rounded-badge"
+              v-else
+              :disabled="!canNext[currentStep - 1]"
+            >
+              ถัดไป
+              <ArrowRightIcon class="w-4 h-4" />
+            </Button>
+          </div>
         </div>
       </div>
     </div>

@@ -45,7 +45,7 @@ onBeforeMount(async () => {
           ]"
         />
         <router-link :to="{ name: 'create-residence' }">
-          <Button>สร้างหอพักในระบบ</Button>
+          <Button>สร้างหอพัก</Button>
         </router-link>
       </div>
       <div class="relative bg-white p-10 space-y-4 rounded border border-gray-200">

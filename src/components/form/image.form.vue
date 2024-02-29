@@ -152,7 +152,7 @@ onMounted(() => {
       class="file-input-sm file-input file-input-bordered bg-white  w-full max-w-xs file-input-ghost"
     />
     <Button
-      v-if="!viewOnly"
+      v-if="imagePreviews.length > 0 && !viewOnly"
       btnType="secondary-pill"
       @click="clearImages"
       class="m-5"
