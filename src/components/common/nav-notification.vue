@@ -31,6 +31,9 @@ const props = defineProps({
         <span class="font-bold text-lg"
           >{{ notifications.length }} การแจ้งเตือน</span
         >
+        <div v-if="!notifications.length" class="text-center mt-5">
+          <span class="text-neutral">ไม่มีการแจ้งเตือน</span>
+        </div>
         <div v-for="(notification, index) in notifications" :key="index">
           <div
             class="border-2 border-neutral rounded hover:bg-slate-200 p-5 pt-0"
@@ -48,8 +51,8 @@ const props = defineProps({
             </div> -->
           </div>
         </div>
-        <div class="card-actions">
-          <button class="btn btn-primary btn-block">View All</button>
+        <div class="card-actions" v-if="notifications.length">
+          <button class="btn btn-primary btn-block btn-sm">ดูทั้งหมด</button>
         </div>
       </div>
     </div>

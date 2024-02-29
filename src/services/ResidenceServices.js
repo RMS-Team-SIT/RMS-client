@@ -91,6 +91,9 @@ class ResidenceService {
       `/residence/${residenceId}/room/${roomId}`,
       'DELETE'
     );
+
+  overAllStats = async () =>
+    sendRequest(this.baseUrl, `/residence/overall-stats`, 'GET');
 }
 
 export default new ResidenceService();

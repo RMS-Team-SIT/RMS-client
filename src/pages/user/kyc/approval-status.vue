@@ -46,10 +46,12 @@ onBeforeMount(async () => {
       <div
         class="relative bg-white p-10 space-y-4 rounded border border-gray-200"
       >
-        <h1 class="text-xl font-semibold text-dark-blue-200">ระบบกำลังตรวจสอบข้อมูลของคุณ</h1>
+        <h1 class="text-xl font-semibold text-dark-blue-200">
+          ระบบกำลังตรวจสอบข้อมูลของคุณ
+        </h1>
         <p class="text-base mt-10">
           ขอบคุณที่ยืนยันตัวตนของคุณ ระบบกำลังตรวจสอบข้อมูลของคุณ <br />
-          หากท่านผ่านการตรวจสอบ ท่านจะได้รับอีเมลแจ้งเตือน
+          หากท่านผ่านการตรวจสอบ <b>ท่านจะได้รับอีเมลแจ้งเตือน</b>
           และสามารถใช้งานระบบได้ทันที
 
           <br /><br />
