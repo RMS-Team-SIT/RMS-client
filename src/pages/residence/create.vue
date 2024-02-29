@@ -137,7 +137,7 @@ watch(residenceData, () => {
           ]"
         />
       </div>
-
+      {{ residenceData }}
       <div class="grid grid-cols-12">
         <div class="p-4 mb-4 card bg-white col-span-3">
           <Steps
@@ -184,16 +184,16 @@ watch(residenceData, () => {
           <!-- step 2 -->
           <div v-if="currentStep == 2" class="flex gap-4">
             <div
-              class="relative bg-white p-10 space-y-4 shadow-md rounded basis-full"
+              class="relative bg-white p-10 shadow-md rounded basis-full"
             >
               <h1 class="text-xl font-semibold text-dark-blue-200">
                 อัพโหลดเอกสารประกอบการหอพัก
               </h1>
-              <p class="text-xs">
+              <p class="text-sm mt-5">
                 กรุณาอัพโหลดเอกสารประกอบการหอพัก
                 เพื่อใช้ในการยืนยันข้อมูลของหอพัก
               </p>
-              <div>
+              <div class="mt-5">
                 <label class="label">
                   <span class="text-base label-text"
                     >เอกสารประกอบการหอพัก
@@ -204,7 +204,7 @@ watch(residenceData, () => {
                   v-if="!viewOnly"
                   type="file"
                   @change="
-                    (e) => (residenceBusinessLicense.file = e.target.files[0])
+                    (e) => (residenceData.residenceBusinessLicense.file = e.target.files[0])
                   "
                   multiple
                   class="file-input-sm file-input file-input-bordered bg-white w-full max-w-xs file-input-ghost"
@@ -212,15 +212,15 @@ watch(residenceData, () => {
                 <!-- Preview file name if exist -->
                 <div
                   v-if="
-                    residenceBusinessLicense?.file ||
-                    residenceBusinessLicense?.fileName
+                    residenceData.residenceBusinessLicense?.file ||
+                    residenceData.residenceBusinessLicense?.fileName
                   "
-                  class="mt-2"
+                  class="mt-5"
                 >
                   <span class="text-sm text-gray-500">
                     {{
-                      residenceBusinessLicense.file?.name ||
-                      renterFiles.residenceBusinessLicense?.fileName
+                      residenceData.residenceBusinessLicense.file?.name ||
+                      residenceData.renterFiles.residenceBusinessLicense?.fileName
                     }}
                     <Button
                       btn-type="ghost"
@@ -231,7 +231,7 @@ watch(residenceData, () => {
                   </span>
                 </div>
                 <div v-else>
-                  <span class="text-sm text-gray-500"
+                  <span class="text-sm text-gray-500 mt-5"
                     >ยังไม่มีไฟล์ที่ถูกเลือก</span
                   >
                 </div>
@@ -241,27 +241,7 @@ watch(residenceData, () => {
 
           <!-- step 3 -->
           <div v-if="currentStep == 3" class="flex gap-4 flex-col">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-2">
-              <ResidenceBasicInfoForm
-                @getData="getChildData"
-                :residenceData="residenceData"
-                :viewOnly="true"
-              />
-              <ResidenceSettingForm
-                @getData="getChildData"
-                :residenceData="residenceData"
-                :viewOnly="true"
-              />
-              <ResidenceContactForm
-                @getData="getChildData"
-                :residenceData="residenceData"
-                :viewOnly="true"
-              />
-            </div>
-            <ImagePreview
-              class="basis-full"
-              :imageFiles="residenceData.imageFiles"
-            />
+            
           </div>
 
           <!-- button control -->
