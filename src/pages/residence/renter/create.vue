@@ -55,10 +55,11 @@ const submitData = async () => {
       renterData.copyOfIdCard.file
     );
     if (uploadFileResponse.status != 201) {
+      const data = await uploadFileResponse.json();
       notify({
         group: 'tr',
         title: 'เกิดข้อผิดพลาด',
-        text: 'Failed to upload files',
+        text: 'ไม่สามารถอัพโหลดไฟล์ได้, ' + data?.message,
         type: 'error',
       });
       return;
@@ -73,7 +74,7 @@ const submitData = async () => {
       renterData.renterContract.file
     );
     if (uploadFileResponse.status != 201) {
-      const data = await response.json();
+      const data = await uploadFileResponse.json();
       notify({
         group: 'tr',
         title: 'เกิดข้อผิดพลาด',

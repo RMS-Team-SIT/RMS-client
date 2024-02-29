@@ -22,7 +22,8 @@ const kycApprovalStatus = () => import('./pages/user/kyc/approval-status.vue');
 
 const dashboard = () => import('./pages/residence/dashboard.vue');
 const info = () => import('@/pages/residence/info.vue');
-const createResidence = () => import('@/pages/residence/create.vue');
+// const createResidence = () => import('@/pages/residence/create.vue');
+const createResidence = () => import('@/pages/residence/create-old.vue');
 const updateResidenceInfo = () => import('./pages/residence/update.info.vue');
 
 const renter = () => import('./pages/residence/renter/renter.vue');

@@ -1,5 +1,6 @@
 <script setup>
 import Button from '@/components/common/button.vue';
+import { validatePDFFile } from '@/utils/file';
 import { onMounted, reactive, watch } from 'vue';
 
 const emit = defineEmits(['getData']);
@@ -61,7 +62,12 @@ watch(renterFiles, () => {
       <input
         v-if="!viewOnly"
         type="file"
-        @change="(e) => (renterFiles.copyOfIdCard.file = e.target.files[0])"
+        @change="
+          (e) => {
+            if (validatePDFFile(e.target.files[0]))
+              renterFiles.copyOfIdCard.file = e.target.files[0];
+          }
+        "
         multiple
         class="file-input-sm file-input file-input-bordered bg-white w-full max-w-xs file-input-ghost"
       />
@@ -101,7 +107,12 @@ watch(renterFiles, () => {
       <input
         v-if="!viewOnly"
         type="file"
-        @change="(e) => (renterFiles.renterContract.file = e.target.files[0])"
+        @change="
+          (e) => {
+            if (validatePDFFile(e.target.files[0]))
+              renterFiles.renterContract.file = e.target.files[0];
+          }
+        "
         multiple
         class="file-input-sm file-input file-input-bordered bg-white w-full max-w-xs file-input-ghost"
       />

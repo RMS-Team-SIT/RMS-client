@@ -23,6 +23,7 @@ const renterInfo = reactive({
   username: '',
   phone: '',
   password: '',
+  email: '',
 });
 
 const emitData = () => {
@@ -99,8 +100,27 @@ watch(renterInfo, () => {
       />
     </div>
 
-    <h1 class="text-xl mt-5 font-semibold text-dark-blue-200">ข้อมูลบัญชีของผู้เช่า</h1>
-    <p class="text-xs">สร้างข้อมูลบัญชีของผู้เช่า เพื่อให้ผู้เช่าสามาถเข้าสู่ระบบของคุณ </p>
+    <div>
+      <label class="label">
+        <span class="text-base label-text"
+          >อีเมล <span class="text-red-500">*</span>
+        </span>
+      </label>
+      <input
+        type="text"
+        placeholder="อีเมล"
+        class="w-full input input-bordered bg-white input-sm rounded-sm"
+        v-model="renterInfo.email"
+        :disabled="viewOnly"
+      />
+    </div>
+
+    <h1 class="text-xl mt-5 font-semibold text-dark-blue-200">
+      บัญชีผู้ใช้งาน(ผู้เช่า)
+    </h1>
+    <p class="text-xs">
+      สร้างบัญชีผู้ใช้งาน(ผู้เช่า) ผู้เช่าจะใช้บัญชีนี้ในการเข้าสู่ระบบ
+    </p>
     <div>
       <label class="label">
         <span class="text-base label-text"
@@ -138,7 +158,8 @@ watch(renterInfo, () => {
         >
       </div>
       <p class="text-xs text-gray-500 mt-2">
-        * ชื่อผู้ใช้และรหัสผ่านของผู้เช่าที่ใช้ในการเข้าสู่ระบบระบบผู้เช่าของคุณ
+        * ชื่อผู้ใช้และรหัสผ่านของผู้เช่าที่ใช้ในการเข้าสู่ระบบระบบผู้เช่าของคุณ <br>
+        กรุณาจดจำข้อมูลนี้ เนื่องจากคุณจะไม่สามารถเห็นรหัสผ่านของผู้เช่าได้อีกครั้ง
       </p>
     </div>
   </div>

@@ -31,6 +31,7 @@ const renterData = reactive({
   lastname: '',
   username: '',
   phone: '',
+  email: '',
   image: null,
   copyOfIdCard: { fileName: null, file: null, isEdited: false },
   renterContract: { fileName: null, file: null, isEdited: false },
@@ -75,6 +76,7 @@ const fetchData = async () => {
     renterData.password = data.password;
     renterData.room = data.room;
     renterData.isActive = data.isActive;
+    renterData.email = data.email;
   } else {
     const data = await response.json();
     notify({
@@ -115,11 +117,11 @@ const submitData = async () => {
       renterData.renterContract.file
     );
     if (uploadFileResponse.status != 201) {
-      const data = await response.json();
+      const data = await uploadFileResponse.json();
       notify({
         group: 'tr',
         title: 'เกิดข้อผิดพลาด',
-        text: 'Failed to upload files, ' + data?.message,
+        text: 'ไม่สามารถอัพโหลดไฟล์ได้: ' + data?.message,
         type: 'error',
       });
       return;
