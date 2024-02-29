@@ -15,10 +15,13 @@ import {
 } from '@vuelidate/validators';
 import {
   CheckIcon,
+  EyeIcon,
+  EyeSlashIcon,
   InformationCircleIcon,
   XMarkIcon,
 } from '@heroicons/vue/24/outline';
 import Loading from '../common/loading.vue';
+import Tooltip from '../common/tooltip.vue';
 
 const emit = defineEmits(['submit']);
 const props = defineProps({
@@ -29,6 +32,7 @@ const props = defineProps({
 });
 const router = useRouter();
 const isShowPasswordRules = ref(false);
+const isShowPassword = ref(false);
 
 const formData = reactive({
   firstname: '',
@@ -78,7 +82,7 @@ const rules = computed(() => {
     password: {
       required: requiredMsg,
       strongPassword: helpers.withMessage(
-        'รหัสผ่านไม่ตรงตามเงื่อนไข',
+        'รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร, มีอักษรตัวพิมพ์ใหญ่, มีอักษรตัวพิมพ์เล็ก, มีตัวเลข, และมีอักษรพิเศษ',
         strongPassword
       ),
     },
@@ -122,7 +126,9 @@ const validateErrorMsg = (field) => {
         <div class="flex gap-2">
           <div class="w-full">
             <label class="label">
-              <span class="text-base label-text">ชื่อ (ภาษาไทย)</span>
+              <span class="text-base label-text"
+                >ชื่อ (ภาษาไทย) <span class="text-red-500">*</span>
+              </span>
             </label>
             <input
               type="text"
@@ -137,7 +143,9 @@ const validateErrorMsg = (field) => {
 
           <div class="w-full">
             <label class="label">
-              <span class="text-base label-text">นามสกุล (ภาษาไทย)</span>
+              <span class="text-base label-text"
+                >นามสกุล (ภาษาไทย) <span class="text-red-500">*</span></span
+              >
             </label>
             <input
               type="text"
@@ -152,7 +160,9 @@ const validateErrorMsg = (field) => {
         </div>
         <div>
           <label class="label">
-            <span class="text-base label-text">เบอร์โทรศัพท์</span>
+            <span class="text-base label-text"
+              >เบอร์โทรศัพท์ <span class="text-red-500">*</span></span
+            >
           </label>
           <input
             type="text"
@@ -168,7 +178,9 @@ const validateErrorMsg = (field) => {
         </div>
         <div>
           <label class="label">
-            <span class="text-base label-text">อีเมล</span>
+            <span class="text-base label-text"
+              >อีเมล <span class="text-red-500">*</span></span
+            >
           </label>
           <input
             type="email"
@@ -180,32 +192,43 @@ const validateErrorMsg = (field) => {
             validateErrorMsg('email')
           }}</span>
           <p class="text-xs text-gray-500">
-            กรุณาใช้ที่อยู่อีเมลจริงสำหรับการติดต่อในอนาคต
+            กรุณาใช้ที่อยู่อีเมลจริงเพื่อใช้ในการยืนยันตัวตน และการติดต่อในอนาคต
           </p>
         </div>
 
         <div>
           <label class="label">
-            <span class="text-base label-text">รหัสผ่าน</span>
+            <span class="text-base label-text"
+              >รหัสผ่าน <span class="text-red-500">*</span></span
+            >
+            <div
+              class="flex gap-2 items-center hover:cursor-pointer"
+              @click="isShowPassword = !isShowPassword"
+            >
+              <p class="text-sm" v-if="!isShowPassword">แสดงรหัสผ่าน</p>
+              <p class="text-sm" v-else>ซ่อนรหัสผ่าน</p>
+              <EyeIcon v-if="!isShowPassword" class="w-6" />
+              <EyeSlashIcon v-else class="w-6" />
+            </div>
           </label>
           <div class="flex w-full items-center gap-2">
             <input
-              type="password"
+              :type="isShowPassword ? 'text' : 'password'"
               placeholder="กรุณาใส่รหัสผ่านของคุณ"
               class="w-full input input-bordered bg-white input-sm rounded-sm"
               v-model="formData.password"
             />
-            <div
-              class="tooltip tooltip-right"
-              data-tip="กดเพื่อแสดงเงื่อนไข"
+            <!-- <div
+              class="tooltip tooltip-bottom z-30"
+              data-tip="รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร, มีอักษรตัวพิมพ์ใหญ่, มีอักษรตัวพิมพ์เล็ก, มีตัวเลข, และมีอักษรพิเศษ"
               v-on:click="isShowPasswordRules = !isShowPasswordRules"
             >
               <InformationCircleIcon class="w-6" />
-            </div>
+            </div> -->
           </div>
 
-          <span class="text-xs text-red-500"
-            >{{ validateErrorMsg('password') }}
+          <span class="text-xs text-red-500">
+            {{ validateErrorMsg('password') }}
           </span>
           <div
             class="card w-full bg-base-100 shadow-sm mt-2"
@@ -234,17 +257,16 @@ const validateErrorMsg = (field) => {
 
         <div>
           <label class="label">
-            <span class="text-base label-text">ยืนยันรหัสผ่าน</span>
+            <span class="text-base label-text"
+              >ยืนยันรหัสผ่าน <span class="text-red-500">*</span></span
+            >
           </label>
           <input
-            type="password"
+            :type="isShowPassword ? 'text' : 'password'"
             placeholder="กรุณายืนยันรหัสผ่านของคุณ"
             class="w-full input input-bordered bg-white input-sm rounded-sm"
             v-model="formData.confirmPassword"
           />
-          <p class="text-xs text-gray-500">
-            กรุณาใส่รหัสผ่านอีกครั้งเพื่อยืนยัน
-          </p>
           <span class="text-xs text-red-500">{{
             validateErrorMsg('confirmPassword')
           }}</span>
@@ -264,7 +286,7 @@ const validateErrorMsg = (field) => {
         </div>
       </form>
       <span class="mt-10">
-        มีบัญชี<b>เจ้าของหอพัก</b>อยู่แล้ว?
+        หากมี <b>บัญชีเจ้าของหอพัก </b>อยู่แล้ว?
         <span
           class="text-dark-blue-200 hover:underline cursor-pointer"
           @click="router.push({ name: 'signin' })"

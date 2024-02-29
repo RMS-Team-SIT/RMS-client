@@ -89,7 +89,7 @@ const validateErrorMsg = (field) => {
 
         <div>
           <p
-            class="text-dark-blue-200 hover:underline"
+            class="text-dark-blue-200 hover:underline hover:cursor-pointer"
             @click="router.push({ name: 'forget-password' })"
           >
             ลืมรหัสผ่าน ?
@@ -109,7 +109,7 @@ const validateErrorMsg = (field) => {
         </div>
       </form>
       <span class="mt-10">
-        ยังไม่มีบัญชีผู้ใช้?
+        หากยังไม่มีบัญชีบัญชีเจ้าของหอพัก
         <span
           class="text-dark-blue-200 hover:underline cursor-pointer"
           @click="router.push({ name: 'signup' })"
