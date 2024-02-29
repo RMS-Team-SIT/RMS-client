@@ -166,10 +166,11 @@ onMounted(() => {
                   ข้อมูลผู้เช่า
                 </h1>
                 <router-link
+                  target="_blank"
                   v-if="room.currentRenter"
                   class="text-dark-blue-200 underline"
                   :to="{
-                    name: 'update-renter',
+                    name: 'view-renter',
                     params: {
                       residenceId: $route.params.residenceId,
                       renterId: room.currentRenter._id,
@@ -224,7 +225,7 @@ onMounted(() => {
                 <div class="flex gap-2">
                   สำเนาบัตรประชาชน:
                   <div
-                    v-if="room.currentRenter.copyOfIdCard"
+                    v-if="room.currentRenter?.copyOfIdCard"
                     class="underline"
                   >
                     <router-link
@@ -248,7 +249,7 @@ onMounted(() => {
                 <div class="flex gap-2">
                   สัญญาเช่า:
                   <div
-                    v-if="room.currentRenter.renterContract"
+                    v-if="room.currentRenter?.renterContract"
                     class="underline"
                   >
                     <router-link
@@ -275,11 +276,11 @@ onMounted(() => {
 
           <!-- row 2 -->
           <div class="mt-5 grid grid-cols-1 gap-4">
-            <!-- ข้อมูลบิลในอดีต -->
+            <!-- ข้อมูลบิลในอดีตทั้งหมด -->
             <div class="space-y-3 border border-base-300 rounded-lg m-2 p-5">
               <div class="flex justify-between">
                 <h1 class="text-base font-semibold text-dark-blue-200">
-                  ข้อมูลบิลในอดีต
+                  ข้อมูลบิลในอดีตทั้งหมด
                 </h1>
                 <!-- <router-link
                   v-if="room.currentRenter"
@@ -301,7 +302,10 @@ onMounted(() => {
                 v-for="(bill, index) in room.billRooms"
                 :key="index"
               >
-                <input type="checkbox" :checked="index == room.billRooms.length - 1" />
+                <input
+                  type="checkbox"
+                  :checked="index == room.billRooms.length - 1"
+                />
                 <div class="collapse-title text-lg font-bold underline">
                   บิลรอบมิเตอร์
                   {{ dayjs(bill.meterRecord.record_date).format('MM/YYYY') }}
@@ -378,20 +382,18 @@ onMounted(() => {
                         ค่าเช่าห้อง:
                         <b>{{ bill.roomRentalPrice }}</b> บาท
                       </p>
-                      
                     </div>
                   </div>
                   <Divider />
                   <p class="text-lg font-bold mt-5 rounded-full">
-                        รวม:
-                        {{
-                          bill.roomRentalPrice +
-                          bill.electricPriceRate *
-                            bill.totalElectricMeterUsage +
-                          bill.waterPriceRate * bill.totalWaterMeterUsage
-                        }}
-                        บาท
-                      </p>
+                    รวม:
+                    {{
+                      bill.roomRentalPrice +
+                      bill.electricPriceRate * bill.totalElectricMeterUsage +
+                      bill.waterPriceRate * bill.totalWaterMeterUsage
+                    }}
+                    บาท
+                  </p>
                   <p>
                     สถานะการจ่าย :
                     <Badge v-if="bill.isPaid">จ่ายแล้ว</Badge>

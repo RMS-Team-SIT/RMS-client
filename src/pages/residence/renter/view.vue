@@ -13,23 +13,20 @@ import RenterListTable from '@/components/renter/renter.list.table.vue';
 const router = useRouter();
 const route = useRoute();
 const residenceId = route.params.residenceId;
+const renterId = route.params.renterId;
 const { notify } = useNotification();
 const isLoading = ref(true);
 
-const residence = reactive({
-  data: null,
-});
+const renter = ref(null);
 
-const fetchData = async () => {
-  const response = await ResidenceServices.fetchResidence(residenceId);
+const fetchRenter = async () => {
+  const response = await ResidenceServices.fetchOneRenter(
+    residenceId,
+    renterId
+  );
   if (response.status === 200) {
-    let result = await response.json();
-    console.log(result);
-    residence.data = result;
-    // parse residenceImage by adding base url
-    residence.data.images = residence.data.images.map((imageName) => {
-      return FileService.getFile(imageName);
-    });
+    renter.value = await response.json();
+    console.log(renter.value);
   } else {
     notify({
       group: 'tr',
@@ -42,40 +39,119 @@ const fetchData = async () => {
 };
 
 onMounted(async () => {
-  await fetchData();
+  console.log('1');
+  await fetchRenter();
   isLoading.value = false;
 });
 </script>
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
-  <div v-if="residence.data" class="bg-gray-50 min-h-screen">
+  <div class="bg-gray-50 min-h-screen">
     <div class="py-10 px-10 md:px-40">
       <Breadcrumb
         :pathList="[
           { name: 'หน้าแรก', pathName: 'home' },
           { name: 'จัดการ', pathName: 'manage' },
           {
-            name: `${residence.data.name}`,
+            name: `แดชบอร์ด`,
             pathName: 'dashboard',
             params: { residenceId },
           },
-          { name: 'จัดการผู้เช่า' },
+          {
+            name: 'จัดการผู้เช่า',
+            pathName: 'renter',
+            params: { residenceId },
+          },
+          { name: 'ดูข้อมูลผู้เช่า' },
         ]"
       />
       <Button
         btnType="primary"
         class="mt-5"
-        @click="router.push({ name: 'dashboard', params: { residenceId } })"
+        @click="router.push({ name: 'renter', params: { residenceId } })"
       >
-        กลับหน้าแดชบอร์ด
+        กลับหน้าจัดการผู้เช่า
       </Button>
       <div class="grid grid-cols-1">
         <div class="bg-white p-10 mt-2 shadow rounded-lg">
-          <div class="flex justify-between">
+          <div>
             <h1 class="text-2xl font-semibold text-dark-blue-200">
               ดูข้อมูลผู้เช่า
             </h1>
+
+            <p class="mt-5">
+              ชื่อผู้เช่า:
+              {{
+                renter
+                  ? renter.firstname + ' ' + renter.lastname
+                  : 'ไม่มีผู้เช่า'
+              }}
+            </p>
+            <p>
+              เบอร์โทร:
+              {{ renter ? renter.phone : 'ไม่มีผู้เช่า' }}
+            </p>
+            <p>
+              อีเมล:
+              {{ renter ? renter.email : 'ไม่มีผู้เช่า' }}
+            </p>
+            <h1 class="text-base font-semibold mt-5 text-dark-blue-200">
+              ข้อมูลบัญชีผู้เช่า
+            </h1>
+            <p>
+              ชื่อผู้ใช้:
+              {{ renter ? renter.username : 'ไม่มีผู้เช่า' }}
+            </p>
+            <p>
+              รหัสผ่าน:
+              {{ renter ? renter.password : 'ไม่มีผู้เช่า' }}
+            </p>
+            <h1 class="text-base font-semibold mt-5 text-dark-blue-200">
+              ไฟล์เอกสาร
+            </h1>
+            <div class="flex gap-2">
+              สำเนาบัตรประชาชน:
+              <div v-if="renter?.copyOfIdCard" class="underline">
+                <router-link
+                  target="_blank"
+                  class="flex items-center gap-2"
+                  :to="{
+                    name: 'pdf-preview',
+                    query: {
+                      filename: renter.copyOfIdCard,
+                    },
+                  }"
+                >
+                  ดูไฟล์
+                  <ArrowTopRightOnSquareIcon class="h-4 w-4" />
+                </router-link>
+              </div>
+              <div v-else>
+                <span class="text-red-500">ไม่มีไฟล์ในระบบ</span>
+              </div>
+            </div>
+            <div class="flex gap-2">
+              สัญญาเช่า:
+              <div v-if="renter?.renterContract" class="underline">
+                <router-link
+                  target="_blank"
+                  class="flex items-center gap-2"
+                  :to="{
+                    name: 'pdf-preview',
+                    query: {
+                      filename: renter.renterContract,
+                    },
+                  }"
+                >
+                  ดูไฟล์
+                  <ArrowTopRightOnSquareIcon class="h-4 w-4" />
+                </router-link>
+              </div>
+              <div v-else>
+                <span class="text-red-500">ไม่มีไฟล์ในระบบ</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

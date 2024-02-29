@@ -39,7 +39,7 @@ const userStats = reactive({
   totalUsers: {
     title: 'จำนวนผู้ใช้งานทั้งหมด',
     val: 10,
-    desc: 'จำนวนผู้ใช้งานทั้งหมด',
+    desc: 'จำนวนผู้ใช้งานทั้งหมดที่ผ่านการยืนยันตัวตนแล้ว',
     icon: UserIcon,
     route: 'admin-manage-user',
   },
@@ -146,62 +146,61 @@ onMounted(async () => {
           <UserIcon class="h-8 w-8 text-primary" />
           <ClockIcon class="h-8 w-8 text-primary" />
         </h1>
-        <p class="text-xs">ผู้ใช้งานที่รอการอนุมัติทั้งหมด</p>
-        <div>
-          <div
-            v-for="(user, index) in pendingKYCUser"
-            :key="index"
-            class="flex items-center gap-2 justify-between border-2 p-2 rounded-lg border-gray-200 hover:border-primary transition-all cursor-pointer"
-          >
-            <div class="flex items-center gap-2">
-              <img
-                :src="BlankprofileImg"
-                alt="user profile"
-                class="h-10 w-10 rounded-full"
-              />
-              <div>
-                <h1 class="text-sm font-semibold">
-                  {{ user.firstname }} {{ user.lastname }}
-                </h1>
-                <p class="text-xs">{{ user.email }}</p>
-              </div>
+        <!-- <p class="text-xs">ผู้ใช้งานที่รอการอนุมัติทั้งหมด</p> -->
+        <p class="text-sm" v-if="!pendingKYCUser.length">ไม่มีผู้ใช้งานที่รอการอนุมัติในขณะนี้</p>
+        <div
+          v-for="(user, index) in pendingKYCUser"
+          :key="index"
+          class="flex items-center gap-2 justify-between border-2 p-2 rounded-lg border-gray-200 hover:border-primary transition-all cursor-pointer"
+        >
+          <div class="flex items-center gap-2">
+            <img
+              :src="BlankprofileImg"
+              alt="user profile"
+              class="h-10 w-10 rounded-full"
+            />
+            <div>
+              <h1 class="text-sm font-semibold">
+                {{ user.firstname }} {{ user.lastname }}
+              </h1>
+              <p class="text-xs">{{ user.email }}</p>
             </div>
-
-            <div class="flex items-center gap-2">
-              <button
-                class="btn btn-primary btn-sm"
-                :onclick="`kyc_modal_${index}.showModal()`"
-              >
-                ดูข้อมูลเพิ่มเติม
-              </button>
-            </div>
-
-            <!-- Modal -->
-
-            <dialog :id="`kyc_modal_${index}`" class="modal">
-              <div class="modal-box space-y-2">
-                <h3 class="font-bold text-lg">รายละเอียดผู้ใช้งาน</h3>
-
-                <p>ชื่อผู้ใช้งาน : {{ user.firstname }} {{ user.lastname }}</p>
-                <p>อีเมล : {{ user.email }} (ยืนยันแล้ว)</p>
-                <p>เบอร์โทร : {{ user.phone }}</p>
-                <p>หมายเลขบัตรประชาชน : {{ user.idcardNumber }}</p>
-
-                <div class="modal-action flex">
-                  <form method="dialog">
-                    <!-- if there is a button in form, it will close the modal -->
-                    <button class="btn btn-sm">ปิด</button>
-                  </form>
-                  <button
-                    class="btn btn-success btn-sm"
-                    @click="approveUser(user._id)"
-                  >
-                    อนุมัติบัญชีผู้ใช้
-                  </button>
-                </div>
-              </div>
-            </dialog>
           </div>
+
+          <div class="flex items-center gap-2">
+            <button
+              class="btn btn-primary btn-sm"
+              :onclick="`kyc_modal_${index}.showModal()`"
+            >
+              ดูข้อมูลเพิ่มเติม
+            </button>
+          </div>
+
+          <!-- Modal -->
+
+          <dialog :id="`kyc_modal_${index}`" class="modal">
+            <div class="modal-box space-y-2">
+              <h3 class="font-bold text-lg">รายละเอียดผู้ใช้งาน</h3>
+
+              <p>ชื่อผู้ใช้งาน : {{ user.firstname }} {{ user.lastname }}</p>
+              <p>อีเมล : {{ user.email }} (ยืนยันแล้ว)</p>
+              <p>เบอร์โทร : {{ user.phone }}</p>
+              <p>หมายเลขบัตรประชาชน : {{ user.idcardNumber }}</p>
+
+              <div class="modal-action flex">
+                <form method="dialog">
+                  <!-- if there is a button in form, it will close the modal -->
+                  <button class="btn btn-sm">ปิด</button>
+                </form>
+                <button
+                  class="btn btn-success btn-sm"
+                  @click="approveUser(user._id)"
+                >
+                  อนุมัติบัญชีผู้ใช้
+                </button>
+              </div>
+            </div>
+          </dialog>
         </div>
       </div>
 
@@ -215,7 +214,7 @@ onMounted(async () => {
           <HomeIcon class="h-8 w-8 text-primary" />
           <ClockIcon class="h-8 w-8 text-primary" />
         </h1>
-        <p class="text-xs">หอพักที่รอการอนุมัติทั้งหมด</p>
+        <p class="text-sm">ไม่มีหอพักที่รอการอนุมัติในขณะนี้</p>
       </div>
 
       <!-- Quick link Section -->
