@@ -31,6 +31,10 @@ class UserService {
   uploadIdCard = async (id, data) => sendRequest(this.baseUrl, `/users/${id}/upload-id-card`, 'POST', data);
 
   overAllStats = async () => sendRequest(this.baseUrl, `/users/overall-stats`, 'GET');
+
+  pendingKYC = async () => sendRequest(this.baseUrl, `/users/pending-kyc`, 'GET');
+
+  approveUser = async (id) => sendRequest(this.baseUrl, `/users/approve-kyc/${id}`, 'GET');
 }
 
 export default new UserService();
