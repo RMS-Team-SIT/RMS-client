@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue';
-import { isImage } from '@/utils/file';
+import { isImage, validateImageFile } from '@/utils/file';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
 import Button from '@/components/common/button.vue';
 import { useNotification } from '@kyvg/vue3-notification';
@@ -41,7 +41,7 @@ const handleFileChange = () => {
 
 const previewImages = (files) => {
   Array.from(files).forEach((file) => {
-    if (isImage(file)) {
+    if (validateImageFile(file)) {
       // preview image by reading the file and convert it to base64
       const reader = new FileReader();
 
@@ -57,7 +57,7 @@ const previewImages = (files) => {
       notify({
         group: 'tr',
         title: 'เกิดข้อผิดพลาด',
-        text: `${file.name} is not a valid image file.`,
+        text: `${file.name} ไม่ใช่ไฟล์รูปภาพ`,
         type: 'error',
       });
       console.warn(`${file.name} is not a valid image file.`);
