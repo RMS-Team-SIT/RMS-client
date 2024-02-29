@@ -45,6 +45,18 @@ class FileService {
     );
   };
 
+  uploadPdfWatermark = async (file) => {
+    const formData = new FormData();
+    formData.append('pdf', file);
+    return await sendRequest(
+      this.baseUrl,
+      '/files/upload-pdf-watermark',
+      'POST',
+      formData,
+      true
+    );
+  };
+
   uploadPdfs = async (file) => {
     const formData = new FormData();
     formData.append('pdfs', file);

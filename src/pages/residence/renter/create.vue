@@ -51,7 +51,7 @@ const getChildData = (data) => {
 const submitData = async () => {
   // Upload files
   if (renterData.copyOfIdCard.file) {
-    const uploadFileResponse = await FileService.uploadPdf(
+    const uploadFileResponse = await FileService.uploadPdfWatermark(
       renterData.copyOfIdCard.file
     );
     if (uploadFileResponse.status != 201) {
@@ -69,7 +69,7 @@ const submitData = async () => {
   }
 
   if (renterData.renterContract.file) {
-    const uploadFileResponse = await FileService.uploadPdf(
+    const uploadFileResponse = await FileService.uploadPdfWatermark(
       renterData.renterContract.file
     );
     if (uploadFileResponse.status != 201) {
