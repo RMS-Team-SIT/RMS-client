@@ -1,6 +1,6 @@
 <script setup>
 import Breadcrumb from '@/components/common/breadcrumb.vue';
-import { onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useNotification } from '@kyvg/vue3-notification';
 import Loading from '@/components/common/loading.vue';
@@ -27,7 +27,7 @@ const residenceId = route.params.residenceId;
 const { notify } = useNotification();
 const isLoading = ref(true);
 
-const stats = ref({
+const userStats = reactive({
   totalPendingUsers: {
     title: 'จำนวนผู้ใช้งานที่ขอการอนุมัติ',
     val: 20,
@@ -51,32 +51,27 @@ const stats = ref({
   },
 });
 
-const mapStatsToArray = (stats) => {
-  return Object.values(stats).map((stat) => ({
-    title: stat.title,
-    val: stat.val,
-    desc: stat.desc,
-    icon: stat.icon,
-    route: stat.route,
-  }));
-};
+const mapStatsToArray = computed(() => {
+  return Object.values(userStats);
+});
 
 const fetchStats = async () => {
-  const userStats = await UserServices.overAllStats();
-  const residenceStats = await ResidenceServices.overAllStats();
-};
-
-const mapStats = (stats) => {
-  return stats.map((stat) => {
-    return {
-      title: stat.title,
-      val: stat.val,
-      desc: stat.desc,
-      icon: stat.icon,
-      route: stat.route,
-      param: stat.param,
-    };
-  });
+  try {
+    const response = await UserServices.overAllStats();
+    if (response.status === 200) {
+      const stats = await response.json();
+      const { totalAdmins, totalUsers, totalPendingUsers } = stats;
+      userStats.totalAdmins.val = totalAdmins;
+      userStats.totalUsers.val = totalUsers;
+      userStats.totalPendingUsers.val = totalPendingUsers;
+    }
+  } catch (error) {}
+  try {
+    const response = await ResidenceServices.overAllStats();
+    if (response.status === 200) {
+      const residenceStats = await response.json();
+    }
+  } catch (error) {}
 };
 
 onMounted(async () => {
@@ -95,7 +90,7 @@ onMounted(async () => {
           { name: 'จัดการระบบ', pathName: 'manage' },
         ]"
       />
-      <Stats :stats="mapStatsToArray(stats)" class="mt-5" />
+      <Stats :stats="mapStatsToArray" class="mt-5" />
 
       <div
         class="relative bg-white p-10 mt-5 space-y-4 rounded border border-gray-200"
