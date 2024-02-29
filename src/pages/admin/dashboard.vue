@@ -99,7 +99,7 @@ const approveUser = async (userId) => {
         text: 'อนุมัติผู้ใช้งานสำเร็จแล้ว',
         type: 'success',
       });
-      await fetchPendingKYCUser();
+      await fetchAll();
     } else {
       notify({
         group: 'tr',
@@ -113,9 +113,13 @@ const approveUser = async (userId) => {
 
 const toApproveResidence = ref([]);
 
-onMounted(async () => {
+const fetchAll = async () => {
   await fetchStats();
   await fetchPendingKYCUser();
+  isLoading.value = false;
+};
+onMounted(async () => {
+  await fetchAll();
   isLoading.value = false;
 });
 </script>

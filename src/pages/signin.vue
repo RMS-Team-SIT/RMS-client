@@ -28,7 +28,7 @@ const handleFormData = async (formData) => {
     });
 
     const user = store.getUser;
-    
+
     // check if user is admin
     if (user.role === 'admin') {
       router.push({ name: 'admin-dashboard' });
@@ -40,8 +40,8 @@ const handleFormData = async (formData) => {
     console.log(data);
     notify({
       group: 'tr',
-      title: 'เกิดข้อผิดพลาด',
-      text: `ไม่สามารถเข้าสู่ระบบได้`,
+      title: 'ไม่สามารถเข้าสู่ระบบได้',
+      text: data?.message,
       type: 'error',
     });
     store.clearUser();
