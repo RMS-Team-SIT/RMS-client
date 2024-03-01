@@ -10,6 +10,7 @@ import { helpers, required } from '@vuelidate/validators';
 import Button from '@/components/common/button.vue';
 import ResidenceServices from '@/services/ResidenceServices';
 import { ArrowRightIcon } from '@heroicons/vue/24/outline';
+import RenterService from '@/services/RenterService';
 
 const store = useUserStore();
 const router = useRouter();
@@ -24,6 +25,7 @@ const residence = ref({
 const formData = reactive({
   username: '',
   password: '',
+  residenceId: residenceId,
 });
 
 const rules = computed(() => {
@@ -45,7 +47,7 @@ const validateErrorMsg = (field) => {
     : '';
 };
 
-const handleFormData = async (formData) => {
+const handleFormData = async () => {
   isLoading.value = true;
   const result = await validator.value.$validate();
   console.log('result', result);
@@ -53,7 +55,7 @@ const handleFormData = async (formData) => {
     isLoading.value = false;
     return;
   }
-  const response = await UserService.signIn(formData);
+  const response = await RenterService.signIn(formData);
   if (response.status === 200) {
     let data = await response.json();
 
@@ -68,13 +70,13 @@ const handleFormData = async (formData) => {
     });
 
     const user = store.getUser;
-
-    // check if user is admin
-    if (user.role === 'admin') {
-      router.push({ name: 'admin-dashboard' });
-    } else {
-      router.push({ name: 'manage' });
-    }
+    console.log('user', user);
+    // // check if user is admin
+    // if (user.role === 'admin') {
+    //   router.push({ name: 'admin-dashboard' });
+    // } else {
+    //   router.push({ name: 'manage' });
+    // }
   } else {
     let data = await response.json();
     console.log(data);
@@ -102,7 +104,7 @@ const fetchResidence = async () => {
       text: 'ไม่สามารถดึงข้อมูลหอพักได้',
       type: 'error',
     });
-    router.push({ name: 'not-found' });
+    router.push({ name: 'home' });
   }
 };
 
