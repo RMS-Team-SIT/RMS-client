@@ -17,6 +17,23 @@ import ImageUploadForm from '@/components/form/image.form.vue';
 import { useUserStore } from '@/stores/user.store';
 import FacilityService from '@/services/FacilityService';
 import ResidenceFeeForm from '@/components/residence/form/residence.fee.form.vue';
+import { onBeforeUnmount } from 'vue';
+
+const confirmPageReload = (event) => {
+  // Display confirmation dialog only if there are unsaved changes
+  const hasUnsavedChanges = true; // Replace this with your logic to check for unsaved changes
+  if (hasUnsavedChanges) {
+    const confirmationMessage = "คุณแน่ใจหรือไม่ว่าต้องการออกจากหน้านี้ ความก้าวหน้าของคุณจะหายไป";
+    event.returnValue = confirmationMessage; // For older browsers
+    return confirmationMessage; // For modern browsers
+  }
+};
+
+window.addEventListener("beforeunload", confirmPageReload);
+
+onBeforeUnmount(() => {
+  window.removeEventListener("beforeunload", confirmPageReload);
+});
 
 const router = useRouter();
 const { notify } = useNotification();
@@ -27,7 +44,6 @@ const stepList = [
   'อัปโหลดเอกสารของหอพัก',
   'กำหนดค่าบริการต่าง ๆ',
   'สร้างรูปแบบห้องพัก',
-  'กำหนดค่าบริการต่าง ๆ',
   'สร้างห้องพัก',
   'เพิ่มช่องทางการชำระเงิน',
   'ตรวจสอบข้อมูล',
