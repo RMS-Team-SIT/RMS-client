@@ -5,6 +5,7 @@ const index = () => import('@/pages/index.vue');
 const NotFound = () => import('@/pages/not-found.vue');
 const signup = () => import('@/pages/signup.vue');
 const signin = () => import('@/pages/signin.vue');
+const renterSignin = () => import('@/pages/renter-signin.vue');
 const signout = () => import('@/pages/signout.vue');
 const manage = () => import('@/pages/user/manage.vue');
 
@@ -62,7 +63,7 @@ const publicRoutes = [
   'forget-password',
   'reset-password',
   'verify-email',
-  'upload',
+  'renter-signin',
 ];
 
 const restrictedRoutesForLoggedInUsers = [
@@ -71,6 +72,7 @@ const restrictedRoutesForLoggedInUsers = [
   'signin',
   'forget-password',
   'reset-password',
+  'renter-signin',
 ];
 
 const adminRoutes = ['admin-dashboard'];
@@ -94,10 +96,18 @@ const routes = [
   },
   {
     name: 'signin',
-    path: '/signin',
+    path: '/auth/signin',
     component: signin,
     meta: {
       title: 'เข้าสู่ระบบ',
+    },
+  },
+  {
+    name: 'renter-signin',
+    path: '/auth/residence/:residenceId/signin',
+    component: renterSignin,
+    meta: {
+      title: 'เข้าสู่ระบบผู้เช่า',
     },
   },
   {
@@ -508,6 +518,12 @@ router.beforeEach(async (to, from, next) => {
         return next({ name: 'manage' });
       }
 
+      return next();
+    }
+
+    // Renter
+    // Renter can access only public routes
+    else if (user.role === 'renter') {
       return next();
     }
 

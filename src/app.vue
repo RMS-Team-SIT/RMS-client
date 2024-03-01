@@ -42,6 +42,7 @@ const shouldShowNavbar = computed(() => {
     'reset-password',
     'verify-email',
     'not-found',
+    'renter-signin'
   ];
   return !excludedRoutes.includes(route.name);
 });

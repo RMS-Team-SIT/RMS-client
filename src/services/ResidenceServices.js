@@ -15,6 +15,9 @@ class ResidenceService {
   fetchResidence = async (residenceId) =>
     sendRequest(this.baseUrl, `/residence/${residenceId}`, 'GET');
 
+  fetchResidencePublic = async (residenceId) =>
+    sendRequest(this.baseUrl, `/residence/${residenceId}/public`, 'GET');
+
   createResidence = async (residence) =>
     sendRequest(this.baseUrl, '/residence', 'POST', residence);
 
