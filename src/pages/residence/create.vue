@@ -6,6 +6,7 @@ import Steps from '@/components/common/steps.vue';
 import ResidenceBasicInfoForm from '@/components/residence/form/residence.basic.info.form.vue';
 import ResidenceContactForm from '@/components/residence/form/residence.contact.form.vue';
 import ResidenceSettingForm from '@/components/residence/form/residence.setting.form.vue';
+import ResidenceFacilityForm from '@/components/residence/form/residence.facility.form.vue';
 import Button from '@/components/common/button.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 import ImagePreview from '@/components/common/image.preview.vue';
@@ -14,14 +15,17 @@ import ResidenceServices from '@/services/ResidenceServices';
 import FileService from '@/services/FileService';
 import ImageUploadForm from '@/components/form/image.form.vue';
 import { useUserStore } from '@/stores/user.store';
+import FacilityService from '@/services/FacilityService';
+import ResidenceFeeForm from '@/components/residence/form/residence.fee.form.vue';
 
 const router = useRouter();
 const { notify } = useNotification();
 const route = useRoute();
 
 const stepList = [
-  'กรอกข้อมูลหอพัก',
+  'ข้อมูลหอพัก',
   'อัปโหลดเอกสารของหอพัก',
+  'กำหนดค่าบริการต่าง ๆ',
   'สร้างรูปแบบห้องพัก',
   'กำหนดค่าบริการต่าง ๆ',
   'สร้างห้องพัก',
@@ -48,11 +52,31 @@ const residenceData = reactive({
     phone: user.phone,
     email: user.email,
   },
+  facility: [],
+  fee: [],
   defaultWaterPriceRate: 0.0,
   defaultElectricPriceRate: 0.0,
   imageFiles: [],
   residenceBusinessLicense: { fileName: null, file: null, isEdited: false },
 });
+
+const availableFacility = ref([]);
+const fetchFacility = async () => {
+  const response = await FacilityService.fetchFacilities();
+  if (response.status == 200) {
+    const data = await response.json();
+    console.log('facility', data);
+    availableFacility.value = data;
+  } else {
+    const data = await response.json();
+    notify({
+      group: 'tr',
+      title: 'เกิดข้อผิดพลาด',
+      text: 'ไม่สามารถดึงข้อมูลสิ่งอำนวยความสะดวกได้ ' + data?.message,
+      type: 'error',
+    });
+  }
+};
 
 const changeStep = (action) => {
   switch (action) {
@@ -66,6 +90,8 @@ const changeStep = (action) => {
       console.warn('Invalid action');
       break;
   }
+  // goto top of the page
+  window.scrollTo(0, 0);
 };
 
 const getChildData = (data) => {
@@ -123,6 +149,10 @@ watch(residenceData, () => {
   //   residenceData.defaultWaterPriceRate &&
   //   residenceData.defaultWaterPriceRate > 0;
 });
+
+onMounted(async () => {
+  await fetchFacility();
+});
 </script>
 
 <template>
@@ -142,16 +172,7 @@ watch(residenceData, () => {
         <div class="p-4 mb-4 card bg-white col-span-3">
           <Steps
             class="steps-vertical text-left"
-            :stepList="[
-              'กรอกข้อมูลหอพัก',
-              'อัปโหลดเอกสารของหอพัก',
-              'สร้างรูปแบบห้องพัก',
-              'กำหนดค่าบริการต่าง ๆ',
-              'สร้างห้องพัก',
-              'เพิ่มช่องทางการชำระเงิน',
-              'ตรวจสอบข้อมูล',
-              'สถานะการสร้าง',
-            ]"
+            :stepList="stepList"
             :currentStep="currentStep"
           />
         </div>
@@ -163,35 +184,45 @@ watch(residenceData, () => {
               @getData="getChildData"
               :residenceData="residenceData"
             />
+
             <div
               class="relative bg-white p-10 space-y-4 shadow-md rounded basis-full"
             >
               <h1 class="text-xl font-semibold text-dark-blue-200">
-                อัพโหลดรูปภาพ
+                อัพโหลดรูปภาพของหอพัก
               </h1>
-              <p class="text-xs">อัพโหลดรูปภาพของหอพัก</p>
+              <p class="text-sm mt-5">
+                กรุณาอัพโหลดรูปภาพของหอพัก เช่น ภาพถ่ายหอพัก
+                เพื่อใช้ในการแสดงผลหอพัก
+              </p>
               <ImageUploadForm
                 @getImageFiles="getChildData"
-                :imageFiles="residenceData.imageFiles"
+                :imageFiles="residenceData?.imageFiles"
               />
             </div>
+
             <ResidenceContactForm
               @getData="getChildData"
               :residenceData="residenceData"
+            />
+
+            <ResidenceFacilityForm
+              @getData="getChildData"
+              :residenceData="residenceData"
+              :facility-list="availableFacility"
             />
           </div>
 
           <!-- step 2 -->
           <div v-if="currentStep == 2" class="flex gap-4">
-            <div
-              class="relative bg-white p-10 shadow-md rounded basis-full"
-            >
+            <!-- File upload -->
+            <div class="relative bg-white p-10 shadow-md rounded basis-full">
               <h1 class="text-xl font-semibold text-dark-blue-200">
                 อัพโหลดเอกสารประกอบการหอพัก
               </h1>
               <p class="text-sm mt-5">
                 กรุณาอัพโหลดเอกสารประกอบการหอพัก
-                เพื่อใช้ในการยืนยันข้อมูลของหอพัก
+                เพื่อใช้ในการตรวจสอบและการยืนยันข้อมูลของหอพัก
               </p>
               <div class="mt-5">
                 <label class="label">
@@ -204,9 +235,10 @@ watch(residenceData, () => {
                   v-if="!viewOnly"
                   type="file"
                   @change="
-                    (e) => (residenceData.residenceBusinessLicense.file = e.target.files[0])
+                    (e) =>
+                      (residenceData.residenceBusinessLicense.file =
+                        e.target.files[0])
                   "
-                  multiple
                   class="file-input-sm file-input file-input-bordered bg-white w-full max-w-xs file-input-ghost"
                 />
                 <!-- Preview file name if exist -->
@@ -220,12 +252,10 @@ watch(residenceData, () => {
                   <span class="text-sm text-gray-500">
                     {{
                       residenceData.residenceBusinessLicense.file?.name ||
-                      residenceData.renterFiles.residenceBusinessLicense?.fileName
+                      residenceData.renterFiles.residenceBusinessLicense
+                        ?.fileName
                     }}
-                    <Button
-                      btn-type="ghost"
-                      class="font-xs"
-                      v-if="!viewOnly"
+                    <Button btn-type="ghost" class="font-xs" v-if="!viewOnly"
                       >ลบไฟล์</Button
                     >
                   </span>
@@ -237,11 +267,15 @@ watch(residenceData, () => {
                 </div>
               </div>
             </div>
+            <!-- end -->
           </div>
 
           <!-- step 3 -->
           <div v-if="currentStep == 3" class="flex gap-4 flex-col">
-            
+            <ResidenceFeeForm
+              @getData="getChildData"
+              :residenceData="residenceData"
+            />
           </div>
 
           <!-- button control -->

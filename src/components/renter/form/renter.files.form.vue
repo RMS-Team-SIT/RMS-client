@@ -68,7 +68,6 @@ watch(renterFiles, () => {
               renterFiles.copyOfIdCard.file = e.target.files[0];
           }
         "
-        multiple
         class="file-input-sm file-input file-input-bordered bg-white w-full max-w-xs file-input-ghost"
       />
       <!-- Preview file name if exist -->
@@ -113,7 +112,6 @@ watch(renterFiles, () => {
               renterFiles.renterContract.file = e.target.files[0];
           }
         "
-        multiple
         class="file-input-sm file-input file-input-bordered bg-white w-full max-w-xs file-input-ghost"
       />
       <!-- Preview file name if exist -->
