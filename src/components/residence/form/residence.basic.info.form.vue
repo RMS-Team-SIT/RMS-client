@@ -84,6 +84,7 @@ watch(residenceInfo, () => {
         v-model="residenceInfo.description"
         :disabled="viewOnly"
       />
+      <p class="text-sm p-1">เช่น จุดเด่นของหอพัก ลักษณะหอพัก(ช, ญ) </p>
     </div>
     
   </div>
