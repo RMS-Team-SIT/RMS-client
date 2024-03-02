@@ -36,10 +36,10 @@ const setDataFromProps = () => {
 };
 
 const feeName = ref('');
-const feePrice = ref(0);
+const feePrice = ref('');
 
 const addFee = () => {
-  if (feeName.value === '') {
+  if (feeName.value.trim() === '') {
     notify({
       group: 'tr',
       title: 'ไม่สามารถเพิ่มค่าบริการได้',
@@ -57,7 +57,7 @@ const addFee = () => {
     });
     return;
   }
-  if (childData.fee.some((fee) => fee.feename === feeName.value)) {
+  if (childData.fee.some((fee) => fee.feename.trim() === feeName.value.trim())) {
     notify({
       group: 'tr',
       title: 'ไม่สามารถเพิ่มค่าบริการได้',
@@ -99,14 +99,14 @@ watch(childData, () => {
       <input
         v-model="feeName"
         type="text"
-        class="input input-bordered input-sm"
+        class="input input-bordered bg-white input-sm rounded-sm"
         placeholder="ชื่อค่าบริการ"
       />
       <input
         v-model="feePrice"
         type="number"
         min="0"
-        class="input input-bordered input-sm"
+        class="input input-bordered bg-white input-sm rounded-sm"
         placeholder="ราคา"
       />
       <Button @click="addFee" class="btn-primary"> เพิ่ม </Button>
@@ -124,7 +124,7 @@ watch(childData, () => {
         <Button
           v-if="!viewOnly"
           @click="removeFee(index)"
-          class="btn btn-secondary w-min"
+          class="btn btn-primary w-min"
         >
           ลบ
         </Button>

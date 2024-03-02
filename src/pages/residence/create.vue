@@ -18,21 +18,24 @@ import { useUserStore } from '@/stores/user.store';
 import FacilityService from '@/services/FacilityService';
 import ResidenceFeeForm from '@/components/residence/form/residence.fee.form.vue';
 import { onBeforeUnmount } from 'vue';
+import BankService from '@/services/BankService';
+import PaymentForm from '@/components/payment/form/payment.form.vue';
 
 const confirmPageReload = (event) => {
   // Display confirmation dialog only if there are unsaved changes
   const hasUnsavedChanges = true; // Replace this with your logic to check for unsaved changes
   if (hasUnsavedChanges) {
-    const confirmationMessage = "คุณแน่ใจหรือไม่ว่าต้องการออกจากหน้านี้ ความก้าวหน้าของคุณจะหายไป";
+    const confirmationMessage =
+      'คุณแน่ใจหรือไม่ว่าต้องการออกจากหน้านี้ ความก้าวหน้าของคุณจะหายไป';
     event.returnValue = confirmationMessage; // For older browsers
     return confirmationMessage; // For modern browsers
   }
 };
 
-window.addEventListener("beforeunload", confirmPageReload);
+window.addEventListener('beforeunload', confirmPageReload);
 
 onBeforeUnmount(() => {
-  window.removeEventListener("beforeunload", confirmPageReload);
+  window.removeEventListener('beforeunload', confirmPageReload);
 });
 
 const router = useRouter();
@@ -43,9 +46,9 @@ const stepList = [
   'ข้อมูลหอพัก',
   'อัปโหลดเอกสารของหอพัก',
   'กำหนดค่าบริการต่าง ๆ',
+  'ช่องทางการชำระเงิน',
   'สร้างรูปแบบห้องพัก',
   'สร้างห้องพัก',
-  'เพิ่มช่องทางการชำระเงิน',
   'ตรวจสอบข้อมูล',
   'สถานะการอนุมัติ',
 ];
@@ -70,6 +73,8 @@ const residenceData = reactive({
   },
   facility: [],
   fee: [],
+  payments: [],
+  paymentNotes: '',
   defaultWaterPriceRate: 0.0,
   defaultElectricPriceRate: 0.0,
   imageFiles: [],
@@ -89,6 +94,22 @@ const fetchFacility = async () => {
       group: 'tr',
       title: 'เกิดข้อผิดพลาด',
       text: 'ไม่สามารถดึงข้อมูลสิ่งอำนวยความสะดวกได้ ' + data?.message,
+      type: 'error',
+    });
+  }
+};
+const banks = ref([]);
+const fetchBanks = async () => {
+  const response = await BankService.fetchBanks();
+  if (response.status === 200) {
+    let result = await response.json();
+    console.log('banks', result);
+    banks.value = result;
+  } else {
+    notify({
+      group: 'tr',
+      title: 'เกิดข้อผิดพลาด',
+      text: 'Failed to fetch banks data',
       type: 'error',
     });
   }
@@ -168,6 +189,7 @@ watch(residenceData, () => {
 
 onMounted(async () => {
   await fetchFacility();
+  await fetchBanks();
 });
 </script>
 
@@ -288,9 +310,22 @@ onMounted(async () => {
 
           <!-- step 3 -->
           <div v-if="currentStep == 3" class="flex gap-4 flex-col">
+            <ResidenceSettingForm
+              @getData="getChildData"
+              :residenceData="residenceData"
+            />
             <ResidenceFeeForm
               @getData="getChildData"
               :residenceData="residenceData"
+            />
+          </div>
+
+          <!-- step 4 -->
+          <div v-if="currentStep == 4" class="flex gap-4">
+            <PaymentForm
+              @getData="getChildData"
+              :residenceData="residenceData"
+              :banks="banks"
             />
           </div>
 

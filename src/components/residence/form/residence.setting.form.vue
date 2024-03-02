@@ -53,45 +53,47 @@ watch(residenceSettings, () => {
 
 <template>
   <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
-    <h1 class="text-xl font-semibold text-dark-blue-200">ข้อมูลเพิ่มเติม</h1>
-    <p class="text-xs">โปรดใส่ข้อมูลเพิ่มเติม</p>
+    <h1 class="text-xl font-semibold text-dark-blue-200">กำหนดค่าน้ำและค่าไฟ</h1>
+    <p class="text-xs">โปรดใส่ข้อมูลค่าน้ำและค่าไฟ ของหอพัก</p>
 
-    <div>
-      <label class="label">
-        <span class="text-base label-text"
-          >ค่าน้ำ (บาท/หน่วย) <span class="text-red-500">*</span></span
-        >
-      </label>
-      <input
-        type="number"
-        min="0"
-        placeholder="ค่าน้ำ (บาท/หน่วย) "
-        class="w-full input input-bordered bg-white input-sm rounded-sm"
-        v-model="residenceSettings.defaultWaterPriceRate"
-        :disabled="viewOnly"
-      />
-      <p class="text-xs text-red-500" v-if="error.defaultWaterPriceRate">
-        ค่าน้ำห้ามต่ำกว่า 0 *
-      </p>
-    </div>
+    <div class="flex gap-2">
+      <div>
+        <label class="label">
+          <span class="text-base label-text"
+            >ค่าน้ำ (บาท/หน่วย) <span class="text-red-500">*</span></span
+          >
+        </label>
+        <input
+          type="number"
+          min="0"
+          placeholder="ค่าน้ำ (บาท/หน่วย) "
+          class="input input-bordered bg-white input-sm rounded-sm"
+          v-model="residenceSettings.defaultWaterPriceRate"
+          :disabled="viewOnly"
+        />
+        <p class="text-xs text-red-500" v-if="error.defaultWaterPriceRate">
+          ค่าน้ำห้ามต่ำกว่า 0 *
+        </p>
+      </div>
 
-    <div>
-      <label class="label">
-        <span class="text-base label-text"
-          >ค่าไฟฟ้า (บาท/หน่วย) <span class="text-red-500">*</span></span
-        >
-      </label>
-      <input
-        type="number"
-        min="0"
-        placeholder="ค่าไฟฟ้า (บาท/หน่วย)"
-        class="w-full input input-bordered bg-white input-sm rounded-sm"
-        v-model="residenceSettings.defaultElectricPriceRate"
-        :disabled="viewOnly"
-      />
-      <p class="text-xs text-red-500" v-if="error.defaultElectricPriceRate">
-        ค่าไฟฟ้าห้ามต่ำกว่า 0 *
-      </p>
+      <div>
+        <label class="label">
+          <span class="text-base label-text"
+            >ค่าไฟฟ้า (บาท/หน่วย) <span class="text-red-500">*</span></span
+          >
+        </label>
+        <input
+          type="number"
+          min="0"
+          placeholder="ค่าไฟฟ้า (บาท/หน่วย)"
+          class="input input-bordered bg-white input-sm rounded-sm"
+          v-model="residenceSettings.defaultElectricPriceRate"
+          :disabled="viewOnly"
+        />
+        <p class="text-xs text-red-500" v-if="error.defaultElectricPriceRate">
+          ค่าไฟฟ้าห้ามต่ำกว่า 0 *
+        </p>
+      </div>
     </div>
   </div>
 </template>

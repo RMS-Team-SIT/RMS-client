@@ -28,7 +28,8 @@ const emitData = () => {
 
 const setDataFromProps = () => {
   for (const key in props.residenceData) {
-    if (key in residenceFacility) residenceFacility[key] = props.residenceData[key];
+    if (key in residenceFacility)
+      residenceFacility[key] = props.residenceData[key];
   }
 };
 
@@ -61,7 +62,9 @@ watch(residenceFacility, () => {
     <!-- select all -->
     <div class="flex items-center gap-2">
       <input
-        value="false"
+        :checked="
+          residenceFacility.facility.length === props.facilityList.length
+        "
         type="checkbox"
         id="selectAll"
         class="checkbox checkbox-primary"
