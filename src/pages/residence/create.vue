@@ -167,7 +167,27 @@ const submitData = async () => {
       return;
     }
   }
-  const response = await ResidenceServices.createResidence(residenceData);
+  // Upload residenceBusinessLicense if file not empty
+  if (residenceData.residenceBusinessLicense.file) {
+    const response = await FileService.uploadPdfWatermark(
+      residenceData.residenceBusinessLicense.file
+    );
+    if (response.status == 201) {
+      const data = await response.json();
+      residenceData.residenceBusinessLicense.fileName = data.fileName;
+    } else {
+      const data = await response.json();
+      notify({
+        group: 'tr',
+        title: 'เกิดข้อผิดพลาด',
+        text: 'Failed to upload residenceBusinessLicense ' + data?.message,
+        type: 'error',
+      });
+      return;
+    }
+  }
+
+  const response = await ResidenceServices.createResidenceFully(residenceData);
   if (response.status == 201) {
     notify({
       group: 'tr',

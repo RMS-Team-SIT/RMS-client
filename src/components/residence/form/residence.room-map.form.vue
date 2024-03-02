@@ -249,19 +249,19 @@ const getFee = (id) => {
                   </p>
                   <div class="grid grid-cols-1 md:grid-cols-2">
                     <div
-                      v-for="(fee, index) in props.residenceData.fees"
-                      :key="index"
+                      v-for="(fee, feeIndex) in props.residenceData.fees"
+                      :key="feeIndex"
                       class="flex items-center gap-2"
                     >
                       <input
                         :disabled="viewOnly"
                         type="checkbox"
-                        :id="fee._id"
+                        :id="index + fee._id"
                         :value="fee._id"
                         v-model="room.fees"
                         class="checkbox checkbox-primary"
                       />
-                      <label :for="fee._id" class="label text-sm">
+                      <label :for="index + fee._id" class="label text-sm">
                         {{ fee.feename }} : {{ fee.feeprice }} บาท
                       </label>
                     </div>

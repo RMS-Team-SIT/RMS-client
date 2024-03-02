@@ -30,6 +30,7 @@ const tempPayment = reactive({
   bankId: '',
   account_name: '',
   account_number: '',
+  type: 'bank_transfer',
 });
 
 const addPayment = () => {
@@ -60,7 +61,7 @@ const addPayment = () => {
     });
     return;
   }
-  childData.payments.push({ _id: generateRandomObjectId() ,...tempPayment });
+  childData.payments.push({ _id: generateRandomObjectId(), ...tempPayment });
   tempPayment.bankId = '';
   tempPayment.account_name = '';
   tempPayment.account_number = '';
