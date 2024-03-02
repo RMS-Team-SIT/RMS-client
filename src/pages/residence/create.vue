@@ -20,23 +20,25 @@ import ResidenceFeeForm from '@/components/residence/form/residence.fee.form.vue
 import { onBeforeUnmount } from 'vue';
 import BankService from '@/services/BankService';
 import PaymentForm from '@/components/payment/form/payment.form.vue';
+import ResidenceRoomTypeForm from '@/components/residence/form/residence.room-type.form.vue';
+import RoomCreateManyForm from '@/components/room/form/room.create-many.form.vue';
 
-const confirmPageReload = (event) => {
-  // Display confirmation dialog only if there are unsaved changes
-  const hasUnsavedChanges = true; // Replace this with your logic to check for unsaved changes
-  if (hasUnsavedChanges) {
-    const confirmationMessage =
-      'คุณแน่ใจหรือไม่ว่าต้องการออกจากหน้านี้ ความก้าวหน้าของคุณจะหายไป';
-    event.returnValue = confirmationMessage; // For older browsers
-    return confirmationMessage; // For modern browsers
-  }
-};
+// const confirmPageReload = (event) => {
+//   // Display confirmation dialog only if there are unsaved changes
+//   const hasUnsavedChanges = true; // Replace this with your logic to check for unsaved changes
+//   if (hasUnsavedChanges) {
+//     const confirmationMessage =
+//       'คุณแน่ใจหรือไม่ว่าต้องการออกจากหน้านี้ ความก้าวหน้าของคุณจะหายไป';
+//     event.returnValue = confirmationMessage; // For older browsers
+//     return confirmationMessage; // For modern browsers
+//   }
+// };
 
-window.addEventListener('beforeunload', confirmPageReload);
+// window.addEventListener('beforeunload', confirmPageReload);
 
-onBeforeUnmount(() => {
-  window.removeEventListener('beforeunload', confirmPageReload);
-});
+// onBeforeUnmount(() => {
+//   window.removeEventListener('beforeunload', confirmPageReload);
+// });
 
 const router = useRouter();
 const { notify } = useNotification();
@@ -47,14 +49,15 @@ const stepList = [
   'อัปโหลดเอกสาร',
   'กำหนดค่าบริการต่าง ๆ',
   'ช่องทางการชำระเงิน',
-  'สร้างรูปแบบห้องพัก',
+  'ประเภทห้องพัก',
+  'แผนผังห้องพัก',
   'สร้างห้องพัก',
   'ตรวจสอบข้อมูล',
   'สถานะการอนุมัติ',
 ];
 const numberOfSteps = stepList.length;
 
-const currentStep = ref(1);
+const currentStep = ref(5);
 const canNext = ref(new Array(numberOfSteps).fill(true));
 const userStore = useUserStore();
 const user = userStore.getUser;
@@ -75,6 +78,10 @@ const residenceData = reactive({
   fee: [],
   payments: [],
   paymentNotes: '',
+  roomTypes: [],
+  rooms: [],
+  numberOfFloor: 1,
+  numberOfRoomEachFloor: [],
   defaultWaterPriceRate: '',
   defaultElectricPriceRate: '',
   imageFiles: [],
@@ -326,6 +333,23 @@ onMounted(async () => {
               @getData="getChildData"
               :residenceData="residenceData"
               :banks="banks"
+            />
+          </div>
+
+          <!-- step 5 -->
+          <div v-if="currentStep == 5" class="flex gap-4">
+            <ResidenceRoomTypeForm
+              @getData="getChildData"
+              :residenceData="residenceData"
+              :banks="banks"
+            />
+          </div>
+
+          <!-- step 6 -->
+          <div v-if="currentStep == 6" class="flex gap-4">
+            <RoomCreateManyForm
+              @getData="getChildData"
+              :payload="residenceData"
             />
           </div>
 

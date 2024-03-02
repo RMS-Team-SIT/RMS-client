@@ -45,9 +45,9 @@ watch(payload.numberOfFloor, () => {
 </script>
 
 <template>
-  <div class="relative bg-white p-10 space-y-4 shadow-lg rounded w-full">
-    <h1 class="text-xl font-semibold text-dark-blue-200">ข้อมูลแผนผังห้องพัก</h1>
-    <p class="text-xs">โปรดกรอกข้อมูลแผนผังห้องพัก</p>
+  <div class="relative bg-white p-10 space-y-4 shadow-lg rounded">
+    <h1 class="text-xl font-semibold text-dark-blue-200">ข้อมูลห้องพัก</h1>
+    <p class="text-xs">โปรดกรอกข้อมูลห้องพัก</p>
 
     <div>
       <label class="label">
