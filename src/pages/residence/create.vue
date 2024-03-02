@@ -22,6 +22,7 @@ import BankService from '@/services/BankService';
 import PaymentForm from '@/components/payment/form/payment.form.vue';
 import ResidenceRoomTypeForm from '@/components/residence/form/residence.room-type.form.vue';
 import RoomCreateManyForm from '@/components/room/form/room.create-many.form.vue';
+import ResidenceRoomMapForm from '@/components/residence/form/residence.room-map.form.vue';
 
 // const confirmPageReload = (event) => {
 //   // Display confirmation dialog only if there are unsaved changes
@@ -224,7 +225,7 @@ onMounted(async () => {
 
         <div class="p-4 mb-4 card bg-white col-span-9">
           <!-- step 1 -->
-          <div v-if="currentStep == 1" class="w-full">
+          <div v-if="currentStep == 1">
             <ResidenceBasicInfoForm
               @getData="getChildData"
               :residenceData="residenceData"
@@ -259,7 +260,7 @@ onMounted(async () => {
           </div>
 
           <!-- step 2 -->
-          <div v-if="currentStep == 2" class="flex gap-4">
+          <div v-if="currentStep == 2">
             <!-- File upload -->
             <div class="relative bg-white p-10 shadow-md rounded basis-full">
               <h1 class="text-xl font-semibold text-dark-blue-200">
@@ -316,7 +317,7 @@ onMounted(async () => {
           </div>
 
           <!-- step 3 -->
-          <div v-if="currentStep == 3" class="flex gap-4 flex-col">
+          <div v-if="currentStep == 3">
             <ResidenceSettingForm
               @getData="getChildData"
               :residenceData="residenceData"
@@ -328,7 +329,7 @@ onMounted(async () => {
           </div>
 
           <!-- step 4 -->
-          <div v-if="currentStep == 4" class="flex gap-4">
+          <div v-if="currentStep == 4">
             <PaymentForm
               @getData="getChildData"
               :residenceData="residenceData"
@@ -337,7 +338,7 @@ onMounted(async () => {
           </div>
 
           <!-- step 5 -->
-          <div v-if="currentStep == 5" class="flex gap-4">
+          <div v-if="currentStep == 5">
             <ResidenceRoomTypeForm
               @getData="getChildData"
               :residenceData="residenceData"
@@ -346,10 +347,18 @@ onMounted(async () => {
           </div>
 
           <!-- step 6 -->
-          <div v-if="currentStep == 6" class="flex gap-4">
+          <div v-if="currentStep == 6">
             <RoomCreateManyForm
               @getData="getChildData"
               :payload="residenceData"
+            />
+          </div>
+
+          <!-- step 7 -->
+          <div v-if="currentStep == 7">
+            <ResidenceRoomMapForm
+              @getData="getChildData"
+              :residenceData="residenceData"
             />
           </div>
 
