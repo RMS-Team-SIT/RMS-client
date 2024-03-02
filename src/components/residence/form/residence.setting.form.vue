@@ -15,8 +15,8 @@ const props = defineProps({
 });
 
 const residenceSettings = reactive({
-  defaultWaterPriceRate: 0.0,
-  defaultElectricPriceRate: 0.0,
+  defaultWaterPriceRate: '',
+  defaultElectricPriceRate: '',
 });
 
 const error = reactive({

@@ -75,8 +75,8 @@ const residenceData = reactive({
   fee: [],
   payments: [],
   paymentNotes: '',
-  defaultWaterPriceRate: 0.0,
-  defaultElectricPriceRate: 0.0,
+  defaultWaterPriceRate: '',
+  defaultElectricPriceRate: '',
   imageFiles: [],
   residenceBusinessLicense: { fileName: null, file: null, isEdited: false },
 });
