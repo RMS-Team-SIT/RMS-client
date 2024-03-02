@@ -58,7 +58,7 @@ const stepList = [
 ];
 const numberOfSteps = stepList.length;
 
-const currentStep = ref(6);
+const currentStep = ref(1);
 const canNexts = ref(new Array(numberOfSteps).fill(false));
 const userStore = useUserStore();
 const user = userStore.getUser;
@@ -79,16 +79,7 @@ const residenceData = reactive({
   fees: [],
   payments: [],
   paymentNotes: '',
-  roomTypes: [
-    {
-      _id: '65e32e78835081fc8fe385b4',
-      name: 'ปกติ',
-      type: '',
-      size: 20,
-      price: 4500,
-      description: 'wwww',
-    },
-  ],
+  roomTypes: [],
   rooms: [],
   numberOfFloor: 1,
   numberOfRoomEachFloor: [],
@@ -217,7 +208,15 @@ const updateCanNext = () => {
   canNexts.value[4] = !!residenceData.roomTypes.length;
   canNexts.value[5] =
     !!residenceData.numberOfFloor &&
-    residenceData.numberOfRoomEachFloor.length > 0;
+    residenceData.numberOfRoomEachFloor.length > 0 &&
+    residenceData.numberOfFloor ===
+      residenceData.numberOfRoomEachFloor.length &&
+    residenceData.numberOfRoomEachFloor.every(
+      (numberOfRoom) => numberOfRoom > 0
+    );
+  canNexts.value[6] =
+    !!residenceData.rooms.length &&
+    !!residenceData.rooms.every((room) => room.type);
 };
 
 onMounted(async () => {

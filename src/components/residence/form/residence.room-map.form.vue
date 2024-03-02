@@ -4,6 +4,7 @@ import { computed, onMounted, reactive, ref, watch } from 'vue';
 import BankIcon from '@/components/common/bank-icon.vue';
 import { HomeIcon } from '@heroicons/vue/24/outline';
 import { generateRandomObjectId } from '@/utils/mongo';
+import Badge from '@/components/common/badge.vue';
 
 const emit = defineEmits(['getData']);
 const { notify } = useNotification();
@@ -117,8 +118,9 @@ const getRoomType = (id) => {
           v-model="searchKeyword"
         />
       </div>
-      <!-- Floor -->
+      <!-- Rooms -->
       <div class="grid grid-cols-3 gap-2 w-full">
+        <p v-if="!showedRoom.length" class="text-center w-full col-span-3">ไม่มีห้องพักในระบบ</p>
         <div v-for="(room, index) in showedRoom" :key="index">
           <!-- Card -->
           <div
@@ -128,6 +130,14 @@ const getRoomType = (id) => {
             <div class="flex flex-between items-center">
               <div class="flex-1">
                 <h3 class="text-xl font-semibold mb-2">ห้อง {{ room.name }}</h3>
+                <p class="text-sm">ชั้น {{ room.floor }}</p>
+                <p class="text-sm">
+                  ประเภทห้อง:
+                  <span v-if="room.type">{{
+                    getRoomType(room.type)?.name
+                  }}</span>
+                  <Badge badgeType="error" class="" v-else>ยังไม่ได้กำหนดประเภทห้อง</Badge>
+                </p>
                 <p class="text-sm">กดเพื่อแก้ไขห้อง</p>
               </div>
               <HomeIcon class="h-5 w-5 inline-block" />
