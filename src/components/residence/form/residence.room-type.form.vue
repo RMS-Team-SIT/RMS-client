@@ -2,6 +2,7 @@
 import { useNotification } from '@kyvg/vue3-notification';
 import { onMounted, reactive, ref, watch } from 'vue';
 import BankIcon from '@/components/common/bank-icon.vue';
+import { generateRandomObjectId } from '@/utils/mongo';
 
 const emit = defineEmits(['getData']);
 const { notify } = useNotification();
@@ -44,7 +45,7 @@ const add = () => {
     });
     return;
   }
-  childData.roomTypes.push({ ...temp });
+  childData.roomTypes.push({ _id: generateRandomObjectId(), ...temp });
   temp.name = '';
   temp.size = '';
   temp.price = '';

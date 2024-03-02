@@ -43,11 +43,11 @@ const generateRoomFromNumberOfRoomEachFloor = () => {
     for (let j = 0; j < props.residenceData.numberOfRoomEachFloor[i]; j++) {
       rooms.push({
         _id: generateRandomObjectId(),
-        name: `ห้อง ${i + 1}${(j + 1).toString().padStart(2, '0')}`,
+        name: `${i + 1}${(j + 1).toString().padStart(2, '0')}`,
         description: '',
         floor: i + 1,
         type: '',
-        roomRentalPrice: props.residenceData.roomRentalPrice,
+        roomRentalPrice: '',
         fees: [],
       });
     }
@@ -77,9 +77,27 @@ onMounted(() => {
   generateRoomFromNumberOfRoomEachFloor();
 });
 
-watch(childData, () => {
-  emitData();
-});
+watch(
+  childData,
+  () => {
+    setRentalPrice();
+    emitData();
+  },
+  { deep: true }
+);
+
+const setRentalPrice = () => {
+  console.log('set rental price');
+  childData.rooms.forEach((room) => {
+    console.log('roomtype', room.type);
+    console.log('room prce', getRoomType(room.type));
+    room.roomRentalPrice = getRoomType(room.type)?.price ?? 0;
+  });
+};
+
+const getRoomType = (id) => {
+  return props.residenceData.roomTypes.find((roomType) => roomType._id === id);
+};
 </script>
 
 <template>
@@ -109,7 +127,7 @@ watch(childData, () => {
           >
             <div class="flex flex-between items-center">
               <div class="flex-1">
-                <h3 class="text-xl font-semibold mb-2">{{ room.name }}</h3>
+                <h3 class="text-xl font-semibold mb-2">ห้อง {{ room.name }}</h3>
                 <p class="text-sm">กดเพื่อแก้ไขห้อง</p>
               </div>
               <HomeIcon class="h-5 w-5 inline-block" />
@@ -144,12 +162,19 @@ watch(childData, () => {
                       >ประเภทห้อง <span class="text-red-500">*</span>
                     </span>
                   </label>
-                  <input
-                    type="text"
-                    placeholder="ประเภทห้อง"
-                    class="input input-bordered bg-white input-sm rounded-sm"
+                  <select
+                    class="select select-bordered w-full max-w-xs select-sm bg-white input-sm rounded-sm"
                     v-model="room.type"
-                  />
+                  >
+                    <option value="">เลือกประเภทห้อง</option>
+                    <option
+                      v-for="roomType in props.residenceData.roomTypes"
+                      :key="roomType._id"
+                      :value="roomType._id"
+                    >
+                      {{ roomType.name }}
+                    </option>
+                  </select>
                 </div>
 
                 <div>
@@ -182,15 +207,16 @@ watch(childData, () => {
                   />
                 </div>
 
-                <div>
+                <div class="col-span-2">
                   <label class="label">
                     <span class="text-base label-text"
-                      >บริการต่าง ๆ ที่ใช้ <span class="text-red-500">*</span>
+                      >บริการต่างที่ใช้ <span class="text-red-500">*</span>
                     </span>
                   </label>
-                  <div
-                    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2"
-                  >
+                  <p class="p-2" v-if="!props.residenceData.fees.length">
+                    ไม่มีค่าบริการเพิ่มเติมในหอพัก
+                  </p>
+                  <div class="grid grid-cols-1 md:grid-cols-2">
                     <div
                       v-for="(fee, index) in props.residenceData.fees"
                       :key="index"
@@ -204,7 +230,7 @@ watch(childData, () => {
                         class="checkbox checkbox-primary"
                       />
                       <label :for="fee._id" class="label text-sm">
-                        {{ fee.feename }} {{ fee.feeprice }} บาท
+                        {{ fee.feename }} : {{ fee.feeprice }} บาท
                       </label>
                     </div>
                   </div>

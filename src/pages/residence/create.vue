@@ -48,7 +48,7 @@ const route = useRoute();
 const stepList = [
   'ข้อมูลหอพัก',
   'อัปโหลดเอกสาร',
-  'กำหนดค่าบริการต่าง ๆ',
+  'กำหนดค่าบริการเพิ่มเติม',
   'ช่องทางการชำระเงิน',
   'ประเภทห้องพัก',
   'แผนผังห้องพัก',
@@ -58,8 +58,8 @@ const stepList = [
 ];
 const numberOfSteps = stepList.length;
 
-const currentStep = ref(1);
-const canNext = ref(new Array(numberOfSteps).fill(true));
+const currentStep = ref(6);
+const canNexts = ref(new Array(numberOfSteps).fill(false));
 const userStore = useUserStore();
 const user = userStore.getUser;
 
@@ -79,7 +79,16 @@ const residenceData = reactive({
   fees: [],
   payments: [],
   paymentNotes: '',
-  roomTypes: [],
+  roomTypes: [
+    {
+      _id: '65e32e78835081fc8fe385b4',
+      name: 'ปกติ',
+      type: '',
+      size: 20,
+      price: 4500,
+      description: 'wwww',
+    },
+  ],
   rooms: [],
   numberOfFloor: 1,
   numberOfRoomEachFloor: [],
@@ -189,17 +198,32 @@ const submitData = async () => {
 
 watch(residenceData, () => {
   console.log('residenceData', residenceData);
-  // canNext.value =
-  //   residenceData.name &&
-  //   residenceData.defaultElectricPriceRate &&
-  //   residenceData.defaultElectricPriceRate > 0 &&
-  //   residenceData.defaultWaterPriceRate &&
-  //   residenceData.defaultWaterPriceRate > 0;
+  updateCanNext();
 });
+
+const updateCanNext = () => {
+  canNexts.value[0] = !!(
+    residenceData.name &&
+    residenceData.address &&
+    residenceData.contact.phone &&
+    residenceData.contact.contactName &&
+    residenceData.contact.email
+  );
+  canNexts.value[1] = !!residenceData.residenceBusinessLicense.file;
+  canNexts.value[2] =
+    !!residenceData.defaultElectricPriceRate &&
+    !!residenceData.defaultWaterPriceRate;
+  canNexts.value[3] = !!residenceData.payments.length;
+  canNexts.value[4] = !!residenceData.roomTypes.length;
+  canNexts.value[5] =
+    !!residenceData.numberOfFloor &&
+    residenceData.numberOfRoomEachFloor.length > 0;
+};
 
 onMounted(async () => {
   await fetchFacility();
   await fetchBanks();
+  updateCanNext();
 });
 </script>
 
@@ -215,6 +239,8 @@ onMounted(async () => {
           ]"
         />
       </div>
+      {{ canNexts }} <br />
+      {{ residenceData }}
 
       <div class="grid grid-cols-12">
         <div class="p-4 mb-4 card bg-white col-span-3">
@@ -276,7 +302,7 @@ onMounted(async () => {
                 <label class="label">
                   <span class="text-base label-text"
                     >เอกสารประกอบการหอพัก
-                    <span class="text-red-500">(pdf เท่านั้น)</span>
+                    <span class="text-red-500">* (pdf เท่านั้น)</span>
                   </span>
                 </label>
                 <input
@@ -388,7 +414,7 @@ onMounted(async () => {
               @click="changeStep('next')"
               class="rounded-badge"
               v-else
-              :disabled="!canNext[currentStep - 1]"
+              :disabled="!canNexts[currentStep - 1]"
             >
               ถัดไป
               <ArrowRightIcon class="w-4 h-4" />

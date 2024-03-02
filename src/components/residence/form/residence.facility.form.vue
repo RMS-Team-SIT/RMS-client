@@ -60,7 +60,7 @@ watch(residenceFacility, () => {
     </h1>
     <p class="text-sm">กรุณาเลือกสิ่งอำนวยความสะดวกที่มีในหอพักของคุณ</p>
     <!-- select all -->
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-2 text-sm">
       <input
         :checked="
           residenceFacility.facilities.length === props.facilityList.length
@@ -74,7 +74,7 @@ watch(residenceFacility, () => {
     </div>
     <!-- facility list -->
     <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2"
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 text-sm"
     >
       <div
         v-for="(facility, index) in facilityList"

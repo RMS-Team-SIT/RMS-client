@@ -94,7 +94,7 @@ watch(childData, () => {
 <template>
   <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
     <h1 class="text-xl font-semibold text-dark-blue-200">
-      กำหนดค่าบริการต่างเพิ่มเติมที่เรียกเก็บ
+      กำหนดค่าบริการเพิ่มเติมที่เรียกเก็บ
     </h1>
     <p class="text-sm">
       เช่น อินเทอร์เน็ต ค่าส่วนกลาง ค่าฟิตเนส ต่าจอดรถ

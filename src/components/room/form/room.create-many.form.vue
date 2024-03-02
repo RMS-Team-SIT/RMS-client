@@ -17,7 +17,7 @@ const props = defineProps({
 const payload = reactive({
   numberOfFloor: 1,
   numberOfRoomEachFloor: [],
-  roomRentalPrice: 0,
+  // roomRentalPrice: 0,
 });
 
 const emitData = () => {
@@ -92,7 +92,7 @@ watch(payload.numberOfFloor, () => {
       </p>
     </div>
 
-    <div>
+    <!-- <div>
       <label class="label">
         <span class="text-base label-text"
           >อัตราค่าเช่าของแต่ละห้อง (บาท) <span class="text-red-500">*</span></span
@@ -106,7 +106,7 @@ watch(payload.numberOfFloor, () => {
         v-model="payload.roomRentalPrice"
         :disabled="viewOnly"
       />
-    </div>
+    </div> -->
   </div>
 </template>
 
