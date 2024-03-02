@@ -85,7 +85,7 @@ watch(childData, () => {
       <h1 class="text-xl font-semibold text-dark-blue-200">ประเภทห้องพัก</h1>
       <p class="text-xs">สร้างประเภทห้องพักในหอพักของคุณ</p>
 
-      <div class="grid grid-cols-3 gap-5">
+      <div class="grid grid-cols-3 gap-5" v-if="!viewOnly">
         <div>
           <label class="label">
             <span class="text-base label-text"

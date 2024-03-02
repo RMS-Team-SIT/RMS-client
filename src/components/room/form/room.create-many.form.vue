@@ -86,7 +86,7 @@ watch(payload.numberOfFloor, () => {
           :disabled="viewOnly"
         />
       </div>
-      <p class="text-sm text-red-500 p-1">
+      <p class="text-sm text-red-500 p-1" v-if="!viewOnly">
         ระบบจะสร้างห้องทั้งหมด
         {{ payload.numberOfRoomEachFloor.reduce((a, b) => a + b, 0) }} ห้อง
       </p>

@@ -75,7 +75,7 @@ const showedRoom = computed(() => {
 
 onMounted(() => {
   setDataFromProps();
-  generateRoomFromNumberOfRoomEachFloor();
+  if (!props.viewOnly) generateRoomFromNumberOfRoomEachFloor();
 });
 
 watch(
@@ -106,8 +106,8 @@ const getFee = (id) => {
 </script>
 
 <template>
-  <div class="shadow-md rounded">
-    <div class="bg-white p-10 space-y-4">
+  <div class="relative bg-white p-10 space-y-4 shadow-lg rounded w-full">
+    <div class="">
       <h1 class="text-xl font-semibold text-dark-blue-200">ตั้งค่าห้องพัก</h1>
       <!-- <p class="text-xs">ตั้งค่าห้องพักโดยการกดที่การ์ด</p> -->
 
@@ -154,9 +154,7 @@ const getFee = (id) => {
                   <span v-if="room.fees.length">{{
                     room.fees.map((fee) => getFee(fee).feename).join(', ')
                   }}</span>
-                  <span v-else
-                    >ไม่มีค่าบริการอื่น ๆ</span
-                  >
+                  <span v-else>ไม่มีค่าบริการอื่น ๆ</span>
                 </p>
               </div>
               <HomeIcon class="h-5 w-5 inline-block" />
@@ -178,6 +176,7 @@ const getFee = (id) => {
                     </span>
                   </label>
                   <input
+                    :disabled="viewOnly"
                     type="text"
                     placeholder="ชื่อห้อง"
                     class="input input-bordered bg-white input-sm rounded-sm"
@@ -192,6 +191,7 @@ const getFee = (id) => {
                     </span>
                   </label>
                   <select
+                    :disabled="viewOnly"
                     class="select select-bordered w-full max-w-xs select-sm bg-white input-sm rounded-sm"
                     v-model="room.type"
                   >
@@ -213,6 +213,7 @@ const getFee = (id) => {
                     </span>
                   </label>
                   <input
+                    :disabled="viewOnly"
                     type="number"
                     min="0"
                     placeholder="ชั้น"
@@ -228,6 +229,7 @@ const getFee = (id) => {
                     </span>
                   </label>
                   <input
+                    :disabled="viewOnly"
                     type="number"
                     min="0"
                     placeholder="ค่าเช่าบาท/เดือน"
@@ -239,7 +241,7 @@ const getFee = (id) => {
                 <div class="col-span-2">
                   <label class="label">
                     <span class="text-base label-text"
-                      >เพิ่มลดค่าบริการ <span class="text-red-500">*</span>
+                      >ค่าบริการ <span class="text-red-500">*</span>
                     </span>
                   </label>
                   <p class="p-2" v-if="!props.residenceData.fees.length">
@@ -252,6 +254,7 @@ const getFee = (id) => {
                       class="flex items-center gap-2"
                     >
                       <input
+                        :disabled="viewOnly"
                         type="checkbox"
                         :id="fee._id"
                         :value="fee._id"
@@ -269,7 +272,10 @@ const getFee = (id) => {
               <div class="modal-action flex">
                 <form method="dialog">
                   <!-- if there is a button in form, it will close the modal -->
-                  <button class="btn btn-success btn-sm">บันทึกข้อมูล</button>
+                  <button class="btn btn-sm btn-secondary" v-if="!viewOnly">
+                    บันทึกข้อมูล
+                  </button>
+                  <button class="btn btn-sm" v-else>ปิด</button>
                 </form>
               </div>
             </div>

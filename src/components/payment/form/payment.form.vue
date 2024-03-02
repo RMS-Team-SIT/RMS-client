@@ -101,7 +101,7 @@ watch(childData, () => {
       </h1>
       <p class="text-xs">โปรดใส่ข้อมูลช่องทางการชำระเงิน</p>
 
-      <div class="flex flex-col lg:flex-row gap-5">
+      <div class="flex flex-col lg:flex-row gap-5" v-if="!viewOnly">
         <div>
           <label class="label">
             <span class="text-base label-text"
@@ -185,6 +185,7 @@ watch(childData, () => {
         placeholder="ข้อความเพิ่มเติม"
         class="w-full textarea textarea-bordered rounded-sm bg-white"
         v-model="childData.paymentNotes"
+        :disabled="viewOnly"
       ></textarea>
     </div>
   </div>

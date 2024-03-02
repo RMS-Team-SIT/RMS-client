@@ -101,7 +101,7 @@ watch(childData, () => {
     </p>  
 
     <!-- Add fee (feename, feeprice) -->
-    <div class="flex gap-4">
+    <div class="flex gap-4" v-if="!viewOnly">
       <input
         v-model="feeName"
         type="text"

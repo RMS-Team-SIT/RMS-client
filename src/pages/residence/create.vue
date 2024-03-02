@@ -218,6 +218,7 @@ const updateCanNext = () => {
   canNexts.value[6] =
     !!residenceData.rooms.length &&
     !!residenceData.rooms.every((room) => room.type);
+  canNexts.value[7] = true;
 };
 
 onMounted(async () => {
@@ -393,6 +394,64 @@ onMounted(async () => {
             />
           </div>
 
+          <!-- step 8 -->
+          <div v-if="currentStep == 8">
+            <div class="relative bg-white p-10 shadow-md rounded basis-full">
+              <h1 class="text-xl font-semibold text-dark-blue-200">
+                ตรวจสอบข้อมูล
+              </h1>
+            </div>
+            
+            <ResidenceBasicInfoForm
+              @getData="getChildData"
+              :residenceData="residenceData"
+              :viewOnly="true"
+            />
+            <ResidenceContactForm
+              @getData="getChildData"
+              :residenceData="residenceData"
+              :viewOnly="true"
+            />
+            <ResidenceFacilityForm
+              @getData="getChildData"
+              :residenceData="residenceData"
+              :facility-list="availableFacility"
+              :viewOnly="true"
+            />
+            <ResidenceSettingForm
+              @getData="getChildData"
+              :residenceData="residenceData"
+              :viewOnly="true"
+            />
+            <ResidenceFeeForm
+              @getData="getChildData"
+              :residenceData="residenceData"
+              :viewOnly="true"
+            />
+            <PaymentForm
+              @getData="getChildData"
+              :residenceData="residenceData"
+              :banks="banks"
+              :viewOnly="true"
+            />
+            <ResidenceRoomTypeForm
+              @getData="getChildData"
+              :residenceData="residenceData"
+              :banks="banks"
+              :viewOnly="true"
+            />
+            <RoomCreateManyForm
+              @getData="getChildData"
+              :payload="residenceData"
+              :viewOnly="true"
+            />
+            <ResidenceRoomMapForm
+              @getData="getChildData"
+              :residenceData="residenceData"
+              :viewOnly="true"
+            />
+          </div>
+
           <!-- button control -->
 
           <div class="flex justify-end gap-2 mt-10">
@@ -406,12 +465,12 @@ onMounted(async () => {
               ย้อนกลับ
             </Button>
             <Button
-              v-if="currentStep == numberOfSteps"
+              v-if="currentStep == 8"
               @click="submitData"
               class="rounded-badge"
               btnType="primary"
             >
-              บันทึกข้อมูล
+              ยืนยันการสร้างหอพัก
             </Button>
             <Button
               @click="changeStep('next')"

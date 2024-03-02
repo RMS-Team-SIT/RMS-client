@@ -62,6 +62,7 @@ watch(residenceFacility, () => {
     <!-- select all -->
     <div class="flex items-center gap-2 text-sm">
       <input
+        :disabled="props.viewOnly"
         :checked="
           residenceFacility.facilities.length === props.facilityList.length
         "
@@ -82,6 +83,7 @@ watch(residenceFacility, () => {
         class="flex items-center gap-2"
       >
         <input
+          :disabled="props.viewOnly"
           type="checkbox"
           :id="facility._id"
           :value="facility._id"

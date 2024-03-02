@@ -1,6 +1,6 @@
 <script setup>
 import Breadcrumb from '@/components/common/breadcrumb.vue';
-import { onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Steps from '@/components/common/steps.vue';
 import Button from '@/components/common/button.vue';
@@ -22,7 +22,9 @@ const renterData = reactive({
   firstname: '',
   lastname: '',
   username: '',
+  password: '',
   phone: '',
+  email: '',
   image: { fileName: null, file: null, isEdited: false },
   copyOfIdCard: { fileName: null, file: null, isEdited: false },
   renterContract: { fileName: null, file: null, isEdited: false },
@@ -42,6 +44,17 @@ const changeStep = (action) => {
   }
 };
 
+const canNext = computed(() => {
+  return (
+    renterData.firstname &&
+    renterData.lastname &&
+    renterData.username &&
+    renterData.phone &&
+    renterData.email &&
+    renterData.password
+  );
+});
+
 const getChildData = (data) => {
   for (const key in data) {
     renterData[key] = data[key];
@@ -49,6 +62,22 @@ const getChildData = (data) => {
 };
 
 const submitData = async () => {
+  if (
+    !renterData.firstname ||
+    !renterData.lastname ||
+    !renterData.username ||
+    !renterData.phone ||
+    !renterData.email
+  ) {
+    notify({
+      group: 'tr',
+      title: 'เกิดข้อผิดพลาด',
+      text: 'โปรดกรอกข้อมูลให้ครบถ้วน',
+      type: 'error',
+    });
+    return;
+  }
+
   // Upload files
   if (renterData.copyOfIdCard.file) {
     const uploadFileResponse = await FileService.uploadPdfWatermark(
@@ -117,19 +146,24 @@ const submitData = async () => {
 </script>
 
 <template>
-  <div class="card w-full ">
-    <div class="card-body px-10 md:px-40 ">
+  <div class="card w-full">
+    <div class="card-body px-10 md:px-40">
       <div class="flex flex-row justify-between">
         <Breadcrumb
           :pathList="[
-            { name: 'Home', pathName: 'home' },
-            { name: 'Manage', pathName: 'manage' },
+            { name: 'หน้าแรก', pathName: 'home' },
+            { name: 'จัดการ', pathName: 'manage' },
             {
-              name: 'Residence',
+              name: 'แดชบอร์ด',
               pathName: 'dashboard',
               params: { residenceId },
             },
-            { name: 'Create Renter' },
+            {
+              name: 'ผู้เช่า',
+              pathName: 'renter',
+              params: { residenceId },
+            },
+            { name: 'จัดการผู้เช่า' },
           ]"
         />
       </div>
@@ -176,9 +210,7 @@ const submitData = async () => {
         <div class="flex justify-end gap-2 mt-10">
           <Button
             btn-type="secondary"
-            @click="
-              router.push({ name: 'dashboard', params: { residenceId } })
-            "
+            @click="router.push({ name: 'dashboard', params: { residenceId } })"
             v-if="currentStep == 1"
             class="rounded-badge"
           >
@@ -201,7 +233,12 @@ const submitData = async () => {
           >
             บันทึกข้อมูล
           </Button>
-          <Button @click="changeStep('next')" class="rounded-badge" v-else>
+          <Button
+            @click="changeStep('next')"
+            :disabled="!canNext"
+            class="rounded-badge"
+            v-else
+          >
             ถัดไป
             <ArrowRightIcon class="w-4 h-4" />
           </Button>
