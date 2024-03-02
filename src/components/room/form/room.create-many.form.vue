@@ -17,6 +17,7 @@ const props = defineProps({
 const payload = reactive({
   numberOfFloor: 1,
   numberOfRoomEachFloor: [],
+  roomRentalPrice: 0,
 });
 
 const emitData = () => {
@@ -89,6 +90,22 @@ watch(payload.numberOfFloor, () => {
         ระบบจะสร้างห้องทั้งหมด
         {{ payload.numberOfRoomEachFloor.reduce((a, b) => a + b, 0) }} ห้อง
       </p>
+    </div>
+
+    <div>
+      <label class="label">
+        <span class="text-base label-text"
+          >อัตราค่าเช่าของแต่ละห้อง (บาท) <span class="text-red-500">*</span></span
+        >
+      </label>
+      <input
+        type="number"
+        min="0"
+        placeholder="ค่าเช่าของแต่ละห้อง"
+        class="w-full input input-bordered bg-white input-sm rounded-sm"
+        v-model="payload.roomRentalPrice"
+        :disabled="viewOnly"
+      />
     </div>
   </div>
 </template>

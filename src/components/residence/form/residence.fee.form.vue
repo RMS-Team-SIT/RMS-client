@@ -2,6 +2,7 @@
 import Button from '@/components/common/button.vue';
 import { useNotification } from '@kyvg/vue3-notification';
 import { onMounted, reactive, ref, watch } from 'vue';
+import { generateRandomObjectId } from '@/utils/mongo';
 
 const { notify } = useNotification();
 const emit = defineEmits(['getData']);
@@ -22,7 +23,7 @@ const props = defineProps({
 });
 
 const childData = reactive({
-  fee: [],
+  fees: [],
 });
 
 const emitData = () => {
@@ -48,7 +49,7 @@ const addFee = () => {
     });
     return;
   }
-  if(feePrice.value <= 0){
+  if (feePrice.value <= 0) {
     notify({
       group: 'tr',
       title: 'ไม่สามารถเพิ่มค่าบริการได้',
@@ -57,7 +58,9 @@ const addFee = () => {
     });
     return;
   }
-  if (childData.fee.some((fee) => fee.feename.trim() === feeName.value.trim())) {
+  if (
+    childData.fees.some((fee) => fee.feename.trim() === feeName.value.trim())
+  ) {
     notify({
       group: 'tr',
       title: 'ไม่สามารถเพิ่มค่าบริการได้',
@@ -66,13 +69,17 @@ const addFee = () => {
     });
     return;
   }
-  childData.fee.push({ feename: feeName.value, feeprice: feePrice.value });
+  childData.fees.push({
+    _id: generateRandomObjectId(),
+    feename: feeName.value,
+    feeprice: feePrice.value,
+  });
   feeName.value = '';
   feePrice.value = 0;
 };
 
 const removeFee = (index) => {
-  childData.fee.splice(index, 1);
+  childData.fees.splice(index, 1);
 };
 
 onMounted(() => {
@@ -115,7 +122,7 @@ watch(childData, () => {
     <!-- List -->
     <div class="flex flex-col gap-4">
       <div
-        v-for="(fee, index) in childData.fee"
+        v-for="(fee, index) in childData.fees"
         :key="index"
         class="grid grid-cols-3 gap-4 items-center justify-between bg-gray-100 p-4 rounded-md"
       >

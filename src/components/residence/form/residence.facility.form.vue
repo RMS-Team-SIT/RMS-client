@@ -19,7 +19,7 @@ const props = defineProps({
 });
 
 const residenceFacility = reactive({
-  facility: [],
+  facilities: [],
 });
 
 const emitData = () => {
@@ -36,11 +36,11 @@ const setDataFromProps = () => {
 const selectAllFacility = (e) => {
   console.log(e);
   if (e.target.checked) {
-    residenceFacility.facility = props.facilityList.map(
+    residenceFacility.facilities = props.facilityList.map(
       (facility) => facility._id
     );
   } else {
-    residenceFacility.facility = [];
+    residenceFacility.facilities = [];
   }
 };
 
@@ -63,7 +63,7 @@ watch(residenceFacility, () => {
     <div class="flex items-center gap-2">
       <input
         :checked="
-          residenceFacility.facility.length === props.facilityList.length
+          residenceFacility.facilities.length === props.facilityList.length
         "
         type="checkbox"
         id="selectAll"
@@ -85,7 +85,7 @@ watch(residenceFacility, () => {
           type="checkbox"
           :id="facility._id"
           :value="facility._id"
-          v-model="residenceFacility.facility"
+          v-model="residenceFacility.facilities"
           class="checkbox checkbox-primary"
         />
         <label :for="facility._id" class="label">

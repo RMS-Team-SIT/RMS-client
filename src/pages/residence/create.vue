@@ -58,7 +58,7 @@ const stepList = [
 ];
 const numberOfSteps = stepList.length;
 
-const currentStep = ref(5);
+const currentStep = ref(1);
 const canNext = ref(new Array(numberOfSteps).fill(true));
 const userStore = useUserStore();
 const user = userStore.getUser;
@@ -75,14 +75,15 @@ const residenceData = reactive({
     phone: user.phone,
     email: user.email,
   },
-  facility: [],
-  fee: [],
+  facilities: [],
+  fees: [],
   payments: [],
   paymentNotes: '',
   roomTypes: [],
   rooms: [],
   numberOfFloor: 1,
   numberOfRoomEachFloor: [],
+  roomRentalPrice: 0,
   defaultWaterPriceRate: '',
   defaultElectricPriceRate: '',
   imageFiles: [],
@@ -187,6 +188,7 @@ const submitData = async () => {
 };
 
 watch(residenceData, () => {
+  console.log('residenceData', residenceData);
   // canNext.value =
   //   residenceData.name &&
   //   residenceData.defaultElectricPriceRate &&
@@ -213,7 +215,7 @@ onMounted(async () => {
           ]"
         />
       </div>
-      {{ residenceData }}
+
       <div class="grid grid-cols-12">
         <div class="p-4 mb-4 card bg-white col-span-3">
           <Steps

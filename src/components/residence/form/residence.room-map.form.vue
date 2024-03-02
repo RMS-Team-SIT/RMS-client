@@ -3,6 +3,7 @@ import { useNotification } from '@kyvg/vue3-notification';
 import { computed, onMounted, reactive, ref, watch } from 'vue';
 import BankIcon from '@/components/common/bank-icon.vue';
 import { HomeIcon } from '@heroicons/vue/24/outline';
+import { generateRandomObjectId } from '@/utils/mongo';
 
 const emit = defineEmits(['getData']);
 const { notify } = useNotification();
@@ -26,34 +27,11 @@ const temp = reactive({
   type: '',
   description: '',
   floor: 1,
-  waterPriceRate: 0,
-  electricPriceRate: 0,
-  isUseDefaultWaterPriceRate: true,
-  isUseDefaultElectricPriceRate: true,
-  defaultWaterPriceRate: 0,
-  defaultElectricPriceRate: 0,
-  currentRenter: null,
   roomRentalPrice: 0,
+  fees: [],
 });
 
-const add = () => {
-  console.log('addd');
-  if (!temp.name || !temp.size || !temp.price || !temp.description) {
-    console.log('error');
-    notify({
-      group: 'tr',
-      title: 'เกิดข้อผิดพลาด',
-      text: 'โปรดกรอกข้อมูลให้ครบถ้วน',
-      type: 'error',
-    });
-    return;
-  }
-  childData.rooms.push({ ...temp });
-  temp.name = '';
-  temp.size = '';
-  temp.price = '';
-  temp.description = '';
-};
+const add = () => {};
 
 const remove = (index) => {
   childData.rooms.splice(index, 1);
@@ -64,17 +42,13 @@ const generateRoomFromNumberOfRoomEachFloor = () => {
   for (let i = 0; i < props.residenceData.numberOfFloor; i++) {
     for (let j = 0; j < props.residenceData.numberOfRoomEachFloor[i]; j++) {
       rooms.push({
+        _id: generateRandomObjectId(),
         name: `ห้อง ${i + 1}${(j + 1).toString().padStart(2, '0')}`,
         description: '',
         floor: i + 1,
-        waterPriceRate: 0,
-        electricPriceRate: 0,
-        isUseDefaultWaterPriceRate: true,
-        isUseDefaultElectricPriceRate: true,
-        defaultWaterPriceRate: 0,
-        defaultElectricPriceRate: 0,
-        currentRenter: null,
-        roomRentalPrice: 0,
+        type: '',
+        roomRentalPrice: props.residenceData.roomRentalPrice,
+        fees: [],
       });
     }
   }
@@ -196,36 +170,6 @@ watch(childData, () => {
                 <div>
                   <label class="label">
                     <span class="text-base label-text"
-                      >ค่าน้ำบาท/หน่วย <span class="text-red-500">*</span>
-                    </span>
-                  </label>
-                  <input
-                    type="number"
-                    min="0"
-                    placeholder="ค่าน้ำบาท/หน่วย"
-                    class="input input-bordered bg-white input-sm rounded-sm"
-                    v-model="room.waterPriceRate"
-                  />
-                </div>
-
-                <div>
-                  <label class="label">
-                    <span class="text-base label-text"
-                      >ค่าไฟบาท/หน่วย <span class="text-red-500">*</span>
-                    </span>
-                  </label>
-                  <input
-                    type="number"
-                    min="0"
-                    placeholder="ค่าไฟบาท/หน่วย"
-                    class="input input-bordered bg-white input-sm rounded-sm"
-                    v-model="room.electricPriceRate"
-                  />
-                </div>
-
-                <div>
-                  <label class="label">
-                    <span class="text-base label-text"
                       >ค่าเช่าบาท/เดือน <span class="text-red-500">*</span>
                     </span>
                   </label>
@@ -237,14 +181,41 @@ watch(childData, () => {
                     v-model="room.roomRentalPrice"
                   />
                 </div>
+
+                <div>
+                  <label class="label">
+                    <span class="text-base label-text"
+                      >บริการต่าง ๆ ที่ใช้ <span class="text-red-500">*</span>
+                    </span>
+                  </label>
+                  <div
+                    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2"
+                  >
+                    <div
+                      v-for="(fee, index) in props.residenceData.fees"
+                      :key="index"
+                      class="flex items-center gap-2"
+                    >
+                      <input
+                        type="checkbox"
+                        :id="fee._id"
+                        :value="fee._id"
+                        v-model="room.fees"
+                        class="checkbox checkbox-primary"
+                      />
+                      <label :for="fee._id" class="label text-sm">
+                        {{ fee.feename }} {{ fee.feeprice }} บาท
+                      </label>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div class="modal-action flex">
                 <form method="dialog">
                   <!-- if there is a button in form, it will close the modal -->
-                  <button class="btn btn-sm">ปิด</button>
+                  <button class="btn btn-success btn-sm">บันทึกข้อมูล</button>
                 </form>
-                <button class="btn btn-success btn-sm">บันทึกข้อมูล</button>
               </div>
             </div>
           </dialog>

@@ -2,6 +2,7 @@
 import { useNotification } from '@kyvg/vue3-notification';
 import { onMounted, reactive, ref, watch } from 'vue';
 import BankIcon from '@/components/common/bank-icon.vue';
+import { generateRandomObjectId } from '@/utils/mongo';
 
 const emit = defineEmits(['getData']);
 const { notify } = useNotification();
@@ -59,7 +60,7 @@ const addPayment = () => {
     });
     return;
   }
-  childData.payments.push({ ...tempPayment });
+  childData.payments.push({ _id: generateRandomObjectId() ,...tempPayment });
   tempPayment.bankId = '';
   tempPayment.account_name = '';
   tempPayment.account_number = '';
