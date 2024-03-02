@@ -18,10 +18,11 @@ const roomInfo = reactive({
   name: '',
   description: '',
   floor: 0,
-  waterPriceRate: 0,
-  electricPriceRate: 0,
-  isUseDefaultWaterPriceRate: true,
-  isUseDefaultElectricPriceRate: true,
+  type: '',
+  // waterPriceRate: 0,
+  // electricPriceRate: 0,
+  // isUseDefaultWaterPriceRate: true,
+  // isUseDefaultElectricPriceRate: true,
   roomRentalPrice: 0,
   isActive: true,
 });
@@ -109,7 +110,7 @@ watch(roomInfo, () => {
       />
     </div>
 
-    <div>
+    <!-- <div>
       <label class="label">
         <span class="text-base label-text"
           >อัตราค่าน้ำ (บาท) <span class="text-red-500">*</span>
@@ -175,7 +176,7 @@ watch(roomInfo, () => {
           />
         </label>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 

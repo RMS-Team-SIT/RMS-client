@@ -33,14 +33,14 @@ const imageSrc = computed(() => {
       <p>รายละเอียด : {{ props.residence?.description || 'ไม่มีข้อมูล' }}</p>
       <p>ที่อยู่ : {{ props.residence?.contact?.address || 'ไม่มีข้อมูล' }}</p>
       <div class="card-actions justify-between items-center">
-        <ResidenceStat
+        <!-- <ResidenceStat
           :residenceId="props.residence._id"
           :stats="{
             roomCount: props.residence?.rooms?.length ?? 0,
             paymentCount: props.residence?.payments?.length ?? 0,
             renterCount: props.residence?.renters?.length ?? 0,
           }"
-        />
+        /> -->
         <Button
           class="btn"
           btnType="secondary"

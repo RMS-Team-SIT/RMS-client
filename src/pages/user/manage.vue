@@ -1,7 +1,7 @@
 <script setup>
 import Breadcrumb from '@/components/common/breadcrumb.vue';
 import Button from '@/components/common/button.vue';
-import { onBeforeMount, onMounted, reactive, ref } from 'vue';
+import { computed, onBeforeMount, onMounted, reactive, ref } from 'vue';
 import ResidenceCard from '@/components/residence/residence.card.vue';
 import Loading from '@/components/common/loading.vue';
 import { useNotification } from '@kyvg/vue3-notification';
@@ -11,12 +11,40 @@ const isLoading = ref(true);
 const residences = reactive({
   data: null,
 });
+
+const searchApproved = ref('');
+const approvedResidences = computed(() => {
+  if (residences.data) {
+    return residences.data.filter(
+      (residence) =>
+        residence.isApproved &&
+        residence.name
+          .toLowerCase()
+          .includes(searchApproved.value.toLowerCase())
+    );
+  }
+  return [];
+});
+
+const searchPending = ref('');
+const pendingResidences = computed(() => {
+  if (residences.data) {
+    return residences.data.filter(
+      (residence) =>
+        !residence.isApproved &&
+        residence.name.toLowerCase().includes(searchPending.value.toLowerCase())
+    );
+  }
+  return [];
+});
+
 const { notify } = useNotification();
 
 const fetch = async () => {
   const response = await ResidenceServices.fetchMyResidences();
   if (response.status === 200) {
     let result = await response.json();
+    console.log('residences', result);
     residences.data = result;
   } else {
     notify({
@@ -48,25 +76,57 @@ onBeforeMount(async () => {
           <Button>สร้างหอพัก</Button>
         </router-link>
       </div>
-      <div class="relative bg-white p-10 space-y-4 rounded border border-gray-200">
+      <div
+        class="relative bg-white p-10 space-y-4 rounded border border-gray-200"
+      >
         <h1 class="text-3xl font-semibold text-dark-blue-200">หอพักของคุณ</h1>
-        <p class="text-xs">หน้านี้จะแสดงหอพักทั้งหมดของคุณ</p>
+        <!-- <p class="text-xs">หน้านี้จะแสดงหอพักทั้งหมดของคุณ</p> -->
         <Loading v-if="isLoading" />
+
+        <h1 class="text-xl font-semibold text-dark-blue-200">
+          หอพักที่รอการอนุมัติ
+        </h1>
+        <div class="w-full flex align-middle items-center justify-end" v-if="pendingResidences.length">
+          <label class="label">
+            <span class="label-text">ค้นหา:</span>
+          </label>
+          <input
+            type="text"
+            placeholder="ค้นหา"
+            class="input input-xs input-bordered bg-white rounded"
+            v-model="searchPending"
+          />
+        </div>
         <ResidenceCard
-          v-for="(residence, index) in residences.data"
+          v-for="(residence, index) in pendingResidences"
           :key="index"
           :residence="residence"
         />
-        <p
-          v-if="residences.data && residences.data.length === 0"
-          class="text-center text-sm p-10"
-        >
-          ยังไม่มีห้องพักในระบบ คุณสามารถสร้างห้องพักในระบบ
-          <span class="underline text-dark-blue-200 cursor-pointer">
-            <router-link :to="{ name: 'create-residence' }">
-              ได้ที่นี่
-            </router-link>
-          </span>
+        <p v-if="!pendingResidences.length" class="text-center text-sm p-10">
+          ยังไม่มีหอพักที่รอการอนุมัติ
+        </p>
+
+        <h1 class="text-xl font-semibold text-dark-blue-200">
+          หอพักที่อนุมัติแล้ว
+        </h1>
+        <div class="w-full flex align-middle items-center justify-end" v-if="approvedResidences.length" >
+          <label class="label">
+            <span class="label-text">ค้นหา:</span>
+          </label>
+          <input
+            type="text"
+            placeholder="ค้นหา"
+            class="input input-xs input-bordered bg-white rounded"
+            v-model="searchApproved"
+          />
+        </div>
+        <ResidenceCard
+          v-for="(residence, index) in approvedResidences"
+          :key="index"
+          :residence="residence"
+        />
+        <p v-if="!approvedResidences.length" class="text-center text-sm p-10">
+          ไม่มีหอพักที่อนุมัติแล้ว
         </p>
       </div>
     </div>
