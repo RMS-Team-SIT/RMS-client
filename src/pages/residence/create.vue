@@ -44,7 +44,7 @@ const route = useRoute();
 
 const stepList = [
   'ข้อมูลหอพัก',
-  'อัปโหลดเอกสารของหอพัก',
+  'อัปโหลดเอกสาร',
   'กำหนดค่าบริการต่าง ๆ',
   'ช่องทางการชำระเงิน',
   'สร้างรูปแบบห้องพัก',
@@ -227,10 +227,10 @@ onMounted(async () => {
               class="relative bg-white p-10 space-y-4 shadow-md rounded basis-full"
             >
               <h1 class="text-xl font-semibold text-dark-blue-200">
-                อัพโหลดรูปภาพของหอพัก
+                อัปโหลดรูปภาพของหอพัก
               </h1>
               <p class="text-sm mt-5">
-                กรุณาอัพโหลดรูปภาพของหอพัก เช่น ภาพถ่ายหอพัก
+                กรุณาอัปโหลดรูปภาพของหอพัก เช่น ภาพถ่ายหอพัก
                 เพื่อใช้ในการแสดงผลหอพัก
               </p>
               <ImageUploadForm
@@ -256,10 +256,10 @@ onMounted(async () => {
             <!-- File upload -->
             <div class="relative bg-white p-10 shadow-md rounded basis-full">
               <h1 class="text-xl font-semibold text-dark-blue-200">
-                อัพโหลดเอกสารประกอบการหอพัก
+                อัปโหลดเอกสารประกอบการหอพัก
               </h1>
               <p class="text-sm mt-5">
-                กรุณาอัพโหลดเอกสารประกอบการหอพัก
+                กรุณาอัปโหลดเอกสารประกอบการหอพัก
                 เพื่อใช้ในการตรวจสอบและการยืนยันข้อมูลของหอพัก
               </p>
               <div class="mt-5">

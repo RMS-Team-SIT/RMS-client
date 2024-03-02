@@ -38,7 +38,7 @@ const handleFileChange = () => {
     notify({
       group: 'tr',
       title: 'เกิดข้อผิดพลาด',
-      text: `สามารถอัพโหลดได้ไม่เกิน 10 รูป`,
+      text: `สามารถอัปโหลดได้ไม่เกิน 10 รูป`,
       type: 'error',
     });
     return;
@@ -160,7 +160,7 @@ onMounted(() => {
       multiple
       class="file-input-sm file-input file-input-bordered bg-white  w-full max-w-xs file-input-ghost"
     />
-    <p class="text-xs text-light-red">* สามารถอัพโหลดได้ไม่เกิน 10 รูป แต่ละรูปขนาดไม่เกิน 10mb</p>
+    <p class="text-xs text-light-red">* สามารถอัปโหลดได้ไม่เกิน 10 รูป แต่ละรูปขนาดไม่เกิน 10mb</p>
     <Button
       v-if="imagePreviews.length > 0 && !viewOnly"
       btnType="secondary-pill"

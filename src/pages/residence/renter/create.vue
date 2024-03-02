@@ -59,7 +59,7 @@ const submitData = async () => {
       notify({
         group: 'tr',
         title: 'เกิดข้อผิดพลาด',
-        text: 'ไม่สามารถอัพโหลดไฟล์ได้, ' + data?.message,
+        text: 'ไม่สามารถอัปโหลดไฟล์ได้, ' + data?.message,
         type: 'error',
       });
       return;

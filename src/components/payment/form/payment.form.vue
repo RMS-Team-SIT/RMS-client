@@ -57,10 +57,12 @@ const addPayment = () => {
       text: `กรุณากรอกหมายเลขบัญชี`,
       type: 'error',
     });
-    
     return;
   }
   childData.payments.push({ ...tempPayment });
+  tempPayment.bankId = '';
+  tempPayment.account_name = '';
+  tempPayment.account_number = '';
 };
 
 const removePayment = (index) => {

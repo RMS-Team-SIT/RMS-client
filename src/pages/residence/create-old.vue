@@ -158,9 +158,9 @@ watch(residenceData, () => {
             class="relative bg-white p-10 space-y-4 shadow-md rounded basis-full"
           >
             <h1 class="text-xl font-semibold text-dark-blue-200">
-              อัพโหลดรูปภาพ
+              อัปโหลดรูปภาพ
             </h1>
-            <p class="text-xs">อัพโหลดรูปภาพของหอพัก</p>
+            <p class="text-xs">อัปโหลดรูปภาพของหอพัก</p>
             <ImageUploadForm
               @getImageFiles="getChildData"
               :imageFiles="residenceData.imageFiles"
