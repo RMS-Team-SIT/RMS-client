@@ -98,7 +98,7 @@ watch(childData, () => {
             class="input input-bordered bg-white input-sm rounded-sm"
             v-model="temp.name"
           />
-          <p class="text-xs text-gray-500">เช่น ปกติ สตูดิโอ</p>
+          <p class="text-xs text-gray-500">เช่น ห้องสตูดิโอ, 1 ห้องนอน</p>
         </div>
 
         <div>

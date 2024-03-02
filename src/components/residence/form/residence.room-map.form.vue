@@ -99,13 +99,17 @@ const setRentalPrice = () => {
 const getRoomType = (id) => {
   return props.residenceData.roomTypes.find((roomType) => roomType._id === id);
 };
+
+const getFee = (id) => {
+  return props.residenceData.fees.find((fee) => fee._id === id);
+};
 </script>
 
 <template>
   <div class="shadow-md rounded">
     <div class="bg-white p-10 space-y-4">
       <h1 class="text-xl font-semibold text-dark-blue-200">ตั้งค่าห้องพัก</h1>
-      <p class="text-xs">ตั้งค่าห้องพักโดยการกดที่การ์ด</p>
+      <!-- <p class="text-xs">ตั้งค่าห้องพักโดยการกดที่การ์ด</p> -->
 
       <div class="w-full flex align-middle items-center justify-end">
         <label class="label">
@@ -120,7 +124,9 @@ const getRoomType = (id) => {
       </div>
       <!-- Rooms -->
       <div class="grid grid-cols-3 gap-2 w-full">
-        <p v-if="!showedRoom.length" class="text-center w-full col-span-3">ไม่มีห้องพักในระบบ</p>
+        <p v-if="!showedRoom.length" class="text-center w-full col-span-3">
+          ไม่มีห้องพักในระบบ
+        </p>
         <div v-for="(room, index) in showedRoom" :key="index">
           <!-- Card -->
           <div
@@ -136,9 +142,22 @@ const getRoomType = (id) => {
                   <span v-if="room.type">{{
                     getRoomType(room.type)?.name
                   }}</span>
-                  <Badge badgeType="error" class="" v-else>ยังไม่ได้กำหนดประเภทห้อง</Badge>
+                  <Badge badgeType="error" class="" v-else
+                    >ยังไม่ได้กำหนดประเภทห้อง</Badge
+                  >
                 </p>
-                <p class="text-sm">กดเพื่อแก้ไขห้อง</p>
+                <p class="text-sm">
+                  ค่าเช่า: {{ room.roomRentalPrice }} บาท/เดือน
+                </p>
+                <p class="text-sm">
+                  ค่าบริการ:
+                  <span v-if="room.fees.length">{{
+                    room.fees.map((fee) => getFee(fee).feename).join(', ')
+                  }}</span>
+                  <span v-else
+                    >ไม่มีค่าบริการอื่น ๆ</span
+                  >
+                </p>
               </div>
               <HomeIcon class="h-5 w-5 inline-block" />
             </div>
@@ -220,7 +239,7 @@ const getRoomType = (id) => {
                 <div class="col-span-2">
                   <label class="label">
                     <span class="text-base label-text"
-                      >บริการต่างที่ใช้ <span class="text-red-500">*</span>
+                      >เพิ่มลดค่าบริการ <span class="text-red-500">*</span>
                     </span>
                   </label>
                   <p class="p-2" v-if="!props.residenceData.fees.length">

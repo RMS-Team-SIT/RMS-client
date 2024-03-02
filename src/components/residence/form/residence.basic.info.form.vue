@@ -50,6 +50,7 @@ watch(residenceInfo, () => {
         </span>
       </label>
       <input
+        autofocus
         type="text"
         placeholder="ชื่อหอพัก"
         class="w-full input input-bordered bg-white input-sm rounded-sm"

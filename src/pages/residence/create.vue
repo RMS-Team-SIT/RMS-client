@@ -23,6 +23,7 @@ import PaymentForm from '@/components/payment/form/payment.form.vue';
 import ResidenceRoomTypeForm from '@/components/residence/form/residence.room-type.form.vue';
 import RoomCreateManyForm from '@/components/room/form/room.create-many.form.vue';
 import ResidenceRoomMapForm from '@/components/residence/form/residence.room-map.form.vue';
+import { validatePDFFile } from '@/utils/file';
 
 // const confirmPageReload = (event) => {
 //   // Display confirmation dialog only if there are unsaved changes
@@ -308,9 +309,12 @@ onMounted(async () => {
                   v-if="!viewOnly"
                   type="file"
                   @change="
-                    (e) =>
-                      (residenceData.residenceBusinessLicense.file =
-                        e.target.files[0])
+                    (e) => {
+                      if (validatePDFFile(e.target.files[0])) {
+                        residenceData.residenceBusinessLicense.file =
+                          e.target.files[0];
+                      }
+                    }
                   "
                   class="file-input-sm file-input file-input-bordered bg-white w-full max-w-xs file-input-ghost"
                 />
