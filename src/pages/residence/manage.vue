@@ -77,7 +77,7 @@ onBeforeMount(async () => {
         </router-link>
       </div>
       <div
-        class="relative bg-white p-10 space-y-4 rounded border border-gray-200"
+        class="relative bg-white p-10 space-y-5 rounded border border-gray-200"
       >
         <h1 class="text-3xl font-semibold text-dark-blue-200">หอพักของคุณ</h1>
         <!-- <p class="text-xs">หน้านี้จะแสดงหอพักทั้งหมดของคุณ</p> -->
@@ -86,7 +86,7 @@ onBeforeMount(async () => {
         <h1 class="text-xl font-semibold text-dark-blue-200">
           หอพักที่รอการอนุมัติ
         </h1>
-        <div class="w-full flex align-middle items-center justify-end" v-if="pendingResidences.length">
+        <div class="w-full flex align-middle items-center justify-end">
           <label class="label">
             <span class="label-text">ค้นหา:</span>
           </label>
@@ -106,10 +106,10 @@ onBeforeMount(async () => {
           ยังไม่มีหอพักที่รอการอนุมัติ
         </p>
 
-        <h1 class="text-xl font-semibold text-dark-blue-200">
+        <h1 class="text-xl font-semibold text-dark-blue-200 mt-10">
           หอพักที่อนุมัติแล้ว
         </h1>
-        <div class="w-full flex align-middle items-center justify-end" v-if="approvedResidences.length" >
+        <div class="w-full flex align-middle items-center justify-end" >
           <label class="label">
             <span class="label-text">ค้นหา:</span>
           </label>

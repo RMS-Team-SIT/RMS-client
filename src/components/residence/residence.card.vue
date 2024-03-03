@@ -42,6 +42,7 @@ const imageSrc = computed(() => {
           }"
         /> -->
         <Button
+          v-if="props.residence.isApproved"
           class="btn"
           btnType="secondary"
           @click="
@@ -51,6 +52,12 @@ const imageSrc = computed(() => {
             })
           "
           >เข้าสู่หน้าแดชบอร์ด</Button
+        >
+        <Button
+          v-else
+          class="btn"
+          btnType="secondary"
+          >ดูข้อมูล</Button
         >
       </div>
     </div>
