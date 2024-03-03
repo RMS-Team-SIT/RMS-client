@@ -8,7 +8,7 @@ import FileService from '@/services/FileService';
 import Loading from '@/components/common/loading.vue';
 import Button from '@/components/common/button.vue';
 import RoomListTable from '@/components/room/room.list.table.vue';
-import { HomeIcon } from '@heroicons/vue/24/outline';
+import { HomeIcon, HomeModernIcon } from '@heroicons/vue/24/outline';
 
 const router = useRouter();
 const route = useRoute();
@@ -70,6 +70,35 @@ onMounted(async () => {
       >
         กลับหน้าแดชบอร์ด
       </Button>
+      <div class="grid grid-cols-1">
+        <div class="bg-white p-10 mt-2 shadow rounded-lg">
+          <div class="flex justify-between">
+            <h1 class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center">
+              <HomeModernIcon class="w-8 h-8 text-dark-blue-200" />
+              ประเภทห้องพักในระบบ 
+            </h1>
+            <div>
+
+            <router-link
+              :to="{
+                name: 'create-room',
+                params: {
+                  residenceId,
+                },
+              }"
+            >
+              <Button btnType="primary">เพิ่มข้อมูลประเภทห้องพัก</Button>
+            </router-link>
+          </div>
+
+          </div>
+          <RoomListTable class="mt-5"
+            :rooms="residence.data.rooms"
+            :defaultElectricPriceRate="residence.data.defaultElectricPriceRate"
+            :defaultWaterPriceRate="residence.data.defaultWaterPriceRate"
+          />
+        </div>
+      </div>
       <div class="grid grid-cols-1">
         <div class="bg-white p-10 mt-2 shadow rounded-lg">
           <div class="flex justify-between">

@@ -145,15 +145,23 @@ onMounted(() => {
                 ค่าไฟ: {{ room.residence.defaultElectricPriceRate }} บาท/หน่วย
               </p>
 
-              <p>ค่าบริการอื่น ๆ : {{ room.fees.map(i=>`${i.feename} ราคา ${i.feeprice}  `).join(', ') }}</p>
-
               <p>
+                ค่าบริการอื่น ๆ :
+                {{
+                  room.fees
+                    .map((i) => `${i.feename} ราคา ${i.feeprice}  `)
+                    .join(', ')
+                }}
+              </p>
+
+              <!-- <p>
                 วันที่สร้าง: {{ dayjs(room.created_at).format('DD/MM/YYYY') }}
               </p>
               <p>
                 แก้ไขล่าสุด: {{ dayjs(room.updated_at).format('DD/MM/YYYY') }}
-              </p>
+              </p> -->
             </div>
+
             <!-- ข้อมูลผู้เช่า -->
             <div class="space-y-3 border border-base-300 rounded-lg m-2 p-5">
               <div class="flex justify-between">
@@ -188,6 +196,14 @@ onMounted(() => {
                   }}
                 </p>
                 <p>
+                  อีเมล:
+                  {{
+                    room.currentRenter
+                      ? room.currentRenter.email
+                      : 'ไม่มีผู้เช่า'
+                  }}
+                </p>
+                <p>
                   เบอร์โทร:
                   {{
                     room.currentRenter
@@ -207,12 +223,7 @@ onMounted(() => {
                   }}
                 </p>
                 <p>
-                  รหัสผ่าน:
-                  {{
-                    room.currentRenter
-                      ? room.currentRenter.password
-                      : 'ไม่มีผู้เช่า'
-                  }}
+                  รหัสผ่าน: ******
                 </p>
                 <h1 class="text-base font-semibold mt-5 text-dark-blue-200">
                   ไฟล์เอกสาร
@@ -266,6 +277,19 @@ onMounted(() => {
                   </div>
                 </div>
               </div>
+            </div>
+
+            <!-- ข้อมูลประเภทห้อง -->
+            <div class="space-y-3 border border-base-300 rounded-lg m-2 p-5">
+              <div class="flex justify-between">
+                <h1 class="text-base font-semibold text-dark-blue-200">
+                  ประเภทห้องพัก
+                </h1>
+              </div>
+              <p>ประเภทห้อง: {{ room.type.name }}</p>
+              <p>ขนาดห้อง: {{ room.type.size }} ตร.ม.</p>
+              <p>คำอธิบาย: {{ room.type.description || 'ไม่มีคำอธิบาย' }}</p>
+              <p>อัตราค่าเช่าต่อเดือน: {{ room.type.price }} บาท</p>
             </div>
           </div>
 

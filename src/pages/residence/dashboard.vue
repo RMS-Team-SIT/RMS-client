@@ -159,11 +159,11 @@ onMounted(async () => {
 
       <!-- Quick link Section -->
       <section class="mt-5">
-        <h1
+        <!-- <h1
           class="text-2xl font-semibold text-dark-blue-200 my-5 flex items-center gap-2"
         >
           <LinkIcon class="h-8 w-8 inline-block" /> Quick Links
-        </h1>
+        </h1> -->
         <div
           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2"
         >
