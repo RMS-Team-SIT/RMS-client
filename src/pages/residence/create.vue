@@ -139,6 +139,11 @@ const changeStep = (action) => {
   }
   // goto top of the page
   window.scrollTo(0, 0);
+
+  // submit
+  if (currentStep.value === 8) {
+    submitData();
+  }
 };
 
 const getChildData = (data) => {
@@ -195,7 +200,6 @@ const submitData = async () => {
       text: 'สร้างหอพักสำเร็จแล้ว',
       type: 'success',
     });
-    router.push({ name: 'manage' });
   } else {
     const data = await response.json();
     console.log(data);
@@ -421,7 +425,7 @@ onMounted(async () => {
                 ตรวจสอบข้อมูล
               </h1>
             </div>
-            
+
             <ResidenceBasicInfoForm
               @getData="getChildData"
               :residenceData="residenceData"
@@ -472,13 +476,31 @@ onMounted(async () => {
             />
           </div>
 
+          <!-- step 9 -->
+          <div v-if="currentStep == 9">
+            <div class="relative bg-white p-10 shadow-md rounded basis-full">
+              <h1 class="text-xl font-semibold text-dark-blue-200">
+                ระบบกำลังตรวจสอบข้อมูลของคุณ
+              </h1>
+              <p class="text-base mt-10">
+                ขอบคุณที่สร้างหอพักในระบบของเรา เพื่อความปลอดภัยของผู้ใช้งาน <br>
+                ระบบกำลังตรวจสอบข้อมูลหอพักที่คุณสร้าง
+                <b>ท่านจะได้รับอีเมลแจ้งเตือน</b> หากหอพักของท่านผ่านการตรวจสอบ 
+
+                <br /><br />
+                หากมีข้อสงสัยหรือต้องการสอบถามเพิ่มเติม กรุณาติดต่อ
+                support@rms.com
+              </p>
+            </div>
+          </div>
+
           <!-- button control -->
 
           <div class="flex justify-end gap-2 mt-10">
             <Button
               btn-type="secondary"
               @click="changeStep('back')"
-              v-if="currentStep > 1"
+              v-if="currentStep > 1 && currentStep < 9"
               class="rounded-badge"
             >
               <ArrowLeftIcon class="w-4 h-4" />
@@ -486,11 +508,19 @@ onMounted(async () => {
             </Button>
             <Button
               v-if="currentStep == 8"
-              @click="submitData"
+              @click="changeStep('next')"
               class="rounded-badge"
               btnType="primary"
             >
               ยืนยันการสร้างหอพัก
+            </Button>
+            <Button
+              v-if="currentStep == 9"
+              @click="router.push({ name: 'manage' })"
+              class="rounded-badge"
+              btnType="primary"
+            >
+              กลับสู่หน้าหลัก
             </Button>
             <Button
               @click="changeStep('next')"
