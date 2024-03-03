@@ -24,7 +24,7 @@ const kycApprovalStatus = () => import('./pages/user/kyc/approval-status.vue');
 const dashboard = () => import('./pages/residence/dashboard.vue');
 const info = () => import('@/pages/residence/info.vue');
 const createResidenceNew = () => import('@/pages/residence/create.vue');
-const createResidence = () => import('@/pages/residence/create-old.vue');
+// const createResidence = () => import('@/pages/residence/create-old.vue');
 const updateResidenceInfo = () => import('./pages/residence/update.info.vue');
 
 const renter = () => import('./pages/residence/renter/renter.vue');
@@ -126,17 +126,17 @@ const routes = [
       title: 'จัดการ',
     },
   },
+  // {
+  //   name: 'create-residence',
+  //   path: '/create/residence',
+  //   component: createResidence,
+  //   meta: {
+  //     title: 'สร้างหอพัก',
+  //   },
+  // },
   {
     name: 'create-residence',
     path: '/create/residence',
-    component: createResidence,
-    meta: {
-      title: 'สร้างหอพัก',
-    },
-  },
-  {
-    name: 'create-residence-new',
-    path: '/create/residence-new',
     component: createResidenceNew,
     meta: {
       title: 'สร้างหอพัก',

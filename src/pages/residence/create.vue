@@ -25,22 +25,22 @@ import RoomCreateManyForm from '@/components/room/form/room.create-many.form.vue
 import ResidenceRoomMapForm from '@/components/residence/form/residence.room-map.form.vue';
 import { validatePDFFile } from '@/utils/file';
 
-// const confirmPageReload = (event) => {
-//   // Display confirmation dialog only if there are unsaved changes
-//   const hasUnsavedChanges = true; // Replace this with your logic to check for unsaved changes
-//   if (hasUnsavedChanges) {
-//     const confirmationMessage =
-//       'คุณแน่ใจหรือไม่ว่าต้องการออกจากหน้านี้ ความก้าวหน้าของคุณจะหายไป';
-//     event.returnValue = confirmationMessage; // For older browsers
-//     return confirmationMessage; // For modern browsers
-//   }
-// };
+const confirmPageReload = (event) => {
+  // Display confirmation dialog only if there are unsaved changes
+  const hasUnsavedChanges = true; // Replace this with your logic to check for unsaved changes
+  if (hasUnsavedChanges) {
+    const confirmationMessage =
+      'คุณแน่ใจหรือไม่ว่าต้องการออกจากหน้านี้ ความก้าวหน้าของคุณจะหายไป';
+    event.returnValue = confirmationMessage; // For older browsers
+    return confirmationMessage; // For modern browsers
+  }
+};
 
-// window.addEventListener('beforeunload', confirmPageReload);
+window.addEventListener('beforeunload', confirmPageReload);
 
-// onBeforeUnmount(() => {
-//   window.removeEventListener('beforeunload', confirmPageReload);
-// });
+onBeforeUnmount(() => {
+  window.removeEventListener('beforeunload', confirmPageReload);
+});
 
 const router = useRouter();
 const { notify } = useNotification();
@@ -213,7 +213,6 @@ const submitData = async () => {
 };
 
 watch(residenceData, () => {
-  console.log('residenceData', residenceData);
   updateCanNext();
 });
 
@@ -264,8 +263,6 @@ onMounted(async () => {
           ]"
         />
       </div>
-      {{ canNexts }} <br />
-      {{ residenceData }}
 
       <div class="grid grid-cols-12">
         <div class="p-4 mb-4 card bg-white col-span-3">
@@ -483,9 +480,10 @@ onMounted(async () => {
                 ระบบกำลังตรวจสอบข้อมูลของคุณ
               </h1>
               <p class="text-base mt-10">
-                ขอบคุณที่สร้างหอพักในระบบของเรา เพื่อความปลอดภัยของผู้ใช้งาน <br>
+                ขอบคุณที่สร้างหอพักในระบบของเรา เพื่อความปลอดภัยของผู้ใช้งาน
+                <br />
                 ระบบกำลังตรวจสอบข้อมูลหอพักที่คุณสร้าง
-                <b>ท่านจะได้รับอีเมลแจ้งเตือน</b> หากหอพักของท่านผ่านการตรวจสอบ 
+                <b>ท่านจะได้รับอีเมลแจ้งเตือน</b> หากหอพักของท่านผ่านการตรวจสอบ
 
                 <br /><br />
                 หากมีข้อสงสัยหรือต้องการสอบถามเพิ่มเติม กรุณาติดต่อ
