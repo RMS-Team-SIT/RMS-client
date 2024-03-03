@@ -7,7 +7,7 @@ const signup = () => import('@/pages/signup.vue');
 const signin = () => import('@/pages/signin.vue');
 const renterSignin = () => import('@/pages/renter-signin.vue');
 const signout = () => import('@/pages/signout.vue');
-const manage = () => import('@/pages/user/manage.vue');
+const manage = () => import('@/pages/residence/manage.vue');
 
 const PdfPreview = () => import('./pages/pdf-preview.vue');
 
