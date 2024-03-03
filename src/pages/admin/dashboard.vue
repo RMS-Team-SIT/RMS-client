@@ -15,6 +15,7 @@ import {
   CheckIcon,
   CheckCircleIcon,
   ClockIcon,
+  ArrowTopRightOnSquareIcon,
 } from '@heroicons/vue/24/outline';
 import QuickLinkCard from '@/components/common/quick-link-card.vue';
 import Stats from '@/components/common/stats.vue';
@@ -52,19 +53,19 @@ const userStats = reactive({
   },
 });
 const residenceStats = reactive({
-  totalApprovedResidences: {
-    title: 'จำนวนหอพักที่ผ่านการอนุมัติ',
-    val: 0,
-    desc: 'จำนวนหอพักที่ผ่านการอนุมัติทั้งหมด',
-    icon: HomeIcon,
-    route: 'admin-manage-residence',
-  },
   totalPendingResidences: {
     title: 'จำนวนหอพักที่รอการอนุมัติ',
     val: 0,
     desc: 'จำนวนหอพักที่รอการอนุมัติ',
     icon: ClockIcon,
     route: 'admin-manage-user',
+  },
+  totalApprovedResidences: {
+    title: 'จำนวนหอพักที่ผ่านการอนุมัติ',
+    val: 0,
+    desc: 'จำนวนหอพักที่ผ่านการอนุมัติทั้งหมด',
+    icon: HomeIcon,
+    route: 'admin-manage-residence',
   },
 });
 
@@ -89,11 +90,12 @@ const fetchStats = async () => {
   try {
     const response = await ResidenceServices.overAllStats();
     if (response.status === 200) {
-      const residenceStats = await response.json();
-      const { totalApprovedResidences, totalPendingResidences } =
-        residenceStats;
+      const stats = await response.json();
+      console.log('residenceStats', stats);
+      const { totalApprovedResidences, totalPendingResidences } = stats;
       residenceStats.totalApprovedResidences.val = totalApprovedResidences;
       residenceStats.totalPendingResidences.val = totalPendingResidences;
+      log;
     }
   } catch (error) {}
 };
@@ -270,6 +272,7 @@ onMounted(async () => {
       </div>
 
       <Stats :stats="mapResidenceStatsToArray" class="mt-5" />
+
       <div
         class="relative bg-white p-10 mt-5 space-y-4 rounded border border-gray-200"
       >
@@ -279,32 +282,29 @@ onMounted(async () => {
           หอพักที่รอการอนุมัติ
           <HomeIcon class="h-8 w-8 text-primary" />
           <ClockIcon class="h-8 w-8 text-primary" />
-          
         </h1>
-        <p class="text-sm" v-if="!pendingResidence">ไม่มีหอพักที่รอการอนุมัติในขณะนี้</p>
+        <p class="text-sm" v-if="!pendingResidence">
+          ไม่มีหอพักที่รอการอนุมัติในขณะนี้
+        </p>
         <div
-          v-for="(user, index) in pendingResidence"
+          v-for="(residence, index) in pendingResidence"
           :key="index"
           class="flex items-center gap-2 justify-between border-2 p-2 rounded-lg border-gray-200 hover:border-primary transition-all cursor-pointer"
         >
           <div class="flex items-center gap-2">
-            <img
-              :src="BlankprofileImg"
-              alt="user profile"
-              class="h-10 w-10 rounded-full"
-            />
+            <HomeIcon class="h-10 w-10 text-primary" />
+
             <div>
               <h1 class="text-sm font-semibold">
-                {{ user.firstname }} {{ user.lastname }}
+                {{ residence.name }}
               </h1>
-              <p class="text-xs">{{ user.email }}</p>
             </div>
           </div>
 
           <div class="flex items-center gap-2">
             <button
               class="btn btn-primary btn-sm"
-              :onclick="`kyc_modal_${index}.showModal()`"
+              :onclick="`res_modal_${index}.showModal()`"
             >
               ดูข้อมูลเพิ่มเติม
             </button>
@@ -312,15 +312,46 @@ onMounted(async () => {
 
           <!-- Modal -->
 
-          <dialog :id="`kyc_modal_${index}`" class="modal">
+          <dialog :id="`res_modal_${index}`" class="modal">
             <div class="modal-box space-y-2">
-              <h3 class="font-bold text-lg">รายละเอียดผู้ใช้งาน</h3>
-
-              <p>ชื่อผู้ใช้งาน : {{ user.firstname }} {{ user.lastname }}</p>
-              <p>อีเมล : {{ user.email }} (ยืนยันแล้ว)</p>
-              <p>เบอร์โทร : {{ user.phone }}</p>
-              <p>หมายเลขบัตรประชาชน : {{ user.idcardNumber }}</p>
-
+              <h3 class="font-bold text-lg">รายละเอียดหอพัก</h3>
+              <p>
+                เจ้าของหอพัก: {{ residence.owner.firstname }}
+                {{ residence.owner.lastname }}
+              </p>
+              <p class="flex gap-2">
+                ใบประกอบการหอพัก :
+                <router-link
+                  target="_blank"
+                  class="flex items-center gap-2 underline text-light-red"
+                  :to="{
+                    name: 'pdf-preview',
+                    query: {
+                      filename: residence.residenceBusinessLicense,
+                    },
+                  }"
+                >
+                  ดูไฟล์ <ArrowTopRightOnSquareIcon class="h-4 w-4" />
+                </router-link>
+              </p>
+              <p>ชื่อหอพัก : {{ residence.name }}</p>
+              <p>ที่อยู่ : {{ residence.address }}</p>
+              <p>รายละเอียดหอพัก : {{ residence.description }}</p>
+              <p>ค่าน้ำ: {{ residence.defaultWaterPriceRate }} บาท/หน่วย</p>
+              <p>ค่าไฟ: {{ residence.defaultElectricPriceRate }} บาท/หน่วย</p>
+              <p>
+                ค่าบริการอื่น ๆ :
+                {{
+                  residence.fees
+                    .map((i) => `${i.feename}: ${i.feeprice} บาท`)
+                    .join(', ')
+                }}
+              </p>
+              <p>จำนวนห้อง : {{ residence.rooms.length }} ห้อง</p>
+              <p>
+                สิ่งอำนวยความสะดวก:
+                {{ residence.facilities.map((f) => f.name).join(', ') }}
+              </p>
               <div class="modal-action flex">
                 <form method="dialog">
                   <!-- if there is a button in form, it will close the modal -->
@@ -328,9 +359,9 @@ onMounted(async () => {
                 </form>
                 <button
                   class="btn btn-success btn-sm"
-                  @click="approveUser(user._id)"
+                  @click="approveResidence(residence._id)"
                 >
-                  อนุมัติบัญชีผู้ใช้
+                  อนุมัติหอพัก
                 </button>
               </div>
             </div>

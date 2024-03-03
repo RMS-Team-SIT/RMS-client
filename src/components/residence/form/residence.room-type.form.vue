@@ -110,7 +110,7 @@ watch(childData, () => {
           <input
             type="number"
             min="0"
-            placeholder="ค่าเช่าบาท/เดือน"
+            placeholder="ขนาดห้อง (ตร.ม.)"
             class="input input-bordered bg-white input-sm rounded-sm"
             v-model="temp.size"
           />

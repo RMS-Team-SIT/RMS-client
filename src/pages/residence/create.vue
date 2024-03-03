@@ -84,7 +84,6 @@ const residenceData = reactive({
   rooms: [],
   numberOfFloor: 1,
   numberOfRoomEachFloor: [],
-  roomRentalPrice: 0,
   defaultWaterPriceRate: '',
   defaultElectricPriceRate: '',
   imageFiles: [],
@@ -141,7 +140,7 @@ const changeStep = (action) => {
   window.scrollTo(0, 0);
 
   // submit
-  if (currentStep.value === 8) {
+  if (currentStep.value === 9) {
     submitData();
   }
 };
@@ -192,7 +191,10 @@ const submitData = async () => {
     }
   }
 
-  const response = await ResidenceServices.createResidenceFully(residenceData);
+  const response = await ResidenceServices.createResidenceFully({
+    ...residenceData,
+    residenceBusinessLicense: residenceData.residenceBusinessLicense.fileName,
+  });
   if (response.status == 201) {
     notify({
       group: 'tr',
@@ -513,7 +515,7 @@ onMounted(async () => {
               ยืนยันการสร้างหอพัก
             </Button>
             <Button
-              v-if="currentStep == 9"
+              v-else-if="currentStep == 9"
               @click="router.push({ name: 'manage' })"
               class="rounded-badge"
               btnType="primary"
