@@ -9,6 +9,7 @@ import {
   ArrowTopRightOnSquareIcon,
   ShareIcon,
 } from '@heroicons/vue/24/outline';
+import { useNotification } from '@kyvg/vue3-notification';
 import dayjs from 'dayjs';
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -19,6 +20,7 @@ const room = ref(null);
 const roomId = route.params.roomId;
 const residenceId = route.params.residenceId;
 const isLoading = ref(true);
+const {notify} = useNotification(); 
 
 const fetchRoom = async () => {
   try {
