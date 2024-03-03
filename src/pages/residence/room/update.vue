@@ -10,6 +10,7 @@ import Button from '@/components/common/button.vue';
 import Breadcrumb from '@/components/common/breadcrumb.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 import RoomRenterForm from '@/components/room/form/room.renter.form.vue';
+import RoomTypeService from '@/services/RoomTypeService';
 
 const router = useRouter();
 const route = useRoute();
@@ -25,12 +26,13 @@ const roomData = reactive({
   name: '',
   description: '',
   floor: 1,
-  waterPriceRate: 0,
-  electricPriceRate: 0,
-  isUseDefaultWaterPriceRate: true,
-  isUseDefaultElectricPriceRate: true,
-  defaultWaterPriceRate: 0,
-  defaultElectricPriceRate: 0,
+  type: '',
+  // waterPriceRate: 0,
+  // electricPriceRate: 0,
+  // isUseDefaultWaterPriceRate: true,
+  // isUseDefaultElectricPriceRate: true,
+  // defaultWaterPriceRate: 0,
+  // defaultElectricPriceRate: 0,
   currentRenter: null,
   roomRentalPrice: 0,
   isActive: true,
@@ -91,16 +93,19 @@ const fetchRoomData = async () => {
   );
   if (response.status === 200) {
     let result = await response.json();
+    console.log('room',result);
     // set value of roomData
     roomData.name = result.name;
     roomData.description = result.description;
     roomData.floor = result.floor;
-    roomData.waterPriceRate = result.waterPriceRate;
-    roomData.electricPriceRate = result.electricPriceRate;
-    roomData.isUseDefaultWaterPriceRate = result.isUseDefaultWaterPriceRate;
-    roomData.isUseDefaultElectricPriceRate = result.isUseDefaultElectricPriceRate;
-    roomData.defaultWaterPriceRate = result.defaultWaterPriceRate;
-    roomData.defaultElectricPriceRate = result.defaultElectricPriceRate;
+    roomData.type = result.type;
+    // roomData.waterPriceRate = result.waterPriceRate;
+    // roomData.electricPriceRate = result.electricPriceRate;
+    // roomData.isUseDefaultWaterPriceRate = result.isUseDefaultWaterPriceRate;
+    // roomData.isUseDefaultElectricPriceRate =
+    //   result.isUseDefaultElectricPriceRate;
+    // roomData.defaultWaterPriceRate = result.defaultWaterPriceRate;
+    // roomData.defaultElectricPriceRate = result.defaultElectricPriceRate;
     roomData.currentRenter = result.currentRenter;
     roomData.roomRentalPrice = result.roomRentalPrice;
     roomData.isActive = result.isActive;
@@ -109,6 +114,22 @@ const fetchRoomData = async () => {
       group: 'tr',
       title: 'เกิดข้อผิดพลาด',
       title: 'ไม่สามารถดึงข้อมูลห้องพักได้',
+      type: 'error',
+    });
+    router.push({ name: 'manage' });
+  }
+};
+const roomTypes = ref([]);
+const fetchRoomTypes = async () => {
+  const response = await RoomTypeService.fetchByResidence(residenceId);
+  if (response.status === 200) {
+    let result = await response.json();
+    roomTypes.value = result;
+  } else {
+    notify({
+      group: 'tr',
+      title: 'เกิดข้อผิดพลาด',
+      title: 'ไม่สามารถดึงข้อมูลประเภทห้องพักได้',
       type: 'error',
     });
     router.push({ name: 'manage' });
@@ -173,13 +194,14 @@ onMounted(async () => {
             :currentStep="currentStep"
           />
         </div>
-
+        
         <!-- step 1 -->
         <div v-if="currentStep == 1" class="flex gap-4">
           <RoomInfoForm
             class="basis-1/2"
             @getData="getChildData"
             :roomData="roomData"
+            :roomTypes="residence.data.roomTypes"
           />
           <RoomRenterForm
             class="basis-1/2"
@@ -196,6 +218,7 @@ onMounted(async () => {
               class="basis-1/2"
               @getData="getChildData"
               :roomData="roomData"
+              :roomTypes="residence.data.roomTypes"
               :viewOnly="true"
             />
             <RoomRenterForm

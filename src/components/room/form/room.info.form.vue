@@ -8,6 +8,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  roomTypes: {
+    type: Array,
+    default: () => [],
+  },
   viewOnly: {
     type: Boolean,
     default: false,
@@ -50,7 +54,6 @@ watch(roomInfo, () => {
   <div class="relative bg-white p-10 space-y-4 shadow-lg rounded">
     <h1 class="text-xl font-semibold text-dark-blue-200">ข้อมูลห้องพัก</h1>
     <p class="text-xs">โปรดกรอกข้อมูลห้องพัก</p>
-
     <div>
       <label class="label">
         <span class="text-base label-text"
@@ -70,13 +73,15 @@ watch(roomInfo, () => {
       <label class="label">
         <span class="text-base label-text">คำอธิบาย</span>
       </label>
-      <input
-        type="text"
+      <textarea
+        class="textarea textarea-bordered w-full"
         placeholder="คำอธิบาย"
-        class="w-full input input-bordered bg-white input-sm rounded-sm"
+        cols="30"
+        rows="5"
         v-model="roomInfo.description"
         :disabled="viewOnly"
-      />
+      >
+      </textarea>
     </div>
 
     <div>
@@ -93,6 +98,27 @@ watch(roomInfo, () => {
         v-model="roomInfo.floor"
         :disabled="viewOnly"
       />
+    </div>
+    <div>
+      <label class="label">
+        <span class="text-base label-text"
+          >ประเภทห้อง<span class="text-red-500">*</span>
+        </span>
+      </label>
+      <select
+        class="w-full input input-bordered bg-white input-sm rounded-sm"
+        v-model="roomInfo.type"
+        :disabled="viewOnly"
+      >
+        <option value="" disabled>กรุณาเลือกประเภทห้อง</option>
+        <option
+          v-for="(type, index) in roomTypes"
+          :key="index"
+          :value="type._id"
+        >
+          {{ type.name }}
+        </option>
+      </select>
     </div>
 
     <div>
