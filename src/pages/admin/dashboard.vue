@@ -283,7 +283,7 @@ onMounted(async () => {
           <HomeIcon class="h-8 w-8 text-primary" />
           <ClockIcon class="h-8 w-8 text-primary" />
         </h1>
-        <p class="text-sm" v-if="!pendingResidence">
+        <p class="text-sm" v-if="!pendingResidence.length">
           ไม่มีหอพักที่รอการอนุมัติในขณะนี้
         </p>
         <div
