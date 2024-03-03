@@ -100,6 +100,12 @@ class ResidenceService {
 
   overAllStats = async () =>
     sendRequest(this.baseUrl, `/residence/overall-stats`, 'GET');
+
+  pendingApprove = async () =>
+    sendRequest(this.baseUrl, `/residence/pending-approve`, 'GET');
+
+  approveResidence = async (id) =>
+    sendRequest(this.baseUrl, `/residence/approve/${id}`, 'GET');
 }
 
 export default new ResidenceService();
