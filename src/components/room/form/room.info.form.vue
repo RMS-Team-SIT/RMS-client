@@ -12,6 +12,10 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  fees: {
+    type: Array,
+    default: () => [],
+  },
   viewOnly: {
     type: Boolean,
     default: false,
@@ -23,10 +27,7 @@ const roomInfo = reactive({
   description: '',
   floor: 0,
   type: '',
-  // waterPriceRate: 0,
-  // electricPriceRate: 0,
-  // isUseDefaultWaterPriceRate: true,
-  // isUseDefaultElectricPriceRate: true,
+  fees: [],
   roomRentalPrice: 0,
   isActive: true,
 });
@@ -136,73 +137,35 @@ watch(roomInfo, () => {
       />
     </div>
 
-    <!-- <div>
+    <div class="col-span-2">
       <label class="label">
         <span class="text-base label-text"
-          >อัตราค่าน้ำ (บาท) <span class="text-red-500">*</span>
+          >ค่าบริการเพิ่มเติม <span class="text-red-500">*</span>
         </span>
       </label>
-      <div class="form-control w-full">
-        <input
-          type="number"
-          placeholder="อัตราค่าน้ำ"
-          class="w-full input input-bordered bg-white input-sm rounded-sm"
-          v-model="roomInfo.waterPriceRate"
-          :disabled="viewOnly || roomInfo.isUseDefaultWaterPriceRate"
-          :hidden="roomInfo.isUseDefaultWaterPriceRate"
-        />
-        <label class="cursor-pointer label">
-          <span class="label-text">ใช้อัตราเริ่มต้นของหอพัก</span>
+      <p class="p-2" v-if="!fees.length">
+        ไม่มีค่าบริการเพิ่มเติมในหอพัก
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2">
+        <div
+          v-for="(fee, feeIndex) in fees"
+          :key="feeIndex"
+          class="flex items-center gap-2"
+        >
           <input
-            type="checkbox"
-            class="toggle toggle-primary"
-            v-model="roomInfo.isUseDefaultWaterPriceRate"
             :disabled="viewOnly"
+            type="checkbox"
+            :id="index + fee._id"
+            :value="fee._id"
+            v-model="roomData.fees"
+            class="checkbox checkbox-primary"
           />
-        </label>
+          <label :for="index + fee._id" class="label text-sm">
+            {{ fee.feename }} : {{ fee.feeprice }} บาท
+          </label>
+        </div>
       </div>
     </div>
-
-    <div>
-      <label class="label">
-        <span class="text-base label-text">
-          อัตราค่าไฟ (บาท) <span class="text-red-500">*</span>
-        </span>
-      </label>
-
-      <div class="form-control w-full">
-        <input
-          type="number"
-          placeholder="อัตราค่าไฟฟ้า"
-          class="w-full input input-bordered bg-white input-sm rounded-sm"
-          v-model="roomInfo.electricPriceRate"
-          :disabled="viewOnly || roomInfo.isUseDefaultElectricPriceRate"
-          :hidden="roomInfo.isUseDefaultElectricPriceRate"
-        />
-        <label class="cursor-pointer label">
-          <span class="label-text">ใช้อัตราเริ่มต้นของหอพัก</span>
-          <input
-            type="checkbox"
-            class="toggle toggle-primary"
-            v-model="roomInfo.isUseDefaultElectricPriceRate"
-            :disabled="viewOnly"
-          />
-        </label>
-      </div>
-
-      <hr />
-      <div class="form-control w-full mt-5">
-        <label class="cursor-pointer label">
-          <span class="label-text">เปิด/ปิดใช้งานห้องพัก</span>
-          <input
-            type="checkbox"
-            class="toggle toggle-primary"
-            v-model="roomInfo.isActive"
-            :disabled="viewOnly"
-          />
-        </label>
-      </div>
-    </div> -->
   </div>
 </template>
 

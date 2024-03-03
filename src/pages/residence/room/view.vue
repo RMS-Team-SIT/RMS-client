@@ -20,7 +20,7 @@ const room = ref(null);
 const roomId = route.params.roomId;
 const residenceId = route.params.residenceId;
 const isLoading = ref(true);
-const {notify} = useNotification(); 
+const { notify } = useNotification();
 
 const fetchRoom = async () => {
   try {
@@ -31,7 +31,7 @@ const fetchRoom = async () => {
     if (response.status === 200) {
       let result = await response.json();
       room.value = result;
-      console.log(result);
+      console.log('room,', result);
     } else {
       notify({
         group: 'tr',
@@ -139,27 +139,20 @@ onMounted(() => {
                 <Badge badgeType="error" v-else>ไม่ว่าง</Badge>
               </p>
               <p>
-                ค่าน้ำ: {{ room.waterPriceRate }} บาท/หน่วย
-                <Badge badgeType="ghost" v-if="room.isUseDefaultWaterPriceRate"
-                  >ค่าเริ่มต้น</Badge
-                >
-                <Badge badgeType="primary" v-else>กำหนดเอง</Badge>
+                ค่าน้ำ: {{ room.residence.defaultWaterPriceRate }} บาท/หน่วย
               </p>
               <p>
-                ค่าไฟ: {{ room.electricPriceRate }} บาท/หน่วย
-                <Badge
-                  badgeType="ghost"
-                  v-if="room.isUseDefaultElectricPriceRate"
-                  >ค่าเริ่มต้น</Badge
-                >
-                <Badge badgeType="primary" v-else>กำหนดเอง</Badge>
+                ค่าไฟ: {{ room.residence.defaultElectricPriceRate }} บาท/หน่วย
               </p>
-              <!-- <p>
+
+              <p>ค่าบริการอื่น ๆ : {{ room.fees.map(i=>`${i.feename} ราคา ${i.feeprice}  `).join(', ') }}</p>
+
+              <p>
                 วันที่สร้าง: {{ dayjs(room.created_at).format('DD/MM/YYYY') }}
               </p>
               <p>
                 แก้ไขล่าสุด: {{ dayjs(room.updated_at).format('DD/MM/YYYY') }}
-              </p> -->
+              </p>
             </div>
             <!-- ข้อมูลผู้เช่า -->
             <div class="space-y-3 border border-base-300 rounded-lg m-2 p-5">

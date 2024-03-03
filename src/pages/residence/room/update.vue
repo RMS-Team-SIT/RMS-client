@@ -27,6 +27,7 @@ const roomData = reactive({
   description: '',
   floor: 1,
   type: '',
+  fees: [],
   // waterPriceRate: 0,
   // electricPriceRate: 0,
   // isUseDefaultWaterPriceRate: true,
@@ -93,19 +94,13 @@ const fetchRoomData = async () => {
   );
   if (response.status === 200) {
     let result = await response.json();
-    console.log('room',result);
+    console.log('room', result);
     // set value of roomData
     roomData.name = result.name;
     roomData.description = result.description;
     roomData.floor = result.floor;
-    roomData.type = result.type;
-    // roomData.waterPriceRate = result.waterPriceRate;
-    // roomData.electricPriceRate = result.electricPriceRate;
-    // roomData.isUseDefaultWaterPriceRate = result.isUseDefaultWaterPriceRate;
-    // roomData.isUseDefaultElectricPriceRate =
-    //   result.isUseDefaultElectricPriceRate;
-    // roomData.defaultWaterPriceRate = result.defaultWaterPriceRate;
-    // roomData.defaultElectricPriceRate = result.defaultElectricPriceRate;
+    roomData.type = result.type._id;
+    roomData.fees = result.fees.map((fee) => fee._id);
     roomData.currentRenter = result.currentRenter;
     roomData.roomRentalPrice = result.roomRentalPrice;
     roomData.isActive = result.isActive;
@@ -119,27 +114,12 @@ const fetchRoomData = async () => {
     router.push({ name: 'manage' });
   }
 };
-const roomTypes = ref([]);
-const fetchRoomTypes = async () => {
-  const response = await RoomTypeService.fetchByResidence(residenceId);
-  if (response.status === 200) {
-    let result = await response.json();
-    roomTypes.value = result;
-  } else {
-    notify({
-      group: 'tr',
-      title: 'เกิดข้อผิดพลาด',
-      title: 'ไม่สามารถดึงข้อมูลประเภทห้องพักได้',
-      type: 'error',
-    });
-    router.push({ name: 'manage' });
-  }
-};
 
 const fetchResidenceData = async () => {
   const response = await ResidenceServices.fetchResidence(residenceId);
   if (response.status === 200) {
     let result = await response.json();
+    console.log('residence', result);
     residence.data = result;
     // set default value of roomData
     roomData.electricPriceRate = residence.data.defaultElectricPriceRate;
@@ -194,7 +174,7 @@ onMounted(async () => {
             :currentStep="currentStep"
           />
         </div>
-        
+
         <!-- step 1 -->
         <div v-if="currentStep == 1" class="flex gap-4">
           <RoomInfoForm
@@ -202,6 +182,7 @@ onMounted(async () => {
             @getData="getChildData"
             :roomData="roomData"
             :roomTypes="residence.data.roomTypes"
+            :fees="residence.data.fees"
           />
           <RoomRenterForm
             class="basis-1/2"
@@ -219,6 +200,7 @@ onMounted(async () => {
               @getData="getChildData"
               :roomData="roomData"
               :roomTypes="residence.data.roomTypes"
+              :fees="residence.data.fees"
               :viewOnly="true"
             />
             <RoomRenterForm
