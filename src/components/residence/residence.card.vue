@@ -31,7 +31,7 @@ const imageSrc = computed(() => {
     <div class="card-body">
       <h2 class="card-title">ชื่อหอพัก : {{ props.residence?.name }}</h2>
       <p>รายละเอียด : {{ props.residence?.description || 'ไม่มีข้อมูล' }}</p>
-      <p>ที่อยู่ : {{ props.residence?.contact?.address || 'ไม่มีข้อมูล' }}</p>
+      <p>ที่อยู่ : {{ props.residence?.address || 'ไม่มีข้อมูล' }}</p>
       <div class="card-actions justify-between items-center">
         <!-- <ResidenceStat
           :residenceId="props.residence._id"

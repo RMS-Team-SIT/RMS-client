@@ -119,9 +119,10 @@ const visiblePages = computed(() => {
             <th>ชื่อ</th>
             <th>คำอธิบาย</th>
             <th>ชั้น</th>
+            <th>ประเภทห้อง</th>
             <th>ผู้เช่า</th>
-            <th>อัตราค่าน้ำ</th>
-            <th>อัตราค่าไฟ</th>
+            <!-- <th>อัตราค่าน้ำ</th> -->
+            <!-- <th>อัตราค่าไฟ</th> -->
             <th>สถานะห้อง</th>
             <th></th>
             <th></th>
@@ -142,6 +143,9 @@ const visiblePages = computed(() => {
             </td>
             <td>{{ room.floor }}</td>
             <td>
+              {{ room.type.name }}
+            </td>
+            <td>
               <router-link
                 v-if="room.currentRenter"
                 class="text-dark-blue-200 underline"
@@ -158,7 +162,7 @@ const visiblePages = computed(() => {
               </router-link>
               <span v-else class="text-red-500"> ไม่มีผู้เช่า </span>
             </td>
-            <td>
+            <!-- <td>
               {{
                 room.isUseDefaultWaterPriceRate
                   ? defaultWaterPriceRate
@@ -179,7 +183,7 @@ const visiblePages = computed(() => {
                 >ค่าเริ่มต้น</Badge
               >
               <Badge badgeType="primary" v-else>กำหนดเอง</Badge>
-            </td>
+            </td> -->
             <td>
               <Badge badgeType="success" v-if="!room.currentRenter">ว่าง</Badge>
               <Badge badgeType="error" v-else>ไม่ว่าง</Badge>

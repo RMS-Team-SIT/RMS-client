@@ -15,6 +15,7 @@ const { stats } = defineProps({
       renterCount: 0,
       roomCount: 0,
       paymentCount: 0,
+      roomTypeCount: 0,
     },
   },
 });
@@ -48,6 +49,20 @@ const { stats } = defineProps({
         <CountUp :end-val="stats.roomCount" />
       </div>
       <div class="stat-desc">จำนวนห้องทั้งหมดในระบบ</div>
+    </div>
+
+    <div
+      class="stat hover:cursor-pointer"
+      @click="router.push({ name: 'room', params: { residenceId } })"
+    >
+      <div class="stat-figure text-secondary">
+        <HomeIcon class="h-8 w-8 inline-block" />
+      </div>
+      <div class="stat-title">ประเภทห้อง</div>
+      <div class="stat-value text-secondary">
+        <CountUp :end-val="stats.roomTypeCount" />
+      </div>
+      <div class="stat-desc">จำนวนประเภททั้งหมดในระบบ</div>
     </div>
 
     <div

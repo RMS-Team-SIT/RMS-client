@@ -33,6 +33,7 @@ const stats = reactive({
   paymentCount: 0,
   renterCount: 0,
   roomCount: 0,
+  roomTypeCount: 0,
   avaiableRoomCount: 10,
   notavaiableRoomCount: 30,
   paidRoomCount: 25,
@@ -62,6 +63,7 @@ const fetchData = async () => {
     stats.renterCount = result.renters.filter(
       (renter) => renter.isActive
     ).length;
+    stats.roomTypeCount = result.roomTypes.length;
   } else {
     notify({
       group: 'tr',
@@ -81,7 +83,7 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
-  <div v-if="residence.data" class="min-h-screen bg-gray-50">
+  <div v-if="residence.data" class="min-h-screen ">
     <div class="py-10 px-10 md:px-40">
       <Breadcrumb
         :pathList="[
@@ -111,6 +113,7 @@ onMounted(async () => {
             renterCount: stats.renterCount,
             roomCount: stats.roomCount,
             paymentCount: stats.paymentCount,
+            roomTypeCount: stats.roomTypeCount,
           }"
         />
 
