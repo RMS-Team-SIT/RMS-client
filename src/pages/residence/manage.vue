@@ -83,51 +83,84 @@ onBeforeMount(async () => {
         <!-- <p class="text-xs">หน้านี้จะแสดงหอพักทั้งหมดของคุณ</p> -->
         <Loading v-if="isLoading" />
 
-        <h1 class="text-xl font-semibold text-dark-blue-200">
-          หอพักที่รอการอนุมัติ
-        </h1>
-        <div class="w-full flex align-middle items-center justify-end">
-          <label class="label">
-            <span class="label-text">ค้นหา:</span>
-          </label>
+        <div role="tablist" class="tabs tabs-lifted">
           <input
-            type="text"
-            placeholder="ค้นหา"
-            class="input input-xs input-bordered bg-white rounded"
-            v-model="searchPending"
+            type="radio"
+            name="my_tabs_2"
+            role="tab"
+            class="tab"
+            aria-label="หอพักที่อนุมัติแล้ว"
           />
-        </div>
-        <ResidenceCard
-          v-for="(residence, index) in pendingResidences"
-          :key="index"
-          :residence="residence"
-        />
-        <p v-if="!pendingResidences.length" class="text-center text-sm p-10">
-          ยังไม่มีหอพักที่รอการอนุมัติ
-        </p>
+          <div
+            role="tabpanel"
+            class="tab-content bg-base-100 border-base-300 rounded-box p-6"
+          >
+            <h1 class="text-xl font-semibold text-dark-blue-200">
+              หอพักที่อนุมัติแล้ว
+            </h1>
+            <div class="w-full flex align-middle items-center justify-end">
+              <label class="label">
+                <span class="label-text">ค้นหา:</span>
+              </label>
+              <input
+                type="text"
+                placeholder="ค้นหา"
+                class="input input-xs input-bordered bg-white rounded"
+                v-model="searchApproved"
+              />
+            </div>
+            <ResidenceCard
+              v-for="(residence, index) in approvedResidences"
+              :key="index"
+              :residence="residence"
+            />
+            <p
+              v-if="!approvedResidences.length"
+              class="text-center text-sm p-10"
+            >
+              ไม่มีหอพักที่อนุมัติแล้ว
+            </p>
+          </div>
 
-        <h1 class="text-xl font-semibold text-dark-blue-200 mt-10">
-          หอพักที่อนุมัติแล้ว
-        </h1>
-        <div class="w-full flex align-middle items-center justify-end" >
-          <label class="label">
-            <span class="label-text">ค้นหา:</span>
-          </label>
           <input
-            type="text"
-            placeholder="ค้นหา"
-            class="input input-xs input-bordered bg-white rounded"
-            v-model="searchApproved"
+            type="radio"
+            name="my_tabs_2"
+            role="tab"
+            class="tab"
+            aria-label="หอพักที่รอการอนุมัติ"
+            checked
           />
+          <div
+            role="tabpanel"
+            class="tab-content bg-base-100 border-base-300 rounded-box p-6"
+          >
+            <h1 class="text-xl font-semibold text-dark-blue-200">
+              หอพักที่รอการอนุมัติ
+            </h1>
+            <div class="w-full flex align-middle items-center justify-end">
+              <label class="label">
+                <span class="label-text">ค้นหา:</span>
+              </label>
+              <input
+                type="text"
+                placeholder="ค้นหา"
+                class="input input-xs input-bordered bg-white rounded"
+                v-model="searchPending"
+              />
+            </div>
+            <ResidenceCard
+              v-for="(residence, index) in pendingResidences"
+              :key="index"
+              :residence="residence"
+            />
+            <p
+              v-if="!pendingResidences.length"
+              class="text-center text-sm p-10"
+            >
+              ไม่มีหอพักที่รอการอนุมัติ
+            </p>
+          </div>
         </div>
-        <ResidenceCard
-          v-for="(residence, index) in approvedResidences"
-          :key="index"
-          :residence="residence"
-        />
-        <p v-if="!approvedResidences.length" class="text-center text-sm p-10">
-          ไม่มีหอพักที่อนุมัติแล้ว
-        </p>
       </div>
     </div>
   </div>
