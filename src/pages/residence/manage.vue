@@ -90,6 +90,7 @@ onBeforeMount(async () => {
             role="tab"
             class="tab"
             aria-label="หอพักที่อนุมัติแล้ว"
+            checked
           />
           <div
             role="tabpanel"
@@ -128,7 +129,6 @@ onBeforeMount(async () => {
             role="tab"
             class="tab"
             aria-label="หอพักที่รอการอนุมัติ"
-            checked
           />
           <div
             role="tabpanel"
