@@ -75,7 +75,7 @@ const addFee = () => {
     feeprice: feePrice.value,
   });
   feeName.value = '';
-  feePrice.value = 0;
+  feePrice.value = '';
 };
 
 const removeFee = (index) => {
@@ -119,7 +119,7 @@ watch(childData, () => {
     </div>
 
     <!-- List -->
-    <div class="flex flex-col gap-4">
+    <div class="flex flex-col gap-1">
       <div
         v-for="(fee, index) in childData.fees"
         :key="index"
