@@ -12,42 +12,123 @@ import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 import ImagePreview from '@/components/common/image.preview.vue';
 import { useNotification } from '@kyvg/vue3-notification';
 import ResidenceServices from '@/services/ResidenceServices';
-import FileService from '@/services/FileService';
 import ImageUploadForm from '@/components/form/image.form.vue';
-import { useUserStore } from '@/stores/user.store';
 import FacilityService from '@/services/FacilityService';
 import ResidenceFeeForm from '@/components/residence/form/residence.fee.form.vue';
-import { onBeforeUnmount } from 'vue';
 import BankService from '@/services/BankService';
 import PaymentForm from '@/components/payment/form/payment.form.vue';
 import ResidenceRoomTypeForm from '@/components/residence/form/residence.room-type.form.vue';
 import RoomCreateManyForm from '@/components/room/form/room.create-many.form.vue';
 import ResidenceRoomMapForm from '@/components/residence/form/residence.room-map.form.vue';
-import { validatePDFFile } from '@/utils/file';
+import Loading from '@/components/common/loading.vue';
+import FileService from '@/services/FileService';
+import ResidencePendingText from '@/components/residence/form/residence.pending-text.vue';
 
 const router = useRouter();
 const { notify } = useNotification();
 const route = useRoute();
 
-const stepList = ['ข้อมูลหอพัก'];
-
-const userStore = useUserStore();
-const user = userStore.getUser;
+const stepList = ['ข้อมูลหอพัก', 'สถานะการอนุมัติ'];
+const currentStep = ref(1);
+const numberOfSteps = stepList.length;
 const residenceId = route.params.residenceId;
-
-const residenceData = ref(null);
+const isLoading = ref(true);
+const residenceData = reactive({
+  name: '',
+  description: '',
+  address: '',
+  images: [],
+  contact: {
+    contactName: '',
+    facebook: '',
+    line: '',
+    phone: '',
+    email: '',
+  },
+  facilities: [],
+  fees: [],
+  payments: [],
+  paymentNotes: '',
+  roomTypes: [],
+  rooms: [],
+  numberOfFloor: 1,
+  numberOfRoomEachFloor: [],
+  defaultWaterPriceRate: '',
+  defaultElectricPriceRate: '',
+  residenceBusinessLicense: '',
+});
 
 const fetchPendingResidence = async () => {
   const response = await ResidenceServices.fetchResidence(residenceId);
   if (response.status === 200) {
     const data = await response.json();
-    console.log('residenceData', data);
-    residenceData.value = data;
+    console.log('residence', data);
+    residenceData.name = data.name;
+    residenceData.description = data.description;
+    residenceData.address = data.address;
+    residenceData.images = data.images.map((imageName) => {
+      return FileService.getFile(imageName);
+    });
+    residenceData.contact.contactName = data.contact.contactName;
+    residenceData.contact.facebook = data.contact.facebook;
+    residenceData.contact.line = data.contact.line;
+    residenceData.contact.phone = data.contact.phone;
+    residenceData.contact.email = data.contact.email;
+    residenceData.facilities = data.facilities.map((facility) => facility._id);
+    residenceData.fees = data.fees;
+    residenceData.payments = data.payments.map((payment) => ({
+      bankId: payment.bank._id,
+      ...payment,
+    }));
+    residenceData.paymentNotes = data.paymentNotes;
+    residenceData.roomTypes = data.roomTypes;
+    residenceData.rooms = data.rooms.map((room) => ({
+      ...room,
+      type: room.type._id,
+    }));
+    residenceData.defaultWaterPriceRate = data.defaultWaterPriceRate;
+    residenceData.defaultElectricPriceRate = data.defaultElectricPriceRate;
+    residenceData.residenceBusinessLicense = data.residenceBusinessLicense;
   } else {
     notify({
       group: 'tr',
       title: 'เกิดข้อผิดพลาด',
       text: 'ไม่สามารถดึงข้อมูลหอพักได้',
+      type: 'error',
+    });
+  }
+};
+
+const banks = ref([]);
+const fetchBanks = async () => {
+  const response = await BankService.fetchBanks();
+  if (response.status === 200) {
+    let result = await response.json();
+    console.log('banks', result);
+    banks.value = result;
+  } else {
+    notify({
+      group: 'tr',
+      title: 'เกิดข้อผิดพลาด',
+      text: 'Failed to fetch banks data',
+      type: 'error',
+    });
+  }
+};
+
+const availableFacility = ref([]);
+const fetchFacility = async () => {
+  const response = await FacilityService.fetchFacilities();
+  if (response.status == 200) {
+    const data = await response.json();
+    console.log('facility', data);
+    availableFacility.value = data;
+  } else {
+    const data = await response.json();
+    notify({
+      group: 'tr',
+      title: 'เกิดข้อผิดพลาด',
+      text: 'ไม่สามารถดึงข้อมูลสิ่งอำนวยความสะดวกได้ ' + data?.message,
       type: 'error',
     });
   }
@@ -65,27 +146,22 @@ const changeStep = (action) => {
       console.warn('Invalid action');
       break;
   }
-  // goto top of the page
   window.scrollTo(0, 0);
-
-  // submit
-  if (currentStep.value === 9) {
-    submitData();
-  }
 };
 
 onMounted(async () => {
+  await fetchFacility();
+  await fetchBanks();
   await fetchPendingResidence();
-  updateCanNext();
+  isLoading.value = false;
 });
 </script>
 
 <template>
-  <div class="card w-full">
+  <Loading v-if="isLoading" class="min-h-screen" />
+  <div class="card w-full" v-else>
     <div class="card-body px-10 md:px-40">
       <div class="flex flex-row justify-between">
-        {{ residenceData }}
-
         <Breadcrumb
           :pathList="[
             { name: 'หน้าแรก', pathName: 'home' },
@@ -105,17 +181,36 @@ onMounted(async () => {
         </div>
 
         <div class="p-4 mb-4 card bg-white col-span-9">
-          <div>
-            <div class="relative bg-white p-10 shadow-md rounded basis-full">
-              <h1 class="text-xl font-semibold text-dark-blue-200">
-                ข้อมูลหอพัก
-              </h1>
-            </div>
-
+          <div v-if="currentStep == 1">
             <ResidenceBasicInfoForm
               :residenceData="residenceData"
               :viewOnly="true"
             />
+            <ImagePreview
+              :imageUrls="residenceData.images"
+              preview-from="url"
+            />
+            <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
+              <h1 class="text-xl font-semibold text-dark-blue-200">
+                เอกสารประกอบการหอพัก
+              </h1>
+              <p class="flex gap-2">
+                ใบประกอบการหอพัก :
+                <router-link
+                  target="_blank"
+                  class="flex items-center gap-2 underline text-light-red"
+                  :to="{
+                    name: 'pdf-preview',
+                    query: {
+                      filename: residenceData.residenceBusinessLicense,
+                    },
+                  }"
+                >
+                  ดูไฟล์ <ArrowTopRightOnSquareIcon class="h-4 w-4" />
+                </router-link>
+              </p>
+            </div>
+
             <ResidenceContactForm
               :residenceData="residenceData"
               :viewOnly="true"
@@ -140,33 +235,34 @@ onMounted(async () => {
               :banks="banks"
               :viewOnly="true"
             />
-            <RoomCreateManyForm :payload="residenceData" :viewOnly="true" />
             <ResidenceRoomMapForm
               :residenceData="residenceData"
               :viewOnly="true"
             />
           </div>
-
-          <!-- step 9 -->
-          <div>
-            <div class="relative bg-white p-10 shadow-md rounded basis-full">
-              <h1 class="text-xl font-semibold text-dark-blue-200">
-                ระบบกำลังตรวจสอบข้อมูลของคุณ
-              </h1>
-              <p class="text-base mt-10">
-                ขอบคุณที่สร้างหอพักในระบบของเรา เพื่อความปลอดภัยของผู้ใช้งาน
-                <br />
-                ระบบกำลังตรวจสอบข้อมูลหอพักที่คุณสร้าง
-                <b>ท่านจะได้รับอีเมลแจ้งเตือน</b> หากหอพักของท่านผ่านการตรวจสอบ
-
-                <br /><br />
-                หากมีข้อสงสัยหรือต้องการสอบถามเพิ่มเติม กรุณาติดต่อ
-                support@rms.com
-              </p>
-            </div>
+          <div v-else>
+            <ResidencePendingText />
           </div>
 
-          <!-- button control -->
+          <div class="flex justify-end gap-2 mt-10">
+            <Button
+              btn-type="secondary"
+              @click="changeStep('back')"
+              v-if="currentStep > 1"
+              class="rounded-badge"
+            >
+              <ArrowLeftIcon class="w-4 h-4" />
+              ย้อนกลับ
+            </Button>
+            <Button
+              @click="changeStep('next')"
+              class="rounded-badge"
+              v-else
+            >
+              ถัดไป
+              <ArrowRightIcon class="w-4 h-4" />
+            </Button>
+          </div>
         </div>
       </div>
     </div>

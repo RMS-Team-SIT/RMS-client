@@ -72,6 +72,7 @@ const removePayment = (index) => {
 };
 
 const findBank = (bankId) => {
+  console.log('bankId', bankId);
   return props.banks.find((bank) => bank._id === bankId);
 };
 
@@ -159,7 +160,6 @@ watch(childData, () => {
           </button>
         </div>
       </div>
-
       <div class="flex flex-col gap-4">
         <div
           v-for="(payment, index) in childData.payments"

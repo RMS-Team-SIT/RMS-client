@@ -24,6 +24,7 @@ import ResidenceRoomTypeForm from '@/components/residence/form/residence.room-ty
 import RoomCreateManyForm from '@/components/room/form/room.create-many.form.vue';
 import ResidenceRoomMapForm from '@/components/residence/form/residence.room-map.form.vue';
 import { validatePDFFile } from '@/utils/file';
+import ResidencePendingText from '@/components/residence/form/residence.pending-text.vue';
 
 const confirmPageReload = (event) => {
   // Display confirmation dialog only if there are unsaved changes
@@ -477,21 +478,7 @@ onMounted(async () => {
 
           <!-- step 9 -->
           <div v-if="currentStep == 9">
-            <div class="relative bg-white p-10 shadow-md rounded basis-full">
-              <h1 class="text-xl font-semibold text-dark-blue-200">
-                ระบบกำลังตรวจสอบข้อมูลของคุณ
-              </h1>
-              <p class="text-base mt-10">
-                ขอบคุณที่สร้างหอพักในระบบของเรา เพื่อความปลอดภัยของผู้ใช้งาน
-                <br />
-                ระบบกำลังตรวจสอบข้อมูลหอพักที่คุณสร้าง
-                <b>ท่านจะได้รับอีเมลแจ้งเตือน</b> หากหอพักของท่านผ่านการตรวจสอบ
-
-                <br /><br />
-                หากมีข้อสงสัยหรือต้องการสอบถามเพิ่มเติม กรุณาติดต่อ
-                support@rms.com
-              </p>
-            </div>
+            <ResidencePendingText />
           </div>
 
           <!-- button control -->
