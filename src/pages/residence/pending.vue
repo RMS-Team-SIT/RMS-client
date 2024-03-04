@@ -23,10 +23,14 @@ import ResidenceRoomMapForm from '@/components/residence/form/residence.room-map
 import Loading from '@/components/common/loading.vue';
 import FileService from '@/services/FileService';
 import ResidencePendingText from '@/components/residence/form/residence.pending-text.vue';
+import { useUserStore } from '@/stores/user.store';
+import residenceApproveText from '@/components/residence/form/residence.approve-text.vue';
 
 const router = useRouter();
 const { notify } = useNotification();
 const route = useRoute();
+const userStore = useUserStore();
+const user = userStore.getUser;
 
 const stepList = ['ข้อมูลหอพัก', 'สถานะการอนุมัติ'];
 const currentStep = ref(1);
@@ -62,7 +66,15 @@ const fetchPendingResidence = async () => {
   const response = await ResidenceServices.fetchResidence(residenceId);
   if (response.status === 200) {
     const data = await response.json();
-    console.log('residence', data);
+    if(data.isApproved) {
+      notify({
+        group: 'tr',
+        title: 'เกิดข้อผิดพลาด',
+        text: 'หอพักนี้ไม่ได้อยู่ในสถานะรอการอนุมัติ',
+        type: 'error',
+      });
+      router.push({ name: 'home' });
+    }
     residenceData.name = data.name;
     residenceData.description = data.description;
     residenceData.address = data.address;
@@ -96,6 +108,7 @@ const fetchPendingResidence = async () => {
       text: 'ไม่สามารถดึงข้อมูลหอพักได้',
       type: 'error',
     });
+    router.push({ name: 'home' });
   }
 };
 
@@ -149,6 +162,27 @@ const changeStep = (action) => {
   window.scrollTo(0, 0);
 };
 
+const approveResidence = async () => {
+  try {
+    const response = await ResidenceServices.approveResidence(residenceId);
+    if (response.status === 200) {
+      notify({
+        group: 'tr',
+        title: 'อนุมัติหอพักสำเร็จ',
+        text: 'อนุมัติหอพักสำเร็จแล้ว',
+        type: 'success',
+      });
+      router.push({ name: 'home' });
+    } else {
+      notify({
+        group: 'tr',
+        title: 'เกิดข้อผิดพลาด',
+        text: 'ไม่สามารถอนุมัติหอพักได้',
+        type: 'error',
+      });
+    }
+  } catch (error) {}
+};
 onMounted(async () => {
   await fetchFacility();
   await fetchBanks();
@@ -172,7 +206,7 @@ onMounted(async () => {
       </div>
 
       <div class="grid grid-cols-12">
-        <div class="p-4 mb-4 card bg-white col-span-3">
+        <div class="p-4 mb-4 card bg-white col-span-3 items-end">
           <Steps
             class="steps-vertical text-left"
             :stepList="stepList"
@@ -241,7 +275,8 @@ onMounted(async () => {
             />
           </div>
           <div v-else>
-            <ResidencePendingText />
+            <ResidencePendingText v-if="user.role == 'user'" />
+            <residenceApproveText v-else />
           </div>
 
           <div class="flex justify-end gap-2 mt-10">
@@ -255,10 +290,13 @@ onMounted(async () => {
               ย้อนกลับ
             </Button>
             <Button
-              @click="changeStep('next')"
+              @click="approveResidence"
               class="rounded-badge"
-              v-else
+              v-if="user.role == 'admin' && currentStep == 2"
             >
+              อนุมัติข้อมูล
+            </Button>
+            <Button @click="changeStep('next')" class="rounded-badge" v-else>
               ถัดไป
               <ArrowRightIcon class="w-4 h-4" />
             </Button>

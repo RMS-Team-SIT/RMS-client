@@ -22,6 +22,7 @@ import Stats from '@/components/common/stats.vue';
 import UserServices from '@/services/UserServices';
 import ResidenceServices from '@/services/ResidenceServices';
 import BlankprofileImg from '@/assets/img/bp.webp';
+import { projectFullName } from '@/utils/constants';
 
 const router = useRouter();
 const route = useRoute();
@@ -155,27 +156,6 @@ const fetchPendingResidence = async () => {
     }
   } catch (error) {}
 };
-const approveResidence = async (id) => {
-  try {
-    const response = await ResidenceServices.approveResidence(id);
-    if (response.status === 200) {
-      notify({
-        group: 'tr',
-        title: 'อนุมัติผู้ใช้งานสำเร็จ',
-        text: 'อนุมัติผู้ใช้งานสำเร็จแล้ว',
-        type: 'success',
-      });
-      await fetchAll();
-    } else {
-      notify({
-        group: 'tr',
-        title: 'เกิดข้อผิดพลาด',
-        text: 'ไม่สามารถอนุมัติผู้ใช้งานได้',
-        type: 'error',
-      });
-    }
-  } catch (error) {}
-};
 
 const fetchAll = async () => {
   await fetchStats();
@@ -200,6 +180,12 @@ onMounted(async () => {
         ]"
       />
 
+      <h1
+        class="text-3xl font-semibold text-dark-blue-200 my-5 flex items-center gap-2"
+      >
+        <ChartPieIcon class="h-8 w-8 inline-block" /> จัดการระบบ {{ projectFullName }}
+      </h1>
+
       <div role="tablist" class="tabs tabs-lifted">
         <input
           type="radio"
@@ -213,6 +199,9 @@ onMounted(async () => {
           role="tabpanel"
           class="tab-content bg-base-100 border-base-300 rounded-box p-6"
         >
+          <h1 class="text-xl font-semibold text-dark-blue-200">
+            ข้อมูลผู้ใช้งาน
+          </h1>
           <Stats :stats="mapUserStatsToArray" class="mt-5" />
 
           <div
@@ -225,7 +214,6 @@ onMounted(async () => {
               <UserIcon class="h-8 w-8 text-primary" />
               <ClockIcon class="h-8 w-8 text-primary" />
             </h1>
-            <!-- <p class="text-xs">ผู้ใช้งานที่รอการอนุมัติทั้งหมด</p> -->
             <p class="text-sm" v-if="!pendingKYCUser.length">
               ไม่มีผู้ใช้งานที่รอการอนุมัติในขณะนี้
             </p>
@@ -286,7 +274,6 @@ onMounted(async () => {
               </dialog>
             </div>
           </div>
-
         </div>
 
         <input
@@ -300,6 +287,7 @@ onMounted(async () => {
           role="tabpanel"
           class="tab-content bg-base-100 border-base-300 rounded-box p-6"
         >
+          <h1 class="text-xl font-semibold text-dark-blue-200">ข้อมูลหอพัก</h1>
           <Stats :stats="mapResidenceStatsToArray" class="mt-5" />
 
           <div
@@ -402,13 +390,7 @@ onMounted(async () => {
         </div>
       </div>
 
-      <!-- Quick link Section -->
       <section class="mt-5">
-        <!-- <h1
-          class="text-2xl font-semibold text-dark-blue-200 my-5 flex items-center gap-2"
-        >
-          <LinkIcon class="h-8 w-8 inline-block" /> Quick Links
-        </h1> -->
         <div
           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2"
         >

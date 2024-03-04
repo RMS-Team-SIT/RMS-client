@@ -65,21 +65,21 @@ onBeforeMount(async () => {
 <template>
   <div class="card w-full min-h-screen">
     <div class="card-body px-10 md:px-40">
-      <div class="flex flex-row justify-between">
+      
+      <div class="relative bg-white p-10 space-y-5 rounded">
         <Breadcrumb
-          :pathList="[
-            { name: 'หน้าแรก', pathName: 'home' },
-            { name: 'จัดการ', pathName: 'manage' },
-          ]"
-        />
-        <router-link :to="{ name: 'create-residence' }">
-          <Button>สร้างหอพัก</Button>
-        </router-link>
-      </div>
-      <div
-        class="relative bg-white p-10 space-y-5 rounded border border-gray-200"
-      >
-        <h1 class="text-3xl font-semibold text-dark-blue-200">หอพักของคุณ</h1>
+        :pathList="[
+          { name: 'หน้าแรก', pathName: 'home' },
+          { name: 'จัดการ', pathName: 'manage' },
+        ]"
+      />
+        <div class="flex flex-row justify-between">
+          <h1 class="text-3xl font-semibold text-dark-blue-200">หอพักของคุณ</h1>
+
+          <router-link :to="{ name: 'create-residence' }">
+            <Button>สร้างหอพัก</Button>
+          </router-link>
+        </div>
         <!-- <p class="text-xs">หน้านี้จะแสดงหอพักทั้งหมดของคุณ</p> -->
         <Loading v-if="isLoading" />
 
