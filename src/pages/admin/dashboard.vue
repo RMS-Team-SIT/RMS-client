@@ -199,173 +199,206 @@ onMounted(async () => {
           { name: 'จัดการระบบ', pathName: 'manage' },
         ]"
       />
-      <Stats :stats="mapUserStatsToArray" class="mt-5" />
 
-      <div
-        class="relative bg-white p-10 mt-5 space-y-4 rounded border border-gray-200"
-      >
-        <h1
-          class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
-        >
-          ผู้ใช้งานที่รอการอนุมัติ
-          <UserIcon class="h-8 w-8 text-primary" />
-          <ClockIcon class="h-8 w-8 text-primary" />
-        </h1>
-        <!-- <p class="text-xs">ผู้ใช้งานที่รอการอนุมัติทั้งหมด</p> -->
-        <p class="text-sm" v-if="!pendingKYCUser.length">
-          ไม่มีผู้ใช้งานที่รอการอนุมัติในขณะนี้
-        </p>
+      <div role="tablist" class="tabs tabs-lifted">
+        <input
+          type="radio"
+          name="my_tabs_2"
+          role="tab"
+          class="tab"
+          aria-label="ผู้ใช้งาน"
+          checked
+        />
         <div
-          v-for="(user, index) in pendingKYCUser"
-          :key="index"
-          class="flex items-center gap-2 justify-between border-2 p-2 rounded-lg border-gray-200 hover:border-primary transition-all cursor-pointer"
+          role="tabpanel"
+          class="tab-content bg-base-100 border-base-300 rounded-box p-6"
         >
-          <div class="flex items-center gap-2">
-            <img
-              :src="BlankprofileImg"
-              alt="user profile"
-              class="h-10 w-10 rounded-full"
-            />
-            <div>
-              <h1 class="text-sm font-semibold">
-                {{ user.firstname }} {{ user.lastname }}
-              </h1>
-              <p class="text-xs">{{ user.email }}</p>
-            </div>
-          </div>
+          <Stats :stats="mapUserStatsToArray" class="mt-5" />
 
-          <div class="flex items-center gap-2">
-            <button
-              class="btn btn-primary btn-sm"
-              :onclick="`kyc_modal_${index}.showModal()`"
+          <div
+            class="relative bg-white p-10 mt-5 space-y-4 rounded border border-gray-200"
+          >
+            <h1
+              class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
             >
-              ดูข้อมูลเพิ่มเติม
-            </button>
-          </div>
+              ผู้ใช้งานที่รอการอนุมัติ
+              <UserIcon class="h-8 w-8 text-primary" />
+              <ClockIcon class="h-8 w-8 text-primary" />
+            </h1>
+            <!-- <p class="text-xs">ผู้ใช้งานที่รอการอนุมัติทั้งหมด</p> -->
+            <p class="text-sm" v-if="!pendingKYCUser.length">
+              ไม่มีผู้ใช้งานที่รอการอนุมัติในขณะนี้
+            </p>
+            <div
+              v-for="(user, index) in pendingKYCUser"
+              :key="index"
+              class="flex items-center gap-2 justify-between border-2 p-2 rounded-lg border-gray-200 hover:border-primary transition-all cursor-pointer"
+            >
+              <div class="flex items-center gap-2">
+                <img
+                  :src="BlankprofileImg"
+                  alt="user profile"
+                  class="h-10 w-10 rounded-full"
+                />
+                <div>
+                  <h1 class="text-sm font-semibold">
+                    {{ user.firstname }} {{ user.lastname }}
+                  </h1>
+                  <p class="text-xs">{{ user.email }}</p>
+                </div>
+              </div>
 
-          <!-- Modal -->
-
-          <dialog :id="`kyc_modal_${index}`" class="modal">
-            <div class="modal-box space-y-2">
-              <h3 class="font-bold text-lg">รายละเอียดผู้ใช้งาน</h3>
-
-              <p>ชื่อผู้ใช้งาน : {{ user.firstname }} {{ user.lastname }}</p>
-              <p>อีเมล : {{ user.email }} (ยืนยันแล้ว)</p>
-              <p>เบอร์โทร : {{ user.phone }}</p>
-              <p>หมายเลขบัตรประชาชน : {{ user.idcardNumber }}</p>
-
-              <div class="modal-action flex">
-                <form method="dialog">
-                  <!-- if there is a button in form, it will close the modal -->
-                  <button class="btn btn-sm">ปิด</button>
-                </form>
+              <div class="flex items-center gap-2">
                 <button
-                  class="btn btn-success btn-sm"
-                  @click="approveUser(user._id)"
+                  class="btn btn-primary btn-sm"
+                  :onclick="`kyc_modal_${index}.showModal()`"
                 >
-                  อนุมัติบัญชีผู้ใช้
+                  ดูข้อมูลเพิ่มเติม
                 </button>
               </div>
+
+              <!-- Modal -->
+
+              <dialog :id="`kyc_modal_${index}`" class="modal">
+                <div class="modal-box space-y-2">
+                  <h3 class="font-bold text-lg">รายละเอียดผู้ใช้งาน</h3>
+
+                  <p>
+                    ชื่อผู้ใช้งาน : {{ user.firstname }} {{ user.lastname }}
+                  </p>
+                  <p>อีเมล : {{ user.email }} (ยืนยันแล้ว)</p>
+                  <p>เบอร์โทร : {{ user.phone }}</p>
+                  <p>หมายเลขบัตรประชาชน : {{ user.idcardNumber }}</p>
+
+                  <div class="modal-action flex">
+                    <form method="dialog">
+                      <!-- if there is a button in form, it will close the modal -->
+                      <button class="btn btn-sm">ปิด</button>
+                    </form>
+                    <button
+                      class="btn btn-success btn-sm"
+                      @click="approveUser(user._id)"
+                    >
+                      อนุมัติบัญชีผู้ใช้
+                    </button>
+                  </div>
+                </div>
+              </dialog>
             </div>
-          </dialog>
+          </div>
+
         </div>
-      </div>
 
-      <Stats :stats="mapResidenceStatsToArray" class="mt-5" />
-
-      <div
-        class="relative bg-white p-10 mt-5 space-y-4 rounded border border-gray-200"
-      >
-        <h1
-          class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
-        >
-          หอพักที่รอการอนุมัติ
-          <HomeIcon class="h-8 w-8 text-primary" />
-          <ClockIcon class="h-8 w-8 text-primary" />
-        </h1>
-        <p class="text-sm" v-if="!pendingResidence.length">
-          ไม่มีหอพักที่รอการอนุมัติในขณะนี้
-        </p>
+        <input
+          type="radio"
+          name="my_tabs_2"
+          role="tab"
+          class="tab"
+          aria-label="หอพัก"
+        />
         <div
-          v-for="(residence, index) in pendingResidence"
-          :key="index"
-          class="flex items-center gap-2 justify-between border-2 p-2 rounded-lg border-gray-200 hover:border-primary transition-all cursor-pointer"
+          role="tabpanel"
+          class="tab-content bg-base-100 border-base-300 rounded-box p-6"
         >
-          <div class="flex items-center gap-2">
-            <HomeIcon class="h-10 w-10 text-primary" />
+          <Stats :stats="mapResidenceStatsToArray" class="mt-5" />
 
-            <div>
-              <h1 class="text-sm font-semibold">
-                {{ residence.name }}
-              </h1>
-            </div>
-          </div>
-
-          <div class="flex items-center gap-2">
-            <button
-              class="btn btn-primary btn-sm"
-              :onclick="`res_modal_${index}.showModal()`"
+          <div
+            class="relative bg-white p-10 mt-5 space-y-4 rounded border border-gray-200"
+          >
+            <h1
+              class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
             >
-              ดูข้อมูลเพิ่มเติม
-            </button>
-          </div>
+              หอพักที่รอการอนุมัติ
+              <HomeIcon class="h-8 w-8 text-primary" />
+              <ClockIcon class="h-8 w-8 text-primary" />
+            </h1>
+            <p class="text-sm" v-if="!pendingResidence.length">
+              ไม่มีหอพักที่รอการอนุมัติในขณะนี้
+            </p>
+            <div
+              v-for="(residence, index) in pendingResidence"
+              :key="index"
+              class="flex items-center gap-2 justify-between border-2 p-2 rounded-lg border-gray-200 hover:border-primary transition-all cursor-pointer"
+            >
+              <div class="flex items-center gap-2">
+                <HomeIcon class="h-10 w-10 text-primary" />
 
-          <!-- Modal -->
+                <div>
+                  <h1 class="text-sm font-semibold">
+                    {{ residence.name }}
+                  </h1>
+                </div>
+              </div>
 
-          <dialog :id="`res_modal_${index}`" class="modal">
-            <div class="modal-box space-y-2">
-              <h3 class="font-bold text-lg">รายละเอียดหอพัก</h3>
-              <p>
-                เจ้าของหอพัก: {{ residence.owner.firstname }}
-                {{ residence.owner.lastname }}
-              </p>
-              <p class="flex gap-2">
-                ใบประกอบการหอพัก :
-                <router-link
-                  target="_blank"
-                  class="flex items-center gap-2 underline text-light-red"
-                  :to="{
-                    name: 'pdf-preview',
-                    query: {
-                      filename: residence.residenceBusinessLicense,
-                    },
-                  }"
-                >
-                  ดูไฟล์ <ArrowTopRightOnSquareIcon class="h-4 w-4" />
-                </router-link>
-              </p>
-              <p>ชื่อหอพัก : {{ residence.name }}</p>
-              <p>ที่อยู่ : {{ residence.address }}</p>
-              <p>รายละเอียดหอพัก : {{ residence.description }}</p>
-              <p>ค่าน้ำ: {{ residence.defaultWaterPriceRate }} บาท/หน่วย</p>
-              <p>ค่าไฟ: {{ residence.defaultElectricPriceRate }} บาท/หน่วย</p>
-              <p>
-                ค่าบริการอื่น ๆ :
-                {{
-                  residence.fees
-                    .map((i) => `${i.feename}: ${i.feeprice} บาท`)
-                    .join(', ')
-                }}
-              </p>
-              <p>จำนวนห้อง : {{ residence.rooms.length }} ห้อง</p>
-              <p>
-                สิ่งอำนวยความสะดวก:
-                {{ residence.facilities.map((f) => f.name).join(', ') }}
-              </p>
-              <div class="modal-action flex">
-                <form method="dialog">
-                  <!-- if there is a button in form, it will close the modal -->
-                  <button class="btn btn-sm">ปิด</button>
-                </form>
+              <div class="flex items-center gap-2">
                 <button
-                  class="btn btn-success btn-sm"
-                  @click="approveResidence(residence._id)"
+                  class="btn btn-primary btn-sm"
+                  :onclick="`res_modal_${index}.showModal()`"
                 >
-                  อนุมัติหอพัก
+                  ดูข้อมูลเพิ่มเติม
                 </button>
               </div>
+
+              <!-- Modal -->
+
+              <dialog :id="`res_modal_${index}`" class="modal">
+                <div class="modal-box space-y-2">
+                  <h3 class="font-bold text-lg">รายละเอียดหอพัก</h3>
+                  <p>
+                    เจ้าของหอพัก: {{ residence.owner.firstname }}
+                    {{ residence.owner.lastname }}
+                  </p>
+                  <p class="flex gap-2">
+                    ใบประกอบการหอพัก :
+                    <router-link
+                      target="_blank"
+                      class="flex items-center gap-2 underline text-light-red"
+                      :to="{
+                        name: 'pdf-preview',
+                        query: {
+                          filename: residence.residenceBusinessLicense,
+                        },
+                      }"
+                    >
+                      ดูไฟล์ <ArrowTopRightOnSquareIcon class="h-4 w-4" />
+                    </router-link>
+                  </p>
+                  <p>ชื่อหอพัก : {{ residence.name }}</p>
+                  <p>ที่อยู่ : {{ residence.address }}</p>
+                  <p>รายละเอียดหอพัก : {{ residence.description }}</p>
+                  <p>ค่าน้ำ: {{ residence.defaultWaterPriceRate }} บาท/หน่วย</p>
+                  <p>
+                    ค่าไฟ: {{ residence.defaultElectricPriceRate }} บาท/หน่วย
+                  </p>
+                  <p>
+                    ค่าบริการอื่น ๆ :
+                    {{
+                      residence.fees
+                        .map((i) => `${i.feename}: ${i.feeprice} บาท`)
+                        .join(', ')
+                    }}
+                  </p>
+                  <p>จำนวนห้อง : {{ residence.rooms.length }} ห้อง</p>
+                  <p>
+                    สิ่งอำนวยความสะดวก:
+                    {{ residence.facilities.map((f) => f.name).join(', ') }}
+                  </p>
+                  <div class="modal-action flex">
+                    <form method="dialog">
+                      <!-- if there is a button in form, it will close the modal -->
+                      <button class="btn btn-sm">ปิด</button>
+                    </form>
+                    <button
+                      class="btn btn-success btn-sm"
+                      @click="approveResidence(residence._id)"
+                    >
+                      อนุมัติหอพัก
+                    </button>
+                  </div>
+                </div>
+              </dialog>
             </div>
-          </dialog>
+          </div>
         </div>
       </div>
 

@@ -127,7 +127,12 @@ const getFee = (id) => {
         <p v-if="!showedRoom.length" class="text-center w-full col-span-3">
           ไม่มีห้องพักในระบบ
         </p>
-        <div v-for="(room, index) in showedRoom" :key="index">
+        <!-- if new floor, make it col span 3 -->
+
+        <div
+          v-for="(room, index) in showedRoom"
+          :key="index"
+        >
           <!-- Card -->
           <div
             :onclick="`room_modal_${index}.showModal()`"

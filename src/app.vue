@@ -29,6 +29,8 @@ const shouldShowFooter = computed(() => {
     'reset-password',
     'verify-email',
     'not-found',
+    'unavailable',
+    'renter-signin',
   ];
   return !excludedRoutes.includes(route.name);
 });
@@ -42,7 +44,8 @@ const shouldShowNavbar = computed(() => {
     'reset-password',
     'verify-email',
     'not-found',
-    'renter-signin'
+    'unavailable',
+    'renter-signin',
   ];
   return !excludedRoutes.includes(route.name);
 });
@@ -65,14 +68,17 @@ onMounted(async () => {
   setTimeout(() => {
     isLoading.value = false;
   }, 500);
-
 });
 </script>
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
   <div class="font-noto" v-else>
-    <navbar v-if="shouldShowNavbar" :isLoggedIn="userStore.isLoggedIn" :user="userStore.getUser" />
+    <navbar
+      v-if="shouldShowNavbar"
+      :isLoggedIn="userStore.isLoggedIn"
+      :user="userStore.getUser"
+    />
     <router-view class="min-h-screen" />
     <notifications group="tr" position="top right" class="text-md" />
     <Footer v-if="shouldShowFooter" />

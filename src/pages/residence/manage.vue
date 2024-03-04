@@ -83,7 +83,7 @@ onBeforeMount(async () => {
         <!-- <p class="text-xs">หน้านี้จะแสดงหอพักทั้งหมดของคุณ</p> -->
         <Loading v-if="isLoading" />
 
-        <div role="tablist" class="tabs tabs-lifted tabs-lg">
+        <div role="tablist" class="tabs tabs-lifted tabs-md">
           <input
             type="radio"
             name="my_tabs_2"

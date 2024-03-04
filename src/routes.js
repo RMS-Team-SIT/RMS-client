@@ -3,6 +3,7 @@ import { useUserStore } from './stores/user.store';
 
 const index = () => import('@/pages/index.vue');
 const NotFound = () => import('@/pages/not-found.vue');
+const serverDown =() => import('@/pages/unavailable.vue');
 const signup = () => import('@/pages/signup.vue');
 const signin = () => import('@/pages/signin.vue');
 const renterSignin = () => import('@/pages/renter-signin.vue');
@@ -420,6 +421,14 @@ const routes = [
     component: kycApprovalStatus,
     meta: {
       title: 'รอการอนุมัติ',
+    },
+  },
+  {
+    path: '/unavailable',
+    component: serverDown,
+    name: 'unavailable',
+    meta: {
+      title: 'เซิฟเวอร์มีปัญหา โปรดลองใหม่อีกครั้ง',
     },
   },
   {
