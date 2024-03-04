@@ -165,7 +165,7 @@ onMounted(() => {
       v-if="imagePreviews.length > 0 && !viewOnly"
       btnType="secondary-pill"
       @click="clearImages"
-      class="m-5"
+      class="mt-2"
       >ลบรูปภาพทั้งหมด</Button
     >
 
