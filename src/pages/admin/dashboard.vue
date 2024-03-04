@@ -321,70 +321,12 @@ onMounted(async () => {
               <div class="flex items-center gap-2">
                 <button
                   class="btn btn-primary btn-sm"
+                  @click="router.push({ name: 'pending-residence', params: { residenceId: residence._id } })"
                   :onclick="`res_modal_${index}.showModal()`"
                 >
                   ดูข้อมูลเพิ่มเติม
                 </button>
               </div>
-
-              <!-- Modal -->
-
-              <dialog :id="`res_modal_${index}`" class="modal">
-                <div class="modal-box space-y-2">
-                  <h3 class="font-bold text-lg">รายละเอียดหอพัก</h3>
-                  <p>
-                    เจ้าของหอพัก: {{ residence.owner.firstname }}
-                    {{ residence.owner.lastname }}
-                  </p>
-                  <p class="flex gap-2">
-                    ใบประกอบการหอพัก :
-                    <router-link
-                      target="_blank"
-                      class="flex items-center gap-2 underline text-light-red"
-                      :to="{
-                        name: 'pdf-preview',
-                        query: {
-                          filename: residence.residenceBusinessLicense,
-                        },
-                      }"
-                    >
-                      ดูไฟล์ <ArrowTopRightOnSquareIcon class="h-4 w-4" />
-                    </router-link>
-                  </p>
-                  <p>ชื่อหอพัก : {{ residence.name }}</p>
-                  <p>ที่อยู่ : {{ residence.address }}</p>
-                  <p>รายละเอียดหอพัก : {{ residence.description }}</p>
-                  <p>ค่าน้ำ: {{ residence.defaultWaterPriceRate }} บาท/หน่วย</p>
-                  <p>
-                    ค่าไฟ: {{ residence.defaultElectricPriceRate }} บาท/หน่วย
-                  </p>
-                  <p>
-                    ค่าบริการอื่น ๆ :
-                    {{
-                      residence.fees
-                        .map((i) => `${i.feename}: ${i.feeprice} บาท`)
-                        .join(', ')
-                    }}
-                  </p>
-                  <p>จำนวนห้อง : {{ residence.rooms.length }} ห้อง</p>
-                  <p>
-                    สิ่งอำนวยความสะดวก:
-                    {{ residence.facilities.map((f) => f.name).join(', ') }}
-                  </p>
-                  <div class="modal-action flex">
-                    <form method="dialog">
-                      <!-- if there is a button in form, it will close the modal -->
-                      <button class="btn btn-sm">ปิด</button>
-                    </form>
-                    <button
-                      class="btn btn-success btn-sm"
-                      @click="approveResidence(residence._id)"
-                    >
-                      อนุมัติหอพัก
-                    </button>
-                  </div>
-                </div>
-              </dialog>
             </div>
           </div>
         </div>

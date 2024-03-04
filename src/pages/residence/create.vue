@@ -268,7 +268,7 @@ onMounted(async () => {
       </div>
 
       <div class="grid grid-cols-12">
-        <div class="p-4 mb-4 card bg-white col-span-3 items-end">
+        <div class="p-4 mb-4 card bg-white col-span-3 items-center">
           <Steps
             class="steps-vertical text-left"
             :stepList="stepList"
@@ -276,7 +276,7 @@ onMounted(async () => {
           />
         </div>
 
-        <div class="p-4 mb-4 card bg-white col-span-7">
+        <div class="p-4 mb-4 card bg-white col-span-9 items-center">
           <!-- step 1 -->
           <div v-if="currentStep == 1">
             <ResidenceBasicInfoForm
