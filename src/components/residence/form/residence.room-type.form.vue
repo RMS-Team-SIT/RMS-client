@@ -84,7 +84,7 @@ watch(childData, () => {
     <h1 class="text-xl font-semibold text-dark-blue-200">ประเภทห้องพัก</h1>
     <p class="text-xs">สร้างประเภทห้องพักในหอพักของคุณ</p>
 
-    <div class="grid grid-cols-3 gap-5" v-if="!viewOnly">
+    <div class="flex flex-col lg:flex-row gap-5" v-if="!viewOnly">
       <div>
         <label class="label">
           <span class="text-base label-text"
@@ -97,7 +97,7 @@ watch(childData, () => {
           class="input input-bordered bg-white input-sm rounded-sm"
           v-model="temp.name"
         />
-        <p class="text-xs text-gray-500">เช่น ห้องสตูดิโอ, 1 ห้องนอน</p>
+        <p class="text-xs text-gray-500">เช่น สตูดิโอ, 1 ห้องนอน</p>
       </div>
 
       <div>
@@ -130,22 +130,22 @@ watch(childData, () => {
           v-model="temp.price"
         />
       </div>
-
-      <div class="col-span-3">
+    </div>
+    <div>
         <label class="label">
           <span class="text-base label-text"
             >รายละเอียด <span class="text-red-500">*</span>
           </span>
         </label>
         <textarea
-          rows="10"
-          placeholder="รายละเอียด"
-          class="input input-bordered bg-white input-sm rounded-sm w-full"
+          placeholder="รายละเอียดของห้อง"
+          class="w-full textarea textarea-bordered rounded-sm bg-white"
           v-model="temp.description"
         ></textarea>
+        <p class="text-xs text-gray-500">เช่น ขนาดเตียง, สัดส่วนภายในห้อง, จำนวนห้องน้ำ, จำนวนห้องนอน</p>
       </div>
 
-      <div class="flex items-center">
+      <div class="flex items-center justify-end">
         <button
           class="btn btn-primary btn-sm"
           @click="add"
@@ -154,7 +154,6 @@ watch(childData, () => {
           เพิ่ม
         </button>
       </div>
-    </div>
 
     <div class="flex flex-col gap-4">
       <div
