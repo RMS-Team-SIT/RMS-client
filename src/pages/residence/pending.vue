@@ -286,6 +286,14 @@ onMounted(async () => {
               อนุมัติข้อมูล
             </Button>
 
+            <Button
+              @click="router.push({ name: 'home' })"
+              class="rounded-badge"
+              v-if="user.role == 'user' && currentStep == 2"
+            >
+              กลับไปหน้าหลัก
+            </Button>
+
             <Button @click="changeStep('next')" class="rounded-badge" v-if="currentStep<numberOfSteps" >
               ถัดไป
               <ArrowRightIcon class="w-4 h-4" />
