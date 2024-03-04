@@ -16,6 +16,7 @@ const profile = () => import('./pages/user/profile.vue');
 const verifyEmail = () => import('./pages/verify-email.vue');
 const forgetPassword = () => import('./pages/forget-password.vue');
 const resetPassword = () => import('./pages/reset-password.vue');
+
 // KYC
 const kycVerifyEmail = () => import('./pages/user/kyc/verify-email.vue');
 const kycPolicy = () => import('./pages/user/kyc/policy.vue');
@@ -25,8 +26,8 @@ const kycApprovalStatus = () => import('./pages/user/kyc/approval-status.vue');
 const dashboard = () => import('./pages/residence/dashboard.vue');
 const info = () => import('@/pages/residence/info.vue');
 const createResidenceNew = () => import('@/pages/residence/create.vue');
-// const createResidence = () => import('@/pages/residence/create-old.vue');
 const updateResidenceInfo = () => import('./pages/residence/update.info.vue');
+const pendingResidence = () => import('./pages/residence/pending.vue');
 
 const renter = () => import('./pages/residence/renter/renter.vue');
 const createRenter = () => import('./pages/residence/renter/create.vue');
@@ -263,6 +264,15 @@ const routes = [
       title: 'แดชบอร์ด',
     },
   },
+  {
+    name: 'pending-residence',
+    path: '/manage/residence/pending/:residenceId',
+    component: pendingResidence,
+    meta: {
+      title: 'ข้อมูลหอพักที่รอการอนุมัติ',
+    },
+  },
+
   {
     name: 'payment',
     path: '/manage/residence/:residenceId/payment',

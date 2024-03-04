@@ -55,6 +55,12 @@ const imageSrc = computed(() => {
         >
         <Button
           v-else
+          @click="
+            router.push({
+              name: 'pending-residence',
+              params: { residenceId: props.residence._id },
+            })
+          "
           class="btn"
           btnType="secondary"
           >ดูข้อมูล</Button

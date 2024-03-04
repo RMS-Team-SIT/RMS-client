@@ -109,11 +109,11 @@ const validateErrorMsg = (field) => {
         </div>
       </form>
       <span class="mt-10">
-        หากยังไม่มีบัญชีบัญชีเจ้าของหอพัก
+        หากยังไม่มี<b>บัญชีเจ้าของหอพัก</b> 
         <span
           class="text-dark-blue-200 hover:underline cursor-pointer"
           @click="router.push({ name: 'signup' })"
-          >สมัครสมาชิก</span
+          > สมัครสมาชิก</span
         ></span
       >
     </div>

@@ -286,7 +286,7 @@ const validateErrorMsg = (field) => {
         </div>
       </form>
       <span class="mt-10">
-        หากมี <b>บัญชีเจ้าของหอพัก </b>อยู่แล้ว?
+        หากมี<b>บัญชีเจ้าของหอพัก</b>อยู่แล้ว?
         <span
           class="text-dark-blue-200 hover:underline cursor-pointer"
           @click="router.push({ name: 'signin' })"
