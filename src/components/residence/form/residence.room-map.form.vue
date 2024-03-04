@@ -6,6 +6,7 @@ import { HomeIcon } from '@heroicons/vue/24/outline';
 import { generateRandomObjectId } from '@/utils/mongo';
 import Badge from '@/components/common/badge.vue';
 import Button from '@/components/common/button.vue';
+import Divider from '@/components/common/divider.vue';
 
 const emit = defineEmits(['getData']);
 const { notify } = useNotification();
@@ -173,7 +174,7 @@ const getFee = (id) => {
           v-model="searchKeyword"
         />
       </div>
-      <div class="flex items-center gap-2 text-sm">
+      <div class="flex items-center gap-2 text-sm" v-if="!viewOnly">
         <input
           :checked="roomsToEdit.rooms.length === childData.rooms.length"
           type="checkbox"
@@ -184,13 +185,33 @@ const getFee = (id) => {
         <label for="selectAll" class="label">เลือกทั้งหมด</label>
       </div>
       <!-- Rooms -->
-      <div class="grid grid-cols-3 gap-2 w-full">
-        <p v-if="!showedRoom.length" class="text-center w-full col-span-3">
-          ไม่มีห้องพักในระบบ
-        </p>
 
-        <!-- Room Card -->
-        <div v-for="(room, index) in showedRoom" :key="index">
+      <p v-if="!showedRoom.length" class="text-center w-full col-span-3">
+        ไม่มีห้องพักในระบบ
+      </p>
+
+      <!-- Floor -->
+      <div
+        v-for="(_, index) in props.residenceData.numberOfFloor"
+        :key="index"
+        class="grid grid-cols-3 gap-2 w-full"
+      >
+        <div class="col-span-3">
+          <h2
+            class="text-lg font-semibold mb-2"
+            v-if="(searchKeyword && showedRoom.length) || !searchKeyword"
+          >
+            <Divider>ชั้น {{ index + 1 }}</Divider>
+          </h2>
+        </div>
+        <!-- Room in floor -->
+        <div
+          v-for="(room, index) in showedRoom.filter(
+            (room) => room.floor === index + 1
+          )"
+          :key="index"
+          class=""
+        >
           <div
             :onclick="viewOnly ? `room_modal_${index}.showModal()` : ''"
             class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer border border-gray-200 w-full"
@@ -221,6 +242,7 @@ const getFee = (id) => {
                 </p>
               </div>
               <input
+                v-if="!viewOnly"
                 :id="room._id"
                 v-model="roomsToEdit.rooms"
                 :value="room._id"
@@ -349,123 +371,123 @@ const getFee = (id) => {
           </dialog>
         </div>
       </div>
+    </div>
 
-      <!-- Button to edit -->
-      <div class="flex justify-end mt-5">
-        <Button
-          class="btn btn-primary"
-          onclick="edit_room_modal.showModal()"
-          v-if="!props.viewOnly"
-          :disabled="!roomsToEdit.rooms.length"
-        >
-          แก้ไขประเภทห้องที่เลือก
-        </Button>
-      </div>
+    <!-- Button to edit -->
+    <div class="flex justify-between mt-5" v-if="!viewOnly">
+      <p class="text-gray-500 text-sm">กรุณาตั้งประเภทห้องให้ครบทุกห้อง</p>
+      <Button
+        class="btn btn-primary"
+        onclick="edit_room_modal.showModal()"
+        :disabled="!roomsToEdit.rooms.length"
+      >
+        แก้ไขห้องที่เลือก
+      </Button>
+    </div>
 
-      <!-- Modal to edit -->
-      <dialog id="edit_room_modal" class="modal">
-        <div class="modal-box space-y-2">
-          <h3 class="font-bold text-lg">ตั้งค่าห้องพัก</h3>
-          <div class="grid grid-cols-1 gap-2">
-            <div>
-              <label class="label">
-                <span class="text-base label-text"
-                  >ห้องที่เลือกทั้งหมด:
-                  {{
-                    roomsToEdit.rooms.map((id) => findRoom(id).name).join(', ')
-                  }}
-                </span>
-              </label>
-            </div>
+    <!-- Modal to edit -->
+    <dialog id="edit_room_modal" class="modal">
+      <div class="modal-box space-y-2">
+        <h3 class="font-bold text-lg">ตั้งค่าห้องพัก</h3>
+        <div class="grid grid-cols-1 gap-2">
+          <div>
+            <label class="label">
+              <span class="text-base label-text"
+                >ห้องที่เลือกทั้งหมด:
+                {{
+                  roomsToEdit.rooms.map((id) => findRoom(id).name).join(', ')
+                }}
+              </span>
+            </label>
+          </div>
 
-            <div>
-              <label class="label">
-                <span class="text-base label-text"
-                  >ประเภทห้อง <span class="text-red-500">*</span>
-                </span>
-              </label>
-              <select
-                v-model="roomsToEdit.toType"
-                :disabled="viewOnly"
-                class="select select-bordered w-full max-w-xs select-sm bg-white input-sm rounded-sm"
+          <div>
+            <label class="label">
+              <span class="text-base label-text"
+                >ประเภทห้อง <span class="text-red-500">*</span>
+              </span>
+            </label>
+            <select
+              v-model="roomsToEdit.toType"
+              :disabled="viewOnly"
+              class="select select-bordered w-full max-w-xs select-sm bg-white input-sm rounded-sm"
+            >
+              <option value="">เลือกประเภทห้อง</option>
+              <option
+                v-for="roomType in props.residenceData.roomTypes"
+                :key="roomType._id"
+                :value="roomType._id"
               >
-                <option value="">เลือกประเภทห้อง</option>
-                <option
-                  v-for="roomType in props.residenceData.roomTypes"
-                  :key="roomType._id"
-                  :value="roomType._id"
-                >
-                  {{ roomType.name }}
-                </option>
-              </select>
-            </div>
+                {{ roomType.name }}
+              </option>
+            </select>
+          </div>
 
-            <div>
-              <label class="label">
-                <span class="text-base label-text"
-                  >ค่าเช่าบาท/เดือน <span class="text-red-500">*</span>
-                </span>
-              </label>
-              <input
-                v-model="roomsToEdit.toPrice"
-                :disabled="viewOnly"
-                type="number"
-                min="0"
-                placeholder="ค่าเช่าบาท/เดือน"
-                class="input input-bordered bg-white input-sm rounded-sm"
-              />
-            </div>
+          <div>
+            <label class="label">
+              <span class="text-base label-text"
+                >ค่าเช่าบาท/เดือน <span class="text-red-500">*</span>
+              </span>
+            </label>
+            <input
+              v-model="roomsToEdit.toPrice"
+              :disabled="viewOnly"
+              type="number"
+              min="0"
+              placeholder="ค่าเช่าบาท/เดือน"
+              class="input input-bordered bg-white input-sm rounded-sm"
+            />
+          </div>
 
-            <div>
-              <label class="label">
-                <span class="text-base label-text"
-                  >ค่าบริการ <span class="text-red-500">*</span>
-                </span>
-              </label>
-              <p class="p-2" v-if="!props.residenceData.fees.length">
-                ไม่มีค่าบริการเพิ่มเติมในหอพัก
-              </p>
-              <div class="grid grid-cols-1 md:grid-cols-2">
-                <div
-                  v-for="(fee, feeIndex) in props.residenceData.fees"
-                  :key="feeIndex"
-                  class="flex items-center gap-2"
-                >
-                  <input
-                    :disabled="viewOnly"
-                    type="checkbox"
-                    v-model="roomsToEdit.toFees"
-                    :id="index + fee._id"
-                    :value="fee._id"
-                    class="checkbox checkbox-primary"
-                  />
-                  <label :for="index + fee._id" class="label text-sm">
-                    {{ fee.feename }} : {{ fee.feeprice }} บาท
-                  </label>
-                </div>
+          <div>
+            <label class="label">
+              <span class="text-base label-text"
+                >ค่าบริการ <span class="text-red-500">*</span>
+              </span>
+            </label>
+            <p class="p-2" v-if="!props.residenceData.fees.length">
+              ไม่มีค่าบริการเพิ่มเติมในหอพัก
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2">
+              <div
+                v-for="(fee, feeIndex) in props.residenceData.fees"
+                :key="feeIndex"
+                class="flex items-center gap-2"
+              >
+                <input
+                  :disabled="viewOnly"
+                  type="checkbox"
+                  v-model="roomsToEdit.toFees"
+                  :id="index + fee._id"
+                  :value="fee._id"
+                  class="checkbox checkbox-primary"
+                />
+                <label :for="index + fee._id" class="label text-sm">
+                  {{ fee.feename }} : {{ fee.feeprice }} บาท
+                </label>
               </div>
             </div>
           </div>
-
-          <div class="modal-action flex">
-            <button
-              class="btn btn-sm"
-              onclick="edit_room_modal.close()"
-              @click="resetRoomToEdit"
-            >
-              ยกเลิก
-            </button>
-            <button
-              class="btn btn-sm btn-secondary"
-              onclick="edit_room_modal.close()"
-              @click="saveEditRoom"
-            >
-              บันทึกข้อมูล
-            </button>
-          </div>
         </div>
-      </dialog>
-    </div>
+
+        <div class="modal-action flex">
+          <button
+            class="btn btn-sm"
+            onclick="edit_room_modal.close()"
+            @click="resetRoomToEdit"
+          >
+            ยกเลิก
+          </button>
+          <button
+            class="btn btn-sm btn-secondary"
+            onclick="edit_room_modal.close()"
+            @click="saveEditRoom"
+          >
+            บันทึกข้อมูล
+          </button>
+        </div>
+      </div>
+    </dialog>
   </div>
 </template>
 
