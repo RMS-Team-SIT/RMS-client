@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <div class="relative bg-white p-10 shadow-md rounded basis-full">
+   <div class="relative bg-white p-10 space-y-4 shadow-lg rounded w-full">
     <h1 class="text-xl font-semibold text-dark-blue-200">
       กรุณาตรวจสอบข้อมูลของหอพักนี้ให้ครบถ้วน
     </h1>

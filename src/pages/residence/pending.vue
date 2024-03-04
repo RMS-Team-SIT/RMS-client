@@ -66,7 +66,7 @@ const fetchPendingResidence = async () => {
   const response = await ResidenceServices.fetchResidence(residenceId);
   if (response.status === 200) {
     const data = await response.json();
-    if(data.isApproved) {
+    if (data.isApproved) {
       notify({
         group: 'tr',
         title: 'เกิดข้อผิดพลาด',
@@ -75,32 +75,21 @@ const fetchPendingResidence = async () => {
       });
       router.push({ name: 'home' });
     }
-    residenceData.name = data.name;
-    residenceData.description = data.description;
-    residenceData.address = data.address;
+
+    Object.assign(residenceData, data);
+
     residenceData.images = data.images.map((imageName) => {
       return FileService.getFile(imageName);
     });
-    residenceData.contact.contactName = data.contact.contactName;
-    residenceData.contact.facebook = data.contact.facebook;
-    residenceData.contact.line = data.contact.line;
-    residenceData.contact.phone = data.contact.phone;
-    residenceData.contact.email = data.contact.email;
     residenceData.facilities = data.facilities.map((facility) => facility._id);
-    residenceData.fees = data.fees;
     residenceData.payments = data.payments.map((payment) => ({
       bankId: payment.bank._id,
       ...payment,
     }));
-    residenceData.paymentNotes = data.paymentNotes;
-    residenceData.roomTypes = data.roomTypes;
     residenceData.rooms = data.rooms.map((room) => ({
       ...room,
       type: room.type._id,
     }));
-    residenceData.defaultWaterPriceRate = data.defaultWaterPriceRate;
-    residenceData.defaultElectricPriceRate = data.defaultElectricPriceRate;
-    residenceData.residenceBusinessLicense = data.residenceBusinessLicense;
   } else {
     notify({
       group: 'tr',
@@ -215,7 +204,7 @@ onMounted(async () => {
         </div>
 
         <div class="p-4 mb-4 card bg-white col-span-9 items-center">
-          <div v-if="currentStep == 1">
+          <div v-if="currentStep == 1" class="w-full">
             <ResidenceBasicInfoForm
               :residenceData="residenceData"
               :viewOnly="true"
@@ -274,12 +263,12 @@ onMounted(async () => {
               :viewOnly="true"
             />
           </div>
-          <div v-else>
+          <div v-else class="w-full">
             <ResidencePendingText v-if="user.role == 'user'" />
             <residenceApproveText v-else />
           </div>
 
-          <div class="flex justify-end gap-2 mt-10">
+          <div class="flex justify-end gap-2 mt-10 w-full">
             <Button
               btn-type="secondary"
               @click="changeStep('back')"
@@ -296,7 +285,8 @@ onMounted(async () => {
             >
               อนุมัติข้อมูล
             </Button>
-            <Button @click="changeStep('next')" class="rounded-badge" v-else>
+
+            <Button @click="changeStep('next')" class="rounded-badge" v-if="currentStep<numberOfSteps" >
               ถัดไป
               <ArrowRightIcon class="w-4 h-4" />
             </Button>

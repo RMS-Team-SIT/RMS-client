@@ -278,7 +278,7 @@ onMounted(async () => {
 
         <div class="p-4 mb-4 card bg-white col-span-9 items-center">
           <!-- step 1 -->
-          <div v-if="currentStep == 1">
+          <div v-if="currentStep == 1" class="w-full">
             <ResidenceBasicInfoForm
               @getData="getChildData"
               :residenceData="residenceData"
@@ -313,7 +313,7 @@ onMounted(async () => {
           </div>
 
           <!-- step 2 -->
-          <div v-if="currentStep == 2">
+          <div v-if="currentStep == 2" class="w-full">
             <!-- File upload -->
             <div class="relative bg-white p-10 shadow-md rounded basis-full">
               <h1 class="text-xl font-semibold text-dark-blue-200">
@@ -373,7 +373,7 @@ onMounted(async () => {
           </div>
 
           <!-- step 3 -->
-          <div v-if="currentStep == 3">
+          <div v-if="currentStep == 3" class="w-full">
             <ResidenceSettingForm
               @getData="getChildData"
               :residenceData="residenceData"
@@ -385,7 +385,7 @@ onMounted(async () => {
           </div>
 
           <!-- step 4 -->
-          <div v-if="currentStep == 4">
+          <div v-if="currentStep == 4" class="w-full">
             <PaymentForm
               @getData="getChildData"
               :residenceData="residenceData"
@@ -394,7 +394,7 @@ onMounted(async () => {
           </div>
 
           <!-- step 5 -->
-          <div v-if="currentStep == 5">
+          <div v-if="currentStep == 5" class="w-full">
             <ResidenceRoomTypeForm
               @getData="getChildData"
               :residenceData="residenceData"
@@ -403,7 +403,7 @@ onMounted(async () => {
           </div>
 
           <!-- step 6 -->
-          <div v-if="currentStep == 6">
+          <div v-if="currentStep == 6" class="w-full">
             <RoomCreateManyForm
               @getData="getChildData"
               :payload="residenceData"
@@ -411,7 +411,7 @@ onMounted(async () => {
           </div>
 
           <!-- step 7 -->
-          <div v-if="currentStep == 7">
+          <div v-if="currentStep == 7" class="w-full">
             <ResidenceRoomMapForm
               @getData="getChildData"
               :residenceData="residenceData"
@@ -419,7 +419,7 @@ onMounted(async () => {
           </div>
 
           <!-- step 8 -->
-          <div v-if="currentStep == 8">
+          <div v-if="currentStep == 8" class="w-full">
             <div class="relative bg-white p-10 shadow-md rounded basis-full">
               <h1 class="text-xl font-semibold text-dark-blue-200">
                 ตรวจสอบข้อมูล
@@ -477,13 +477,13 @@ onMounted(async () => {
           </div>
 
           <!-- step 9 -->
-          <div v-if="currentStep == 9">
+          <div v-if="currentStep == 9" class="w-full">
             <ResidencePendingText />
           </div>
 
           <!-- button control -->
 
-          <div class="flex justify-end gap-2 mt-10">
+          <div class="flex justify-end gap-2 mt-10 w-full">
             <Button
               btn-type="secondary"
               @click="changeStep('back')"
