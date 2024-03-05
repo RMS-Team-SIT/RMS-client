@@ -18,6 +18,11 @@ const props = defineProps({
         'secondary',
       ].includes(value),
   },
+  size: {
+    type: String,
+    default: 'sm',
+    validator: (value) => ['xs', 'sm', 'md', 'lg'].includes(value),
+  },
 });
 
 const classes = computed(() => {
@@ -33,7 +38,18 @@ const classes = computed(() => {
     secondary: ['badge-secondary'],
   };
 
-  return ['badge', 'badge-sm', ...(typeClasses[props.badgeType] || [])];
+  const sizeClasses = {
+    xs: ['badge-xs'],
+    sm: ['badge-sm'],
+    md: ['badge-md'],
+    lg: ['badge-lg'],
+  };
+
+  return [
+    'badge',
+    ...sizeClasses[props.size],
+    ...(typeClasses[props.badgeType] || []),
+  ];
 });
 </script>
 

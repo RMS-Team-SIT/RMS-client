@@ -242,7 +242,7 @@ onMounted(async () => {
 
             <p>
               การจดมิเตอร์ครั้งล่าสุด :
-              <Badge type="info" class="text-sm" v-if="isFirstTime">
+              <Badge badgeType="neutral" size="lg"  v-if="isFirstTime">
                 ยังไม่มีประวัติการจด
               </Badge>
               <Badge type="info" class="text-sm" v-else>
