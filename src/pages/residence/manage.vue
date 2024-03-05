@@ -63,16 +63,15 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div class="card w-full min-h-screen">
-    <div class="card-body px-10 md:px-40">
-      
-      <div class="relative bg-white p-10 space-y-5 rounded">
-        <Breadcrumb
+  <div class="min-h-screen">
+    <div class="py-10 px-10 md:px-40">
+      <Breadcrumb
         :pathList="[
           { name: 'หน้าแรก', pathName: 'home' },
           { name: 'จัดการ', pathName: 'manage' },
         ]"
       />
+      <div class="relative bg-white space-y-5 rounded">
         <div class="flex flex-row justify-between">
           <h1 class="text-3xl font-semibold text-dark-blue-200">หอพักของคุณ</h1>
 
