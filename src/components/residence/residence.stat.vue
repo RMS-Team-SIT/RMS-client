@@ -11,18 +11,15 @@ const { stats } = defineProps({
   },
   stats: {
     type: Object,
-    default: {
-      renterCount: 0,
-      roomCount: 0,
-      paymentCount: 0,
-      roomTypeCount: 0,
-    },
+    default: () => ({}),
   },
 });
 </script>
 
 <template>
-  <div class="stats shadow stats-vertical lg:stats-horizontal w-full lg:w-auto border border-gray-200">
+  <div
+    class="stats shadow stats-vertical lg:stats-horizontal w-full lg:w-auto border border-gray-200"
+  >
     <div
       class="stat hover:cursor-pointer"
       @click="router.push({ name: 'renter', params: { residenceId } })"
@@ -38,6 +35,7 @@ const { stats } = defineProps({
     </div>
 
     <div
+      v-if="stats?.roomCount"
       class="stat hover:cursor-pointer"
       @click="router.push({ name: 'room', params: { residenceId } })"
     >
@@ -52,6 +50,7 @@ const { stats } = defineProps({
     </div>
 
     <div
+      v-if="stats?.roomTypeCount"
       class="stat hover:cursor-pointer"
       @click="router.push({ name: 'room', params: { residenceId } })"
     >
@@ -66,6 +65,7 @@ const { stats } = defineProps({
     </div>
 
     <div
+      v-if="stats?.paymentCount"
       class="stat hover:cursor-pointer"
       @click="router.push({ name: 'payment', params: { residenceId } })"
     >

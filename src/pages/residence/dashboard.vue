@@ -85,7 +85,7 @@ onMounted(async () => {
   <Loading v-if="isLoading" class="min-h-screen" />
   <div v-if="residence.data" class="min-h-screen ">
     <div class="py-10 px-10 md:px-40">
-      <Breadcrumb
+      <!-- <Breadcrumb
         :pathList="[
           { name: 'หน้าแรก', pathName: 'home' },
           { name: 'จัดการ', pathName: 'manage' },
@@ -96,7 +96,7 @@ onMounted(async () => {
           },
           { name: 'แดชบอร์ด' },
         ]"
-      />
+      /> -->
 
       <section>
         <h1
@@ -113,7 +113,7 @@ onMounted(async () => {
             renterCount: stats.renterCount,
             roomCount: stats.roomCount,
             paymentCount: stats.paymentCount,
-            roomTypeCount: stats.roomTypeCount,
+            // roomTypeCount: stats.roomTypeCount,
           }"
         />
 

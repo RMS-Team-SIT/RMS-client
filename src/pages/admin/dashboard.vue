@@ -181,7 +181,7 @@ onMounted(async () => {
       />
 
       <h1
-        class="text-3xl font-semibold text-dark-blue-200 my-5 flex items-center gap-2"
+        class="text-xl font-semibold text-dark-blue-200 my-5 flex items-center gap-2"
       >
         <ChartPieIcon class="h-8 w-8 inline-block" /> จัดการระบบ {{ projectFullName }}
       </h1>

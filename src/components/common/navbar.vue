@@ -25,7 +25,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="navbar shadow-sm px-10 md:px-40 bg-base-100 border-b">
+  <div class="navbar shadow-sm p-0 px-10 md:px-40 bg-base-100 border-b">
     <div
       class="flex-1 gap-4 cursor-pointer"
       @click="router.push({ name: 'home' })"
