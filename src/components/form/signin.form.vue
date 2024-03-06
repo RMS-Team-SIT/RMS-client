@@ -1,13 +1,14 @@
 <script setup>
 import Button from '../common/button.vue';
-import { ArrowRightIcon } from '@heroicons/vue/24/outline';
+import { ArrowRightIcon, EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline';
 import { useRouter } from 'vue-router';
-import { computed, reactive } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { helpers, required, email } from '@vuelidate/validators';
 
 const router = useRouter();
 const emit = defineEmits(['submit']);
+const isShowPassword = ref(false);
 const props = defineProps({
   isLoading: {
     type: Boolean,
@@ -75,9 +76,18 @@ const validateErrorMsg = (field) => {
         <div>
           <label class="label">
             <span class="text-base label-text">รหัสผ่าน</span>
+            <div
+              class="flex gap-2 items-center hover:cursor-pointer"
+              @click="isShowPassword = !isShowPassword"
+            >
+              <p class="text-sm" v-if="!isShowPassword">แสดงรหัสผ่าน</p>
+              <p class="text-sm" v-else>ซ่อนรหัสผ่าน</p>
+              <EyeIcon v-if="!isShowPassword" class="w-6" />
+              <EyeSlashIcon v-else class="w-6" />
+            </div>
           </label>
           <input
-            type="password"
+            :type="isShowPassword ? 'text' : 'password'"
             placeholder="ใส่รหัสผ่านของคุณ"
             class="w-full input input-bordered bg-white input-sm rounded-sm"
             v-model="formData.password"
@@ -109,11 +119,12 @@ const validateErrorMsg = (field) => {
         </div>
       </form>
       <span class="mt-10">
-        หากยังไม่มี<b>บัญชีเจ้าของหอพัก</b> 
+        หากยังไม่มี<b>บัญชีเจ้าของหอพัก</b>
         <span
           class="text-dark-blue-200 hover:underline cursor-pointer"
           @click="router.push({ name: 'signup' })"
-          > สมัครสมาชิก</span
+        >
+          สมัครสมาชิก</span
         ></span
       >
     </div>
