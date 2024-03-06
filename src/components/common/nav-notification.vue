@@ -1,15 +1,29 @@
 <script setup>
 import Button from './button.vue';
-import { BellIcon } from '@heroicons/vue/24/outline';
+import { BellIcon, EyeIcon, TrashIcon } from '@heroicons/vue/24/outline';
 import Divider from './divider.vue';
 import Badge from './badge.vue';
 import dayjs from 'dayjs';
+import { computed } from 'vue';
 
 const props = defineProps({
   notifications: {
     type: Array,
     default: () => [],
   },
+});
+
+const markAsRead = (notificationId) => {
+  console.log('mark as read', notificationId);
+  props.notifications.forEach((notification) => {
+    if (notification._id === notificationId) {
+      notification.isRead = true;
+    }
+  });
+};
+
+const showNotification = computed(() => {
+  return props.notifications.filter((notification) => !notification.isRead);
 });
 </script>
 
@@ -19,7 +33,7 @@ const props = defineProps({
       <div class="indicator">
         <BellIcon class="w-6 h-6" />
         <span class="badge badge-sm indicator-item">{{
-          notifications.length
+          showNotification.length
         }}</span>
       </div>
     </div>
@@ -29,12 +43,12 @@ const props = defineProps({
     >
       <div class="card-body">
         <span class="font-bold text-lg"
-          >{{ notifications.length }} การแจ้งเตือน</span
+          >{{ showNotification.length }} การแจ้งเตือน</span
         >
-        <div v-if="!notifications.length" class="text-center mt-5">
+        <div v-if="!showNotification.length" class="text-center mt-5">
           <span class="text-neutral">ไม่มีการแจ้งเตือน</span>
         </div>
-        <div v-for="(notification, index) in notifications" :key="index">
+        <div v-for="(notification, index) in showNotification" :key="index">
           <div
             class="border-2 border-neutral rounded hover:bg-slate-200 p-5 pt-0"
           >
@@ -43,15 +57,25 @@ const props = defineProps({
                 dayjs(notification.created_at).format('DD-MM-YYYY HH:mm:ss')
               }}]</Divider
             >
-            <div class="text-left font-bold">{{ notification.title }}</div>
-            <div class="text-left">{{ notification.content }}</div>
-            <!-- <div class="text-left">
-              <Badge badgeType="neutral">The Residence</Badge>
-              <Badge badgeType="primary">Room 101</Badge>
-            </div> -->
+            <div class="grid grid-cols-12">
+              <!-- content -->
+              <div class="col-span-10">
+                <div class="text-left font-bold">{{ notification.title }}</div>
+                <div class="text-left">{{ notification.content }}</div>
+              </div>
+              <!-- mark as read -->
+              <div
+                class="col-span-2 flex items-center justify-center cursor-pointer"
+              >
+                <TrashIcon
+                  class="w-4 h-4"
+                  @click="markAsRead(notification._id)"
+                />
+              </div>
+            </div>
           </div>
         </div>
-        <div class="card-actions" v-if="notifications.length">
+        <div class="card-actions" v-if="showNotification.length">
           <button class="btn btn-primary btn-block btn-sm">ดูทั้งหมด</button>
         </div>
       </div>

@@ -32,7 +32,7 @@ const isLoading = ref(true);
 
 const userStats = reactive({
   totalPendingUsers: {
-    title: 'จำนวนผู้ใช้งานที่ขอการอนุมัติ',
+    title: 'จำนวนผู้ใช้งานที่รอการอนุมัติ',
     val: 0,
     desc: 'จำนวนผู้ใช้งานที่รอการอนุมัติ',
     icon: ClockIcon,
@@ -205,10 +205,10 @@ onMounted(async () => {
           <Stats :stats="mapUserStatsToArray" class="mt-5" />
 
           <div
-            class="relative bg-white p-10 mt-5 space-y-4 rounded border border-gray-200"
+            class="relative bg-white p-5 mt-5 space-y-4 rounded border border-gray-200"
           >
             <h1
-              class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
+              class="text-base font-semibold text-dark-blue-200 flex gap-2 items-center"
             >
               ผู้ใช้งานที่รอการอนุมัติ
               <UserIcon class="h-8 w-8 text-primary" />

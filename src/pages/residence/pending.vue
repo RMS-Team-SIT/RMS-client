@@ -218,10 +218,10 @@ onMounted(async () => {
             </div>
             <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
               <h1 class="text-xl font-semibold text-dark-blue-200">
-                เอกสารประกอบการหอพัก
+                เอกสารใบอนุญาตประกอบกิจการหอพัก
               </h1>
               <p class="flex gap-2">
-                ใบประกอบการหอพัก :
+                ใบอนุญาตประกอบกิจการหอพัก :
                 <router-link
                   target="_blank"
                   class="flex items-center gap-2 underline text-light-red"

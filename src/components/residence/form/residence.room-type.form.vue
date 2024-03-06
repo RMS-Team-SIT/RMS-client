@@ -29,7 +29,7 @@ const childData = reactive({
 });
 const temp = reactive({
   name: '',
-  type: '',
+  category: '',
   size: '',
   price: '',
   description: '',
@@ -43,7 +43,7 @@ function forceImageUploadFormRerender() {
 }
 
 const add = async () => {
-  if (!temp.name || !temp.size || !temp.price || !temp.description) {
+  if (!temp.name || !temp.size || !temp.price || !temp.category) {
     console.log('error');
     notify({
       group: 'tr',
@@ -53,7 +53,7 @@ const add = async () => {
     });
     return;
   }
-  if(temp.size <= 0 || temp.price <= 0) {
+  if (temp.size <= 0 || temp.price <= 0) {
     notify({
       group: 'tr',
       title: 'เกิดข้อผิดพลาด',
@@ -110,6 +110,7 @@ const add = async () => {
   temp.size = '';
   temp.price = '';
   temp.description = '';
+  temp.category = '';
   (temp.images = []), (temp.imageFiles = []);
 };
 
@@ -173,7 +174,24 @@ watch(childData, () => {
           class="input input-bordered bg-white input-sm rounded-sm"
           v-model="temp.name"
         />
-        <p class="text-xs text-gray-500">เช่น สตูดิโอ, 1 ห้องนอน</p>
+        <p class="text-xs text-gray-500">เช่น ดีลักซ์, ซูเปอร์ดีลักซ์</p>
+      </div>
+
+      <div>
+        <label class="label">
+          <span class="text-base label-text"
+            >รูปแบบห้อง <span class="text-red-500">*</span>
+          </span>
+        </label>
+        <select
+          class="select select-bordered w-full max-w-xs select-sm bg-white input-sm rounded-sm"
+          v-model="temp.category"
+        >
+          <option value="">กรุณาเลือกรูปแบบห้อง</option>
+          <option value="สตูดิโอ">สตูดิโอ</option>
+          <option value="1 ห้องนอน">1 ห้องนอน</option>
+          <option value="2 ห้องนอน">2 ห้องนอน</option>
+        </select>
       </div>
 
       <div>
@@ -210,7 +228,7 @@ watch(childData, () => {
     <div v-if="!viewOnly">
       <label class="label">
         <span class="text-base label-text"
-          >รายละเอียด <span class="text-red-500">*</span>
+          >รายละเอียด (ถ้ามี) <span class="text-red-500"></span>
         </span>
       </label>
       <textarea
@@ -256,12 +274,17 @@ watch(childData, () => {
         <p class="text-xs text-gray-500">กดเพื่อดู</p>
       </div>
       <div class="collapse-content">
-        <p class="">รายละเอียด: {{ roomtype.description }}</p>
+        <p class="">
+          รายละเอียด: {{ roomtype.description || 'ไม่มีรายละเอียดเพิ่มเติม' }}
+        </p>
         <div class="">
           <p class="text-base">ขนาดห้อง: {{ roomtype.size }} ตร.ม.</p>
         </div>
         <div class="">
           <p class="text-base">ค่าเช่า: {{ roomtype.price }} บาท/เดือน</p>
+        </div>
+        <div class="">
+          <p class="text-base">รูปแบบห้อง: {{ roomtype.category }}</p>
         </div>
         <ImagePreview
           :imageUrls="roomtype.images.map((i) => getImageUrl(i))"

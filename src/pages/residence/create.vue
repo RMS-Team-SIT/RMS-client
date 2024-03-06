@@ -317,16 +317,16 @@ onMounted(async () => {
             <!-- File upload -->
             <div class="relative bg-white p-10 shadow-md rounded basis-full">
               <h1 class="text-xl font-semibold text-dark-blue-200">
-                อัปโหลดเอกสารประกอบการหอพัก
+                อัปโหลดเอกสารใบอนุญาตประกอบกิจการหอพัก
               </h1>
               <p class="text-sm mt-5">
-                กรุณาอัปโหลดเอกสารประกอบการหอพัก
+                กรุณาอัปโหลดเอกสารใบอนุญาตประกอบกิจการหอพัก
                 เพื่อใช้ในการตรวจสอบและการยืนยันข้อมูลของหอพัก
               </p>
               <div class="mt-5">
                 <label class="label">
                   <span class="text-base label-text"
-                    >เอกสารประกอบการหอพัก
+                    >เอกสารใบอนุญาตประกอบกิจการหอพัก
                     <span class="text-red-500">* (pdf เท่านั้น)</span>
                   </span>
                 </label>

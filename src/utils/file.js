@@ -18,7 +18,7 @@ export const validateImageFile = (file, maxSize = 10) => {
   if(!file || maxSize <= 0){
     return false;
   }
-  const allowedTypes = ['image/jpeg', 'image/png'];
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
   if (!allowedTypes.includes(file.type)) {
     alert('โปรดเลือกไฟล์ JPEG หรือ PNG เท่านั้น');
     return false;
