@@ -87,7 +87,7 @@ onBeforeMount(async () => {
             type="radio"
             name="my_tabs_2"
             role="tab"
-            class="tab"
+            class="tab w-full"
             aria-label="หอพักที่อนุมัติแล้ว"
             checked
           />

@@ -166,6 +166,17 @@ const setRentalPrice = () => {
   });
 };
 
+const numberOfFloor = computed(() => {
+  const caches = [];
+  return childData.rooms.reduce((acc, room) => {
+    if (!caches.includes(room.floor)) {
+      caches.push(room.floor);
+      return acc + 1;
+    }
+    return acc;
+  }, 0);
+});
+
 const getRoomType = (id) => {
   return props.residenceData.roomTypes.find((roomType) => roomType._id === id);
 };
@@ -220,7 +231,7 @@ const getFee = (id) => {
       </p>
       <!-- Floor -->
       <div
-        v-for="(_, index) in props.residenceData.numberOfFloor"
+        v-for="(_, index) in numberOfFloor"
         :key="index"
         class="grid grid-cols-3 gap-2 w-full"
       >
@@ -258,7 +269,7 @@ const getFee = (id) => {
           class=""
         >
           <div
-            :onclick="viewOnly ? `room_modal_${index2}.showModal()` : ''"
+            :onclick="viewOnly && `room_modal_${room._id}.showModal()`"
             class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer border border-gray-200 w-full"
             @click="toggleCheckbox(room._id)"
           >
@@ -276,7 +287,8 @@ const getFee = (id) => {
                   >
                 </p>
                 <p class="text-sm">
-                  ค่าเช่า: {{ room.roomRentalPrice || 'ยังไม่ได้กำหนด' }} บาท/เดือน
+                  ค่าเช่า:
+                  {{ room.roomRentalPrice || 'ยังไม่ได้กำหนด' }} บาท/เดือน
                 </p>
                 <p class="text-sm">
                   ค่าบริการ:
@@ -298,7 +310,7 @@ const getFee = (id) => {
           </div>
 
           <!-- Modal -->
-          <dialog :id="`room_modal_${index2}`" class="modal">
+          <dialog :id="`room_modal_${room._id}`" class="modal">
             <div class="modal-box space-y-2">
               <h3 class="font-bold text-lg">
                 รายละเอียดห้อง : {{ room.name }}

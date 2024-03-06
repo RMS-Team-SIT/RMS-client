@@ -5,6 +5,7 @@ import img4 from '@/assets/img/4.jpg';
 import { useRouter } from 'vue-router';
 import FileService from '@/services/FileService';
 import { computed } from 'vue';
+import { truncate } from '@/utils/string';
 
 const router = useRouter();
 
@@ -29,18 +30,15 @@ const imageSrc = computed(() => {
       <img class="w-60 h-60 rounded-lg" :src="imageSrc" />
     </figure>
     <div class="card-body">
-      <h2 class="card-title">ชื่อหอพัก : {{ props.residence?.name }}</h2>
-      <p>รายละเอียด : {{ props.residence?.description || 'ไม่มีข้อมูล' }}</p>
+      <h2 class="card-title">
+        ชื่อหอพัก : {{ truncate(props.residence?.name, 50) }}
+      </h2>
+      <p>
+        รายละเอียด :
+        {{ truncate(props.residence?.description || 'ไม่มีข้อมูล', 50) }}
+      </p>
       <p>ที่อยู่ : {{ props.residence?.address || 'ไม่มีข้อมูล' }}</p>
       <div class="card-actions justify-between items-center">
-        <!-- <ResidenceStat
-          :residenceId="props.residence._id"
-          :stats="{
-            roomCount: props.residence?.rooms?.length ?? 0,
-            paymentCount: props.residence?.payments?.length ?? 0,
-            renterCount: props.residence?.renters?.length ?? 0,
-          }"
-        /> -->
         <Button
           v-if="props.residence.isApproved"
           class="btn"
