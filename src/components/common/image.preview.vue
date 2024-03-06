@@ -66,51 +66,48 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
-    <h1 class="text-xl font-semibold text-dark-blue-200">รูปภาพ</h1>
+  <div
+    v-if="imagePreviews.length > 0"
+    class="mt-4 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+  >
     <div
-      v-if="imagePreviews.length > 0"
-      class="mt-4 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+      v-for="(preview, index) in imagePreviews"
+      :key="index"
+      class="relative"
     >
-      <div
-        v-for="(preview, index) in imagePreviews"
-        :key="index"
-        class="relative"
-      >
-        <img
-          @click="openModal(index)"
-          :src="preview"
-          alt="Preview"
-          class="w-full h-40 object-cover rounded-md"
-        />
-      </div>
+      <img
+        @click="openModal(index)"
+        :src="preview"
+        alt="Preview"
+        class="w-full h-40 object-cover rounded-md"
+      />
     </div>
-    <p class="text-sm flex gap-2 text-gray-500" v-if="imagePreviews.length > 0">
-      * คลิกที่รูปภาพเพื่อดูขนาดใหญ่
-    </p>
+  </div>
+  <p class="text-sm flex gap-2 text-gray-500" v-if="imagePreviews.length > 0">
+    * คลิกที่รูปภาพเพื่อดูขนาดใหญ่
+  </p>
 
-    <p v-else>ไม่มีรูปภาพในระบบ</p>
+  <p v-else>ไม่มีรูปภาพในระบบ</p>
 
-    <!-- modal -->
-    <div
-      v-if="isModalOpen"
-      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
-    >
-      <div @click="closeModal" class="absolute inset-0"></div>
-      <div class="relative max-w-full max-h-full">
-        <button
-          @click="closeModal"
-          class="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none focus:ring focus:border-blue-300"
-        >
-          <XMarkIcon class="w-4 h-4" />
-        </button>
-        <img
-          v-if="selectedImage"
-          :src="selectedImage"
-          alt="Full Size"
-          class="w-full h-full max-h-96"
-        />
-      </div>
+  <!-- modal -->
+  <div
+    v-if="isModalOpen"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+  >
+    <div @click="closeModal" class="absolute inset-0"></div>
+    <div class="relative max-w-full max-h-full">
+      <button
+        @click="closeModal"
+        class="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none focus:ring focus:border-blue-300"
+      >
+        <XMarkIcon class="w-4 h-4" />
+      </button>
+      <img
+        v-if="selectedImage"
+        :src="selectedImage"
+        alt="Full Size"
+        class="w-full h-full max-h-96"
+      />
     </div>
   </div>
 </template>

@@ -15,6 +15,14 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  maxFiles: {
+    type: Number,
+    default: 10,
+  },
+  maxSizeOfEachFile: {
+    type: Number,
+    default: 10,
+  },
 });
 
 const isModalOpen = ref(false);
@@ -34,23 +42,24 @@ const handleFileChange = () => {
 
   const files = fileInput.files;
 
-  if(files.length > 10) {
+  if (files.length > props.maxFiles) {
     notify({
       group: 'tr',
       title: 'เกิดข้อผิดพลาด',
-      text: `สามารถอัปโหลดได้ไม่เกิน 10 รูป`,
+      text: `สามารถอัปโหลดได้ไม่เกิน ${props.maxFiles} รูป`,
       type: 'error',
     });
     return;
   }
-  if (files.length > 0 ) {
+  if (files.length > 0) {
     previewImages(files);
   }
 };
 
 const previewImages = (files) => {
   Array.from(files).forEach((file) => {
-    if (validateImageFile(file)) {
+    console.log('file size', file.size);
+    if (validateImageFile(file, props.maxSizeOfEachFile)) {
       // preview image by reading the file and convert it to base64
       const reader = new FileReader();
 
@@ -144,10 +153,7 @@ onMounted(() => {
     >
       * กดที่ไอคอน
       <XMarkIcon class="w-4 h-4 bg-red-500 rounded-full p-1 text-white" />
-      เพื่อลบรูปภาพ
-    </p>
-    <p class="text-sm flex gap-2 text-gray-500" v-if="imagePreviews.length > 0">
-      * กดที่รูปภาพเพื่อดูรูปขนาดใหญ่
+      เพื่อลบรูปภาพ, กดที่รูปภาพเพื่อดูรูปขนาดใหญ่
     </p>
 
     <!-- input -->
@@ -158,16 +164,19 @@ onMounted(() => {
       ref="fileInputTemp"
       @change="handleFileChange"
       multiple
-      class="file-input-sm file-input file-input-bordered bg-white  w-full max-w-xs file-input-ghost"
+      class="file-input-sm file-input file-input-bordered bg-white w-full max-w-xs file-input-ghost"
     />
-    <p class="text-xs text-light-red">* สามารถอัปโหลดได้ไม่เกิน 10 รูป แต่ละรูปขนาดไม่เกิน 10mb</p>
-    <Button
+    <p class="text-xs text-light-red">
+      * สามารถอัปโหลดได้ไม่เกิน {{ props.maxFiles }} รูป แต่ละรูปขนาดไม่เกิน
+      {{ props.maxSizeOfEachFile }}mb
+    </p>
+    <!-- <Button
       v-if="imagePreviews.length > 0 && !viewOnly"
       btnType="secondary-pill"
       @click="clearImages"
       class="mt-2"
       >ลบรูปภาพทั้งหมด</Button
-    >
+    > -->
 
     <!-- modal -->
     <div

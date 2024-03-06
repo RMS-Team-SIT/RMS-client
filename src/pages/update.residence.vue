@@ -87,8 +87,7 @@ const getChildData = (data) => {
   }
 };
 
-const submitData = async () => {
-};
+const submitData = async () => {};
 </script>
 
 <template>
@@ -96,7 +95,7 @@ const submitData = async () => {
     <div v-if="isLoading" class="flex justify-center items-center h-96">
       <Loading />
     </div>
-    <div v-else class="card-body px-10 md:px-40 ">
+    <div v-else class="card-body px-10 md:px-40">
       <div class="flex flex-row justify-between">
         <Breadcrumb
           :pathList="[
@@ -159,7 +158,13 @@ const submitData = async () => {
               :viewOnly="true"
             />
           </div>
-          <ImagePreview class="basis-full" :images="residenceData.data.images" />
+          <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
+            <h1 class="text-xl font-semibold text-dark-blue-200">รูปภาพ</h1>
+            <ImagePreview
+              class="basis-full"
+              :images="residenceData.data.images"
+            />
+          </div>
         </div>
 
         <!-- button control -->

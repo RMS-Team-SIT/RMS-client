@@ -72,12 +72,14 @@ onMounted(async () => {
       </Button>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2 mt-2">
         <ResidenceInfo :residence="residence.data" />
-
-        <ImagePreview
-          :imageUrls="residence.data.images"
-          preview-from="url"
-          class="min-h-full"
-        />
+        <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
+          <h1 class="text-xl font-semibold text-dark-blue-200">รูปภาพ</h1>
+          <ImagePreview
+            :imageUrls="residence.data.images"
+            preview-from="url"
+            class="min-h-full"
+          />
+        </div>
       </div>
     </div>
   </div>

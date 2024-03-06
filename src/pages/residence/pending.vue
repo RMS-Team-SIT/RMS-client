@@ -209,10 +209,13 @@ onMounted(async () => {
               :residenceData="residenceData"
               :viewOnly="true"
             />
-            <ImagePreview
-              :imageUrls="residenceData.images"
-              preview-from="url"
-            />
+            <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
+              <h1 class="text-xl font-semibold text-dark-blue-200">รูปภาพ</h1>
+              <ImagePreview
+                :imageUrls="residenceData.images"
+                preview-from="url"
+              />
+            </div>
             <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
               <h1 class="text-xl font-semibold text-dark-blue-200">
                 เอกสารประกอบการหอพัก
@@ -294,7 +297,11 @@ onMounted(async () => {
               กลับไปหน้าหลัก
             </Button>
 
-            <Button @click="changeStep('next')" class="rounded-badge" v-if="currentStep<numberOfSteps" >
+            <Button
+              @click="changeStep('next')"
+              class="rounded-badge"
+              v-if="currentStep < numberOfSteps"
+            >
               ถัดไป
               <ArrowRightIcon class="w-4 h-4" />
             </Button>

@@ -133,6 +133,7 @@ onMounted(() => {
   if (!props.viewOnly) generateRoomFromNumberOfRoomEachFloor();
 });
 
+
 watch(
   childData,
   () => {
@@ -189,7 +190,6 @@ const getFee = (id) => {
       <p v-if="!showedRoom.length" class="text-center w-full col-span-3">
         ไม่มีห้องพักในระบบ
       </p>
-
       <!-- Floor -->
       <div
         v-for="(_, index) in props.residenceData.numberOfFloor"
@@ -206,14 +206,14 @@ const getFee = (id) => {
         </div>
         <!-- Room in floor -->
         <div
-          v-for="(room, index) in showedRoom.filter(
+          v-for="(room, index2) in showedRoom.filter(
             (room) => room.floor === index + 1
           )"
-          :key="index"
+          :key="index2"
           class=""
         >
           <div
-            :onclick="viewOnly ? `room_modal_${index}.showModal()` : ''"
+            :onclick="viewOnly ? `room_modal_${index2}.showModal()` : ''"
             class="p-6 bg-white rounded-lg shadow-md hover:bg-light-red hover:text-white hover:cursor-pointer border border-gray-200 w-full"
             @click="toggleCheckbox(room._id)"
           >
@@ -253,7 +253,7 @@ const getFee = (id) => {
           </div>
 
           <!-- Modal -->
-          <dialog :id="`room_modal_${index}`" class="modal">
+          <dialog :id="`room_modal_${index2}`" class="modal">
             <div class="modal-box space-y-2">
               <h3 class="font-bold text-lg">
                 รายละเอียดห้อง : {{ room.name }}
