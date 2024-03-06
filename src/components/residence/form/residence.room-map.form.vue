@@ -75,6 +75,22 @@ const toggleSelectAllRooms = () => {
   else roomsToEdit.rooms = showedRoom.value.map((room) => room._id);
 };
 
+const toggleSelectAllRoomInFloor = (floor) => {
+  const roomsInFloor = showedRoom.value.filter((room) => room.floor === floor);
+  if (roomsToEdit.rooms.length === roomsInFloor.length) {
+    roomsToEdit.rooms = roomsToEdit.rooms.filter(
+      (roomId) => !roomsInFloor.map((room) => room._id).includes(roomId)
+    );
+  } else {
+    roomsToEdit.rooms = [
+      ...new Set([
+        ...roomsToEdit.rooms,
+        ...roomsInFloor.map((room) => room._id),
+      ]),
+    ];
+  }
+};
+
 const findRoom = (roomId) => {
   return childData.rooms.find((room) => room._id === roomId);
 };
@@ -133,7 +149,6 @@ onMounted(() => {
   if (!props.viewOnly) generateRoomFromNumberOfRoomEachFloor();
 });
 
-
 watch(
   childData,
   () => {
@@ -175,15 +190,28 @@ const getFee = (id) => {
           v-model="searchKeyword"
         />
       </div>
-      <div class="flex items-center gap-2 text-sm" v-if="!viewOnly">
-        <input
-          :checked="roomsToEdit.rooms.length === childData.rooms.length"
-          type="checkbox"
-          id="selectAll"
-          class="checkbox checkbox-primary"
-          @change="toggleSelectAllRooms"
-        />
-        <label for="selectAll" class="label">เลือกทั้งหมด</label>
+      <div
+        class="flex items-center gap-2 text-sm justify-between"
+        v-if="!viewOnly"
+      >
+        <div class="flex items-center gap-2 text-sm">
+          <input
+            :checked="roomsToEdit.rooms.length === childData.rooms.length"
+            type="checkbox"
+            id="selectAll"
+            class="checkbox checkbox-primary"
+            @change="toggleSelectAllRooms"
+          />
+          <label for="selectAll" class="label">เลือกทั้งหมด</label>
+        </div>
+
+        <Button
+          class="btn btn-primary"
+          onclick="edit_room_modal.showModal()"
+          :disabled="!roomsToEdit.rooms.length"
+        >
+          แก้ไขห้องที่เลือก
+        </Button>
       </div>
       <!-- Rooms -->
 
@@ -202,6 +230,23 @@ const getFee = (id) => {
             v-if="(searchKeyword && showedRoom.length) || !searchKeyword"
           >
             <Divider>ชั้น {{ index + 1 }}</Divider>
+            <div class="flex items-center gap-2 text-sm" v-if="!viewOnly">
+              <input
+                :checked="
+                  roomsToEdit.rooms.filter(
+                    (roomId) => findRoom(roomId).floor === index + 1
+                  ).length ===
+                  showedRoom.filter((room) => room.floor === index + 1).length
+                "
+                type="checkbox"
+                :id="`selectAllRoomInFloor${index + 1}`"
+                class="checkbox checkbox-primary"
+                @change="toggleSelectAllRoomInFloor(index + 1)"
+              />
+              <label :for="`selectAllRoomInFloor${index + 1}`" class="label"
+                >เลือกทั้งชั้น</label
+              >
+            </div>
           </h2>
         </div>
         <!-- Room in floor -->
@@ -231,7 +276,7 @@ const getFee = (id) => {
                   >
                 </p>
                 <p class="text-sm">
-                  ค่าเช่า: {{ room.roomRentalPrice }} บาท/เดือน
+                  ค่าเช่า: {{ room.roomRentalPrice || 'ยังไม่ได้กำหนด' }} บาท/เดือน
                 </p>
                 <p class="text-sm">
                   ค่าบริการ:
