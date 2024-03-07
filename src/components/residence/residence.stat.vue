@@ -21,20 +21,6 @@ const { stats } = defineProps({
     class="stats shadow stats-vertical lg:stats-horizontal w-full lg:w-auto border border-gray-200"
   >
     <div
-      class="stat hover:cursor-pointer"
-      @click="router.push({ name: 'renter', params: { residenceId } })"
-    >
-      <div class="stat-figure text-primary">
-        <UserIcon class="h-8 w-8 inline-block" />
-      </div>
-      <div class="stat-title">ผู้เช่าทั้งหมด</div>
-      <div class="stat-value text-primary">
-        <CountUp :end-val="stats.renterCount" />
-      </div>
-      <div class="stat-desc">จำนวนผู้เช่าทั้งหมดในระบบ</div>
-    </div>
-
-    <div
       v-if="stats?.roomCount"
       class="stat hover:cursor-pointer"
       @click="router.push({ name: 'room', params: { residenceId } })"
@@ -47,6 +33,20 @@ const { stats } = defineProps({
         <CountUp :end-val="stats.roomCount" />
       </div>
       <div class="stat-desc">จำนวนห้องทั้งหมดในระบบ</div>
+    </div>
+
+    <div
+      class="stat hover:cursor-pointer"
+      @click="router.push({ name: 'renter', params: { residenceId } })"
+    >
+      <div class="stat-figure text-primary">
+        <UserIcon class="h-8 w-8 inline-block" />
+      </div>
+      <div class="stat-title">ผู้เช่าทั้งหมด</div>
+      <div class="stat-value text-primary">
+        <CountUp :end-val="stats.renterCount" />
+      </div>
+      <div class="stat-desc">จำนวนผู้เช่าทั้งหมดในระบบ</div>
     </div>
 
     <div

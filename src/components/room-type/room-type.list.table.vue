@@ -9,7 +9,7 @@ import BankIcon from '@/components/common/bank-icon.vue';
 import { useRouter } from 'vue-router';
 
 const props = defineProps({
-  rooms: {
+  roomTypes: {
     type: Array,
     default: () => [],
   },
@@ -30,15 +30,13 @@ const search = ref('');
 const computedRooms = computed(() => {
   const start = (currentPage.value - 1) * perPage.value;
   const end = start + perPage.value;
-  return props.rooms
+  return props.roomTypes
     .filter((room) => room.isActive !== showDeactive.value)
     .filter((room) => {
       return (
-        room.name.toLowerCase().includes(search.value.toLowerCase()) ||
-        room.description.toLowerCase().includes(search.value.toLowerCase())
+        room.name.toLowerCase().includes(search.value.toLowerCase())
       );
     })
-    .sort((a, b) => a.name.localeCompare(b.name))
     .slice(start, end);
 });
 
@@ -49,7 +47,7 @@ const changePage = (page) => {
 };
 
 const totalPages = computed(() => {
-  return Math.ceil(props.rooms.length / perPage.value);
+  return Math.ceil(props.roomTypes.length / perPage.value);
 });
 
 const visiblePages = computed(() => {
@@ -72,23 +70,23 @@ const visiblePages = computed(() => {
 
 <template>
   <div class="overflow-x-auto">
-    <p class="text-base mt-5" v-if="!props.rooms.length">
-      ไม่มีห้องในระบบ กรุณาสร้างห้องใหม่
+    <p class="text-base mt-5" v-if="!props.roomTypes.length">
+      ไม่มีประเภทห้องในระบบ กรุณาสร้างประเภทห้องใหม่
     </p>
     <div v-else>
       <!-- show number of renter -->
       <p class="text-xs text-gray-500">
-        จำนวนห้องทั้งหมด:
-        {{ props.rooms?.filter((r) => r.isActive).length }} (เปิดใช้งาน),
-        {{ props.rooms?.filter((r) => !r.isActive).length }} (ปิดใช้งาน)
+        จำนวนประเภทห้องทั้งหมด:
+        {{ props.roomTypes?.filter((r) => r.isActive).length }} (เปิดใช้งาน),
+        {{ props.roomTypes?.filter((r) => !r.isActive).length }} (ปิดใช้งาน)
       </p>
       <div class="w-full flex align-middle items-center justify-end">
         <label class="label">
-          <span class="label-text">ค้นหาห้องพัก:</span>
+          <span class="label-text">ค้นหา:</span>
         </label>
         <input
           type="text"
-          placeholder="ค้นหาห้องพัก"
+          placeholder="ค้นหา"
           class="input input-xs input-bordered bg-white rounded"
           v-model="search"
         />
@@ -109,12 +107,11 @@ const visiblePages = computed(() => {
         <thead>
           <tr>
             <th>#</th>
-            <th>ชื่อ</th>
-            <th>คำอธิบาย</th>
-            <th>ชั้น</th>
-            <th>ประเภทห้อง</th>
-            <th>ผู้เช่า</th>
-            <th>สถานะห้อง</th>
+            <th>ชื่อประเภท</th>
+            <th>รายละเอียด</th>
+            <th>รูปแบบห้อง</th>
+            <th>ขนาดห้อง</th>
+            <th>ค่าเช่า</th>
             <th></th>
             <th></th>
           </tr>
@@ -132,41 +129,19 @@ const visiblePages = computed(() => {
                 {{ room.description || 'ไม่มีข้อมูล' }}
               </span>
             </td>
-            <td>{{ room.floor }}</td>
             <td>
-              {{ room.type.name }}
+              {{ room.category }}
             </td>
             <td>
-              <router-link
-                v-if="room.currentRenter"
-                class="text-dark-blue-200 underline"
-                :to="{
-                  name: 'update-renter',
-                  params: {
-                    residenceId: $route.params.residenceId,
-                    renterId: room.currentRenter._id,
-                  },
-                }"
-              >
-                {{ room.currentRenter.firstname }}
-                {{ room.currentRenter.lastname }}
-              </router-link>
-              <span v-else class="text-red-500"> ไม่มีผู้เช่า </span>
+              {{ room.size }} ตร.ม.
             </td>
             <td>
-              <Badge badgeType="success" v-if="!room.currentRenter">ว่าง</Badge>
-              <Badge badgeType="error" v-else>ไม่ว่าง</Badge>
+              {{ room.price }} บาท/เดือน
             </td>
-            <!-- <td>
-              <Badge badgeType="success" v-if="room.isActive">เปิดใช้งาน</Badge>
-              <Badge badgeType="error" v-else>ปิดใช้งาน</Badge>
-            </td> -->
-            <!-- <td>
-            <Badge badgeType="success">Paid</Badge>
-            <Badge badgeType="error">Not Paid</Badge>
-          </td> -->
+            
+            
             <th>
-              <router-link
+              <!-- <router-link
                 :to="{
                   name: 'view-room',
                   params: {
@@ -174,12 +149,12 @@ const visiblePages = computed(() => {
                     roomId: room._id,
                   },
                 }"
-              >
+              > -->
                 <Button btnType="ghost-pill">ดูข้อมูล</Button>
-              </router-link>
+              <!-- </router-link> -->
             </th>
             <th>
-              <router-link
+              <!-- <router-link
                 :to="{
                   name: 'update-room',
                   params: {
@@ -187,9 +162,9 @@ const visiblePages = computed(() => {
                     roomId: room._id,
                   },
                 }"
-              >
+              > -->
                 <Button btnType="ghost-pill">แก้ไข</Button>
-              </router-link>
+              <!-- </router-link> -->
             </th>
           </tr>
         </tbody>

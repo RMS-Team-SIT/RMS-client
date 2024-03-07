@@ -119,7 +119,7 @@ onMounted(async () => {
 
         <!-- Graph -->
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-5">
-          <div class="p-6 bg-white rounded-lg shadow-md border border-gray-200">
+          <!-- <div class="p-6 bg-white rounded-lg shadow-md border border-gray-200">
             <h3 class="text-xl font-semibold mb-2 p-5">
               สถานะการจ่ายค่าห้องทั้งหมด
             </h3>
@@ -129,7 +129,7 @@ onMounted(async () => {
               :unpaid="stats.unpaidRoomCount"
             />
             <p class="text-xs p-5">Paid status will show here.</p>
-          </div>
+          </div> -->
 
           <div class="p-6 bg-white rounded-lg shadow-md border border-gray-200">
             <h3 class="text-xl font-semibold mb-2 p-5">ห้องว่างในระบบ</h3>
@@ -141,18 +141,16 @@ onMounted(async () => {
               :not-available="stats.notavaiableRoomCount"
             />
             <p class="p-5 text-xs" v-if="stats.avaiableRoomCount">
-              ห้องว่าง: {{ stats.avaiableRoomCount }} <br />
-              ไม่ว่าง:
-              {{ stats.notavaiableRoomCount }}
+              ห้องว่าง: {{ stats.avaiableRoomCount }} ห้อง,
+              ไม่ว่าง: {{ stats.notavaiableRoomCount }} ห้อง
             </p>
           </div>
 
-          <div class="p-6 bg-white rounded-lg shadow-md border border-gray-200">
+          <div class="p-6 bg-white rounded-lg shadow-md border border-gray-200 col-span-2">
             <h3 class="text-xl font-semibold mb-2 p-5">
               รายได้ของหอพักในปีนี้
             </h3>
             <IncomeChart />
-            <p class="text-xs p-5">Residence income will show here.</p>
           </div>
         </div>
       </section>
@@ -169,15 +167,15 @@ onMounted(async () => {
         >
           <QuickLinkCard
             :router-path="{ name: 'room', params: { residenceId } }"
-            title="ระบบจัดการห้อง"
-            text="เข้าสู่ระบบจัดการห้องในระบบ"
+            title="ระบบจัดการห้องและประเภทห้อง"
+            text="เข้าสู่ระบบจัดการห้องและประเภทห้องในหอพักนี้"
             :icon="HomeIcon"
           />
 
           <QuickLinkCard
             :router-path="{ name: 'renter', params: { residenceId } }"
             title="ระบบจัดการผู้เช่า"
-            text="เข้าสู่ระบบจัดการผู้เช่าในระบบ"
+            text="เข้าสู่ระบบจัดการผู้เช่าในหอพักนี้"
             :icon="UserIcon"
           />
 

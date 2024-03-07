@@ -9,6 +9,7 @@ import Loading from '@/components/common/loading.vue';
 import Button from '@/components/common/button.vue';
 import RoomListTable from '@/components/room/room.list.table.vue';
 import { HomeIcon, HomeModernIcon } from '@heroicons/vue/24/outline';
+import roomTypeListTable from '@/components/room-type/room-type.list.table.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -87,18 +88,17 @@ onMounted(async () => {
                 },
               }"
             >
-              <Button btnType="primary">เพิ่มข้อมูลประเภทห้องพัก</Button>
+              <Button btnType="primary">เพิ่มประเภทห้องพัก</Button>
             </router-link>
           </div>
 
           </div>
-          <RoomListTable class="mt-5"
-            :rooms="residence.data.rooms"
-            :defaultElectricPriceRate="residence.data.defaultElectricPriceRate"
-            :defaultWaterPriceRate="residence.data.defaultWaterPriceRate"
+          <roomTypeListTable class="mt-5"
+            :roomTypes="residence.data.roomTypes"
           />
         </div>
       </div>
+
       <div class="grid grid-cols-1">
         <div class="bg-white p-10 mt-2 shadow rounded-lg">
           <div class="flex justify-between">
@@ -116,9 +116,9 @@ onMounted(async () => {
                 },
               }"
             >
-              <Button btnType="primary">เพิ่มข้อมูลห้องพัก</Button>
+              <Button btnType="primary">เพิ่มห้องพัก</Button>
             </router-link>
-            <router-link
+            <!-- <router-link
               :to="{
                 name: 'create-many-room',
                 params: {
@@ -127,14 +127,12 @@ onMounted(async () => {
               }"
             >
               <Button btnType="primary">เพิ่มข้อมูลห้องพักหลายห้อง</Button>
-            </router-link>
+            </router-link> -->
           </div>
 
           </div>
           <RoomListTable class="mt-5"
             :rooms="residence.data.rooms"
-            :defaultElectricPriceRate="residence.data.defaultElectricPriceRate"
-            :defaultWaterPriceRate="residence.data.defaultWaterPriceRate"
           />
         </div>
       </div>

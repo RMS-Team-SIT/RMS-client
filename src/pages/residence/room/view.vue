@@ -13,6 +13,8 @@ import { useNotification } from '@kyvg/vue3-notification';
 import dayjs from 'dayjs';
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import ImagePreview from '@/components/common/image.preview.vue';
+import FileService from '@/services/FileService';
 
 const router = useRouter();
 const route = useRoute();
@@ -222,9 +224,7 @@ onMounted(() => {
                       : 'ไม่มีผู้เช่า'
                   }}
                 </p>
-                <p>
-                  รหัสผ่าน: ******
-                </p>
+                <p>รหัสผ่าน: ******</p>
                 <h1 class="text-base font-semibold mt-5 text-dark-blue-200">
                   ไฟล์เอกสาร
                 </h1>
@@ -280,16 +280,21 @@ onMounted(() => {
             </div>
 
             <!-- ข้อมูลประเภทห้อง -->
-            <div class="space-y-3 border border-base-300 rounded-lg m-2 p-5">
+            <div class="space-y-3 border border-base-300 rounded-lg m-2 p-5 col-span-3">
               <div class="flex justify-between">
                 <h1 class="text-base font-semibold text-dark-blue-200">
                   ประเภทห้องพัก
                 </h1>
               </div>
               <p>ประเภทห้อง: {{ room.type.name }}</p>
+              <p>รูปแบบห้อง: {{ room.type.category }}</p>
               <p>ขนาดห้อง: {{ room.type.size }} ตร.ม.</p>
               <p>คำอธิบาย: {{ room.type.description || 'ไม่มีคำอธิบาย' }}</p>
               <p>อัตราค่าเช่าต่อเดือน: {{ room.type.price }} บาท</p>
+              <ImagePreview
+                :imageUrls="room.type.images.map((i) => FileService.getFile(i))"
+                preview-from="url"
+              />
             </div>
           </div>
 
