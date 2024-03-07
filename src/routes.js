@@ -386,14 +386,6 @@ const routes = [
     },
   },
   {
-    path: '/upload',
-    component: () => import('./pages/upload.vue'),
-    name: 'upload',
-    meta: {
-      title: 'Upload',
-    },
-  },
-  {
     name: 'admin-dashboard',
     path: '/admin/dashboard',
     component: adminDashboard,

@@ -11,8 +11,6 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import '@sweetalert2/themes/material-ui/material-ui.min.css';
 import { baseUrl, baseGetFileUrl } from './services/constants';
 import i18n from './i18n';
-import { VueFire, VueFireAuth, VueFireFirestoreOptionsAPI } from 'vuefire';
-import { firebaseApp } from './firebase/config';
 
 const pinia = createPinia();
 const app = createApp(App);
