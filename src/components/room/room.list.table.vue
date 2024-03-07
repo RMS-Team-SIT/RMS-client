@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import BankIcon from '@/components/common/bank-icon.vue';
 import { useRouter } from 'vue-router';
 import RoomService from '@/services/RoomService';
+import { ArrowTopRightOnSquareIcon } from '@heroicons/vue/24/outline';
 
 const props = defineProps({
   rooms: {
@@ -165,8 +166,8 @@ const updateRoom = async () => {
             <th>ชั้น</th>
             <th>ประเภทห้อง</th>
             <th>ค่าเช่า</th>
-            <th>ผู้เช่า</th>
             <th>สถานะห้อง</th>
+            <th>ผู้เช่า</th>
             <th></th>
             <th></th>
           </tr>
@@ -189,6 +190,11 @@ const updateRoom = async () => {
               {{ room.type.name }}
             </td>
             <td>{{ room.roomRentalPrice }} บาท</td>
+            
+            <td>
+              <Badge badgeType="success" v-if="!room.currentRenter">ว่าง</Badge>
+              <Badge badgeType="error" v-else>ไม่ว่าง</Badge>
+            </td>
             <td>
               <router-link
                 v-if="room.currentRenter"
@@ -206,10 +212,6 @@ const updateRoom = async () => {
               </router-link>
               <span v-else class="text-red-500"> ไม่มีผู้เช่า </span>
             </td>
-            <td>
-              <Badge badgeType="success" v-if="!room.currentRenter">ว่าง</Badge>
-              <Badge badgeType="error" v-else>ไม่ว่าง</Badge>
-            </td>
             <th>
               <router-link
                 :to="{
@@ -220,11 +222,13 @@ const updateRoom = async () => {
                   },
                 }"
               >
-                <Button btnType="ghost-pill">ดูข้อมูล</Button>
+                <Button btnType="ghost-pill">ดูข้อมูล
+                  <ArrowTopRightOnSquareIcon class="h-4 w-4"/>
+                </Button>
               </router-link>
             </th>
             <th>
-              <router-link
+              <!-- <router-link
                 :to="{
                   name: 'update-room',
                   params: {
@@ -234,7 +238,7 @@ const updateRoom = async () => {
                 }"
               >
                 <Button btnType="ghost-pill">แก้ไข</Button>
-              </router-link>
+              </router-link> -->
 
               <Button
                 btnType="ghost-pill"
