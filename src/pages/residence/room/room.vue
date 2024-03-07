@@ -50,7 +50,7 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
-  <div v-if="residence.data" class="bg-gray-50 min-h-screen">
+  <div v-if="residence.data" class="min-h-screen">
     <div class="py-10 px-10 md:px-40">
       <Breadcrumb
         :pathList="[
@@ -71,15 +71,16 @@ onMounted(async () => {
       >
         กลับหน้าแดชบอร์ด
       </Button>
-      <div class="grid grid-cols-1">
-        <div class="bg-white p-10 mt-2 shadow rounded-lg">
-          <div class="flex justify-between">
-            <h1 class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center">
-              <HomeModernIcon class="w-8 h-8 text-dark-blue-200" />
-              ประเภทห้องพักในระบบ 
-            </h1>
-            <div>
 
+      <div class="bg-white p-10 mt-2 shadow rounded-lg border">
+        <div class="flex justify-between">
+          <h1
+            class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
+          >
+            <HomeModernIcon class="w-8 h-8 text-dark-blue-200" />
+            ประเภทห้องพักในระบบ
+          </h1>
+          <div>
             <router-link
               :to="{
                 name: 'create-room',
@@ -91,23 +92,19 @@ onMounted(async () => {
               <Button btnType="primary">เพิ่มประเภทห้องพัก</Button>
             </router-link>
           </div>
-
-          </div>
-          <roomTypeListTable class="mt-5"
-            :roomTypes="residence.data.roomTypes"
-          />
         </div>
+        <roomTypeListTable class="mt-5" :roomTypes="residence.data.roomTypes" />
       </div>
 
-      <div class="grid grid-cols-1">
-        <div class="bg-white p-10 mt-2 shadow rounded-lg">
-          <div class="flex justify-between">
-            <h1 class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center">
-              <HomeIcon class="w-8 h-8 text-dark-blue-200" />
-              ห้องพักในระบบ 
-            </h1>
-            <div>
-
+      <div class="bg-white p-10 mt-2 shadow rounded-lg border">
+        <div class="flex justify-between">
+          <h1
+            class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
+          >
+            <HomeIcon class="w-8 h-8 text-dark-blue-200" />
+            ห้องพักในระบบ
+          </h1>
+          <div>
             <router-link
               :to="{
                 name: 'create-room',
@@ -129,12 +126,14 @@ onMounted(async () => {
               <Button btnType="primary">เพิ่มข้อมูลห้องพักหลายห้อง</Button>
             </router-link> -->
           </div>
-
-          </div>
-          <RoomListTable class="mt-5"
-            :rooms="residence.data.rooms"
-          />
         </div>
+        <RoomListTable
+          class="mt-5"
+          :residenceId="residenceId"
+          :rooms="residence.data.rooms"
+          :roomTypes="residence.data.roomTypes"
+          :residenceData="residence.data"
+        />
       </div>
     </div>
   </div>

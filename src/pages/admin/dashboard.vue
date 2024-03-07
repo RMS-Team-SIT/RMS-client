@@ -220,7 +220,7 @@ onMounted(async () => {
             <div
               v-for="(user, index) in pendingKYCUser"
               :key="index"
-              class="flex items-center gap-2 justify-between border-2 p-2 rounded-lg border-gray-200 hover:border-primary transition-all cursor-pointer"
+              class="flex items-center gap-2 justify-between border p-2 rounded-lg border-gray-200 hover:border-primary transition-all cursor-pointer"
             >
               <div class="flex items-center gap-2">
                 <img
@@ -306,7 +306,7 @@ onMounted(async () => {
             <div
               v-for="(residence, index) in pendingResidence"
               :key="index"
-              class="flex items-center gap-2 justify-between border-2 p-2 rounded-lg border-gray-200 hover:border-primary transition-all cursor-pointer"
+              class="flex items-center gap-2 justify-between border p-2 rounded-lg border-gray-200 hover:border-primary transition-all cursor-pointer"
             >
               <div class="flex items-center gap-2">
                 <HomeIcon class="h-10 w-10 text-primary" />
