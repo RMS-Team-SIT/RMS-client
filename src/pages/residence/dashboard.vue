@@ -15,7 +15,7 @@ import {
   HomeIcon,
   LinkIcon,
   UserIcon,
-  AdjustmentsHorizontalIcon
+  AdjustmentsHorizontalIcon,
 } from '@heroicons/vue/24/outline';
 import QuickLinkCard from '@/components/common/quick-link-card.vue';
 import ResidenceStat from '@/components/residence/residence.stat.vue';
@@ -83,7 +83,7 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
-  <div v-if="residence.data" class="min-h-screen ">
+  <div v-if="residence.data" class="min-h-screen">
     <div class="py-10 px-10 md:px-40">
       <!-- <Breadcrumb
         :pathList="[
@@ -119,7 +119,32 @@ onMounted(async () => {
 
         <!-- Graph -->
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-5">
-          <!-- <div class="p-6 bg-white rounded-lg shadow-md border border-gray-200">
+          <div
+            class="p-6 bg-white rounded-lg shadow-md border border-gray-200 col-span-2"
+          >
+            <h3 class="text-xl font-semibold mb-2 p-5">
+              รายได้ของหอพักในปีนี้
+            </h3>
+            <IncomeChart />
+          </div>
+
+          <div class="p-6 bg-white rounded-lg shadow-md border border-gray-200">
+            <h3 class="text-xl font-semibold mb-2 p-5">สถานะห้องในหอพัก</h3>
+            <p v-if="!stats.avaiableRoomCount" class="p-5">ไม่มีห้องในระบบ</p>
+            <AvailableChart
+              v-else
+              class="h-28 mx-auto"
+              :available="stats.avaiableRoomCount"
+              :not-available="stats.notavaiableRoomCount"
+            />
+            <p class="p-5 text-xs" v-if="stats.avaiableRoomCount">
+              ห้องว่าง: {{ stats.avaiableRoomCount }} ห้อง, ไม่ว่าง:
+              {{ stats.notavaiableRoomCount }} ห้อง
+            </p>
+          </div>
+
+         
+          <div class="p-6 bg-white rounded-lg shadow-md border border-gray-200">
             <h3 class="text-xl font-semibold mb-2 p-5">
               สถานะการจ่ายค่าห้องทั้งหมด
             </h3>
@@ -129,28 +154,17 @@ onMounted(async () => {
               :unpaid="stats.unpaidRoomCount"
             />
             <p class="text-xs p-5">Paid status will show here.</p>
-          </div> -->
-
-          <div class="p-6 bg-white rounded-lg shadow-md border border-gray-200">
-            <h3 class="text-xl font-semibold mb-2 p-5">ห้องว่างในระบบ</h3>
-            <p v-if="!stats.avaiableRoomCount" class="p-5">ไม่มีห้องในระบบ</p>
-            <AvailableChart
-              v-else
-              class="h-28 mx-auto"
-              :available="stats.avaiableRoomCount"
-              :not-available="stats.notavaiableRoomCount"
-            />
-            <p class="p-5 text-xs" v-if="stats.avaiableRoomCount">
-              ห้องว่าง: {{ stats.avaiableRoomCount }} ห้อง,
-              ไม่ว่าง: {{ stats.notavaiableRoomCount }} ห้อง
-            </p>
           </div>
-
-          <div class="p-6 bg-white rounded-lg shadow-md border border-gray-200 col-span-2">
+          <div class="p-6 bg-white rounded-lg shadow-md border border-gray-200">
             <h3 class="text-xl font-semibold mb-2 p-5">
-              รายได้ของหอพักในปีนี้
+              สถานะการจ่ายค่าห้องทั้งหมด
             </h3>
-            <IncomeChart />
+            <PaidChart
+              class="h-28 mx-auto"
+              :paid="stats.paidRoomCount"
+              :unpaid="stats.unpaidRoomCount"
+            />
+            <p class="text-xs p-5">Paid status will show here.</p>
           </div>
         </div>
       </section>
