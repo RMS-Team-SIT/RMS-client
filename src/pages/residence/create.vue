@@ -125,9 +125,15 @@ const fetchBanks = async () => {
   }
 };
 
-const changeStep = (action) => {
+const changeStep = async (action) => {
   switch (action) {
     case 'next':
+      if (currentStep.value === 8) {
+        const result = await submitData();
+        if (!result) {
+          return;
+        }
+      }
       currentStep.value = Math.min(currentStep.value + 1, numberOfSteps);
       break;
     case 'back':
@@ -139,11 +145,6 @@ const changeStep = (action) => {
   }
   // goto top of the page
   window.scrollTo(0, 0);
-
-  // submit
-  if (currentStep.value === 9) {
-    submitData();
-  }
 };
 
 const getChildData = (data) => {
@@ -197,12 +198,13 @@ const submitData = async () => {
     residenceBusinessLicense: residenceData.residenceBusinessLicense.fileName,
   });
   if (response.status == 201) {
-    notify({
-      group: 'tr',
-      title: 'สำเร็จ',
-      text: 'สร้างหอพักสำเร็จแล้ว',
-      type: 'success',
-    });
+    // notify({
+    //   group: 'tr',
+    //   title: 'สำเร็จ',
+    //   text: 'สร้างหอพักสำเร็จแล้ว',
+    //   type: 'success',
+    // });
+    return true;
   } else {
     const data = await response.json();
     console.log(data);
@@ -212,6 +214,7 @@ const submitData = async () => {
       text: 'ไม่สามารถสร้างหอพักได้. ' + data?.message,
       type: 'error',
     });
+    return false;
   }
 };
 
@@ -270,7 +273,8 @@ onMounted(async () => {
       <div class="grid grid-cols-12">
         <div class="p-4 mb-4 card bg-white col-span-3 items-center">
           <Steps
-            class="steps-vertical text-left"
+            direction="vertical"
+            class="text-left"
             :stepList="stepList"
             :currentStep="currentStep"
           />

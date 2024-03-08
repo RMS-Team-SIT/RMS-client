@@ -87,7 +87,7 @@ onMounted(() => {
       >
         กลับหน้าจัดการห้องพัก
       </Button>
-      <div class="bg-white p-10 mt-2 rounded-lg border border-gray-200">
+      <div class="bg-white p-10 mt-2 rounded-lg">
         <!-- Head -->
         <div class="flex justify-between">
           <h1 class="text-2xl font-semibold text-dark-blue-200">

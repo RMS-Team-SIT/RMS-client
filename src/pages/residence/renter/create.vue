@@ -170,6 +170,7 @@ const submitData = async () => {
       <div>
         <div class="p-4 mb-4 card shadow-xl bg-white">
           <Steps
+            direction="horizontal"
             :stepList="['ป้อนข้อมูลผู้เช่า', 'ตรวจสอบข้อมูล']"
             :currentStep="currentStep"
           />
