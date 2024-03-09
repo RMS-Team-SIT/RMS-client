@@ -109,7 +109,7 @@ onMounted(() => {
         <!-- row 1 -->
         <div class="mt-5 grid grid-cols-2 gap-4">
           <!-- ข้อมูลห้องพัก -->
-          <div class="space-y-3 border border-base-300 rounded-lg m-2 p-5">
+          <div class="space-y-3 border border-base-300 rounded-lg p-5">
             <div class="flex justify-between">
               <h1 class="text-base font-semibold text-dark-blue-200">
                 ข้อมูลห้องพัก
@@ -160,7 +160,7 @@ onMounted(() => {
           </div>
 
           <!-- ข้อมูลผู้เช่า -->
-          <div class="space-y-3 border border-base-300 rounded-lg m-2 p-5">
+          <div class="space-y-3 border border-base-300 rounded-lg p-5">
             <div class="flex justify-between">
               <h1 class="text-base font-semibold text-dark-blue-200">
                 ข้อมูลผู้เช่า
@@ -269,7 +269,7 @@ onMounted(() => {
 
           <!-- ข้อมูลประเภทห้อง -->
           <div
-            class="space-y-3 border border-base-300 rounded-lg m-2 p-5 col-span-3"
+            class="space-y-3 border border-base-300 rounded-lg p-5 col-span-3"
           >
             <div class="flex justify-between">
               <h1 class="text-base font-semibold text-dark-blue-200">
@@ -291,7 +291,7 @@ onMounted(() => {
         <!-- row 2 -->
         <div class="mt-5 grid grid-cols-1 gap-4">
           <!-- ข้อมูลบิลในอดีตทั้งหมด -->
-          <div class="space-y-3 border border-base-300 rounded-lg m-2 p-5">
+          <div class="space-y-3 border border-base-300 rounded-lg p-5">
             <div class="flex justify-between">
               <h1 class="text-base font-semibold text-dark-blue-200">
                 ข้อมูลบิลในอดีตทั้งหมด
@@ -312,7 +312,7 @@ onMounted(() => {
             </div>
             <div v-if="!room.billRooms.length">ไม่มีบิลในอดีตในระบบ</div>
             <div
-              class="collapse collapse-arrow border border-base-300 shadow-sm m-2"
+              class="collapse collapse-arrow border border-base-300 shadow-sm"
               v-for="(bill, index) in room.billRooms"
               :key="index"
             >
