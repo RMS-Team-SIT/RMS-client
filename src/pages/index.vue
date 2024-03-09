@@ -9,7 +9,6 @@ import { projectFullName } from '@/utils/constants';
         class="flex items-center text-center lg:text-left px-8 md:px-12 lg:w-1/2"
       >
         <div class="p-20">
-          <!-- <img src="/logo.png" alt="logo" class="w-30 h-30 mx-auto lg:mx-0" /> -->
           <h2 class="text-3xl font-semibold text-gray-800 md:text-4xl">
             Residence <span class="text-light-red"> Management System</span>
           </h2>
@@ -30,13 +29,14 @@ import { projectFullName } from '@/utils/constants';
               :to="{ name: 'signin' }"
               class="px-4 py-3 bg-light-red text-gray-200 text-xs font-semibold rounded hover:bg-red-700"
             >
-              <a href="#">เริ่มต้นใช้งาน</a>
+              <a href="#">เข้าสู่ระบบ</a>
             </router-link>
-            <a
+            <router-link
+              :to="{ name: 'signup' }"
               class="mx-4 px-4 py-3 bg-gray-300 text-gray-900 text-xs font-semibold rounded hover:bg-gray-400"
-              href="#"
-              >เรียนรู้เพิ่มเติม</a
             >
+              <a href="#">สมัครสมาชิก</a>
+            </router-link>
           </div>
         </div>
       </div>

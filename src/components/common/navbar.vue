@@ -44,7 +44,7 @@ const props = defineProps({
         </li>
         <li><router-link :to="{ name: 'home' }">เกี่ยวกับเรา</router-link></li>
         <router-link to="/signin">
-          <Button btnType="primary-pill">เข้าสู่ระบบ</Button>
+          <Button btnType="secondary-pill">เข้าสู่ระบบ</Button>
         </router-link>
       </ul>
     </div>
@@ -52,7 +52,6 @@ const props = defineProps({
       <ul
         class="menu menu-horizontal px-1 text-center align-middle items-center"
       >
-        <!-- <li><router-link :to="{ name: 'manage' }">จัดการ</router-link></li> -->
         <NavNotification :notifications="user.notifications" />
         <div class="flex gap-2 items-center rounded-lg p-2">
           <p>
@@ -81,7 +80,6 @@ const props = defineProps({
         </div>
       </ul>
     </div>
-    <!-- <ChangeLang /> -->
   </div>
 </template>
 
