@@ -78,7 +78,7 @@ onMounted(async () => {
             class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
           >
             <HomeModernIcon class="w-8 h-8 text-dark-blue-200" />
-            ประเภทห้องพักในระบบ
+            ประเภทห้อง
           </h1>
           <div>
             <router-link
@@ -102,7 +102,7 @@ onMounted(async () => {
             class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
           >
             <HomeIcon class="w-8 h-8 text-dark-blue-200" />
-            ห้องพักในระบบ
+            ห้อง
           </h1>
           <div>
             <router-link

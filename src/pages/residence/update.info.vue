@@ -5,11 +5,13 @@ import { useRoute, useRouter } from 'vue-router';
 import ResidenceBasicInfoForm from '@/components/residence/form/residence.basic.info.form.vue';
 import ResidenceContactForm from '@/components/residence/form/residence.contact.form.vue';
 import ResidenceSettingForm from '@/components/residence/form/residence.setting.form.vue';
+import ResidenceFacilityForm from '@/components/residence/form/residence.facility.form.vue';
 import Button from '@/components/common/button.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 import Loading from '@/components/common/loading.vue';
 import { useNotification } from '@kyvg/vue3-notification';
 import ResidenceServices from '@/services/ResidenceServices';
+import FacilityService from '@/services/FacilityService';
 
 const router = useRouter();
 const route = useRoute();
@@ -18,22 +20,35 @@ const isLoading = ref(true);
 const { notify } = useNotification();
 
 onMounted(async () => {
-  try {
-    const response = await ResidenceServices.fetchResidence(residenceId);
-    if (response.status === 200) {
-      let result = await response.json();
-      residenceData.data = result;
-    } else {
-      notify({
-        group: 'tr',
-        title: 'เกิดข้อผิดพลาด',
-        title: 'ไม่สามารถดึงข้อมูลหอพักได้',
-        type: 'error',
-      });
-      router.push({ name: 'manage' });
-    }
-  } catch (error) {
-    console.error(error);
+  await fetchFacility();
+  await fetchResidence();
+  isLoading.value = false;
+});
+
+const residenceData = reactive({
+  data: {
+    name: '',
+    address: '',
+    contact: {
+      email: '',
+      phone: '',
+    },
+    defaultElectricPriceRate: 0,
+    defaultWaterPriceRate: 0,
+    facilities: ['6217f4767f9a9d11f0d19b0f'],
+  },
+});
+
+const fetchResidence = async () => {
+  const response = await ResidenceServices.fetchResidence(residenceId);
+  if (response.status === 200) {
+    let result = await response.json();
+    console.log('residence', result);
+    // mapFacility
+    result.facilities = result.facilities.map((facility) => facility._id);
+    console.log('residence after map fa', result);
+    residenceData.data = result;
+  } else {
     notify({
       group: 'tr',
       title: 'เกิดข้อผิดพลาด',
@@ -41,26 +56,8 @@ onMounted(async () => {
       type: 'error',
     });
     router.push({ name: 'manage' });
-  } finally {
-    isLoading.value = false;
   }
-});
-
-const residenceData = reactive({
-  data: {
-    name: '',
-    description: '',
-    address: '',
-    contact: {
-      facebook: '',
-      line: '',
-      phone: '',
-      email: '',
-    },
-    defaultWaterPriceRate: 0.0,
-    defaultElectricPriceRate: 0.0,
-  },
-});
+};
 
 const getChildData = (data) => {
   for (const key in data) {
@@ -92,6 +89,24 @@ const submitData = async () => {
   }
 };
 
+const availableFacility = ref([]);
+const fetchFacility = async () => {
+  const response = await FacilityService.fetchFacilities();
+  if (response.status == 200) {
+    const data = await response.json();
+    console.log('facility', data);
+    availableFacility.value = data;
+  } else {
+    const data = await response.json();
+    notify({
+      group: 'tr',
+      title: 'เกิดข้อผิดพลาด',
+      text: 'ไม่สามารถดึงข้อมูลสิ่งอำนวยความสะดวกได้ ' + data?.message,
+      type: 'error',
+    });
+  }
+};
+
 const canSubmit = ref(false);
 watch(residenceData, () => {
   canSubmit.value =
@@ -101,7 +116,6 @@ watch(residenceData, () => {
     residenceData.data.defaultWaterPriceRate &&
     residenceData.data.defaultWaterPriceRate > 0;
 });
-
 </script>
 
 <template>
@@ -121,7 +135,7 @@ watch(residenceData, () => {
         />
       </div>
       <div>
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-2">
+        <div class="grid grid-cols-1 lg:grid-cols-1">
           <ResidenceBasicInfoForm
             @getData="getChildData"
             :residenceData="residenceData.data"
@@ -130,9 +144,9 @@ watch(residenceData, () => {
             @getData="getChildData"
             :residenceData="residenceData.data"
           />
-          <ResidenceSettingForm
-            @getData="getChildData"
-            :residenceData="residenceData.data"
+          <ResidenceFacilityForm
+            :residenceData="residenceData"
+            :facility-list="availableFacility"
           />
         </div>
 
@@ -145,7 +159,12 @@ watch(residenceData, () => {
           >
             ยกเลิก
           </Button>
-          <Button @click="submitData" class="rounded-badge" btnType="primary" :disabled="!canSubmit">
+          <Button
+            @click="submitData"
+            class="rounded-badge"
+            btnType="primary"
+            :disabled="!canSubmit"
+          >
             บันทึกข้อมูล
           </Button>
         </div>

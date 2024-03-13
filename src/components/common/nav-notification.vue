@@ -5,6 +5,7 @@ import Divider from './divider.vue';
 import Badge from './badge.vue';
 import dayjs from 'dayjs';
 import { computed } from 'vue';
+import NotificationService from '@/services/NotificationService';
 
 const props = defineProps({
   notifications: {
@@ -13,13 +14,18 @@ const props = defineProps({
   },
 });
 
-const markAsRead = (notificationId) => {
+const markAsRead = async (notificationId) => {
   console.log('mark as read', notificationId);
-  props.notifications.forEach((notification) => {
-    if (notification._id === notificationId) {
-      notification.isRead = true;
-    }
-  });
+  // send request to server
+  const response = await NotificationService.markAsRead(notificationId);
+  console.log(response);
+  if (response.status === 200) {
+    props.notifications.forEach((notification) => {
+      if (notification._id === notificationId) {
+        notification.isRead = true;
+      }
+    });
+  }
 };
 
 const showNotification = computed(() => {
@@ -75,9 +81,9 @@ const showNotification = computed(() => {
             </div>
           </div>
         </div>
-        <div class="card-actions" v-if="showNotification.length">
+        <!-- <div class="card-actions" v-if="showNotification.length">
           <button class="btn btn-primary btn-block btn-sm">ดูทั้งหมด</button>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

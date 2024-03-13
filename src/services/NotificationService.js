@@ -10,7 +10,7 @@ class NotificationService {
     sendRequest(this.baseUrl, '/notification/my', 'GET');
 
   markAsRead = async (id) =>
-    sendRequest(this.baseUrl, '/notification/markasread/' + id, 'POST');
+    sendRequest(this.baseUrl, '/notification/read/' + id, 'GET');
 }
 
 export default new NotificationService();

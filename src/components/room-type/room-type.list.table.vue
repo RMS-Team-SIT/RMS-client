@@ -33,9 +33,7 @@ const computedRooms = computed(() => {
   return props.roomTypes
     .filter((room) => room.isActive !== showDeactive.value)
     .filter((room) => {
-      return (
-        room.name.toLowerCase().includes(search.value.toLowerCase())
-      );
+      return room.name.toLowerCase().includes(search.value.toLowerCase());
     })
     .slice(start, end);
 });
@@ -66,6 +64,55 @@ const visiblePages = computed(() => {
 
   return Array.from({ length: end - start + 1 }, (_, i) => start + i);
 });
+
+// const editingRoom = ref(null);
+// const setEditingRoom = (roomTypeId) => {
+//   editingRoom.roomId = roomTypeId;
+//   editingRoom.room = { ...props.rooms.find((room) => room._id === roomTypeId) };
+//   editingRoom.room.type = editingRoom.room.type._id;
+// };
+// const setEditingRoomRentalPriceByRoomType = () => {
+//   editingRoom.room.roomRentalPrice = props.roomTypes.find(
+//     (t) => t._id === editingRoom.room.type
+//   ).price;
+// };
+
+// const resetEditingRoom = () => {
+//   editingRoom.roomId = '';
+//   editingRoom.room = {};
+// };
+
+// const updateRoom = async () => {
+//   const response = await RoomService.updateRoomDetail(
+//     props.residenceId,
+//     editingRoom.roomId,
+//     { ...editingRoom.room }
+//   );
+
+//   if (response.status !== 200) {
+//     const data = await response.json();
+//     notify({
+//       group: 'tr',
+//       title: 'แก้ไขข้อมูลไม่สำเร็จ',
+//       text: 'เกิดข้อผิดพลาดในการแก้ไขข้อมูลห้องพัก,' + data.message,
+//       type: 'error',
+//     });
+//   } else {
+//     notify({
+//       group: 'tr',
+//       title: 'แก้ไขข้อมูลสำเร็จ',
+//       text: 'ข้อมูลห้องพักได้รับการแก้ไขเรียบร้อยแล้ว',
+//       type: 'success',
+//     });
+//     props.rooms[props.rooms.findIndex((r) => r._id === editingRoom.roomId)] = {
+//       ...editingRoom.room,
+//       type: props.roomTypes.find((t) => t._id === editingRoom.room.type),
+//     };
+//   }
+
+//   resetEditingRoom();
+//   editRoom.close();
+// };
 </script>
 
 <template>
@@ -132,14 +179,9 @@ const visiblePages = computed(() => {
             <td>
               {{ room.category }}
             </td>
-            <td>
-              {{ room.size }} ตร.ม.
-            </td>
-            <td>
-              {{ room.price }} บาท/เดือน
-            </td>
-            
-            
+            <td>{{ room.size }} ตร.ม.</td>
+            <td>{{ room.price }} บาท/เดือน</td>
+
             <th>
               <!-- <router-link
                 :to="{
@@ -150,7 +192,7 @@ const visiblePages = computed(() => {
                   },
                 }"
               > -->
-                <Button btnType="ghost-pill">ดูข้อมูล</Button>
+              <Button btnType="ghost-pill">ดูข้อมูล</Button>
               <!-- </router-link> -->
             </th>
             <th>
@@ -163,12 +205,140 @@ const visiblePages = computed(() => {
                   },
                 }"
               > -->
-                <Button btnType="ghost-pill">แก้ไข</Button>
+              <Button
+                btnType="ghost-pill"
+               
+                >แก้ไข</Button
+              >
               <!-- </router-link> -->
             </th>
           </tr>
         </tbody>
       </table>
+
+      <!-- Modal -->
+      <!-- <dialog :id="`editRoom`" class="modal">
+        <div class="modal-box space-y-2">
+          <h3 class="font-bold text-lg">
+            รายละเอียดห้อง : {{ editingRoom.room.name }}
+          </h3>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="label">
+                <span class="text-base label-text">ชื่อห้อง </span>
+              </label>
+              <input
+                type="text"
+                placeholder="ชื่อห้อง"
+                class="input input-bordered bg-white input-sm rounded-sm"
+                v-model="editingRoom.room.name"
+              />
+            </div>
+
+            <div>
+              <label class="label">
+                <span class="text-base label-text"
+                  >ประเภทห้อง <span class="text-red-500">*</span>
+                </span>
+              </label>
+              <select
+                class="select select-bordered w-full max-w-xs select-sm bg-white input-sm rounded-sm"
+                v-model="editingRoom.room.type"
+                @change="setEditingRoomRentalPriceByRoomType"
+              >
+                <option value="">เลือกประเภทห้อง</option>
+                <option
+                  v-for="roomType in props.roomTypes"
+                  :key="roomType._id"
+                  :value="roomType._id"
+                >
+                  {{ roomType.name }}
+                </option>
+              </select>
+            </div>
+
+            <div>
+              <label class="label">
+                <span class="text-base label-text"
+                  >ชั้น <span class="text-red-500">*</span>
+                </span>
+              </label>
+              <input
+                type="number"
+                min="0"
+                placeholder="ชั้น"
+                class="input input-bordered bg-white input-sm rounded-sm"
+                v-model="editingRoom.room.floor"
+              />
+            </div>
+
+            <div>
+              <label class="label">
+                <span class="text-base label-text"
+                  >ค่าเช่าบาท/เดือน
+                  <span class="text-red-500">*</span>
+                </span>
+              </label>
+              <input
+                type="number"
+                min="0"
+                placeholder="ค่าเช่าบาท/เดือน"
+                class="input input-bordered bg-white input-sm rounded-sm"
+                v-model="editingRoom.room.roomRentalPrice"
+              />
+            </div>
+
+            <div class="col-span-2">
+              <label class="label">
+                <span class="text-base label-text">คำอธิบาย</span>
+              </label>
+              <textarea
+                class="w-full textarea textarea-bordered rounded-sm bg-white"
+                v-model="editingRoom.room.description"
+              ></textarea>
+            </div>
+
+            <div class="col-span-2">
+              <label class="label">
+                <span class="text-base label-text"
+                  >ค่าบริการ <span class="text-red-500">*</span>
+                </span>
+              </label>
+              <p class="p-2" v-if="!props.residenceData.fees.length">
+                ไม่มีค่าบริการเพิ่มเติมในหอพัก
+              </p>
+              <div class="grid grid-cols-1 md:grid-cols-2">
+                <div
+                  v-for="(fee, feeIndex) in props.residenceData.fees"
+                  :key="feeIndex"
+                  class="flex items-center gap-2"
+                >
+                  <input
+                    type="checkbox"
+                    :id="index + fee._id"
+                    :value="fee._id"
+                    v-model="editingRoom.room.fees"
+                    class="checkbox checkbox-primary"
+                  />
+                  <label :for="index + fee._id" class="label text-sm">
+                    {{ fee.feename }} : {{ fee.feeprice }} บาท
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-action flex">
+            <form method="dialog">
+              <button class="btn btn-sm" @click="resetEditingRoom">ปิด</button>
+              <button class="btn btn-sm btn-secondary" @click="updateRoom">
+                บันทึกข้อมูล
+              </button>
+            </form>
+          </div>
+        </div>
+      </dialog> -->
 
       <div class="join">
         <button

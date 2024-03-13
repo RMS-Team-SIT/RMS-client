@@ -184,7 +184,7 @@ const validateErrorMsg = (field) => {
           </label>
           <input
             type="email"
-            autocomplete="off"
+            autocomplete="false"
             autocorrect="off"
             placeholder="กรุณากรอกอีเมลของคุณ"
             class="w-full input input-bordered bg-white input-sm rounded-sm"
@@ -216,7 +216,7 @@ const validateErrorMsg = (field) => {
           <div class="flex w-full items-center gap-2">
             <input
               :type="isShowPassword ? 'text' : 'password'"
-              autocomplete="off"
+              autocomplete="false"
               autocorrect="off"
               placeholder="กรุณาใส่รหัสผ่านของคุณ"
               class="w-full input input-bordered bg-white input-sm rounded-sm"
@@ -267,7 +267,7 @@ const validateErrorMsg = (field) => {
           </label>
           <input
             :type="isShowPassword ? 'text' : 'password'"
-            autocomplete="off"
+            autocomplete="false"
             autocorrect="off"
             placeholder="กรุณายืนยันรหัสผ่านของคุณ"
             class="w-full input input-bordered bg-white input-sm rounded-sm"

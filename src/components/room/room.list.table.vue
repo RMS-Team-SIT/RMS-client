@@ -107,16 +107,27 @@ const updateRoom = async () => {
     { ...editingRoom.room }
   );
 
-  notify({
-    group: 'tr',
-    title: 'แก้ไขข้อมูลสำเร็จ',
-    text: 'ข้อมูลห้องพักได้รับการแก้ไขเรียบร้อยแล้ว',
-    type: 'success',
-  });
-  props.rooms[props.rooms.findIndex((r) => r._id === editingRoom.roomId)] = {
-    ...editingRoom.room,
-    type: props.roomTypes.find((t) => t._id === editingRoom.room.type),
-  };
+  if (response.status !== 200) {
+    const data = await response.json();
+    notify({
+      group: 'tr',
+      title: 'แก้ไขข้อมูลไม่สำเร็จ',
+      text: 'เกิดข้อผิดพลาดในการแก้ไขข้อมูลห้องพัก,' + data.message,
+      type: 'error',
+    });
+  } else {
+    notify({
+      group: 'tr',
+      title: 'แก้ไขข้อมูลสำเร็จ',
+      text: 'ข้อมูลห้องพักได้รับการแก้ไขเรียบร้อยแล้ว',
+      type: 'success',
+    });
+    props.rooms[props.rooms.findIndex((r) => r._id === editingRoom.roomId)] = {
+      ...editingRoom.room,
+      type: props.roomTypes.find((t) => t._id === editingRoom.room.type),
+    };
+  }
+
   resetEditingRoom();
   editRoom.close();
 };
@@ -190,7 +201,7 @@ const updateRoom = async () => {
               {{ room.type.name }}
             </td>
             <td>{{ room.roomRentalPrice }} บาท</td>
-            
+
             <td>
               <Badge badgeType="success" v-if="!room.currentRenter">ว่าง</Badge>
               <Badge badgeType="error" v-else>ไม่ว่าง</Badge>
@@ -222,8 +233,9 @@ const updateRoom = async () => {
                   },
                 }"
               >
-                <Button btnType="ghost-pill">ดูข้อมูล
-                  <ArrowTopRightOnSquareIcon class="h-4 w-4"/>
+                <Button btnType="ghost-pill"
+                  >ดูข้อมูล
+                  <ArrowTopRightOnSquareIcon class="h-4 w-4" />
                 </Button>
               </router-link>
             </th>
