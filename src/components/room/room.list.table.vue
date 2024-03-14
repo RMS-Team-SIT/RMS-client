@@ -200,7 +200,7 @@ const updateRoom = async () => {
             <td>
               {{ room.type.name }}
             </td>
-            <td>{{ room.roomRentalPrice }} บาท</td>
+            <td>{{ room.roomRentalPrice.toLocaleString() }} บาท</td>
 
             <td>
               <Badge badgeType="success" v-if="!room.currentRenter">ว่าง</Badge>
@@ -369,7 +369,7 @@ const updateRoom = async () => {
                     class="checkbox checkbox-primary"
                   />
                   <label :for="index + fee._id" class="label text-sm">
-                    {{ fee.feename }} : {{ fee.feeprice }} บาท
+                    {{ fee.feename }} : {{ fee.feeprice.toLocaleString() }} บาท
                   </label>
                 </div>
               </div>
