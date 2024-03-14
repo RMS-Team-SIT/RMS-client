@@ -25,7 +25,15 @@ const imageSrc = computed(() => {
 </script>
 
 <template>
-  <div class="card card-side bg-base-100 border border-gray-200 mt-5">
+  <div
+    class="card card-side bg-base-100 border border-gray-200 mt-5 hover:shadow hover:cursor-pointer hover:border-gray-300"
+    @click="
+      router.push({
+        name: 'dashboard',
+        params: { residenceId: props.residence._id },
+      })
+    "
+  >
     <figure>
       <img class="w-60 h-60 rounded-lg" :src="imageSrc" />
     </figure>
