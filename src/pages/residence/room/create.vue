@@ -3,7 +3,7 @@ import loading from '@/components/common/loading.vue';
 import ResidenceServices from '@/services/ResidenceServices';
 import RoomInfoForm from '@/components/room/form/room.info.form.vue';
 import { useNotification } from '@kyvg/vue3-notification';
-import { onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Steps from '@/components/common/steps.vue';
 import Button from '@/components/common/button.vue';
@@ -15,7 +15,8 @@ import RoomService from '@/services/RoomService';
 const router = useRouter();
 const route = useRoute();
 const residenceId = route.params.residenceId;
-const numberOfSteps = 2;
+const stepList = ['ป้อนข้อมูล', 'ตรวจสอบข้อมูล'];
+const numberOfSteps = stepList.length;
 const currentStep = ref(1);
 const { notify } = useNotification();
 const isLoading = ref(true);
@@ -24,14 +25,9 @@ const roomData = reactive({
   name: '',
   description: '',
   floor: 1,
-  waterPriceRate: 0,
-  electricPriceRate: 0,
-  isUseDefaultWaterPriceRate: true,
-  isUseDefaultElectricPriceRate: true,
-  defaultWaterPriceRate: 0,
-  defaultElectricPriceRate: 0,
-  currentRenter: null,
   roomRentalPrice: 0,
+  fees: [],
+  type: '',
 });
 
 const changeStep = (action) => {
@@ -87,11 +83,6 @@ const fetchResidenceData = async () => {
   if (response.status === 200) {
     let result = await response.json();
     residence.data = result;
-    // set default value of roomData
-    roomData.electricPriceRate = residence.data.defaultElectricPriceRate;
-    roomData.defaultElectricPriceRate = residence.data.defaultElectricPriceRate;
-    roomData.waterPriceRate = residence.data.defaultWaterPriceRate;
-    roomData.defaultWaterPriceRate = residence.data.defaultWaterPriceRate;
   } else {
     notify({
       group: 'tr',
@@ -102,6 +93,19 @@ const fetchResidenceData = async () => {
     router.push({ name: 'manage' });
   }
 };
+
+const canNext = computed(() => {
+  if (currentStep.value === 1) {
+    return (
+      roomData.name &&
+      roomData.floor &&
+      roomData.type &&
+      roomData.roomRentalPrice &&
+      roomData.type
+    );
+  }
+  return true;
+});
 
 onMounted(async () => {
   await fetchResidenceData();
@@ -132,52 +136,39 @@ onMounted(async () => {
           ]"
         />
       </div>
-      <div>
-        <div class="p-4 mb-4 card shadow-xl bg-white">
+      {{ roomData }}
+      <div class="grid grid-cols-12">
+        <div class="p-4 mb-4 card bg-white col-span-3 items-center">
           <Steps
-            :stepList="['ป้อนข้อมูล', 'ตรวจสอบข้อมูล']"
+            direction="vertical"
+            :stepList="stepList"
             :currentStep="currentStep"
           />
         </div>
-
-        <!-- step 1 -->
-        <div v-if="currentStep == 1" class="flex gap-4">
-          <RoomInfoForm
-            class="basis-1/2"
-            @getData="getChildData"
-            :roomData="roomData"
-            :roomTypes="residence.data.roomTypes"
-            :fees="residence.data.fees"
-          />
-          <RoomRenterForm
-            class="basis-1/2"
-            @getData="getChildData"
-            :roomData="roomData"
-            :renterData="residence.data.renters"
-          />
-        </div>
-
-        <!-- step 2 -->
-        <div v-if="currentStep == 2" class="flex gap-4 flex-col">
-          <div class="flex gap-4">
+        <div class="p-4 mb-4 card bg-white col-span-9 items-center">
+          <!-- step 1 -->
+          <div v-if="currentStep == 1" class="w-full">
             <RoomInfoForm
-              class="basis-1/2"
+              @getData="getChildData"
+              :roomData="roomData"
+              :roomTypes="residence.data.roomTypes"
+              :fees="residence.data.fees"
+            />
+          </div>
+
+          <!-- step 2 -->
+          <div v-if="currentStep == 2" class="w-full">
+            <RoomInfoForm
               @getData="getChildData"
               :roomData="roomData"
               :roomTypes="residence.data.roomTypes"
               :fees="residence.data.fees"
               :viewOnly="true"
             />
-            <RoomRenterForm
-              class="basis-1/2"
-              @getData="getChildData"
-              :roomData="roomData"
-              :renterData="residence.data.renters"
-              :viewOnly="true"
-            />
           </div>
         </div>
-
+      </div>
+      <div>
         <!-- button control -->
         <div class="flex justify-end gap-2 mt-10">
           <Button
@@ -205,7 +196,7 @@ onMounted(async () => {
           >
             บันทึกข้อมูล
           </Button>
-          <Button @click="changeStep('next')" class="rounded-badge" v-else>
+          <Button @click="changeStep('next')" class="rounded-badge" :disabled="!canNext" v-else>
             ถัดไป
             <ArrowRightIcon class="w-4 h-4" />
           </Button>

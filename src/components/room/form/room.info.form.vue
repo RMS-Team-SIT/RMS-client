@@ -49,6 +49,19 @@ onMounted(() => {
 watch(roomInfo, () => {
   emitData();
 });
+
+watch(
+  () => roomInfo.type,
+  () => {
+    setRoomRentalPriceByType();
+  }
+);
+const setRoomRentalPriceByType = () => {
+  if (roomInfo.type) {
+    const type = props.roomTypes.find((type) => type._id === roomInfo.type);
+    roomInfo.roomRentalPrice = type.price;
+  }
+};
 </script>
 
 <template>
@@ -143,9 +156,7 @@ watch(roomInfo, () => {
           >ค่าบริการเพิ่มเติม <span class="text-red-500">*</span>
         </span>
       </label>
-      <p class="p-2" v-if="!fees.length">
-        ไม่มีค่าบริการเพิ่มเติมในหอพัก
-      </p>
+      <p class="p-2" v-if="!fees.length">ไม่มีค่าบริการเพิ่มเติมในหอพัก</p>
       <div class="grid grid-cols-1 md:grid-cols-2">
         <div
           v-for="(fee, feeIndex) in fees"
