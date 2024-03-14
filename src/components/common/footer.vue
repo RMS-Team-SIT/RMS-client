@@ -30,6 +30,7 @@ const thisYear = new Date().getFullYear();
       <a class="link link-hover">Cookie policy</a>
     </nav>
   </footer>
+  <p class="p-2 w-full text-center text-sm">&copf; RMS team</p>
 </template>
 
 <style scoped>
@@ -39,4 +40,3 @@ const thisYear = new Date().getFullYear();
     width: 100%;
   } */
 </style>
-@/utils/constants

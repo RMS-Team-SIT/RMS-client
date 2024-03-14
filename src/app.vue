@@ -8,6 +8,7 @@ import { useUserStore } from './stores/user.store';
 import Loading from './components/common/loading.vue';
 import { useI18n } from 'vue-i18n';
 import { languages } from './i18n';
+import CookieConsent from './components/common/cookie-consent.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -63,6 +64,15 @@ const setLang = () => {
   }
 };
 
+const isShowCookieConsent = ref(
+  localStorage.getItem('cookie-consent') !== 'accepted'
+);
+
+const accept = () => {
+  localStorage.setItem('cookie-consent', 'accepted');
+  isShowCookieConsent.value = false;
+};
+
 onMounted(async () => {
   // setLang();
   setTimeout(() => {
@@ -82,6 +92,7 @@ onMounted(async () => {
     <router-view class="min-h-screen" />
     <notifications group="tr" position="top right" class="text-md" />
     <Footer v-if="shouldShowFooter" />
+    <CookieConsent v-if="isShowCookieConsent" @accept="accept" />
   </div>
 </template>
 
