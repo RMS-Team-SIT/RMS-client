@@ -14,7 +14,8 @@ import FileService from '@/services/FileService';
 const router = useRouter();
 const route = useRoute();
 const residenceId = route.params.residenceId;
-const numberOfSteps = 2;
+const stepList = ['ข้อมูลผู้เช่า', 'ไฟล์เกี่ยวกับผู้เช่า', 'ตรวจสอบข้อมูล'];
+const numberOfSteps = stepList.length;
 const currentStep = ref(1);
 const { notify } = useNotification();
 
@@ -45,14 +46,19 @@ const changeStep = (action) => {
 };
 
 const canNext = computed(() => {
-  return (
-    renterData.firstname &&
-    renterData.lastname &&
-    renterData.username &&
-    renterData.phone &&
-    renterData.email &&
-    renterData.password
-  );
+  if (currentStep.value == 1) {
+    return (
+      renterData.firstname &&
+      renterData.lastname &&
+      renterData.username &&
+      renterData.phone &&
+      renterData.email &&
+      renterData.password
+    );
+  } else if (currentStep.value == 2) {
+    return renterData.copyOfIdCard.file && renterData.renterContract.file;
+  }
+  return true;
 });
 
 const getChildData = (data) => {
@@ -167,83 +173,77 @@ const submitData = async () => {
           ]"
         />
       </div>
-      <div>
-        <div class="p-4 mb-4 card shadow-xl bg-white">
+      <div class="grid grid-cols-12">
+        <div class="p-4 mb-4 card bg-white col-span-3 items-center">
           <Steps
-            direction="horizontal"
-            :stepList="['ป้อนข้อมูลผู้เช่า', 'ตรวจสอบข้อมูล']"
+            direction="vertical"
+            :stepList="stepList"
             :currentStep="currentStep"
           />
         </div>
-        <!-- step 1 -->
-        <div v-if="currentStep == 1" class="flex gap-4">
-          <RenterInfoForm
-            class="basis-1/2"
-            @getData="getChildData"
-            :renterData="renterData"
-          />
-          <RenterFilesForm
-            class="basis-1/2"
-            @getData="getChildData"
-            :renterData="renterData"
-          />
-        </div>
 
-        <!-- step 2 -->
-        <div v-if="currentStep == 2" class="flex gap-4 flex-col">
-          <div class="flex gap-4">
+        <div class="p-4 mb-4 card bg-white col-span-9 items-center">
+          <!-- step 1 -->
+          <div v-if="currentStep == 1" class="w-full">
+            <RenterInfoForm @getData="getChildData" :renterData="renterData" />
+          </div>
+
+          <!-- step 2 -->
+          <div v-if="currentStep == 2" class="w-full">
+            <RenterFilesForm @getData="getChildData" :renterData="renterData" />
+          </div>
+
+          <!-- step 3 -->
+          <div v-if="currentStep == 3" class="w-full">
             <RenterInfoForm
-              class="basis-1/2"
               @getData="getChildData"
               :renterData="renterData"
               :viewOnly="true"
             />
             <RenterFilesForm
-              class="basis-1/2"
               @getData="getChildData"
               :renterData="renterData"
               :viewOnly="true"
             />
           </div>
         </div>
-
-        <!-- button control -->
-        <div class="flex justify-end gap-2 mt-10">
-          <Button
-            btn-type="secondary"
-            @click="router.push({ name: 'dashboard', params: { residenceId } })"
-            v-if="currentStep == 1"
-            class="rounded-badge"
-          >
-            ยกเลิก
-          </Button>
-          <Button
-            btn-type="secondary"
-            @click="changeStep('back')"
-            v-if="currentStep > 1"
-            class="rounded-badge"
-          >
-            <ArrowLeftIcon class="w-4 h-4" />
-            ย้อนกลับ
-          </Button>
-          <Button
-            v-if="currentStep == numberOfSteps"
-            @click="submitData"
-            class="rounded-badge"
-            btnType="primary"
-          >
-            บันทึกข้อมูล
-          </Button>
-          <Button
-            @click="changeStep('next')"
-            :disabled="!canNext"
-            class="rounded-badge"
-            v-else
-          >
-            ถัดไป
-            <ArrowRightIcon class="w-4 h-4" />
-          </Button>
-        </div>
+      </div>
+      <!-- button control -->
+      <div class="flex justify-end gap-2 mt-10">
+        <Button
+          btn-type="secondary"
+          @click="router.push({ name: 'dashboard', params: { residenceId } })"
+          v-if="currentStep == 1"
+          class="rounded-badge"
+        >
+          ยกเลิก
+        </Button>
+        <Button
+          btn-type="secondary"
+          @click="changeStep('back')"
+          v-if="currentStep > 1"
+          class="rounded-badge"
+        >
+          <ArrowLeftIcon class="w-4 h-4" />
+          ย้อนกลับ
+        </Button>
+        <Button
+          v-if="currentStep == numberOfSteps"
+          @click="submitData"
+          class="rounded-badge"
+          btnType="primary"
+        >
+          บันทึกข้อมูล
+        </Button>
+        <Button
+          @click="changeStep('next')"
+          :disabled="!canNext"
+          class="rounded-badge"
+          v-else
+        >
+          ถัดไป
+          <ArrowRightIcon class="w-4 h-4" />
+        </Button>
       </div>
     </div>
   </div>

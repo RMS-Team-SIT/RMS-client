@@ -32,6 +32,13 @@ const fetchData = async () => {
     residence.data.images = residence.data.images.map((imageName) => {
       return FileService.getFile(imageName);
     });
+    // sort room floor by ascending order then room name
+    residence.data.rooms = residence.data.rooms.sort((a, b) => {
+      if (a.floor === b.floor) {
+        return a.name.localeCompare(b.name);
+      }
+      return a.floor - b.floor;
+    });
   } else {
     notify({
       group: 'tr',
@@ -67,7 +74,7 @@ onMounted(async () => {
       />
 
       <back :to="{ name: 'dashboard', params: { residenceId } }" class="mt-5" />
-      
+
       <div class="bg-white p-10 mt-2 shadow rounded-lg border">
         <div class="flex justify-between">
           <h1
