@@ -73,11 +73,11 @@ const props = defineProps({
       <Divider>อื่น ๆ</Divider>
       <p>
         <span class="font-bold">ค่าน้ำ</span> :
-        {{ residence.defaultWaterPriceRate }} บาท / หน่วย
+        {{ residence.defaultWaterPriceRate.toLocaleString() }} บาท / หน่วย
       </p>
       <p>
         <span class="font-bold">ค่าไฟ</span> :
-        {{ residence.defaultElectricPriceRate }} บาท / หน่วย
+        {{ residence.defaultElectricPriceRate.toLocaleString() }} บาท / หน่วย
       </p>
     </div>
   </div>

@@ -126,7 +126,7 @@ watch(childData, () => {
         class="grid grid-cols-3 gap-4 items-center justify-between bg-gray-100 p-4 rounded-md"
       >
         <p>{{ fee.feename }}</p>
-        <p>{{ fee.feeprice }} บาท</p>
+        <p>{{ fee.feeprice.toLocaleString() }} บาท</p>
         <Button
           v-if="!viewOnly"
           @click="removeFee(index)"

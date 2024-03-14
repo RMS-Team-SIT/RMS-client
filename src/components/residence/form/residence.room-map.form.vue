@@ -288,7 +288,7 @@ const getFee = (id) => {
                 </p>
                 <p class="text-sm">
                   ค่าเช่า:
-                  {{ room.roomRentalPrice || 'ยังไม่ได้กำหนด' }} บาท/เดือน
+                  {{ room.roomRentalPrice.toLocaleString() || 'ยังไม่ได้กำหนด' }} บาท/เดือน
                 </p>
                 <p class="text-sm">
                   ค่าบริการ:
@@ -408,7 +408,7 @@ const getFee = (id) => {
                         class="checkbox checkbox-primary"
                       />
                       <label :for="index + fee._id" class="label text-sm">
-                        {{ fee.feename }} : {{ fee.feeprice }} บาท
+                        {{ fee.feename }} : {{ fee.feeprice.toLocaleString() }} บาท
                       </label>
                     </div>
                   </div>

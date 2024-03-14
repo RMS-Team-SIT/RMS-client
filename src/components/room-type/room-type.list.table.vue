@@ -181,7 +181,7 @@ const visiblePages = computed(() => {
               {{ room.category }}
             </td>
             <td>{{ room.size }} ตร.ม.</td>
-            <td>{{ room.price }} บาท/เดือน</td>
+            <td>{{ room.price.toLocaleString() }} บาท/เดือน</td>
 
             <th>
               <!-- <router-link

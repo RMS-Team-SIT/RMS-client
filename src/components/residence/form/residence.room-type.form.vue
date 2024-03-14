@@ -281,7 +281,7 @@ watch(childData, () => {
           <p class="text-base">ขนาดห้อง: {{ roomtype.size }} ตร.ม.</p>
         </div>
         <div class="">
-          <p class="text-base">ค่าเช่า: {{ roomtype.price }} บาท/เดือน</p>
+          <p class="text-base">ค่าเช่า: {{ roomtype.price.toLocaleString() }} บาท/เดือน</p>
         </div>
         <div class="">
           <p class="text-base">รูปแบบห้อง: {{ roomtype.category }}</p>
