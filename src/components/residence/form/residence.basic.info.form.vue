@@ -71,6 +71,7 @@ watch(residenceInfo, () => {
         class="w-full textarea textarea-bordered rounded-sm bg-white"
         v-model="residenceInfo.address"
         :disabled="viewOnly"
+        :class="{ 'text-gray-950': viewOnly }"
       />
     </div>
 
@@ -86,9 +87,8 @@ watch(residenceInfo, () => {
         :disabled="viewOnly"
         rows="10"
       />
-      <p class="text-sm p-1">เช่น จุดเด่นของหอพัก ลักษณะหอพัก(ช, ญ) </p>
+      <p class="text-sm p-1">เช่น จุดเด่นของหอพัก ลักษณะหอพัก(ช, ญ)</p>
     </div>
-    
   </div>
 </template>
 

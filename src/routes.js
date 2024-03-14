@@ -34,11 +34,15 @@ const createRenter = () => import('./pages/residence/renter/create.vue');
 const updateRenter = () => import('./pages/residence/renter/update.vue');
 const viewRenter = () => import('./pages/residence/renter/view.vue');
 
+// room
 const room = () => import('./pages/residence/room/room.vue');
 const viewRoom = () => import('./pages/residence/room/view.vue');
 const createRoom = () => import('./pages/residence/room/create.vue');
 const createManyRoom = () => import('./pages/residence/room/create-many.vue');
 const updateRoom = () => import('./pages/residence/room/update.vue');
+
+// room type
+const viewRoomType = () => import('./pages/residence/room-type/view.vue');
 
 const payment = () => import('./pages/residence/payment/payment.vue');
 const createPayment = () => import('./pages/residence/payment/create.vue');
@@ -238,6 +242,14 @@ const routes = [
     component: viewRoom,
     meta: {
       title: 'ดูข้อมูลห้องพัก',
+    },
+  },
+  {
+    name: 'view-room-type',
+    path: '/manage/residence/:residenceId/room-type/:roomTypeId',
+    component: viewRoomType,
+    meta: {
+      title: 'ดูข้อมูลประเภทห้องพัก',
     },
   },
   {

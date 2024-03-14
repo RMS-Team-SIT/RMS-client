@@ -9,6 +9,7 @@ import Loading from '@/components/common/loading.vue';
 import { ChartPieIcon, HomeIcon, UserIcon } from '@heroicons/vue/24/outline';
 import Button from '@/components/common/button.vue';
 import RenterListTable from '@/components/renter/renter.list.table.vue';
+import back from '@/components/common/back.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -47,7 +48,7 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
-  <div class="bg-gray-50 min-h-screen">
+  <div class="min-h-screen">
     <div class="py-10 px-10 md:px-40">
       <Breadcrumb
         :pathList="[
@@ -66,15 +67,11 @@ onMounted(async () => {
           { name: 'ดูข้อมูลผู้เช่า' },
         ]"
       />
-      <Button
-        btnType="primary"
-        class="mt-5"
-        @click="router.push({ name: 'renter', params: { residenceId } })"
-      >
-        กลับหน้าจัดการผู้เช่า
-      </Button>
+
+      <back :to="{ name: 'renter', params: { residenceId } }" />
+
       <div class="grid grid-cols-1">
-        <div class="bg-white p-10 mt-2 shadow rounded-lg">
+        <div class="bg-white p-10 mt-2 shadow rounded-lg border">
           <div>
             <h1 class="text-2xl font-semibold text-dark-blue-200">
               ดูข้อมูลผู้เช่า

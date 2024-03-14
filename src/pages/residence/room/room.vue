@@ -10,6 +10,7 @@ import Button from '@/components/common/button.vue';
 import RoomListTable from '@/components/room/room.list.table.vue';
 import { HomeIcon, HomeModernIcon } from '@heroicons/vue/24/outline';
 import roomTypeListTable from '@/components/room-type/room-type.list.table.vue';
+import back from '@/components/common/back.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -64,14 +65,9 @@ onMounted(async () => {
           { name: 'จัดการห้องพัก' },
         ]"
       />
-      <Button
-        btnType="primary"
-        class="mt-5"
-        @click="router.push({ name: 'dashboard', params: { residenceId } })"
-      >
-        กลับหน้าแดชบอร์ด
-      </Button>
 
+      <back :to="{ name: 'dashboard', params: { residenceId } }" class="mt-5" />
+      
       <div class="bg-white p-10 mt-2 shadow rounded-lg border">
         <div class="flex justify-between">
           <h1

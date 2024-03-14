@@ -91,7 +91,7 @@ watch(data, () => {
           { name: 'สร้างช่องทางการชำระเงิน' },
         ]"
       />
-      <div class="flex gap-4 shadow-md rounded">
+      <div class="flex gap-4 shadow-md rounded border">
         <div class="bg-white p-10 space-y-4">
           <h1 class="text-xl font-semibold text-dark-blue-200">
             ตั้งค่าช่องทางการชำระเงิน

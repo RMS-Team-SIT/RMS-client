@@ -11,12 +11,14 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import '@sweetalert2/themes/material-ui/material-ui.min.css';
 import { baseUrl, baseGetFileUrl } from './services/constants';
 import i18n from './i18n';
+import VueApexCharts from "vue3-apexcharts";
 
 const pinia = createPinia();
 const app = createApp(App);
 
 app.use(Notifications);
 app.use(VueSweetalert2);
+app.use(VueApexCharts);
 app.use(pinia);
 app.use(router);
 app.use(i18n);

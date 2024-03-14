@@ -7,6 +7,7 @@ import { useNotification } from '@kyvg/vue3-notification';
 import dayjs from 'dayjs';
 import BankIcon from '@/components/common/bank-icon.vue';
 import { useRouter } from 'vue-router';
+import { ArrowTopRightOnSquareIcon } from '@heroicons/vue/24/outline';
 
 const props = defineProps({
   roomTypes: {
@@ -192,7 +193,20 @@ const visiblePages = computed(() => {
                   },
                 }"
               > -->
-              <Button btnType="ghost-pill">ดูข้อมูล</Button>
+              <Button
+                btnType="ghost-pill"
+                @click="
+                  router.push({
+                    name: 'view-room-type',
+                    params: {
+                      residenceId: $route.params.residenceId,
+                      roomTypeId: room._id,
+                    },
+                  })
+                "
+                >ดูข้อมูล
+                <ArrowTopRightOnSquareIcon class="h-4 w-4" />
+              </Button>
               <!-- </router-link> -->
             </th>
             <th>
@@ -205,11 +219,7 @@ const visiblePages = computed(() => {
                   },
                 }"
               > -->
-              <Button
-                btnType="ghost-pill"
-               
-                >แก้ไข</Button
-              >
+              <Button btnType="ghost-pill">แก้ไข</Button>
               <!-- </router-link> -->
             </th>
           </tr>

@@ -1,4 +1,5 @@
 <script setup>
+import CountUp from 'vue-countup-v3';
 import Breadcrumb from '@/components/common/breadcrumb.vue';
 import { onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -19,6 +20,8 @@ import {
 } from '@heroicons/vue/24/outline';
 import QuickLinkCard from '@/components/common/quick-link-card.vue';
 import ResidenceStat from '@/components/residence/residence.stat.vue';
+import temp from '@/components/residence/charts/temp.vue';
+import RoomChart from '@/components/residence/charts/room.chart.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -85,7 +88,7 @@ onMounted(async () => {
   <Loading v-if="isLoading" class="min-h-screen" />
   <div v-if="residence.data" class="min-h-screen">
     <div class="py-10 px-10 md:px-40">
-      <!-- <Breadcrumb
+      <Breadcrumb
         :pathList="[
           { name: 'หน้าแรก', pathName: 'home' },
           { name: 'จัดการ', pathName: 'manage' },
@@ -96,18 +99,18 @@ onMounted(async () => {
           },
           { name: 'แดชบอร์ด' },
         ]"
-      /> -->
+      />
 
       <section>
         <h1
-          class="text-2xl font-semibold text-dark-blue-200 my-5 flex items-center gap-2"
+          class="text-xl font-semibold text-dark-blue-200 my-5 flex items-center gap-2"
         >
           <ChartPieIcon class="h-8 w-8 inline-block" /> ข้อมูลภาพรวม :
           {{ residence.data.name }}
         </h1>
 
         <!-- Stats -->
-        <ResidenceStat
+        <!-- <ResidenceStat
           :residenceId="residenceId"
           :stats="{
             renterCount: stats.renterCount,
@@ -115,25 +118,66 @@ onMounted(async () => {
             paymentCount: stats.paymentCount,
             // roomTypeCount: stats.roomTypeCount,
           }"
-        />
+        /> -->
 
-        <!-- Graph -->
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-5">
-          <div
-            class="p-6 bg-white rounded-lg shadow-md border border-gray-200 col-span-2"
-          >
-            <h3 class="text-xl font-semibold mb-2 p-5">
-              รายได้ของหอพักในปีนี้
-            </h3>
-            <IncomeChart />
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-2">
+          <div class="grid grid-cols-2 gap-2">
+            <div
+              class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
+            >
+              <h3 class="text-lg font-semibold mb-2">จำนวนห้อง</h3>
+              <p class="flex gap-2 items-end">
+                <CountUp
+                  :end-val="stats.avaiableRoomCount"
+                  class="text-6xl text-green-400"
+                />
+                ห้อง
+              </p>
+            </div>
+
+            <div
+              class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
+            >
+              <h3 class="text-lg font-semibold mb-2">จำนวนผู้เช่า</h3>
+              <p class="flex gap-2 items-end">
+                <CountUp
+                  :end-val="stats.renterCount"
+                  class="text-6xl text-green-400"
+                />
+                คน
+              </p>
+            </div>
+
+            <div
+              class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
+            >
+              <h3 class="text-lg font-semibold mb-2">ช่องทางการชำระเงิน</h3>
+              <p class="flex gap-2 items-end">
+                <CountUp
+                  :end-val="stats.paymentCount"
+                  class="text-6xl text-green-400"
+                />
+                ช่องทาง
+              </p>
+            </div>
+
+            <div
+              class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
+            >
+              <h3 class="text-base font-semibold mb-2">จำนวนผู้เช่า</h3>
+              <p v-if="!stats.renterCount">ไม่มีผู้เช่า</p>
+              <p v-else class="flex gap-2">
+                <CountUp :end-val="stats.renterCount" />
+                คน
+              </p>
+            </div>
           </div>
-
           <div class="p-6 bg-white rounded-lg shadow-md border border-gray-200">
-            <h3 class="text-xl font-semibold mb-2 p-5">สถานะห้องในหอพัก</h3>
+            <h3 class="text-xl font-semibold mb-2 p-5">สถานะห้อง</h3>
             <p v-if="!stats.avaiableRoomCount" class="p-5">ไม่มีห้องในระบบ</p>
-            <AvailableChart
+            <RoomChart
               v-else
-              class="h-28 mx-auto"
+              class="h-52 mx-auto"
               :available="stats.avaiableRoomCount"
               :not-available="stats.notavaiableRoomCount"
             />
@@ -142,30 +186,16 @@ onMounted(async () => {
               {{ stats.notavaiableRoomCount }} ห้อง
             </p>
           </div>
-
-         
-          <div class="p-6 bg-white rounded-lg shadow-md border border-gray-200">
+          <!-- รายได้ของหอพักในปีนี้ -->
+          <div
+            class="p-5 bg-white rounded-lg shadow-md border border-gray-200 col-span-2"
+          >
             <h3 class="text-xl font-semibold mb-2 p-5">
-              สถานะการจ่ายค่าห้องทั้งหมด
+              รายได้ของหอพักในปีนี้
             </h3>
-            <PaidChart
-              class="h-28 mx-auto"
-              :paid="stats.paidRoomCount"
-              :unpaid="stats.unpaidRoomCount"
-            />
-            <p class="text-xs p-5">Paid status will show here.</p>
+            <temp />
           </div>
-          <div class="p-6 bg-white rounded-lg shadow-md border border-gray-200">
-            <h3 class="text-xl font-semibold mb-2 p-5">
-              สถานะการจ่ายค่าห้องทั้งหมด
-            </h3>
-            <PaidChart
-              class="h-28 mx-auto"
-              :paid="stats.paidRoomCount"
-              :unpaid="stats.unpaidRoomCount"
-            />
-            <p class="text-xs p-5">Paid status will show here.</p>
-          </div>
+          
         </div>
       </section>
 

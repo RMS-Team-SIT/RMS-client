@@ -9,17 +9,17 @@ class RoomTypeService {
   fetchByResidence = async (residenceId) =>
     sendRequest(this.baseUrl, `/residence/${residenceId}/room-type`, 'GET');
 
-  fetchOneResidence = async (residenceId, roomId) =>
+  fetchOneResidence = async (residenceId, roomTypeId) =>
     sendRequest(
       this.baseUrl,
-      `/residence/${residenceId}/room-type/${roomId}`,
+      `/room-type/${roomTypeId}`,
       'GET'
     );
 
   create = async (residenceId, room) =>
     sendRequest(
       this.baseUrl,
-      `/residence/${residenceId}/room-type`,
+      `/room-type`,
       'POST',
       room
     );
@@ -27,7 +27,7 @@ class RoomTypeService {
   update = async (residenceId, id, data) =>
     sendRequest(
       this.baseUrl,
-      `/residence/${residenceId}/room-type/${id}`,
+      `/room-type/${id}`,
       'PUT',
       data
     );
@@ -35,7 +35,7 @@ class RoomTypeService {
   deleteRoom = async (residenceId, id) =>
     sendRequest(
       this.baseUrl,
-      `/residence/${residenceId}/room-type/${id}`,
+      `/room-type/${id}`,
       'DELETE'
     );
 }

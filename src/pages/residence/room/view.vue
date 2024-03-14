@@ -15,6 +15,7 @@ import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import ImagePreview from '@/components/common/image.preview.vue';
 import FileService from '@/services/FileService';
+import back from '@/components/common/back.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -80,14 +81,9 @@ onMounted(() => {
           { name: 'ดูข้อมูลห้องพัก' },
         ]"
       />
-      <Button
-        btnType="primary"
-        class="mt-5"
-        @click="router.push({ name: 'room', params: { residenceId } })"
-      >
-        กลับหน้าจัดการห้องพัก
-      </Button>
-      <div class="bg-white p-10 mt-2 rounded-lg">
+      <back :to="{ name: 'room', params: { residenceId } }" />
+
+      <div class="bg-white mt-5 rounded-lg border p-5">
         <!-- Head -->
         <div class="flex justify-between">
           <h1 class="text-2xl font-semibold text-dark-blue-200">
@@ -106,12 +102,11 @@ onMounted(() => {
           </Button>
         </div>
         <!-- Body -->
-        <!-- row 1 -->
-        <div class="mt-5 grid grid-cols-2 gap-4">
+        <div class="mt-5 grid grid-cols-2 gap-10">
           <!-- ข้อมูลห้องพัก -->
-          <div class="space-y-3 border border-base-300 rounded-lg p-5">
+          <div class="space-y-3 rounded-lg">
             <div class="flex justify-between">
-              <h1 class="text-base font-semibold text-dark-blue-200">
+              <h1 class="text-lg font-semibold text-dark-blue-200">
                 ข้อมูลห้องพัก
               </h1>
               <router-link
@@ -131,22 +126,33 @@ onMounted(() => {
             <p>ชื่อห้อง: {{ room.name }}</p>
             <p>คำอธิบาย: {{ room.description || 'ไม่มีคำอธิบาย' }}</p>
             <p>ชั้น: {{ room.floor }}</p>
-            <p>อัตราค่าเช่าต่อเดือน: {{ room.roomRentalPrice }} บาท</p>
+            <p>
+              อัตราค่าเช่าต่อเดือน:
+              {{ room.roomRentalPrice.toLocaleString() }} บาท
+            </p>
             <p>
               สถานะ:
               <Badge badgeType="success" v-if="!room.currentRenter">ว่าง</Badge>
               <Badge badgeType="error" v-else>ไม่ว่าง</Badge>
             </p>
-            <p>ค่าน้ำ: {{ room.residence.defaultWaterPriceRate }} บาท/หน่วย</p>
             <p>
-              ค่าไฟ: {{ room.residence.defaultElectricPriceRate }} บาท/หน่วย
+              ค่าน้ำ:
+              {{ room.residence.defaultWaterPriceRate.toLocaleString() }}
+              บาท/หน่วย
+            </p>
+            <p>
+              ค่าไฟ:
+              {{ room.residence.defaultElectricPriceRate.toLocaleString() }}
+              บาท/หน่วย
             </p>
 
             <p>
               ค่าบริการอื่น ๆ :
               {{
                 room.fees
-                  .map((i) => `${i.feename} ราคา ${i.feeprice}  `)
+                  .map(
+                    (i) => `${i.feename} ราคา ${i.feeprice.toLocaleString()}  `
+                  )
                   .join(', ')
               }}
             </p>
@@ -160,9 +166,9 @@ onMounted(() => {
           </div>
 
           <!-- ข้อมูลผู้เช่า -->
-          <div class="space-y-3 border border-base-300 rounded-lg p-5">
+          <div class="space-y-3 rounded-lg">
             <div class="flex justify-between">
-              <h1 class="text-base font-semibold text-dark-blue-200">
+              <h1 class="text-lg font-semibold text-dark-blue-200">
                 ข้อมูลผู้เช่า
               </h1>
               <router-link
@@ -268,11 +274,9 @@ onMounted(() => {
           </div>
 
           <!-- ข้อมูลประเภทห้อง -->
-          <div
-            class="space-y-3 border border-base-300 rounded-lg p-5 col-span-3"
-          >
+          <div class="space-y-3 rounded-lg col-span-3">
             <div class="flex justify-between">
-              <h1 class="text-base font-semibold text-dark-blue-200">
+              <h1 class="text-lg font-semibold text-dark-blue-200">
                 ประเภทห้องพัก
               </h1>
             </div>
@@ -280,39 +284,25 @@ onMounted(() => {
             <p>รูปแบบห้อง: {{ room.type.category }}</p>
             <p>ขนาดห้อง: {{ room.type.size }} ตร.ม.</p>
             <p>คำอธิบาย: {{ room.type.description || 'ไม่มีคำอธิบาย' }}</p>
-            <p>อัตราค่าเช่าต่อเดือน: {{ room.type.price }} บาท</p>
+            <p>
+              อัตราค่าเช่าต่อเดือน: {{ room.type.price.toLocaleString() }} บาท
+            </p>
             <ImagePreview
               :imageUrls="room.type.images.map((i) => FileService.getFile(i))"
               preview-from="url"
             />
           </div>
-        </div>
 
-        <!-- row 2 -->
-        <div class="mt-5 grid grid-cols-1 gap-4">
-          <!-- ข้อมูลบิลในอดีตทั้งหมด -->
-          <div class="space-y-3 border border-base-300 rounded-lg p-5">
+          <!-- ข้อมูลบิล -->
+          <div class="space-y-3 rounded-lg col-span-3">
             <div class="flex justify-between">
-              <h1 class="text-base font-semibold text-dark-blue-200">
+              <h1 class="text-lg font-semibold text-dark-blue-200">
                 ข้อมูลบิลในอดีตทั้งหมด
               </h1>
-              <!-- <router-link
-                  v-if="room.currentRenter"
-                  class="text-dark-blue-200 underline"
-                  :to="{
-                    name: 'update-room',
-                    params: {
-                      residenceId: $route.params.residenceId,
-                      roomId,
-                    },
-                  }"
-                >
-                  <ArrowTopRightOnSquareIcon class="h-6 w-6" />
-                </router-link> -->
             </div>
             <div v-if="!room.billRooms.length">ไม่มีบิลในอดีตในระบบ</div>
             <div
-              class="collapse collapse-arrow border border-base-300 shadow-sm"
+              class="collapse collapse-arrow shadow-sm"
               v-for="(bill, index) in room.billRooms"
               :key="index"
             >
@@ -347,13 +337,15 @@ onMounted(() => {
                     </p>
                     <p>
                       อัตราค่าน้ำต่อหน่วย:
-                      {{ bill.waterPriceRate }} บาท
+                      {{ bill.waterPriceRate.toLocaleString() }} บาท
                     </p>
                     <p>
                       บิลค่าน้ำ :
                       <b
                         >{{
-                          bill.waterPriceRate * bill.totalWaterMeterUsage
+                          (
+                            bill.waterPriceRate * bill.totalWaterMeterUsage
+                          ).toLocaleString()
                         }}
                         บาท</b
                       >
@@ -376,13 +368,16 @@ onMounted(() => {
                     </p>
                     <p>
                       อัตราค่าไฟต่อหน่วย:
-                      {{ bill.electricPriceRate }}
+                      {{ bill.electricPriceRate.toLocaleString() }}
                     </p>
                     <p>
                       บิลค่าไฟ :
                       <b
                         >{{
-                          bill.electricPriceRate * bill.totalElectricMeterUsage
+                          (
+                            bill.electricPriceRate *
+                            bill.totalElectricMeterUsage
+                          ).toLocaleString()
                         }}
                         บาท</b
                       >
@@ -393,7 +388,7 @@ onMounted(() => {
                     <p class="text-lg font-bold">ค่าเช่า</p>
                     <p>
                       ค่าเช่าห้อง:
-                      <b>{{ bill.roomRentalPrice }}</b> บาท
+                      <b>{{ bill.roomRentalPrice.toLocaleString() }}</b> บาท
                     </p>
                   </div>
                 </div>
@@ -401,9 +396,11 @@ onMounted(() => {
                 <p class="text-lg font-bold mt-5 rounded-full">
                   รวม:
                   {{
-                    bill.roomRentalPrice +
-                    bill.electricPriceRate * bill.totalElectricMeterUsage +
-                    bill.waterPriceRate * bill.totalWaterMeterUsage
+                    (
+                      bill.roomRentalPrice +
+                      bill.electricPriceRate * bill.totalElectricMeterUsage +
+                      bill.waterPriceRate * bill.totalWaterMeterUsage
+                    ).toLocaleString()
                   }}
                   บาท
                 </p>

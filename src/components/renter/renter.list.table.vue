@@ -113,8 +113,6 @@ const visiblePages = computed(() => {
             <th>ห้องปัจจุบัน</th>
             <th>สำเนาบัตรประชาชน</th>
             <th>สัญญาเช่า</th>
-            <th>สร้างเมื่อ</th>
-            <th>อัปเดตเมื่อ</th>
             <th></th>
             <th></th>
           </tr>
@@ -133,8 +131,8 @@ const visiblePages = computed(() => {
             </td>
             <td>{{ renter.phone }}</td>
             <td>
-              <Badge v-if="renter.isActive" badgeType="success">Active</Badge>
-              <Badge v-else badgeType="error">Deactive</Badge>
+              <Badge v-if="renter.isActive" badgeType="success">ใช้งาน</Badge>
+              <Badge v-else badgeType="error">ปิดใช้งาน</Badge>
             </td>
             <td>
               <div v-if="renter.room" class="underline">
@@ -194,12 +192,12 @@ const visiblePages = computed(() => {
                 <span class="text-red-500">ไม่มีไฟล์</span>
               </div>
             </td>
-            <td>
+            <!-- <td>
               {{ dayjs(renter.created_at).format('MM-DD-YYYY HH:mm:ss') }}
             </td>
             <td>
               {{ dayjs(renter.updated_at).format('MM-DD-YYYY HH:mm:ss') }}
-            </td>
+            </td> -->
             <td>
               <router-link
                 :to="{

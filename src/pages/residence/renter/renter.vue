@@ -9,6 +9,7 @@ import Loading from '@/components/common/loading.vue';
 import { ChartPieIcon, HomeIcon, UserIcon } from '@heroicons/vue/24/outline';
 import Button from '@/components/common/button.vue';
 import RenterListTable from '@/components/renter/renter.list.table.vue';
+import back from '@/components/common/back.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -63,13 +64,9 @@ onMounted(async () => {
           { name: 'จัดการผู้เช่า' },
         ]"
       />
-      <Button
-        btnType="primary"
-        class="mt-5"
-        @click="router.push({ name: 'dashboard', params: { residenceId } })"
-      >
-        กลับหน้าแดชบอร์ด
-      </Button>
+
+      <back :to="{ name: 'dashboard', params: { residenceId } }" />
+
       <div class="grid grid-cols-1">
         <div class="bg-white p-10 mt-2 shadow rounded-lg border">
           <div class="flex justify-between">
