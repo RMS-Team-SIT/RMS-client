@@ -136,7 +136,7 @@ onMounted(async () => {
           ]"
         />
       </div>
-      {{ roomData }}
+
       <div class="grid grid-cols-12">
         <div class="p-4 mb-4 card bg-white col-span-3 items-center">
           <Steps
