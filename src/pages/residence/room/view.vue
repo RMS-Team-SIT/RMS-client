@@ -272,9 +272,11 @@ onMounted(() => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
 
-          <!-- ข้อมูลประเภทห้อง -->
-          <div class="space-y-3 rounded-lg col-span-3">
+      <!-- ข้อมูลประเภทห้อง -->
+      <div class="space-y-3 rounded-lg bg-white mt-5 border p-5">
             <div class="flex justify-between">
               <h1 class="text-lg font-semibold text-dark-blue-200">
                 ประเภทห้องพัก
@@ -293,124 +295,119 @@ onMounted(() => {
             />
           </div>
 
-          <!-- ข้อมูลบิล -->
-          <div class="space-y-3 rounded-lg col-span-3">
-            <div class="flex justify-between">
-              <h1 class="text-lg font-semibold text-dark-blue-200">
-                ข้อมูลบิลในอดีตทั้งหมด
-              </h1>
-            </div>
-            <div v-if="!room.billRooms.length">ไม่มีบิลในอดีตในระบบ</div>
-            <div
-              class="collapse collapse-arrow shadow-sm"
-              v-for="(bill, index) in room.billRooms"
-              :key="index"
+      <!-- ข้อมูลบิล -->
+      <div class="space-y-3 rounded-lg bg-white mt-5 border p-5">
+        <div class="flex justify-between">
+          <h1 class="text-lg font-semibold text-dark-blue-200">
+            ข้อมูลบิลในอดีตทั้งหมด
+          </h1>
+        </div>
+        <div v-if="!room.billRooms.length">ไม่มีบิลในอดีตในระบบ</div>
+        <div
+          class="collapse collapse-arrow shadow-sm"
+          v-for="(bill, index) in room.billRooms"
+          :key="index"
+        >
+          <input
+            type="checkbox"
+            :checked="index == room.billRooms.length - 1"
+          />
+          <div class="collapse-title text-lg font-bold underline">
+            บิลรอบมิเตอร์
+            {{ dayjs(bill.meterRecord.record_date).format('MM/YYYY') }}
+            <Badge badgeType="success" v-if="index == room.billRooms.length - 1"
+              >บิลล่าสุด</Badge
             >
-              <input
-                type="checkbox"
-                :checked="index == room.billRooms.length - 1"
-              />
-              <div class="collapse-title text-lg font-bold underline">
-                บิลรอบมิเตอร์
-                {{ dayjs(bill.meterRecord.record_date).format('MM/YYYY') }}
-                <Badge
-                  badgeType="success"
-                  v-if="index == room.billRooms.length - 1"
-                  >บิลล่าสุด</Badge
-                >
-              </div>
-              <div class="collapse-content">
-                <div class="flex w-full">
-                  <div class="w-full">
-                    <p class="text-lg font-bold">ค่าน้ำ</p>
-                    <p>
-                      มิเตอร์น้ำครั้งก่อน:
-                      {{ bill.previousWaterMeter }}
-                    </p>
-                    <p>
-                      มิเตอร์น้ำครั้งนี้:
-                      {{ bill.currentWaterMeter }}
-                    </p>
-                    <p>
-                      จำนวนหน่วย:
-                      {{ bill.totalWaterMeterUsage }} หน่วย
-                    </p>
-                    <p>
-                      อัตราค่าน้ำต่อหน่วย:
-                      {{ bill.waterPriceRate.toLocaleString() }} บาท
-                    </p>
-                    <p>
-                      บิลค่าน้ำ :
-                      <b
-                        >{{
-                          (
-                            bill.waterPriceRate * bill.totalWaterMeterUsage
-                          ).toLocaleString()
-                        }}
-                        บาท</b
-                      >
-                    </p>
-                  </div>
-                  <div class="divider divider-horizontal"></div>
-                  <div class="w-full">
-                    <p class="text-lg font-bold">ค่าไฟ</p>
-                    <p>
-                      มิเตอร์ไฟครั้งก่อน:
-                      {{ bill.previousElectricMeter }}
-                    </p>
-                    <p>
-                      มิเตอร์ไฟครั้งนี้:
-                      {{ bill.currentElectricMeter }}
-                    </p>
-                    <p>
-                      จำนวนหน่วย:
-                      {{ bill.totalElectricMeterUsage }}
-                    </p>
-                    <p>
-                      อัตราค่าไฟต่อหน่วย:
-                      {{ bill.electricPriceRate.toLocaleString() }}
-                    </p>
-                    <p>
-                      บิลค่าไฟ :
-                      <b
-                        >{{
-                          (
-                            bill.electricPriceRate *
-                            bill.totalElectricMeterUsage
-                          ).toLocaleString()
-                        }}
-                        บาท</b
-                      >
-                    </p>
-                  </div>
-                  <div class="divider divider-horizontal"></div>
-                  <div class="w-full">
-                    <p class="text-lg font-bold">ค่าเช่า</p>
-                    <p>
-                      ค่าเช่าห้อง:
-                      <b>{{ bill.roomRentalPrice.toLocaleString() }}</b> บาท
-                    </p>
-                  </div>
-                </div>
-                <Divider />
-                <p class="text-lg font-bold mt-5 rounded-full">
-                  รวม:
-                  {{
-                    (
-                      bill.roomRentalPrice +
-                      bill.electricPriceRate * bill.totalElectricMeterUsage +
-                      bill.waterPriceRate * bill.totalWaterMeterUsage
-                    ).toLocaleString()
-                  }}
-                  บาท
+          </div>
+          <div class="collapse-content">
+            <div class="flex w-full">
+              <div class="w-full">
+                <p class="text-lg font-bold">ค่าน้ำ</p>
+                <p>
+                  มิเตอร์น้ำครั้งก่อน:
+                  {{ bill.previousWaterMeter }}
                 </p>
                 <p>
-                  สถานะการจ่าย :
-                  <Badge v-if="bill.isPaid">จ่ายแล้ว</Badge>
-                  <Badge v-else badgeType="error">ยังไม่ได้จ่าย</Badge>
+                  มิเตอร์น้ำครั้งนี้:
+                  {{ bill.currentWaterMeter }}
+                </p>
+                <p>
+                  จำนวนหน่วย:
+                  {{ bill.totalWaterMeterUsage }} หน่วย
+                </p>
+                <p>
+                  อัตราค่าน้ำต่อหน่วย:
+                  {{ bill.waterPriceRate.toLocaleString() }} บาท
+                </p>
+                <p>
+                  บิลค่าน้ำ :
+                  <b
+                    >{{
+                      (
+                        bill.waterPriceRate * bill.totalWaterMeterUsage
+                      ).toLocaleString()
+                    }}
+                    บาท</b
+                  >
+                </p>
+              </div>
+              <div class="divider divider-horizontal"></div>
+              <div class="w-full">
+                <p class="text-lg font-bold">ค่าไฟ</p>
+                <p>
+                  มิเตอร์ไฟครั้งก่อน:
+                  {{ bill.previousElectricMeter }}
+                </p>
+                <p>
+                  มิเตอร์ไฟครั้งนี้:
+                  {{ bill.currentElectricMeter }}
+                </p>
+                <p>
+                  จำนวนหน่วย:
+                  {{ bill.totalElectricMeterUsage }}
+                </p>
+                <p>
+                  อัตราค่าไฟต่อหน่วย:
+                  {{ bill.electricPriceRate.toLocaleString() }}
+                </p>
+                <p>
+                  บิลค่าไฟ :
+                  <b
+                    >{{
+                      (
+                        bill.electricPriceRate * bill.totalElectricMeterUsage
+                      ).toLocaleString()
+                    }}
+                    บาท</b
+                  >
+                </p>
+              </div>
+              <div class="divider divider-horizontal"></div>
+              <div class="w-full">
+                <p class="text-lg font-bold">ค่าเช่า</p>
+                <p>
+                  ค่าเช่าห้อง:
+                  <b>{{ bill.roomRentalPrice.toLocaleString() }}</b> บาท
                 </p>
               </div>
             </div>
+            <Divider />
+            <p class="text-lg font-bold mt-5 rounded-full">
+              รวม:
+              {{
+                (
+                  bill.roomRentalPrice +
+                  bill.electricPriceRate * bill.totalElectricMeterUsage +
+                  bill.waterPriceRate * bill.totalWaterMeterUsage
+                ).toLocaleString()
+              }}
+              บาท
+            </p>
+            <p>
+              สถานะการจ่าย :
+              <Badge v-if="bill.isPaid">จ่ายแล้ว</Badge>
+              <Badge v-else badgeType="error">ยังไม่ได้จ่าย</Badge>
+            </p>
           </div>
         </div>
       </div>
