@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Full-page overlay -->
-    <div class="fixed inset-0 bg-black opacity-50 z-50"></div>
+    <!-- <div class="fixed inset-0 bg-black opacity-50 z-50"></div> -->
 
     <!-- Cookie consent dialog -->
     <div
