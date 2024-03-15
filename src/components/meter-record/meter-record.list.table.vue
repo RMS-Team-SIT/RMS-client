@@ -19,7 +19,8 @@ const props = defineProps({
 <template>
   <div class="overflow-x-auto">
     <p class="text-base mt-5" v-if="!meterRecords.length">
-      ไม่มีการจัดบันทึกในระบบ <b>การใช้งานครั้งแรก กรุณาสร้างใบบันทึกเลขมิเตอร์ปัจจุบัน</b>  
+      ไม่มีการจัดบันทึกในระบบ
+      <b>การใช้งานครั้งแรก กรุณาสร้างใบบันทึกเลขมิเตอร์ปัจจุบัน</b>
     </p>
     <table class="table table-xs" v-else>
       <thead>
@@ -28,7 +29,7 @@ const props = defineProps({
           <th>วันที่จด</th>
           <th>เพิ่มเติม</th>
           <th>สถานะการสร้างบิล</th>
-          <th>ดู/แก้ไขข้อมูล</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -72,7 +73,7 @@ const props = defineProps({
 
               <Badge badge-type="error" v-else> ยังไม่ได้สร้างบิล </Badge>
             </div>
-            <Badge badgeType="warning" v-else> สร้างบิลไม่ได้ </Badge>
+            <Badge badgeType="warning" v-else> ไม่สามารถใช้สร้างบิล </Badge>
           </td>
           <td>
             <router-link
@@ -85,7 +86,10 @@ const props = defineProps({
                 },
               }"
             >
-              <Button btnType="ghost-pill">แก้ไขข้อมูล </Button>
+              <Button btnType="ghost-pill"
+                >แก้ไขข้อมูล
+                <ArrowTopRightOnSquareIcon class="h-4 w-4" />
+              </Button>
             </router-link>
             <router-link
               v-else
@@ -97,7 +101,9 @@ const props = defineProps({
                 },
               }"
             >
-              <Button btnType="ghost-pill">ดูข้อมูล</Button>
+              <Button btnType="ghost-pill">ดูข้อมูล
+                <ArrowTopRightOnSquareIcon class="h-4 w-4" />
+              </Button>
             </router-link>
           </td>
         </tr>

@@ -71,7 +71,7 @@ const visiblePages = computed(() => {
 <template>
   <div class="overflow-x-auto">
     <p class="text-base mt-5" v-if="!props.renters.length">
-      ไม่พบผู้เช่าในระบบ กรุณาสร้าง
+      ไม่พบผู้เช่าในระบบ กรุณาสร้างผู้เช่าใหม่
     </p>
     <div v-else>
       <!-- show number of renter -->

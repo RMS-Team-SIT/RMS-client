@@ -112,8 +112,7 @@ onMounted(async () => {
               <Button btnType="primary">สร้างบิลใหม่</Button>
             </router-link>
           </div>
-          <p class="text-dark-blue-200 mt-5">บิลทั้งหมดในระบบ</p>
-          <p class="mt-5" v-if="!bills.length">ไม่มีบิลในระบบ กรุณาสร้าง</p>
+          <p class="mt-5 " v-if="!bills.length">ไม่มีบิลในระบบ กรุณาสร้างบิลใหม่</p>
           <!-- Bill Collapse -->
           <div
             class="collapse collapse-arrow border border-base-300 shadow-sm m-2"
@@ -229,7 +228,7 @@ onMounted(async () => {
               </div>
             </div>
           </div>
-          <p class="mt-5">หมายเหตุ: คลิกเพื่อดูรายละเอียดเพิ่มเติม</p>
+          <p class="mt-5" v-if="bills.length">หมายเหตุ: คลิกเพื่อดูรายละเอียดเพิ่มเติม</p>
         </div>
       </div>
     </div>

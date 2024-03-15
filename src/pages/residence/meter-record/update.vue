@@ -91,6 +91,16 @@ const submit = async () => {
   isLoading.value = false;
 };
 
+const search = ref('');
+const showedMeterRecord = computed(() => {
+  return meterRecord.meterRecordItems.filter((meterRecordItem) => {
+    return meterRecordItem.room.name
+      .toLowerCase()
+      .includes(search.value.toLowerCase());
+  });
+});
+
+
 onMounted(async () => {
   await fetchMeterRecord();
   if (meterRecord.isLocked) {
@@ -135,7 +145,6 @@ onMounted(async () => {
         ]"
       />
       <back :to="{ name: 'meter-record', params: { residenceId } }" />
-      {{ payload }}
       <div class="grid grid-cols-4 gap-2">
         <!-- col 1 -->
         <div class="card w-full bg-base-100 shadow-xl mt-5">
@@ -163,6 +172,17 @@ onMounted(async () => {
               <AdjustmentsHorizontalIcon class="w-10 h-10 text-blue-500" />
               <h2 class="card-title text-center">มิเตอร์น้ำและค่าไฟ</h2>
             </div>
+            <div class="w-full flex align-middle items-center justify-end">
+            <label class="label">
+              <span class="label-text">ค้นหาห้อง:</span>
+            </label>
+            <input
+              type="text"
+              placeholder="ค้นหาห้อง"
+              class="input input-xs input-bordered bg-white rounded"
+              v-model="search"
+            />
+          </div>
 
             <!-- List all room -->
             <div class="overflow-x-auto">
