@@ -10,6 +10,7 @@ import Button from '@/components/common/button.vue';
 import MeterRecordListTable from '@/components/meter-record/meter-record.list.table.vue';
 import NoRecord from '@/components/meter-record/no-record.vue';
 import MeterRecordService from '@/services/MeterRecordService';
+import back from '@/components/common/back.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -51,7 +52,7 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
-  <div v-if="residence.data" class="bg-gray-50 min-h-screen">
+  <div v-if="residence.data" class="min-h-screen">
     <div class="py-10 px-10 md:px-40">
       <Breadcrumb
         :pathList="[
@@ -65,15 +66,10 @@ onMounted(async () => {
           { name: 'ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ' },
         ]"
       />
-      <Button
-        btnType="primary"
-        class="mt-5"
-        @click="router.push({ name: 'dashboard', params: { residenceId } })"
-      >
-        กลับหน้าแดชบอร์ด
-      </Button>
+      <back :to="{ name: 'dashboard', params: { residenceId } }"  />
+
       <div class="grid grid-cols-1">
-        <div class="bg-white p-10 mt-2 shadow rounded-lg">
+        <div class="bg-white p-10 mt-2 shadow rounded-lg border">
           <div class="flex justify-between">
             <h1 class="text-2xl font-semibold text-dark-blue-200">
               ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ
@@ -89,13 +85,12 @@ onMounted(async () => {
               <Button btnType="primary">สร้างใบบันทึกค่ามิเตอร์</Button>
             </router-link>
           </div>
-          <p class="text-dark-blue-200 mt-5">บันทึกทั้งหมดในระบบ</p>
           <MeterRecordListTable
             class="mt-5"
             :residenceId="residenceId"
             :meter-records="residence.data.meterRecord"
           />
-          <p class="mt-5">
+          <p class="mt-5" v-if="residence.data.meterRecord.length">
             หมายเหตุ: สามารถ<b>แก้ไข</b>ข้อมูลได้เฉพาะ
             <b>การจดครั้งล่าสุด</b> และ
             <b>มิเตอร์ที่ยังไม่ได้สร้างบิล</b> เท่านั้น

@@ -89,7 +89,7 @@ onMounted(() => {
           <h1 class="text-2xl font-semibold text-dark-blue-200">
             ห้องพัก: {{ room.name }}
           </h1>
-          <Button
+          <!-- <Button
             btnType="primary"
             @click="
               router.push({
@@ -99,7 +99,7 @@ onMounted(() => {
             "
           >
             แก้ไขข้อมูล
-          </Button>
+          </Button> -->
         </div>
         <!-- Body -->
         <div class="mt-5 grid grid-cols-2 gap-10">

@@ -9,6 +9,7 @@ import { useRoute, useRouter } from 'vue-router';
 import BillService from '@/services/BillService';
 import { notify } from '@kyvg/vue3-notification';
 import Divider from '@/components/common/divider.vue';
+import back from '@/components/common/back.vue';
 
 const isLoading = ref(true);
 const router = useRouter();
@@ -102,13 +103,8 @@ onMounted(async () => {
           },
         ]"
       />
-      <Button
-        btnType="primary"
-        class="mt-5"
-        @click="router.push({ name: 'bill', params: { residenceId } })"
-      >
-        กลับหน้าบิลทั้งหมด
-      </Button>
+     
+      <back :to="{ name: 'bill', params: { residenceId } }" />
 
       <div class="grid grid-cols-4 gap-2">
         <!-- col 1 -->

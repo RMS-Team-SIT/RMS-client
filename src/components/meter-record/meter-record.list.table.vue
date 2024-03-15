@@ -19,7 +19,7 @@ const props = defineProps({
 <template>
   <div class="overflow-x-auto">
     <p class="text-base mt-5" v-if="!meterRecords.length">
-      การใช้งานครั้งแรก กรุณาสร้างใบบันทึกเลขมิเตอร์ปัจจุบัน
+      ไม่มีการจัดบันทึกในระบบ <b>การใช้งานครั้งแรก กรุณาสร้างใบบันทึกเลขมิเตอร์ปัจจุบัน</b>  
     </p>
     <table class="table table-xs" v-else>
       <thead>

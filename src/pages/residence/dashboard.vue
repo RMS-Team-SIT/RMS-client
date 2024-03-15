@@ -22,6 +22,7 @@ import QuickLinkCard from '@/components/common/quick-link-card.vue';
 import ResidenceStat from '@/components/residence/residence.stat.vue';
 import temp from '@/components/residence/charts/temp.vue';
 import RoomChart from '@/components/residence/charts/room.chart.vue';
+import divider from '@/components/common/divider.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -289,9 +290,10 @@ onMounted(async () => {
       </section>
 
       <!-- Quick link Section -->
+      <div class="divider font-bold">เข้าถึง</div>
       <section class="mt-5">
         <div
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-2"
         >
           <QuickLinkCard
             :router-path="{ name: 'room', params: { residenceId } }"

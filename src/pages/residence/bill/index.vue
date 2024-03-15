@@ -11,6 +11,7 @@ import BillListTable from '@/components/bill/bill.list.table.vue';
 import dayjs from 'dayjs';
 import Divider from '@/components/common/divider.vue';
 import Badge from '@/components/common/badge.vue';
+import back from '@/components/common/back.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -93,13 +94,7 @@ onMounted(async () => {
           { name: 'ระบบจัดการบิล' },
         ]"
       />
-      <Button
-        btnType="primary"
-        class="mt-5"
-        @click="router.push({ name: 'dashboard', params: { residenceId } })"
-      >
-        กลับหน้าแดชบอร์ด
-      </Button>
+      <back :to="{ name: 'dashboard', params: { residenceId } }" />
       <div class="grid grid-cols-1">
         <div class="bg-white p-10 mt-2 shadow rounded-lg">
           <div class="flex justify-between">

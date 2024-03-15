@@ -11,6 +11,7 @@ import RoomService from '@/services/RoomService';
 import dayjs from 'dayjs';
 import Badge from '@/components/common/badge.vue';
 import Alert from '@/components/common/alert.vue';
+import back from '@/components/common/back.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -203,14 +204,7 @@ onMounted(async () => {
           },
         ]"
       />
-      <Button
-        btnType="primary"
-        class="mt-5"
-        @click="router.push({ name: 'meter-record', params: { residenceId } })"
-      >
-        กลับหน้ามิเตอร์ทั้งหมด
-      </Button>
-
+      <back :to="{ name: 'meter-record', params: { residenceId } }" />
       <div class="grid grid-cols-4 gap-2">
         <!-- col 1 -->
         <div class="card w-full bg-base-100 shadow-xl mt-5">
