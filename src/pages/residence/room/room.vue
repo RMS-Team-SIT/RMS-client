@@ -9,7 +9,6 @@ import Loading from '@/components/common/loading.vue';
 import Button from '@/components/common/button.vue';
 import RoomListTable from '@/components/room/room.list.table.vue';
 import { HomeIcon, HomeModernIcon } from '@heroicons/vue/24/outline';
-import roomTypeListTable from '@/components/room-type/room-type.list.table.vue';
 import back from '@/components/common/back.vue';
 
 const router = useRouter();
@@ -74,31 +73,7 @@ onMounted(async () => {
       />
 
       <back :to="{ name: 'dashboard', params: { residenceId } }" class="mt-5" />
-
-      <div class="bg-white p-10 mt-2 shadow rounded-lg border">
-        <div class="flex justify-between">
-          <h1
-            class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
-          >
-            <HomeModernIcon class="w-8 h-8 text-dark-blue-200" />
-            ประเภทห้อง
-          </h1>
-          <div>
-            <router-link
-              :to="{
-                name: 'create-room',
-                params: {
-                  residenceId,
-                },
-              }"
-            >
-              <Button btnType="primary">เพิ่มประเภทห้องพัก</Button>
-            </router-link>
-          </div>
-        </div>
-        <roomTypeListTable class="mt-5" :roomTypes="residence.data.roomTypes" />
-      </div>
-
+      
       <div class="bg-white p-10 mt-2 shadow rounded-lg border">
         <div class="flex justify-between">
           <h1
@@ -118,16 +93,6 @@ onMounted(async () => {
             >
               <Button btnType="primary">เพิ่มห้องพัก</Button>
             </router-link>
-            <!-- <router-link
-              :to="{
-                name: 'create-many-room',
-                params: {
-                  residenceId,
-                },
-              }"
-            >
-              <Button btnType="primary">เพิ่มข้อมูลห้องพักหลายห้อง</Button>
-            </router-link> -->
           </div>
         </div>
         <RoomListTable

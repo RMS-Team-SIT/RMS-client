@@ -12,18 +12,18 @@ import {
 import { Line } from 'vue-chartjs';
 
 const months = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'Auguest',
-  'September',
-  'October',
-  'November',
-  'December',
+  'มกราคม',
+  'กุมภาพันธ์',
+  'มีนาคม',
+  'เมษายน',
+  'พฤษภาคม',
+  'มิถุนายน',
+  'กรกฎาคม',
+  'สิงหาคม',
+  'กันยายน',
+  'ตุลาคม',
+  'พฤศจิกายน',
+  'ธันวาคม',
 ];
 const truncatedMonths = months.map((month) => month.substring(0, 3));
 

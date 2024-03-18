@@ -17,10 +17,12 @@ import {
   LinkIcon,
   UserIcon,
   AdjustmentsHorizontalIcon,
+  ArrowRightIcon,
+  HomeModernIcon,
 } from '@heroicons/vue/24/outline';
 import QuickLinkCard from '@/components/common/quick-link-card.vue';
 import ResidenceStat from '@/components/residence/residence.stat.vue';
-import temp from '@/components/residence/charts/temp.vue';
+import temp from '@/components/residence/charts/income.vue';
 import RoomChart from '@/components/residence/charts/room.chart.vue';
 import divider from '@/components/common/divider.vue';
 
@@ -49,7 +51,7 @@ const fetchData = async () => {
   const response = await ResidenceServices.fetchResidence(residenceId);
   if (response.status === 200) {
     let result = await response.json();
-    console.log('residence.data',result);
+    console.log('residence.data', result);
     residence.data = result;
 
     // Calculate stats
@@ -112,7 +114,6 @@ onMounted(async () => {
 
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-2">
           <div class="grid grid-cols-2 gap-2">
-
             <div
               class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
             >
@@ -164,8 +165,6 @@ onMounted(async () => {
                 ช่องทาง
               </p>
             </div>
-
-            
           </div>
 
           <!-- รายได้ของหอพักในปีนี้ -->
@@ -276,7 +275,9 @@ onMounted(async () => {
             <div
               class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
             >
-              <h3 class="text-base font-semibold mb-2">รายการเก็บเงินเพิ่มเติม</h3>
+              <h3 class="text-base font-semibold mb-2">
+                รายการเก็บเงินเพิ่มเติม
+              </h3>
               <p class="flex gap-2 items-end">
                 <CountUp
                   :end-val="residence.data.fees.length"
@@ -290,18 +291,25 @@ onMounted(async () => {
       </section>
 
       <!-- Quick link Section -->
-      <div class="divider font-bold">เข้าถึง</div>
       <section class="mt-5">
-        <div
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-2"
-        >
+        <div class="divider font-bold divider-start">เข้าถึงระบบจัดการห้อง</div>
+        <div class="flex gap-2">
           <QuickLinkCard
             :router-path="{ name: 'room', params: { residenceId } }"
-            title="จัดการห้องและประเภทห้อง"
-            text="เข้าสู่ระบบจัดการห้องและประเภทห้องในหอพักนี้"
+            title="จัดการห้อง"
+            text="เข้าสู่ระบบจัดการห้อง"
             :icon="HomeIcon"
           />
+          <QuickLinkCard
+            :router-path="{ name: 'room-type', params: { residenceId } }"
+            title="จัดการประเภทห้อง"
+            text="เข้าสู่ระบบจัดการประเภทห้อง"
+            :icon="HomeModernIcon"
+          />
+        </div>
 
+        <div class="divider font-bold divider-start">ระบบจัดการผู้เช่า</div>
+        <div class="flex gap-2">
           <QuickLinkCard
             :router-path="{ name: 'renter', params: { residenceId } }"
             title="จัดการผู้เช่า"
@@ -310,23 +318,21 @@ onMounted(async () => {
           />
 
           <QuickLinkCard
-            :router-path="{ name: 'info', params: { residenceId } }"
-            title="จัดการข้อมูลทั่วไป"
-            text="เข้าสู่หน้าการจัดการข้อมูลทั่วไป"
-            :icon="LinkIcon"
+            :router-path="{ name: 'room', params: { residenceId } }"
+            title="การย้ายเข้า และย้ายออก"
+            text="เข้าสู่ระบบการย้ายเข้า และย้ายออก"
+            :icons="[UserIcon, ArrowRightIcon, HomeIcon]"
           />
+        </div>
 
+        <div class="divider font-bold divider-start">
+          การจดมิเตอร์ และสร้างบิล
+        </div>
+        <div class="flex gap-2">
           <QuickLinkCard
             :router-path="{ name: 'payment', params: { residenceId } }"
-            title="จัดการช่องทางการชำระเงิน"
-            text="เข้าสู่หน้าจัดการข้อมูลช่องทางการชำระเงิน"
-            :icon="CreditCardIcon"
-          />
-
-          <QuickLinkCard
-            :router-path="{ name: 'payment', params: { residenceId } }"
-            title="จัดการราคาค่าใช้จ่ายต่าง ๆ"
-            text="เข้าสู่หน้าจัดการราคาค่าใช้จ่ายต่าง ๆ"
+            title="จัดการราคาค่าใช้จ่าย"
+            text="เข้าสู่หน้าจัดการราคาค่าใช้จ่าย"
             :icon="CreditCardIcon"
           />
 
@@ -336,12 +342,33 @@ onMounted(async () => {
             text="เข้าสู่หน้าระบบบันทึกค่าน้ำ ค่าไฟ"
             :icon="AdjustmentsHorizontalIcon"
           />
+        </div>
 
+        <div class="divider font-bold divider-start">
+          ระบบจัดการชำระเงิน
+        </div>
+        <div class="flex gap-2">
           <QuickLinkCard
             :router-path="{ name: 'bill', params: { residenceId } }"
             title="จัดการบิล"
             text="เข้าสู่หน้าจัดการบิล"
             :icon="BanknotesIcon"
+          />
+
+          <QuickLinkCard
+            :router-path="{ name: 'payment', params: { residenceId } }"
+            title="จัดการช่องทางการชำระเงิน"
+            text="เข้าสู่หน้าจัดการข้อมูลช่องทางการชำระเงิน"
+            :icon="CreditCardIcon"
+          />
+        </div>
+
+        <div class="divider font-bold divider-start">อื่น ๆ</div>
+        <div class="flex gap-2">
+          <QuickLinkCard
+            :router-path="{ name: 'info', params: { residenceId } }"
+            title="จัดการข้อมูลอื่น ๆ"
+            text="เข้าสู่หน้าจัดการข้อมูลอื่น ๆ"
           />
         </div>
       </section>

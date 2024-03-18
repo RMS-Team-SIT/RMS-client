@@ -258,7 +258,6 @@ const updateRoom = async () => {
                 @click="setEditingRoom(room._id)"
                 >แก้ไข</Button
               >
-              <!-- Modal -->
             </th>
           </tr>
         </tbody>
@@ -378,7 +377,7 @@ const updateRoom = async () => {
 
           <div class="modal-action flex">
             <form method="dialog">
-              <button class="btn btn-sm" @click="resetEditingRoom">ปิด</button>
+              <button class="btn btn-sm mr-2" @click="resetEditingRoom">ปิด</button>
               <button class="btn btn-sm btn-secondary" @click="updateRoom">
                 บันทึกข้อมูล
               </button>

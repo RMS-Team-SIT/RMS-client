@@ -13,7 +13,7 @@ import {
       class="w-20 h-20 mt-5 text-light-red mx-auto"
       />
       <p class="mt-5">เซิฟเวอร์ไม่พร้อมใช้งาน หรือกำลังปิดปรับปรุงอยู่</p>
-      <p class="mt-5">
+      <p class="mt-5 text-light-red">
         โปรดกลับมาใหม่ในภายหลัง
       </p>
     </div>

@@ -94,7 +94,7 @@ onMounted(async () => {
             <label class="label">
               <span class="text-base label-text"
                 >วันที่จด:
-                <Badge>
+                <Badge badgeType="neutral" size="lg">
                   {{
                     dayjs(meterRecord.record_date).format('DD/MM/YYYY')
                   }}</Badge
@@ -112,7 +112,7 @@ onMounted(async () => {
             <AdjustmentsHorizontalIcon class="w-10 h-10 text-blue-500" />
             <h2 class="card-title text-center">มิเตอร์น้ำและค่าไฟ</h2>
           </div>
-          
+
           <div class="w-full flex align-middle items-center justify-end">
             <label class="label">
               <span class="label-text">ค้นหาห้อง:</span>

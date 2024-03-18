@@ -31,6 +31,8 @@ const fetchRooms = async () => {
   if (response.status === 200) {
     const data = await response.json();
     console.log('rooms', data);
+    // sort by room name
+    data.sort((a, b) => a.name - b.name);
     rooms.value = data;
   } else {
     notify({
