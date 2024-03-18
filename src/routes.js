@@ -3,7 +3,7 @@ import { useUserStore } from './stores/user.store';
 
 const index = () => import('@/pages/index.vue');
 const NotFound = () => import('@/pages/not-found.vue');
-const serverDown =() => import('@/pages/unavailable.vue');
+const serverDown = () => import('@/pages/unavailable.vue');
 const signup = () => import('@/pages/signup.vue');
 const signin = () => import('@/pages/signin.vue');
 const renterSignin = () => import('@/pages/renter-signin.vue');
@@ -42,6 +42,7 @@ const createManyRoom = () => import('./pages/residence/room/create-many.vue');
 const updateRoom = () => import('./pages/residence/room/update.vue');
 
 // room type
+const roomType = () => import('./pages/residence/room-type/room-type.vue');
 const viewRoomType = () => import('./pages/residence/room-type/view.vue');
 
 const payment = () => import('./pages/residence/payment/payment.vue');
@@ -244,6 +245,7 @@ const routes = [
       title: 'ดูข้อมูลห้องพัก',
     },
   },
+
   {
     name: 'view-room-type',
     path: '/manage/residence/:residenceId/room-type/:roomTypeId',
@@ -307,6 +309,14 @@ const routes = [
     component: room,
     meta: {
       title: 'จัดการห้องพัก',
+    },
+  },
+  {
+    name: 'room-type',
+    path: '/manage/residence/:residenceId/room-type',
+    component: roomType,
+    meta: {
+      title: 'จัดการประเภทห้องพัก',
     },
   },
   {
@@ -469,10 +479,11 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   try {
+    if (to.name === 'unavailable') return next();
+
     const userStore = useUserStore();
     await userStore.fetchUserData();
     const user = userStore.getUser;
-    console.log(user);
 
     const isPublicRoute = publicRoutes.includes(to.name);
     const isRestrictedForLoggedIn = restrictedRoutesForLoggedInUsers.includes(
@@ -480,12 +491,12 @@ router.beforeEach(async (to, from, next) => {
     );
     const isAdminRoute = adminRoutes.includes(to.name);
 
-    console.log(
+    console.log({
       isPublicRoute,
       isRestrictedForLoggedIn,
       isAdminRoute,
-      user.role
-    );
+      role: user.role,
+    });
 
     // Admin
     // Admin can access all routes
@@ -568,6 +579,7 @@ router.beforeEach(async (to, from, next) => {
     }
   } catch (error) {
     console.error('Error in navigation guard:', error);
+    return next({ name: 'unavailable' });
   }
 });
 

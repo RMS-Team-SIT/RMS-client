@@ -38,7 +38,8 @@ export const useUserStore = defineStore({
           this.isLoggedIn = true;
         }
       } catch (error) {
-        console.log(error);
+        console.log('Error fetching user data', error);
+        throw error;
       }
     },
 
