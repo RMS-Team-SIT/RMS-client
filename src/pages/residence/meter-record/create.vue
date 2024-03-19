@@ -57,7 +57,6 @@ const findIndex = (id) => {
 const latestRecord = ref(null);
 
 const fetchLastPrevMeterRecord = async () => {
-  // const response = await MeterRecordService.findAllByResidenceId(residenceId);
   const response = await MeterRecordService.findLatest(residenceId);
   if (response.status === 200) {
     const result = await response.json();
@@ -184,6 +183,10 @@ onMounted(async () => {
   await fetchRooms();
   await setDefaultMeterRecordItems();
   isLoading.value = false;
+});
+
+watch(payload, () => {
+  console.log({ payload });
 });
 </script>
 
@@ -318,7 +321,7 @@ onMounted(async () => {
                       <input
                         type="number"
                         placeholder="มิเตอร์น้ำรอบปัจจุบัน"
-                        class="input input-bordered w-full max-w-xs input-sm"
+                        class="input input-bordered w-full max-w-xs input-sm border-emerald-500 bg-emerald-500 text-white placeholder-white"
                         v-model="
                           payload.meterRecordItems[findIndex(room._id)]
                             .currentWaterMeter
@@ -347,7 +350,7 @@ onMounted(async () => {
                       <input
                         type="number"
                         placeholder="มิเตอร์ไฟฟ้ารอบปัจจุบัน"
-                        class="input input-bordered w-full max-w-xs input-sm"
+                        class="input input-bordered w-full max-w-xs input-sm border-emerald-500 bg-emerald-500 text-white placeholder-white"
                         v-model="
                           payload.meterRecordItems[findIndex(room._id)]
                             .currentElectricMeter

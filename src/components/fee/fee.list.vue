@@ -170,6 +170,15 @@ const updateFee = async () => {
               >
               <!-- </router-link> -->
             </th>
+            <th>
+              <Button
+                btnType="ghost-pill"
+                onclick="deleteFee.showModal()"
+                @click="setEditingFee(fee._id)"
+                >ลบ</Button
+              >
+              <!-- </router-link> -->
+            </th>
           </tr>
         </tbody>
       </table>
@@ -212,9 +221,33 @@ const updateFee = async () => {
 
           <div class="modal-action flex">
             <form method="dialog">
-              <button class="btn btn-sm mr-2" @click="resetEditingFee">ปิด</button>
+              <button class="btn btn-sm mr-2" @click="resetEditingFee">
+                ปิด
+              </button>
               <button class="btn btn-sm btn-secondary" @click="updateFee">
                 บันทึกข้อมูล
+              </button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+
+      <!-- Modal for delete -->
+      <dialog :id="`deleteFee`" class="modal">
+        <div class="modal-box space-y-2">
+          <h3 class="font-bold text-lg">ยืนยันการลบข้อมูล</h3>
+          <p class="text-base">
+            คุณต้องการลบข้อมูลค่าใช้จ่ายเพิ่มเติม
+            <b>{{ editingFee.feePreviousName }}</b>
+            ใช่หรือไม่?
+          </p>
+          <div class="modal-action flex">
+            <form method="dialog">
+              <button class="btn btn-sm mr-2" @click="resetEditingFee">
+                ปิด
+              </button>
+              <button class="btn btn-sm btn-error" @click="updateFee">
+                ยืนยันการลบข้อมูล
               </button>
             </form>
           </div>
