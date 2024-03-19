@@ -235,10 +235,10 @@ onMounted(async () => {
             <div
               class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
             >
-              <h3 class="text-lg font-semibold mb-2">ค่าไฟฟ้าต่อหน่วย</h3>
+              <h3 class="text-lg font-semibold mb-2">ค่าน้ำต่อหน่วย</h3>
               <p class="flex gap-2 items-end">
                 <CountUp
-                  :end-val="residence.data.defaultElectricPriceRate"
+                  :end-val="residence.data.defaultWaterPriceRate"
                   class="text-6xl text-green-400"
                 />
                 บาท/หน่วย
@@ -248,10 +248,10 @@ onMounted(async () => {
             <div
               class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
             >
-              <h3 class="text-lg font-semibold mb-2">ค่าน้ำต่อหน่วย</h3>
+              <h3 class="text-lg font-semibold mb-2">ค่าไฟฟ้าต่อหน่วย</h3>
               <p class="flex gap-2 items-end">
                 <CountUp
-                  :end-val="residence.data.defaultWaterPriceRate"
+                  :end-val="residence.data.defaultElectricPriceRate"
                   class="text-6xl text-green-400"
                 />
                 บาท/หน่วย
@@ -343,9 +343,7 @@ onMounted(async () => {
           />
         </div>
 
-        <div class="divider font-bold divider-start">
-          ระบบจัดการชำระเงิน
-        </div>
+        <div class="divider font-bold divider-start">ระบบจัดการชำระเงิน</div>
         <div class="flex gap-2">
           <QuickLinkCard
             :router-path="{ name: 'bill', params: { residenceId } }"

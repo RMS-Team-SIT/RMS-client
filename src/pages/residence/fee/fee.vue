@@ -87,7 +87,7 @@ onMounted(async () => {
 
       <back :to="{ name: 'dashboard', params: { residenceId } }" class="mt-5" />
 
-      <div class="bg-white p-10 shadow rounded-lg border">
+      <div class="bg-white p-10 shadow rounded-lg border mt-2">
         <div class="flex justify-between">
           <h1
             class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
@@ -97,23 +97,22 @@ onMounted(async () => {
           </h1>
         </div>
 
-        <div class="grid grid-cols-2 gap-2 col-span-2 mt-5">
-          <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
-            <h3 class="text-lg font-semibold mb-2">ค่าไฟฟ้าต่อหน่วย</h3>
-            <p class="flex gap-2 items-end">
-              <CountUp
-                :end-val="residence.data.defaultElectricPriceRate"
-                class="text-6xl text-green-400"
-              />
-              บาท/หน่วย
-            </p>
-          </div>
-
+        <div class="grid grid-cols-2 gap-2 col-span-2 mt-5 w-1/2">
           <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
             <h3 class="text-lg font-semibold mb-2">ค่าน้ำต่อหน่วย</h3>
             <p class="flex gap-2 items-end">
               <CountUp
                 :end-val="residence.data.defaultWaterPriceRate"
+                class="text-6xl text-green-400"
+              />
+              บาท/หน่วย
+            </p>
+          </div>
+          <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
+            <h3 class="text-lg font-semibold mb-2">ค่าไฟฟ้าต่อหน่วย</h3>
+            <p class="flex gap-2 items-end">
+              <CountUp
+                :end-val="residence.data.defaultElectricPriceRate"
                 class="text-6xl text-green-400"
               />
               บาท/หน่วย
