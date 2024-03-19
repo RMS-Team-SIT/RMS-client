@@ -125,11 +125,11 @@ onMounted(async () => {
               params: { residenceId },
             },
             {
-              name: 'จัดการประเภทห้องพัก',
-              pathName: 'room-type',
+              name: 'จัดการราคาค่าใช้จ่ายในหอพัก',
+              pathName: 'fee',
               params: { residenceId },
             },
-            { name: 'สร้างประเภทห้องพัก' },
+            { name: 'สร้างค่าใช้จ่ายในหอพัก' },
           ]"
         />
       </div>
@@ -166,7 +166,7 @@ onMounted(async () => {
         <div class="flex justify-end gap-2 mt-10">
           <Button
             btn-type="secondary"
-            @click="router.push({ name: 'room-type', params: { residenceId } })"
+            @click="router.push({ name: 'fee', params: { residenceId } })"
             v-if="currentStep == 1"
             class="rounded-badge"
           >

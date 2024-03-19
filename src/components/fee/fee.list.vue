@@ -67,6 +67,7 @@ const visiblePages = computed(() => {
 });
 
 const editingFee = reactive({
+  feePreviousName: '',
   feeId: '',
   feename: '',
   feeprice: '',
@@ -76,7 +77,8 @@ const setEditingFee = (feeId) => {
   const fee = props.fees.find((f) => f._id === feeId);
   editingFee.feeId = fee._id;
   editingFee.feename = fee.feename;
-  editingFee.feeprice = fee.feeprice;
+  editingFee.feePreviousName = fee.feename;
+  editingFee.feeprice = +fee.feeprice;
 };
 
 const resetEditingFee = () => {
@@ -176,7 +178,7 @@ const updateFee = async () => {
       <dialog :id="`editFee`" class="modal">
         <div class="modal-box space-y-2">
           <h3 class="font-bold text-lg">
-            รายละเอียดค่าใช้จ่ายเพิ่มเติม : {{ editingFee.feename }}
+            รายละเอียดค่าใช้จ่ายเพิ่มเติม : {{ editingFee.feePreviousName }}
           </h3>
 
           <div class="grid grid-cols-2 gap-2">
@@ -210,7 +212,7 @@ const updateFee = async () => {
 
           <div class="modal-action flex">
             <form method="dialog">
-              <button class="btn btn-sm" @click="resetEditingFee">ปิด</button>
+              <button class="btn btn-sm mr-2" @click="resetEditingFee">ปิด</button>
               <button class="btn btn-sm btn-secondary" @click="updateFee">
                 บันทึกข้อมูล
               </button>
