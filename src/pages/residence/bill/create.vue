@@ -10,6 +10,7 @@ import BillService from '@/services/BillService';
 import { notify } from '@kyvg/vue3-notification';
 import Divider from '@/components/common/divider.vue';
 import back from '@/components/common/back.vue';
+import ResidenceServices from '@/services/ResidenceServices';
 
 const isLoading = ref(true);
 const router = useRouter();
@@ -51,6 +52,22 @@ const fetchMeterRecord = async () => {
   }
 };
 
+const residence = ref(null);
+const fetchResidence = async () => {
+  const response = await ResidenceServices.fetchResidence(residenceId);
+  if (response.status === 200) {
+    residence.value = await response.json();
+    console.log('residence', residence.value);
+  } else {
+    notify({
+      group: 'tr',
+      title: 'เกิดข้อผิดพลาด',
+      text: 'ไม่สามารถดึงข้อมูลหอพักได้',
+      type: 'error',
+    });
+  }
+};
+
 const submit = async () => {
   console.log('submit', payload);
   const response = await BillService.create(residenceId, payload);
@@ -74,207 +91,211 @@ const submit = async () => {
 
 onMounted(async () => {
   await fetchMeterRecord();
+  await fetchResidence();
   isLoading.value = false;
 });
 </script>
 
 <template>
   <Loading v-if="isLoading" />
-  <div class="bg-gray-50" v-else>
-    <div class="py-10 px-10 md:px-40">
-      <Breadcrumb
-        :pathList="[
-          { name: 'หน้าแรก', pathName: 'home' },
-          { name: 'จัดการ', pathName: 'manage' },
-          {
-            name: 'dashboard',
-            pathName: 'dashboard',
-            params: { residenceId },
-          },
-          {
-            name: 'ระบบจัดการบิล',
-            pathName: 'bill',
-            params: { residenceId },
-          },
-          {
-            name: 'สรา้งบิล',
-            pathName: 'create-bill',
-            params: { residenceId },
-          },
-        ]"
-      />
-     
-      <back :to="{ name: 'bill', params: { residenceId } }" />
+  <div class="py-10 px-10 md:px-40" v-else>
+    <Breadcrumb
+      :pathList="[
+        { name: 'หน้าแรก', pathName: 'home' },
+        { name: 'จัดการ', pathName: 'manage' },
+        {
+          name: 'dashboard',
+          pathName: 'dashboard',
+          params: { residenceId },
+        },
+        {
+          name: 'ระบบจัดการบิล',
+          pathName: 'bill',
+          params: { residenceId },
+        },
+        {
+          name: 'สรา้งบิล',
+          pathName: 'create-bill',
+          params: { residenceId },
+        },
+      ]"
+    />
 
-      <div class="grid grid-cols-4 gap-2">
-        <!-- col 1 -->
-        <div class="card w-full bg-base-100 shadow-xl mt-5">
-          <div class="card-body">
-            <h2 class="card-title text-center">สร้างบิล</h2>
-            <div>
-              <label class="label">
-                <span class="text-base label-text"
-                  >เลือกรอบมิเตอร์ <span class="text-red-500">*</span>
-                </span>
-              </label>
-              <select
-                class="select select-bordered w-full"
-                v-model="payload.meterRecord"
-              >
-                <option value="">เลือกรอบมิเตอร์</option>
-                <option
-                  v-for="meterRecord in meterRecords"
-                  :key="meterRecord._id"
-                  :value="meterRecord._id"
-                >
-                  {{ dayjs(meterRecord.record_date).format('DD/MM/YYYY') }}
-                </option>
-              </select>
-              <p class="text-red-500 text-sm" v-if="!payload.meterRecord">
-                * กรุณากรอกรอบมิเตอร์
-              </p>
-            </div>
+    <back :to="{ name: 'bill', params: { residenceId } }" />
 
-            <div class="mt-5">
-              <Button
-                btnType="primary"
-                class="w-full"
-                :disabled="!canSubmit"
-                @click="submit"
+    <div class="grid grid-cols-4 gap-2">
+      <!-- col 1 -->
+      <div class="card w-full bg-base-100 shadow border mt-5">
+        <div class="card-body">
+          <h2 class="card-title text-center">สร้างบิล</h2>
+          <div>
+            <label class="label">
+              <span class="text-base label-text"
+                >เลือกรอบมิเตอร์ <span class="text-red-500">*</span>
+              </span>
+            </label>
+            <select
+              class="select select-bordered w-full"
+              v-model="payload.meterRecord"
+            >
+              <option value="">เลือกรอบมิเตอร์</option>
+              <option
+                v-for="meterRecord in meterRecords"
+                :key="meterRecord._id"
+                :value="meterRecord._id"
               >
-                สร้างบิลของทุกห้อง
-              </Button>
-            </div>
+                {{ dayjs(meterRecord.record_date).format('DD/MM/YYYY') }}
+              </option>
+            </select>
+            <p class="text-red-500 text-sm" v-if="!payload.meterRecord">
+              * กรุณากรอกรอบมิเตอร์
+            </p>
+          </div>
+
+          <div class="mt-5">
+            <Button
+              btnType="primary"
+              class="w-full"
+              :disabled="!canSubmit"
+              @click="submit"
+            >
+              สร้างบิลของทุกห้อง
+            </Button>
           </div>
         </div>
+      </div>
 
-        <!-- col 2 -->
-        <div class="card w-full bg-base-100 shadow-xl mt-5 col-span-3">
-          <div class="card-body">
-            <div class="flex gap-2">
-              <BanknotesIcon class="w-10 h-10 text-blue-500" />
-              <h2 class="card-title text-center">สรุปบิลของทุกห้อง</h2>
-            </div>
-            <p class="mt-5" v-if="!payload.meterRecord">
-              กรุณาเลือกรอบมิเตอร์ที่ต้องการสร้างบิล
+      <!-- col 2 -->
+      <div class="card w-full bg-base-100 shadow border mt-5 col-span-3">
+        <div class="card-body">
+          <div class="flex gap-2">
+            <BanknotesIcon class="w-10 h-10 text-blue-500" />
+            <h2 class="card-title text-center">สรุปบิลของทุกห้อง</h2>
+          </div>
+          <p class="mt-5" v-if="!payload.meterRecord">
+            กรุณาเลือกรอบมิเตอร์ที่ต้องการสร้างบิล
+          </p>
+          <div v-else>
+            <p>
+              รอบมิเตอร์ :
+              {{ dayjs(currentMeterRecord.record_date).format('DD/MM/YYYY') }}
             </p>
-            <div v-else>
-              <p>
-                รอบมิเตอร์ :
-                {{ dayjs(currentMeterRecord.record_date).format('DD/MM/YYYY') }}
-              </p>
-              <p class="flex items-center">
-                <label class="label">
-                  <span class="label-text">ค้นหาห้อง:</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="ค้นหาห้อง"
-                  class="input input-sm input-bordered bg-white rounded"
-                  v-model="search"
-                />
-              </p>
-              <div
-                class="collapse collapse-arrow border border-base-300 shadow-sm m-2"
-                v-for="(
-                  meterRecordItem, index
-                ) in currentMeterRecord.meterRecordItems.filter((item) =>
-                  item.room.name.toLowerCase().includes(search.toLowerCase())
-                )"
-                :key="index"
-              >
-                <input type="checkbox" />
-                <div class="collapse-title text-lg font-medium">
-                  ห้อง {{ meterRecordItem.room.name }}
-                </div>
-                <div class="collapse-content">
-                  <div class="flex w-full">
-                    <div class="w-full">
-                      <p class="text-lg font-bold">ค่าน้ำ</p>
-                      <p>
-                        มิเตอร์น้ำครั้งก่อน:
-                        {{ meterRecordItem.previousWaterMeter }}
-                      </p>
-                      <p>
-                        มิเตอร์น้ำครั้งนี้:
-                        {{ meterRecordItem.currentWaterMeter }}
-                      </p>
-                      <p>
-                        จำนวนหน่วย:
-                        {{ meterRecordItem.totalWaterMeterUsage }} หน่วย
-                      </p>
-                      <p>
-                        อัตราค่าน้ำต่อหน่วย:
-                        {{ meterRecordItem.room.waterPriceRate }} บาท
-                      </p>
-                      <p>
-                        บิลค่าน้ำ :
-                        <b
-                          >{{
-                            meterRecordItem.room.waterPriceRate *
-                            meterRecordItem.totalWaterMeterUsage
-                          }}
-                          บาท</b
-                        >
-                      </p>
-                    </div>
-                    <div class="divider divider-horizontal"></div>
-                    <div class="w-full">
-                      <p class="text-lg font-bold">ค่าไฟ</p>
-                      <p>
-                        มิเตอร์ไฟครั้งก่อน:
-                        {{ meterRecordItem.previousElectricMeter }}
-                      </p>
-                      <p>
-                        มิเตอร์ไฟครั้งนี้:
-                        {{ meterRecordItem.currentElectricMeter }}
-                      </p>
-                      <p>
-                        จำนวนหน่วย:
-                        {{ meterRecordItem.totalElectricMeterUsage }}
-                      </p>
-                      <p>
-                        อัตราค่าไฟต่อหน่วย:
-                        {{ meterRecordItem.room.electricPriceRate }}
-                      </p>
-                      <p>
-                        บิลค่าไฟ :
-                        <b
-                          >{{
-                            meterRecordItem.room.electricPriceRate *
-                            meterRecordItem.totalElectricMeterUsage
-                          }}
-                          บาท</b
-                        >
-                      </p>
-                    </div>
-                    <div class="divider divider-horizontal"></div>
-                    <div class="w-full">
-                      <p class="text-lg font-bold">ค่าเช่า</p>
-                      <p>
-                        ค่าเช่าห้อง:
-                        <b>{{ meterRecordItem.room.roomRentalPrice }}</b> บาท
-                      </p>
-                    </div>
-                  </div>
-                  <Divider />
-                  <p class="text-lg font-bold mt-5 rounded-full">
-                    รวม:
-                    {{
-                      meterRecordItem.room.roomRentalPrice +
-                      meterRecordItem.room.electricPriceRate *
-                        meterRecordItem.totalElectricMeterUsage +
-                      meterRecordItem.room.waterPriceRate *
-                        meterRecordItem.totalWaterMeterUsage
-                    }}
-                    บาท
-                  </p>
-                </div>
+            <p class="flex items-center">
+              <label class="label">
+                <span class="label-text">ค้นหาห้อง:</span>
+              </label>
+              <input
+                type="text"
+                placeholder="ค้นหาห้อง"
+                class="input input-sm input-bordered bg-white rounded"
+                v-model="search"
+              />
+            </p>
+            <div
+              class="collapse collapse-arrow border border-base-300 shadow-sm m-2"
+              v-for="(
+                meterRecordItem, index
+              ) in currentMeterRecord.meterRecordItems.filter((item) =>
+                item.room.name.toLowerCase().includes(search.toLowerCase())
+              )"
+              :key="index"
+            >
+              <input type="checkbox" />
+              <div class="collapse-title text-lg font-medium">
+                ห้อง {{ meterRecordItem.room.name }}
               </div>
-              <p class="text-sm text-gray-500">
-                หมายเหตุ: กดเพื่อดูรายละเอียดเพิ่ม *
-              </p>
+              <div class="collapse-content">
+                <div class="flex w-full">
+                  <div class="w-full">
+                    <p class="text-lg font-bold">ค่าน้ำ</p>
+                    <p>
+                      มิเตอร์น้ำครั้งก่อน:
+                      {{ meterRecordItem.previousWaterMeter }}
+                    </p>
+                    <p>
+                      มิเตอร์น้ำครั้งนี้:
+                      {{ meterRecordItem.currentWaterMeter }}
+                    </p>
+                    <p>
+                      จำนวนหน่วย:
+                      {{ meterRecordItem.totalWaterMeterUsage }} หน่วย
+                    </p>
+                    <p>
+                      อัตราค่าน้ำต่อหน่วย:
+                      {{ residence.defaultWaterPriceRate }} บาท
+                    </p>
+                    <p>
+                      บิลค่าน้ำ :
+                      <b
+                        >{{
+                          residence.defaultWaterPriceRate *
+                          meterRecordItem.totalWaterMeterUsage
+                        }}
+                        บาท</b
+                      >
+                    </p>
+                  </div>
+                  <div class="divider divider-horizontal"></div>
+                  <div class="w-full">
+                    <p class="text-lg font-bold">ค่าไฟ</p>
+                    <p>
+                      มิเตอร์ไฟครั้งก่อน:
+                      {{ meterRecordItem.previousElectricMeter }}
+                    </p>
+                    <p>
+                      มิเตอร์ไฟครั้งนี้:
+                      {{ meterRecordItem.currentElectricMeter }}
+                    </p>
+                    <p>
+                      จำนวนหน่วย:
+                      {{ meterRecordItem.totalElectricMeterUsage }}
+                    </p>
+                    <p>
+                      อัตราค่าไฟต่อหน่วย:
+                      {{ residence.defaultElectricPriceRate }}
+                    </p>
+                    <p>
+                      บิลค่าไฟ :
+                      <b
+                        >{{
+                          residence.defaultElectricPriceRate *
+                          meterRecordItem.totalElectricMeterUsage
+                        }}
+                        บาท</b
+                      >
+                    </p>
+                  </div>
+                  <div class="divider divider-horizontal"></div>
+                  <div class="w-full">
+                    <p class="text-lg font-bold">ค่าเช่า</p>
+                    <p>
+                      ค่าเช่าห้อง:
+                      <b>{{ meterRecordItem.room.roomRentalPrice.toLocaleString() }}</b> บาท
+                    </p>
+                    <p class="text-lg font-bold mt-2">ค่าบริการอื่น ๆ</p>
+                    <p>
+                      ค่าเช่าห้อง:
+                      <b>{{ meterRecordItem.room.fees }}</b> บาท
+                    </p>
+                  </div>
+                </div>
+                <Divider />
+                <p class="text-lg font-bold mt-5 rounded-full">
+                  รวม:
+                  {{
+                    (meterRecordItem.room.roomRentalPrice +
+                    residence.defaultElectricPriceRate *
+                      meterRecordItem.totalElectricMeterUsage +
+                    residence.defaultWaterPriceRate *
+                      meterRecordItem.totalWaterMeterUsage).toLocaleString()
+                  }}
+                  บาท
+                </p>
+              </div>
             </div>
+            <p class="text-sm text-gray-500">
+              หมายเหตุ: กดเพื่อดูรายละเอียดเพิ่ม *
+            </p>
           </div>
         </div>
       </div>

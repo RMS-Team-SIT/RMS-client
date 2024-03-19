@@ -1,9 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useUserStore } from './stores/user.store';
+import { useServerStore } from './stores/server.store';
 
 const index = () => import('@/pages/index.vue');
 const NotFound = () => import('@/pages/not-found.vue');
-const serverDown = () => import('@/pages/unavailable.vue');
+const unavailable = () => import('@/pages/unavailable.vue');
 const signup = () => import('@/pages/signup.vue');
 const signin = () => import('@/pages/signin.vue');
 const renterSignin = () => import('@/pages/renter-signin.vue');
@@ -487,7 +488,7 @@ const routes = [
   },
   {
     path: '/unavailable',
-    component: serverDown,
+    component: unavailable,
     name: 'unavailable',
     meta: {
       title: 'เซิฟเวอร์มีปัญหา โปรดลองใหม่อีกครั้ง',
@@ -517,7 +518,20 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   try {
-    if (to.name === 'unavailable') return next();
+    const serverStore = useServerStore();
+    await serverStore.fetch();
+    const status = serverStore.getStatus;
+
+    if (!status.up) {
+      console.info('API Status: Down');
+    } else {
+      console.info('API Status: OK');
+    }
+
+    if (to.name === 'unavailable') {
+      if (status.up) return next({ path: to.query.returnPath });
+      return next();
+    }
 
     const userStore = useUserStore();
     await userStore.fetchUserData();
@@ -617,7 +631,7 @@ router.beforeEach(async (to, from, next) => {
     }
   } catch (error) {
     console.error('Error in navigation guard:', error);
-    return next({ name: 'unavailable' });
+    return next({ name: 'unavailable', query: { returnPath: to.fullPath } });
   }
 });
 

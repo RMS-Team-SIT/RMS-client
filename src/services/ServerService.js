@@ -6,7 +6,7 @@ class ServerService {
     this.baseUrl = baseUrl;
   }
 
-  fetchServerStatus = async () => sendRequest(this.baseUrl, '/health-check', 'GET');
+  fetchServerStatus = async () => sendRequest(this.baseUrl, '/health', 'GET');
 }
 
 export default new ServerService();
