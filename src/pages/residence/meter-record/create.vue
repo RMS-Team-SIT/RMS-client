@@ -321,7 +321,7 @@ watch(payload, () => {
                       <input
                         type="number"
                         placeholder="มิเตอร์น้ำรอบปัจจุบัน"
-                        class="input input-bordered w-full max-w-xs input-sm border-emerald-500 bg-emerald-500 text-white placeholder-white"
+                        class="input input-bordered w-full max-w-xs input-sm"
                         v-model="
                           payload.meterRecordItems[findIndex(room._id)]
                             .currentWaterMeter
@@ -350,7 +350,7 @@ watch(payload, () => {
                       <input
                         type="number"
                         placeholder="มิเตอร์ไฟฟ้ารอบปัจจุบัน"
-                        class="input input-bordered w-full max-w-xs input-sm border-emerald-500 bg-emerald-500 text-white placeholder-white"
+                        class="input input-bordered w-full max-w-xs input-sm"
                         v-model="
                           payload.meterRecordItems[findIndex(room._id)]
                             .currentElectricMeter
