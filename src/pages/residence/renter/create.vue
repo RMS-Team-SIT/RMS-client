@@ -212,7 +212,7 @@ const submitData = async () => {
       <div class="flex justify-end gap-2 mt-10">
         <Button
           btn-type="secondary"
-          @click="router.push({ name: 'dashboard', params: { residenceId } })"
+          @click="router.push({ name: 'renter', params: { residenceId } })"
           v-if="currentStep == 1"
           class="rounded-badge"
         >

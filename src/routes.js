@@ -43,8 +43,12 @@ const updateRoom = () => import('./pages/residence/room/update.vue');
 
 // room type
 const roomType = () => import('./pages/residence/room-type/room-type.vue');
-const createRoomType = () => import('./pages/residence/room-type/create.vue'); 
+const createRoomType = () => import('./pages/residence/room-type/create.vue');
 const viewRoomType = () => import('./pages/residence/room-type/view.vue');
+
+// Fee and Electric
+const fee = () => import('./pages/residence/fee/fee.vue');
+const updateUtility = () => import('./pages/residence/fee/update-utility.vue');
 
 const payment = () => import('./pages/residence/payment/payment.vue');
 const createPayment = () => import('./pages/residence/payment/create.vue');
@@ -454,6 +458,22 @@ const routes = [
     component: kycApprovalStatus,
     meta: {
       title: 'รอการอนุมัติ',
+    },
+  },
+  {
+    name: 'fee',
+    path: '/manage/residence/:residenceId/fee',
+    component: fee,
+    meta: {
+      title: 'จัดการราคาค่าใช้จ่ายในหอพัก',
+    },
+  },
+  {
+    name: 'update-utility',
+    path: '/manage/residence/:residenceId/fee/update-utility',
+    component: updateUtility,
+    meta: {
+      title: 'จัดการราคาค่าใช้จ่ายในหอพัก',
     },
   },
   {

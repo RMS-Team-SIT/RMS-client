@@ -24,6 +24,9 @@ class ResidenceService {
   updateResidence = async (id, residence) =>
     sendRequest(this.baseUrl, `/residence/${id}`, 'PUT', residence);
 
+  updateUtility = async (id, utility) =>
+    sendRequest(this.baseUrl, `/residence/${id}/utility`, 'PUT', utility);
+
   fetchResidenceRenters = async (residenceId) =>
     sendRequest(this.baseUrl, `/residence/${residenceId}/renter`, 'GET');
 

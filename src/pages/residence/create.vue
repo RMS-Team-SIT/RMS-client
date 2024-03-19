@@ -198,12 +198,6 @@ const submitData = async () => {
     residenceBusinessLicense: residenceData.residenceBusinessLicense.fileName,
   });
   if (response.status == 201) {
-    // notify({
-    //   group: 'tr',
-    //   title: 'สำเร็จ',
-    //   text: 'สร้างหอพักสำเร็จแล้ว',
-    //   type: 'success',
-    // });
     return true;
   } else {
     const data = await response.json();

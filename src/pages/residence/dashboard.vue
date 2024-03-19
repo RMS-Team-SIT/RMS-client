@@ -231,7 +231,6 @@ onMounted(async () => {
             </p>
           </div>
 
-          <!-- Eiei -->
           <div class="grid grid-cols-2 gap-2 col-span-2">
             <div
               class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
@@ -330,7 +329,7 @@ onMounted(async () => {
         </div>
         <div class="flex gap-2">
           <QuickLinkCard
-            :router-path="{ name: 'payment', params: { residenceId } }"
+            :router-path="{ name: 'fee', params: { residenceId } }"
             title="จัดการราคาค่าใช้จ่าย"
             text="เข้าสู่หน้าจัดการราคาค่าใช้จ่าย"
             :icon="CreditCardIcon"
