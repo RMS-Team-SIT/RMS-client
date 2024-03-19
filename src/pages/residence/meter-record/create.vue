@@ -85,7 +85,7 @@ const findRecord = (roomId) => {
 };
 
 const calcualteTotalWaterMeterUsage = (roomId) => {
-  if (isFirstTime.value) return 0;
+  // if (isFirstTime.value) return 0;
   if (!findRecord(roomId)) return 0;
   return (
     payload.meterRecordItems[findIndex(roomId)].currentWaterMeter -
@@ -94,7 +94,7 @@ const calcualteTotalWaterMeterUsage = (roomId) => {
 };
 
 const calcualteTotalElectricMeterUsage = (roomId) => {
-  if (isFirstTime.value) return 0;
+  // if (isFirstTime.value) return 0;
   if (!findRecord(roomId)) return 0;
   return (
     payload.meterRecordItems[findIndex(roomId)].currentElectricMeter -
@@ -306,7 +306,11 @@ watch(payload, () => {
                         class="w-5 h-5"
                         v-if="room.status !== 'AVAILABLE'"
                       />
-                      <img :src="NoUserImg" class="w-5 h-5 flex mx-auto" />
+                      <img
+                        :src="NoUserImg"
+                        class="w-5 h-5 flex mx-auto"
+                        v-else
+                      />
                     </td>
                     <td>
                       <input

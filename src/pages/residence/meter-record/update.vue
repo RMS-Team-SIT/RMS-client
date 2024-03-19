@@ -5,13 +5,14 @@ import { useRoute, useRouter } from 'vue-router';
 import { useNotification } from '@kyvg/vue3-notification';
 import Button from '@/components/common/button.vue';
 import MeterRecordService from '@/services/MeterRecordService';
-import { AdjustmentsHorizontalIcon, BellIcon } from '@heroicons/vue/24/outline';
+import { AdjustmentsHorizontalIcon, BellIcon, UsersIcon } from '@heroicons/vue/24/outline';
 import Loading from '@/components/common/loading.vue';
 import RoomService from '@/services/RoomService';
 import dayjs from 'dayjs';
 import Badge from '@/components/common/badge.vue';
 import Alert from '@/components/common/alert.vue';
 import back from '@/components/common/back.vue';
+import NoUserImg from '@/assets/img/nouser.png';
 
 const router = useRouter();
 const route = useRoute();
@@ -170,6 +171,16 @@ onMounted(async () => {
             <AdjustmentsHorizontalIcon class="w-10 h-10 text-blue-500" />
             <h2 class="card-title text-center">มิเตอร์น้ำและค่าไฟ</h2>
           </div>
+          <div class="flex justify-start gap-2">
+            <div class="flex gap-2 text-gray-500">
+              <UsersIcon class="w-5 h-5" />
+              <p class="text-sm">ห้องที่มีคนเช่าอยู่</p>
+            </div>
+            <div class="flex gap-2 text-gray-500">
+              <img :src="NoUserImg" class="w-5 h-5 flex mx-auto" />
+              <p class="text-sm">ห้องที่ไม่มีคนเช่า</p>
+            </div>
+          </div>
           <div class="w-full flex align-middle items-center justify-end">
             <label class="label">
               <span class="label-text">ค้นหาห้อง:</span>
@@ -189,6 +200,7 @@ onMounted(async () => {
               <thead>
                 <tr>
                   <th>ชื่อห้อง</th>
+                  <th>สถานะห้อง</th>
                   <th>มิเตอร์น้ำรอบที่แล้ว</th>
                   <th>มิเตอร์น้ำรอบปัจจุบัน</th>
                   <th>จำนวนหน่วย</th>
@@ -208,7 +220,13 @@ onMounted(async () => {
                   <td>
                     {{ meterRecordItem.room.name }}
                   </td>
-
+                  <td>
+                      <UsersIcon
+                        class="w-5 h-5"
+                        v-if="meterRecordItem.room.status !== 'AVAILABLE'"
+                      />
+                      <img :src="NoUserImg" class="w-5 h-5 flex mx-auto" v-else />
+                    </td>
                   <td>
                     <input
                       type="number"
