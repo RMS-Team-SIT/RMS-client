@@ -80,7 +80,7 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
-  <div v-if="residence.data" class="bg-gray-50 min-h-screen">
+  <div v-if="residence.data" class="min-h-screen">
     <div class="py-10 px-10 md:px-40">
       <Breadcrumb
         :pathList="[
@@ -96,7 +96,7 @@ onMounted(async () => {
       />
       <back :to="{ name: 'dashboard', params: { residenceId } }" />
       <div class="grid grid-cols-1">
-        <div class="bg-white p-10 mt-2 shadow rounded-lg">
+        <div class="bg-white p-10 mt-2 shadow rounded-lg border">
           <div class="flex justify-between">
             <h1 class="text-2xl font-semibold text-dark-blue-200">
               ระบบจัดการบิล
