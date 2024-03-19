@@ -3,6 +3,7 @@ import Badge from '../common/badge.vue';
 import Button from '@/components/common/button.vue';
 import { computed, inject, onMounted, reactive, ref } from 'vue';
 import ResidenceServices from '@/services/ResidenceServices';
+import FeeService from '@/services/FeeService';
 import { useNotification } from '@kyvg/vue3-notification';
 import dayjs from 'dayjs';
 import BankIcon from '@/components/common/bank-icon.vue';
@@ -64,6 +65,56 @@ const visiblePages = computed(() => {
 
   return Array.from({ length: end - start + 1 }, (_, i) => start + i);
 });
+
+const editingFee = reactive({
+  feeId: '',
+  feename: '',
+  feeprice: '',
+});
+
+const setEditingFee = (feeId) => {
+  const fee = props.fees.find((f) => f._id === feeId);
+  editingFee.feeId = fee._id;
+  editingFee.feename = fee.feename;
+  editingFee.feeprice = fee.feeprice;
+};
+
+const resetEditingFee = () => {
+  editingFee.feeId = '';
+  editingFee.feename = '';
+  editingFee.feeprice = '';
+};
+
+const updateFee = async () => {
+  const response = await FeeService.update(
+    props.residenceId,
+    editingFee.feeId,
+    { feename: editingFee.feename, feeprice: editingFee.feeprice }
+  );
+
+  if (response.status !== 200) {
+    const data = await response.json();
+    notify({
+      group: 'tr',
+      title: 'แก้ไขข้อมูลไม่สำเร็จ',
+      text: 'เกิดข้อผิดพลาดในการแก้ไขข้อมูล,' + data.message,
+      type: 'error',
+    });
+  } else {
+    notify({
+      group: 'tr',
+      title: 'แก้ไขข้อมูลสำเร็จ',
+      text: 'ข้อมูลได้รับการแก้ไขเรียบร้อยแล้ว',
+      type: 'success',
+    });
+    const index = props.fees.findIndex((f) => f._id === editingFee.feeId);
+    props.fees[index].feename = editingFee.feename;
+    props.fees[index].feeprice = editingFee.feeprice;
+  }
+
+  resetEditingFee();
+  editFee.close();
+};
 </script>
 
 <template>
@@ -109,16 +160,12 @@ const visiblePages = computed(() => {
             </td>
             <td>{{ fee.feeprice }} บาท</td>
             <th>
-              <!-- <router-link
-                :to="{
-                  name: 'update-room',
-                  params: {
-                    residenceId: $route.params.residenceId,
-                    roomId: room._id,
-                  },
-                }"
-              > -->
-              <Button btnType="ghost-pill">แก้ไข</Button>
+              <Button
+                btnType="ghost-pill"
+                onclick="editFee.showModal()"
+                @click="setEditingFee(fee._id)"
+                >แก้ไข</Button
+              >
               <!-- </router-link> -->
             </th>
           </tr>
@@ -126,10 +173,10 @@ const visiblePages = computed(() => {
       </table>
 
       <!-- Modal -->
-      <!-- <dialog :id="`editRoom`" class="modal">
+      <dialog :id="`editFee`" class="modal">
         <div class="modal-box space-y-2">
           <h3 class="font-bold text-lg">
-            รายละเอียดห้อง : {{ editingRoom.room.name }}
+            รายละเอียดค่าใช้จ่ายเพิ่มเติม : {{ editingFee.feename }}
           </h3>
 
           <div class="grid grid-cols-2 gap-2">
@@ -141,113 +188,36 @@ const visiblePages = computed(() => {
                 type="text"
                 placeholder="ชื่อห้อง"
                 class="input input-bordered bg-white input-sm rounded-sm"
-                v-model="editingRoom.room.name"
+                v-model="editingFee.feename"
               />
             </div>
 
             <div>
               <label class="label">
                 <span class="text-base label-text"
-                  >ประเภทห้อง <span class="text-red-500">*</span>
-                </span>
-              </label>
-              <select
-                class="select select-bordered w-full max-w-xs select-sm bg-white input-sm rounded-sm"
-                v-model="editingRoom.room.type"
-                @change="setEditingRoomRentalPriceByRoomType"
-              >
-                <option value="">เลือกประเภทห้อง</option>
-                <option
-                  v-for="roomType in props.fees"
-                  :key="roomType._id"
-                  :value="roomType._id"
-                >
-                  {{ roomType.name }}
-                </option>
-              </select>
-            </div>
-
-            <div>
-              <label class="label">
-                <span class="text-base label-text"
-                  >ชั้น <span class="text-red-500">*</span>
+                  >ราคา <span class="text-red-500">*</span>
                 </span>
               </label>
               <input
                 type="number"
                 min="0"
-                placeholder="ชั้น"
+                placeholder="ราคา"
                 class="input input-bordered bg-white input-sm rounded-sm"
-                v-model="editingRoom.room.floor"
+                v-model="editingFee.feeprice"
               />
-            </div>
-
-            <div>
-              <label class="label">
-                <span class="text-base label-text"
-                  >ค่าเช่าบาท/เดือน
-                  <span class="text-red-500">*</span>
-                </span>
-              </label>
-              <input
-                type="number"
-                min="0"
-                placeholder="ค่าเช่าบาท/เดือน"
-                class="input input-bordered bg-white input-sm rounded-sm"
-                v-model="editingRoom.room.roomRentalPrice"
-              />
-            </div>
-
-            <div class="col-span-2">
-              <label class="label">
-                <span class="text-base label-text">คำอธิบาย</span>
-              </label>
-              <textarea
-                class="w-full textarea textarea-bordered rounded-sm bg-white"
-                v-model="editingRoom.room.description"
-              ></textarea>
-            </div>
-
-            <div class="col-span-2">
-              <label class="label">
-                <span class="text-base label-text"
-                  >ค่าบริการ <span class="text-red-500">*</span>
-                </span>
-              </label>
-              <p class="p-2" v-if="!props.residenceData.fees.length">
-                ไม่มีค่าบริการเพิ่มเติมในหอพัก
-              </p>
-              <div class="grid grid-cols-1 md:grid-cols-2">
-                <div
-                  v-for="(fee, feeIndex) in props.residenceData.fees"
-                  :key="feeIndex"
-                  class="flex items-center gap-2"
-                >
-                  <input
-                    type="checkbox"
-                    :id="index + fee._id"
-                    :value="fee._id"
-                    v-model="editingRoom.room.fees"
-                    class="checkbox checkbox-primary"
-                  />
-                  <label :for="index + fee._id" class="label text-sm">
-                    {{ fee.feename }} : {{ fee.feeprice }} บาท
-                  </label>
-                </div>
-              </div>
             </div>
           </div>
 
           <div class="modal-action flex">
             <form method="dialog">
-              <button class="btn btn-sm" @click="resetEditingRoom">ปิด</button>
-              <button class="btn btn-sm btn-secondary" @click="updateRoom">
+              <button class="btn btn-sm" @click="resetEditingFee">ปิด</button>
+              <button class="btn btn-sm btn-secondary" @click="updateFee">
                 บันทึกข้อมูล
               </button>
             </form>
           </div>
         </div>
-      </dialog> -->
+      </dialog>
 
       <div class="join">
         <button

@@ -48,6 +48,7 @@ const viewRoomType = () => import('./pages/residence/room-type/view.vue');
 
 // Fee and Electric
 const fee = () => import('./pages/residence/fee/fee.vue');
+const createFee = () => import('./pages/residence/fee/create-fee.vue');
 const updateUtility = () => import('./pages/residence/fee/update-utility.vue');
 
 const payment = () => import('./pages/residence/payment/payment.vue');
@@ -466,6 +467,14 @@ const routes = [
     component: fee,
     meta: {
       title: 'จัดการราคาค่าใช้จ่ายในหอพัก',
+    },
+  },
+  {
+    name: 'create-fee',
+    path: '/manage/residence/:residenceId/fee/create',
+    component: createFee,
+    meta: {
+      title: 'เพิ่มค่าใช้จ่ายในหอพัก',
     },
   },
   {

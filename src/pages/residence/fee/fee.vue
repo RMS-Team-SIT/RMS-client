@@ -142,7 +142,7 @@ onMounted(async () => {
           <div>
             <router-link
               :to="{
-                name: 'update-utility',
+                name: 'create-fee',
                 params: {
                   residenceId,
                 },
@@ -152,7 +152,11 @@ onMounted(async () => {
             </router-link>
           </div>
         </div>
-        <FeeList class="mt-5" :fees="residence.data.fees" />
+        <FeeList
+          class="mt-5"
+          :fees="residence.data.fees"
+          :residenceId="residenceId"
+        />
       </div>
     </div>
   </div>
