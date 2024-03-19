@@ -21,9 +21,6 @@ class ResidenceService {
   createResidence = async (residence) =>
     sendRequest(this.baseUrl, '/residence', 'POST', residence);
 
-  createResidenceFully = async (residence) =>
-    sendRequest(this.baseUrl, '/residence/fully', 'POST', residence);
-
   updateResidence = async (id, residence) =>
     sendRequest(this.baseUrl, `/residence/${id}`, 'PUT', residence);
 

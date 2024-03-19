@@ -10,7 +10,6 @@ import Button from '@/components/common/button.vue';
 import Breadcrumb from '@/components/common/breadcrumb.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 import RoomRenterForm from '@/components/room/form/room.renter.form.vue';
-import RoomTypeService from '@/services/RoomTypeService';
 
 const router = useRouter();
 const route = useRoute();

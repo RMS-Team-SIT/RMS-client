@@ -10,34 +10,19 @@ class RoomTypeService {
     sendRequest(this.baseUrl, `/residence/${residenceId}/room-type`, 'GET');
 
   fetchOneResidence = async (residenceId, roomTypeId) =>
-    sendRequest(
-      this.baseUrl,
-      `/room-type/${roomTypeId}`,
-      'GET'
-    );
+    sendRequest(this.baseUrl, `/residence/${residenceId}/room-type/${roomTypeId}`, 'GET');
 
   create = async (residenceId, room) =>
-    sendRequest(
-      this.baseUrl,
-      `/room-type`,
-      'POST',
-      room
-    );
+    sendRequest(this.baseUrl, `/residence/${residenceId}/room-type`, 'POST', room);
+
+  createMany = async (residenceId, rooms) =>
+    sendRequest(this.baseUrl, `/residence/${residenceId}/room-type/bulk`, 'POST', rooms);
 
   update = async (residenceId, id, data) =>
-    sendRequest(
-      this.baseUrl,
-      `/room-type/${id}`,
-      'PUT',
-      data
-    );
+    sendRequest(this.baseUrl, `/residence/${residenceId}/room-type/${id}`, 'PUT', data);
 
   deleteRoom = async (residenceId, id) =>
-    sendRequest(
-      this.baseUrl,
-      `/room-type/${id}`,
-      'DELETE'
-    );
+    sendRequest(this.baseUrl, `/residence/${residenceId}/room-type/${id}`, 'DELETE');
 }
 
 export default new RoomTypeService();

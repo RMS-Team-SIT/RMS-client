@@ -81,11 +81,11 @@ onMounted(() => {
             pathName: 'dashboard',
             params: { residenceId },
           },
-          { name: 'จัดการห้องพัก', pathName: 'room', params: { residenceId } },
-          { name: 'ดูข้อมูลห้องพัก' },
+          { name: 'จัดการประเภทห้อง', pathName: 'room-type', params: { residenceId } },
+          { name: 'ดูข้อมูลประเภทห้อง' },
         ]"
       />
-      <back :to="{ name: 'room', params: { residenceId } }" />
+      <back :to="{ name: 'room-type', params: { residenceId } }" />
       <div class="bg-white mt-5 rounded-lg border p-5">
         <!-- Head -->
         <div class="flex justify-between">

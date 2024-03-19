@@ -11,6 +11,8 @@ import Breadcrumb from '@/components/common/breadcrumb.vue';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 import RoomRenterForm from '@/components/room/form/room.renter.form.vue';
 import RoomService from '@/services/RoomService';
+import residenceRoomTypeForm from '@/components/residence/form/residence.room-type.form.vue';
+import RoomTypeService from '@/services/RoomTypeService';
 
 const router = useRouter();
 const route = useRoute();
@@ -21,13 +23,8 @@ const currentStep = ref(1);
 const { notify } = useNotification();
 const isLoading = ref(true);
 
-const roomData = reactive({
-  name: '',
-  description: '',
-  floor: 1,
-  roomRentalPrice: 0,
-  fees: [],
-  type: '',
+const roomTypeData = reactive({
+  roomTypes: [],
 });
 
 const changeStep = (action) => {
@@ -46,23 +43,23 @@ const changeStep = (action) => {
 
 const getChildData = (data) => {
   for (const key in data) {
-    roomData[key] = data[key];
+    roomTypeData[key] = data[key];
   }
 };
 
 const submitData = async () => {
-  // Create renter
-  const response = await RoomService.createRoom(residenceId, {
-    ...roomData,
-  });
+  const response = await RoomTypeService.createMany(
+    residenceId,
+    roomTypeData.roomTypes
+  );
   if (response.status == 201) {
     notify({
       group: 'tr',
       title: 'สำเร็จ',
-      text: 'Room created successfully',
+      text: 'สร้างประเภทห้องพักสำเร็จ',
       type: 'success',
     });
-    router.push({ name: 'room', params: { residenceId: residenceId } });
+    router.push({ name: 'room-type', params: { residenceId: residenceId } });
   } else {
     const data = await response.json();
     notify({
@@ -96,13 +93,7 @@ const fetchResidenceData = async () => {
 
 const canNext = computed(() => {
   if (currentStep.value === 1) {
-    return (
-      roomData.name &&
-      roomData.floor &&
-      roomData.type &&
-      roomData.roomRentalPrice &&
-      roomData.type
-    );
+    return roomTypeData.roomTypes.length > 0;
   }
   return true;
 });
@@ -148,21 +139,17 @@ onMounted(async () => {
         <div class="p-4 mb-4 card bg-white col-span-9 items-center">
           <!-- step 1 -->
           <div v-if="currentStep == 1" class="w-full">
-            <RoomInfoForm
+            <residenceRoomTypeForm
               @getData="getChildData"
-              :roomData="roomData"
-              :roomTypes="residence.data.roomTypes"
-              :fees="residence.data.fees"
+              :residenceData="roomTypeData"
             />
           </div>
 
           <!-- step 2 -->
           <div v-if="currentStep == 2" class="w-full">
-            <RoomInfoForm
+            <residenceRoomTypeForm
               @getData="getChildData"
-              :roomData="roomData"
-              :roomTypes="residence.data.roomTypes"
-              :fees="residence.data.fees"
+              :residenceData="roomTypeData"
               :viewOnly="true"
             />
           </div>
@@ -173,7 +160,7 @@ onMounted(async () => {
         <div class="flex justify-end gap-2 mt-10">
           <Button
             btn-type="secondary"
-            @click="router.push({ name: 'room', params: { residenceId } })"
+            @click="router.push({ name: 'room-type', params: { residenceId } })"
             v-if="currentStep == 1"
             class="rounded-badge"
           >
@@ -196,7 +183,12 @@ onMounted(async () => {
           >
             บันทึกข้อมูล
           </Button>
-          <Button @click="changeStep('next')" class="rounded-badge" :disabled="!canNext" v-else>
+          <Button
+            @click="changeStep('next')"
+            class="rounded-badge"
+            :disabled="!canNext"
+            v-else
+          >
             ถัดไป
             <ArrowRightIcon class="w-4 h-4" />
           </Button>

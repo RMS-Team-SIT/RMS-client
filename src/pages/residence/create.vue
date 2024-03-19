@@ -193,7 +193,7 @@ const submitData = async () => {
     }
   }
 
-  const response = await ResidenceServices.createResidenceFully({
+  const response = await ResidenceServices.createResidence({
     ...residenceData,
     residenceBusinessLicense: residenceData.residenceBusinessLicense.fileName,
   });
