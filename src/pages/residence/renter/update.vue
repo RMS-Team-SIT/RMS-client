@@ -18,9 +18,10 @@ import Alert from '@/components/common/alert.vue';
 
 const router = useRouter();
 const route = useRoute();
+const stepList = ['ข้อมูลผู้เช่า', 'ไฟล์เกี่ยวกับผู้เช่า', 'ตรวจสอบข้อมูล'];
 const residenceId = route.params.residenceId;
 const renterId = route.params.renterId;
-const numberOfSteps = 2;
+const numberOfSteps = stepList.length;
 const currentStep = ref(1);
 const { notify } = useNotification();
 const swal = inject('$swal');
@@ -265,96 +266,93 @@ onMounted(async () => {
         เนื่องจากผู้เช่ารายนี้ถูกปิดใช้งานอยู่
       </Alert>
 
-      <div>
+      <div class="grid grid-cols-12">
         <div
-          class="p-4 mb-4 card shadow-md bg-white"
+          class="p-4 mb-4 card bg-white col-span-3 items-center"
           v-if="renterData.isActive"
         >
           <Steps
-            :stepList="['ป้อนข้อมูลผู้เช่า', 'ตรวจสอบข้อมูล']"
+            :stepList="stepList"
+            direction="vertical"
             :currentStep="currentStep"
           />
         </div>
-        <!-- step 1 -->
-        <div v-if="currentStep == 1" class="flex gap-1">
-          <RenterInfoForm
-            class="basis-1/2"
-            @getData="getChildData"
-            :renterData="renterData"
-            :viewOnly="!renterData.isActive"
-          />
-          <RenterFilesForm
-            class="basis-1/2"
-            @getData="getChildData"
-            :renterData="renterData"
-            :viewOnly="!renterData.isActive"
-          />
-        </div>
-        <div v-if="currentStep == 1" class="flex gap-1 min-w-full mt-1">
-          <RenterDeleteForm
-            v-if="renterData.isActive"
-            class="min-w-full"
-            @deactiveRenter="deactiveRenter"
-            :canDelete="!renterData.room"
-            :room="renterData.room"
-          />
-          <RenterReactiveForm
-            v-else
-            class="min-w-full"
-            @reactiveRenter="reactiveRenter"
-          />
-        </div>
 
-        <!-- step 2 -->
-        <div v-if="currentStep == 2" class="flex gap-4 flex-col">
-          <div class="flex gap-4">
+        <div class="p-4 mb-4 card bg-white col-span-9 items-center">
+          <!-- step 1 -->
+          <div v-if="currentStep == 1" class="w-full">
             <RenterInfoForm
-              class="basis-1/2"
+              @getData="getChildData"
+              :renterData="renterData"
+              :viewOnly="!renterData.isActive"
+            />
+          </div>
+          <div v-if="currentStep == 1" class="w-full">
+            <RenterDeleteForm
+              v-if="renterData.isActive"
+              class="min-w-full"
+              @deactiveRenter="deactiveRenter"
+              :canDelete="!renterData.room"
+              :room="renterData.room"
+            />
+            <RenterReactiveForm
+              v-else
+              class="min-w-full"
+              @reactiveRenter="reactiveRenter"
+            />
+          </div>
+
+          <!-- step 2 -->
+          <div v-if="currentStep == 2" class="w-full">
+            <RenterFilesForm @getData="getChildData" :renterData="renterData" />
+          </div>
+
+          <!-- step 3 -->
+          <div v-if="currentStep == 3" class="w-full">
+            <RenterInfoForm
               @getData="getChildData"
               :renterData="renterData"
               :viewOnly="true"
             />
             <RenterFilesForm
-              class="basis-1/2"
               @getData="getChildData"
               :renterData="renterData"
               :viewOnly="true"
             />
           </div>
         </div>
-
-        <!-- button control -->
-        <div v-if="renterData.isActive" class="flex justify-end gap-2 mt-10">
-          <Button
-            v-if="currentStep == 1"
-            @click="router.push({ name: 'renter', params: { residenceId } })"
-            class="rounded-badge"
-            btnType="secondary"
-          >
-            ยกเลิก
-          </Button>
-          <Button
-            btnType="secondary"
-            @click="changeStep('back')"
-            v-if="currentStep > 1"
-            class="rounded-badge"
-          >
-            <ArrowLeftIcon class="w-4 h-4" />
-            ย้อนกลับ
-          </Button>
-          <Button
-            v-if="currentStep == numberOfSteps"
-            @click="submitData"
-            class="rounded-badge"
-            btnType="primary"
-          >
-            บันทึกข้อมูล
-          </Button>
-          <Button @click="changeStep('next')" class="rounded-badge" v-else>
-            ถัดไป
-            <ArrowRightIcon class="w-4 h-4" />
-          </Button>
-        </div>
+      </div>
+      <!-- button control -->
+      <div v-if="renterData.isActive" class="flex justify-end gap-2 mt-10">
+        <Button
+          v-if="currentStep == 1"
+          @click="router.push({ name: 'renter', params: { residenceId } })"
+          class="rounded-badge"
+          btnType="secondary"
+        >
+          ยกเลิก
+        </Button>
+        <Button
+          btnType="secondary"
+          @click="changeStep('back')"
+          v-if="currentStep > 1"
+          class="rounded-badge"
+        >
+          <ArrowLeftIcon class="w-4 h-4" />
+          ย้อนกลับ
+        </Button>
+        <Button
+          v-if="currentStep == numberOfSteps"
+          @click="submitData"
+          class="rounded-badge"
+          btnType="primary"
+        >
+          บันทึกข้อมูล
+        </Button>
+        <Button @click="changeStep('next')" class="rounded-badge" v-else>
+          ถัดไป
+          <ArrowRightIcon class="w-4 h-4" />
+        </Button>
       </div>
     </div>
   </div>

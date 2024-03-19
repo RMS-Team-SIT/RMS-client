@@ -1,6 +1,5 @@
 <script setup>
 import Button from '@/components/common/button.vue';
-import blankprofileImg from '@/assets/img/bp.webp';
 import dayjs from 'dayjs';
 import Badge from '../common/badge.vue';
 import {
