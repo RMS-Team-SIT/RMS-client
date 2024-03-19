@@ -43,6 +43,7 @@ const updateRoom = () => import('./pages/residence/room/update.vue');
 
 // room type
 const roomType = () => import('./pages/residence/room-type/room-type.vue');
+const createRoomType = () => import('./pages/residence/room-type/create.vue'); 
 const viewRoomType = () => import('./pages/residence/room-type/view.vue');
 
 const payment = () => import('./pages/residence/payment/payment.vue');
@@ -235,6 +236,14 @@ const routes = [
     component: createRoom,
     meta: {
       title: 'สร้างห้องพักในระบบ',
+    },
+  },
+  {
+    name: 'create-room-type',
+    path: '/manage/residence/:residenceId/room-type/create',
+    component: createRoomType,
+    meta: {
+      title: 'สร้างประเภทห้องพักในระบบ',
     },
   },
   {

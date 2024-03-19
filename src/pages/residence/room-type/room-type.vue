@@ -86,7 +86,7 @@ onMounted(async () => {
           <div>
             <router-link
               :to="{
-                name: 'create-room',
+                name: 'create-room-type',
                 params: {
                   residenceId,
                 },
