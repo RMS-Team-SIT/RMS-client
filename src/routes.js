@@ -529,7 +529,7 @@ router.beforeEach(async (to, from, next) => {
     }
 
     if (to.name === 'unavailable') {
-      if (status.up) return next({ path: to.query.returnPath });
+      if (status.up) return next({ path: decodeURIComponent(to.query.returnPath) });
       return next();
     }
 
@@ -631,7 +631,7 @@ router.beforeEach(async (to, from, next) => {
     }
   } catch (error) {
     console.error('Error in navigation guard:', error);
-    return next({ name: 'unavailable', query: { returnPath: to.fullPath } });
+    return next({ name: 'unavailable', query: { returnPath: encodeURIComponent(to.fullPath) } });
   }
 });
 
