@@ -203,7 +203,9 @@ const updateRoom = async () => {
             <td>{{ room.roomRentalPrice.toLocaleString() }} บาท</td>
 
             <td>
-              <Badge badgeType="success" v-if="!room.currentRenter">ว่าง</Badge>
+              <Badge badgeType="success" v-if="room.status === 'AVAILABLE'"
+                >ว่าง</Badge
+              >
               <Badge badgeType="error" v-else>ไม่ว่าง</Badge>
             </td>
             <td>
@@ -377,7 +379,9 @@ const updateRoom = async () => {
 
           <div class="modal-action flex">
             <form method="dialog">
-              <button class="btn btn-sm mr-2" @click="resetEditingRoom">ปิด</button>
+              <button class="btn btn-sm mr-2" @click="resetEditingRoom">
+                ปิด
+              </button>
               <button class="btn btn-sm btn-secondary" @click="updateRoom">
                 บันทึกข้อมูล
               </button>

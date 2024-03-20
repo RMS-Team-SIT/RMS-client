@@ -2,7 +2,7 @@
 import Breadcrumb from '@/components/common/breadcrumb.vue';
 import Button from '@/components/common/button.vue';
 import MeterRecordService from '@/services/MeterRecordService';
-import { BanknotesIcon } from '@heroicons/vue/24/outline';
+import { BanknotesIcon, UsersIcon } from '@heroicons/vue/24/outline';
 import dayjs from 'dayjs';
 import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -11,6 +11,7 @@ import { notify } from '@kyvg/vue3-notification';
 import Divider from '@/components/common/divider.vue';
 import back from '@/components/common/back.vue';
 import ResidenceServices from '@/services/ResidenceServices';
+import NoUserImg from '@/assets/img/nouser.png';
 
 const isLoading = ref(true);
 const router = useRouter();
@@ -198,17 +199,31 @@ const resetCurrentModalBillRoom = () => {
               รอบมิเตอร์ :
               {{ dayjs(currentMeterRecord.record_date).format('DD/MM/YYYY') }}
             </p>
-            <p class="flex items-center justify-end">
-              <label class="label">
-                <span class="label-text">ค้นหาห้อง:</span>
-              </label>
-              <input
-                type="text"
-                placeholder="ค้นหาห้อง"
-                class="input input-sm input-bordered bg-white rounded"
-                v-model="search"
-              />
-            </p>
+
+            <div class="flex items-center justify-between">
+              <div class="flex gap-2">
+                <div class="flex gap-2 text-gray-500">
+                  <UsersIcon class="w-5 h-5" />
+                  <p class="text-sm">ห้องที่มีคนเช่าอยู่</p>
+                </div>
+                <div class="flex gap-2 text-gray-500">
+                  <img :src="NoUserImg" class="w-5 h-5 flex mx-auto" />
+                  <p class="text-sm">ห้องที่ไม่มีคนเช่า</p>
+                </div>
+              </div>
+              <div class="flex">
+                <label class="label">
+                  <span class="label-text">ค้นหาห้อง:</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="ค้นหาห้อง"
+                  class="input input-sm input-bordered bg-white rounded"
+                  v-model="search"
+                />
+              </div>
+            </div>
+
             <div class="grid grid-cols-3 gap-2">
               <div
                 class="border border-base-300 shadow-sm rounded cursor-pointer"
@@ -222,11 +237,22 @@ const resetCurrentModalBillRoom = () => {
                 :key="index"
               >
                 <div class="collapse-title text-lg font-medium">
-                  ห้อง <b>{{ meterRecordItem.room.name }}</b>
+                  <div class="flex gap-2 justify-start items-center">
+                    <span
+                      >ห้อง <b>{{ meterRecordItem.room.name }}</b></span
+                    >
+                    <UsersIcon
+                      class="w-5 h-5"
+                      v-if="meterRecordItem.room.status !== 'AVAILABLE'"
+                    />
+                    <img :src="NoUserImg" class="w-5 h-5" v-else />
+                  </div>
+
                   <p class="text-sm text-gray-500">กดเพื่อดูรายละเอียดเพิ่ม</p>
                 </div>
               </div>
             </div>
+
             <p class="text-sm text-gray-500">
               หมายเหตุ: กดเพื่อดูรายละเอียดเพิ่ม *
             </p>
