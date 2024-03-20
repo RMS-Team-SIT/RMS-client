@@ -188,6 +188,8 @@ onMounted(async () => {
 watch(payload, () => {
   console.log({ payload });
 });
+
+const showOnlyRentedRoom = ref(false);
 </script>
 
 <template>
@@ -269,14 +271,25 @@ watch(payload, () => {
             <AdjustmentsHorizontalIcon class="w-10 h-10 text-blue-500" />
             <h2 class="card-title text-center">บันทึกค่าน้ำและค่าไฟ</h2>
           </div>
-          <div class="flex justify-start gap-2">
-            <div class="flex gap-2 text-gray-500">
-              <UsersIcon class="w-5 h-5" />
-              <p class="text-sm">ห้องที่มีคนเช่าอยู่</p>
+          <div class="flex items-center justify-between">
+            <div class="flex justify-start gap-2">
+              <div class="flex gap-2 text-gray-500">
+                <UsersIcon class="w-5 h-5" />
+                <p class="text-sm">ห้องที่มีคนเช่าอยู่</p>
+              </div>
+              <div class="flex gap-2 text-gray-500">
+                <img :src="NoUserImg" class="w-5 h-5 flex mx-auto" />
+                <p class="text-sm">ห้องที่ไม่มีคนเช่า</p>
+              </div>
             </div>
-            <div class="flex gap-2 text-gray-500">
-              <img :src="NoUserImg" class="w-5 h-5 flex mx-auto" />
-              <p class="text-sm">ห้องที่ไม่มีคนเช่า</p>
+            <!-- Checkbox -->
+            <div class="flex gap-2 items-center">
+              <input
+                type="checkbox"
+                class="checkbox checkbox-primary"
+                v-model="showOnlyRentedRoom"
+              />
+              <p class="text-sm">แสดงเฉพาะห้องที่มีผู้เช่า</p>
             </div>
           </div>
 
@@ -299,7 +312,12 @@ watch(payload, () => {
                 </thead>
                 <tbody>
                   <!-- row 1 -->
-                  <tr v-for="(room, index) in rooms" :key="index">
+                  <tr
+                    v-for="(room, index) in rooms.filter((r) =>
+                      showOnlyRentedRoom ? r.status !== 'AVAILABLE' : true
+                    )"
+                    :key="index"
+                  >
                     <th>{{ room.name }}</th>
                     <td>
                       <UsersIcon
