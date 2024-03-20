@@ -4,7 +4,7 @@ import Button from '@/components/common/button.vue';
 import MeterRecordService from '@/services/MeterRecordService';
 import { BanknotesIcon } from '@heroicons/vue/24/outline';
 import dayjs from 'dayjs';
-import { computed, onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import BillService from '@/services/BillService';
 import { notify } from '@kyvg/vue3-notification';
@@ -89,11 +89,30 @@ const submit = async () => {
   }
 };
 
+watch(payload, (newVal, oldVal) => {
+  console.log('payload', newVal);
+});
+
 onMounted(async () => {
   await fetchMeterRecord();
   await fetchResidence();
   isLoading.value = false;
 });
+
+const currentModalBillRoom = reactive({
+  room: null,
+  meterRecordItem: null,
+});
+
+const openModalBillRoom = (meterRecordItem) => {
+  currentModalBillRoom.meterRecordItem = meterRecordItem;
+  billDetail.show();
+};
+
+const resetCurrentModalBillRoom = () => {
+  currentModalBillRoom.room = null;
+  currentModalBillRoom.meterRecordItem = null;
+};
 </script>
 
 <template>
@@ -180,7 +199,7 @@ onMounted(async () => {
               รอบมิเตอร์ :
               {{ dayjs(currentMeterRecord.record_date).format('DD/MM/YYYY') }}
             </p>
-            <p class="flex items-center">
+            <p class="flex items-center justify-end">
               <label class="label">
                 <span class="label-text">ค้นหาห้อง:</span>
               </label>
@@ -191,107 +210,176 @@ onMounted(async () => {
                 v-model="search"
               />
             </p>
-            <div
-              class="collapse collapse-arrow border border-base-300 shadow-sm m-2"
-              v-for="(
-                meterRecordItem, index
-              ) in currentMeterRecord.meterRecordItems.filter((item) =>
-                item.room.name.toLowerCase().includes(search.toLowerCase())
-              )"
-              :key="index"
-            >
-              <input type="checkbox" />
-              <div class="collapse-title text-lg font-medium">
-                ห้อง {{ meterRecordItem.room.name }}
+            <div class="grid grid-cols-3 gap-2">
+              <div
+                class="border border-base-300 shadow-sm rounded cursor-pointer"
+                v-for="(
+                  meterRecordItem, index
+                ) in currentMeterRecord.meterRecordItems.filter((item) =>
+                  item.room.name.toLowerCase().includes(search.toLowerCase())
+                )"
+                @click="openModalBillRoom(meterRecordItem)"
+                :key="index"
+              >
+                <div class="collapse-title text-lg font-medium">
+                  ห้อง <b>{{ meterRecordItem.room.name }}</b>
+                  <p class="text-sm text-gray-500">กดเพื่อดูรายละเอียดเพิ่ม</p>
+                </div>
               </div>
-              <div class="collapse-content">
-                <div class="flex w-full">
-                  <div class="w-full">
-                    <p class="text-lg font-bold">ค่าน้ำ</p>
-                    <p>
-                      มิเตอร์น้ำครั้งก่อน:
-                      {{ meterRecordItem.previousWaterMeter }}
-                    </p>
-                    <p>
-                      มิเตอร์น้ำครั้งนี้:
-                      {{ meterRecordItem.currentWaterMeter }}
-                    </p>
-                    <p>
-                      จำนวนหน่วย:
-                      {{ meterRecordItem.totalWaterMeterUsage }} หน่วย
-                    </p>
-                    <p>
-                      อัตราค่าน้ำต่อหน่วย:
-                      {{ residence.defaultWaterPriceRate }} บาท
-                    </p>
-                    <p>
-                      บิลค่าน้ำ :
-                      <b
-                        >{{
-                          residence.defaultWaterPriceRate *
-                          meterRecordItem.totalWaterMeterUsage
+
+              <!-- Modal -->
+              <dialog :id="`billDetail`" class="modal">
+                <div class="modal-box space-y-2">
+                  <div v-if="currentModalBillRoom.meterRecordItem">
+                    <h3 class="font-bold text-lg">
+                      ดูข้อมูลบิลห้อง:
+                      {{ currentModalBillRoom.meterRecordItem.room.name }}
+                    </h3>
+                    <div class="mt-5">
+                      <div class="flex w-full">
+                        <div class="w-full">
+                          <p class="text-lg font-bold">ค่าน้ำ</p>
+                          <p>
+                            มิเตอร์น้ำครั้งก่อน:
+                            {{
+                              currentModalBillRoom.meterRecordItem
+                                .previousWaterMeter
+                            }}
+                          </p>
+                          <p>
+                            มิเตอร์น้ำครั้งนี้:
+                            {{
+                              currentModalBillRoom.meterRecordItem
+                                .currentWaterMeter
+                            }}
+                          </p>
+                          <p>
+                            จำนวนหน่วย:
+                            {{
+                              currentModalBillRoom.meterRecordItem
+                                .totalWaterMeterUsage
+                            }}
+                            หน่วย
+                          </p>
+                          <p>
+                            อัตราค่าน้ำต่อหน่วย:
+                            {{ residence.defaultWaterPriceRate }} บาท
+                          </p>
+                          <p>
+                            บิลค่าน้ำ :
+                            <b
+                              >{{
+                                residence.defaultWaterPriceRate *
+                                currentModalBillRoom.meterRecordItem
+                                  .totalWaterMeterUsage
+                              }}
+                              บาท</b
+                            >
+                          </p>
+                        </div>
+                        <div class="divider divider-horizontal"></div>
+                        <div class="w-full">
+                          <p class="text-lg font-bold">ค่าไฟ</p>
+                          <p>
+                            มิเตอร์ไฟครั้งก่อน:
+                            {{
+                              currentModalBillRoom.meterRecordItem
+                                .previousElectricMeter
+                            }}
+                          </p>
+                          <p>
+                            มิเตอร์ไฟครั้งนี้:
+                            {{
+                              currentModalBillRoom.meterRecordItem
+                                .currentElectricMeter
+                            }}
+                          </p>
+                          <p>
+                            จำนวนหน่วย:
+                            {{
+                              currentModalBillRoom.meterRecordItem
+                                .totalElectricMeterUsage
+                            }}
+                          </p>
+                          <p>
+                            อัตราค่าไฟต่อหน่วย:
+                            {{ residence.defaultElectricPriceRate }}
+                          </p>
+                          <p>
+                            บิลค่าไฟ :
+                            <b
+                              >{{
+                                residence.defaultElectricPriceRate *
+                                currentModalBillRoom.meterRecordItem
+                                  .totalElectricMeterUsage
+                              }}
+                              บาท</b
+                            >
+                          </p>
+                        </div>
+                        <div class="divider divider-horizontal"></div>
+                        <div class="w-full">
+                          <p class="text-lg font-bold">ค่าเช่า</p>
+                          <p>
+                            ค่าเช่าห้อง:
+                            <b>{{
+                              currentModalBillRoom.meterRecordItem.room.roomRentalPrice.toLocaleString()
+                            }}</b>
+                            บาท
+                          </p>
+                          <p class="text-lg font-bold mt-2">ค่าบริการอื่น ๆ</p>
+                          <span>
+                            <p
+                              v-for="(fee, index) in currentModalBillRoom
+                                .meterRecordItem.room.fees"
+                              :key="index"
+                            >
+                              {{ fee.feename }}:
+                              <b>{{ fee.feeprice.toLocaleString() }}</b> บาท
+                            </p>
+                            <p
+                              v-if="
+                                !currentModalBillRoom.meterRecordItem.room.fees
+                                  .length
+                              "
+                            >
+                              ไม่มีค่าบริการอื่น ๆ
+                            </p>
+                          </span>
+                        </div>
+                      </div>
+                      <Divider />
+                      <p class="text-lg font-bold mt-5 rounded-full">
+                        รวม:
+                        {{
+                          (
+                            currentModalBillRoom.meterRecordItem.room
+                              .roomRentalPrice +
+                            residence.defaultElectricPriceRate *
+                              currentModalBillRoom.meterRecordItem
+                                .totalElectricMeterUsage +
+                            residence.defaultWaterPriceRate *
+                              currentModalBillRoom.meterRecordItem
+                                .totalWaterMeterUsage +
+                            currentModalBillRoom.meterRecordItem.room.fees.reduce(
+                              (acc, curr) => acc + parseFloat(curr.feeprice),
+                              0
+                            )
+                          ).toLocaleString()
                         }}
-                        บาท</b
-                      >
-                    </p>
+                        บาท
+                      </p>
+                    </div>
                   </div>
-                  <div class="divider divider-horizontal"></div>
-                  <div class="w-full">
-                    <p class="text-lg font-bold">ค่าไฟ</p>
-                    <p>
-                      มิเตอร์ไฟครั้งก่อน:
-                      {{ meterRecordItem.previousElectricMeter }}
-                    </p>
-                    <p>
-                      มิเตอร์ไฟครั้งนี้:
-                      {{ meterRecordItem.currentElectricMeter }}
-                    </p>
-                    <p>
-                      จำนวนหน่วย:
-                      {{ meterRecordItem.totalElectricMeterUsage }}
-                    </p>
-                    <p>
-                      อัตราค่าไฟต่อหน่วย:
-                      {{ residence.defaultElectricPriceRate }}
-                    </p>
-                    <p>
-                      บิลค่าไฟ :
-                      <b
-                        >{{
-                          residence.defaultElectricPriceRate *
-                          meterRecordItem.totalElectricMeterUsage
-                        }}
-                        บาท</b
-                      >
-                    </p>
-                  </div>
-                  <div class="divider divider-horizontal"></div>
-                  <div class="w-full">
-                    <p class="text-lg font-bold">ค่าเช่า</p>
-                    <p>
-                      ค่าเช่าห้อง:
-                      <b>{{ meterRecordItem.room.roomRentalPrice.toLocaleString() }}</b> บาท
-                    </p>
-                    <p class="text-lg font-bold mt-2">ค่าบริการอื่น ๆ</p>
-                    <p>
-                      ค่าเช่าห้อง:
-                      <b>{{ meterRecordItem.room.fees }}</b> บาท
-                    </p>
+                  <div class="modal-action flex">
+                    <form method="dialog">
+                      <button class="btn btn-sm mr-2" @click="resetEditingFee">
+                        ปิด
+                      </button>
+                    </form>
                   </div>
                 </div>
-                <Divider />
-                <p class="text-lg font-bold mt-5 rounded-full">
-                  รวม:
-                  {{
-                    (meterRecordItem.room.roomRentalPrice +
-                    residence.defaultElectricPriceRate *
-                      meterRecordItem.totalElectricMeterUsage +
-                    residence.defaultWaterPriceRate *
-                      meterRecordItem.totalWaterMeterUsage).toLocaleString()
-                  }}
-                  บาท
-                </p>
-              </div>
+              </dialog>
             </div>
             <p class="text-sm text-gray-500">
               หมายเหตุ: กดเพื่อดูรายละเอียดเพิ่ม *

@@ -56,7 +56,7 @@ onBeforeMount(async () => {
         <Breadcrumb
           :pathList="[
             { name: 'หน้าแรก', pathName: 'home' },
-            { name: 'KYC', pathName: 'manage' },
+            { name: 'ยืนยันตัวตน', pathName: 'manage' },
           ]"
         />
       </div>
