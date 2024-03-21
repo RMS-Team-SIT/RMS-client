@@ -129,6 +129,18 @@ const selectAllRentedMeterRecordForBillCreation = () => {
       .filter((item) => item.room.status !== 'AVAILABLE')
       .map((item) => item._id);
 };
+const togggleSelectAllRentedMeterRecordForBillCreation = () => {
+  if (
+    selectedMeterRecordForBillCreation.value.length ===
+    currentMeterRecord.value.meterRecordItems.filter(
+      (item) => item.room.status !== 'AVAILABLE'
+    ).length
+  ) {
+    resetSelectedMeterRecordForBillCreation();
+  } else {
+    selectAllRentedMeterRecordForBillCreation();
+  }
+};
 const toggleSelectAllMeterRecordForBillCreation = () => {
   if (
     selectedMeterRecordForBillCreation.value.length ===
@@ -277,7 +289,7 @@ const toggleSelectAllMeterRecordForBillCreation = () => {
                 <input
                   type="checkbox"
                   class="checkbox checkbox-primary"
-                  @click="selectAllRentedMeterRecordForBillCreation"
+                  @click="togggleSelectAllRentedMeterRecordForBillCreation"
                   :checked="
                     selectedMeterRecordForBillCreation.length &&
                     selectedMeterRecordForBillCreation.length ===

@@ -153,10 +153,10 @@ const canSubmit = computed(() => {
     payload.record_date &&
     payload.meterRecordItems.every(
       (item) =>
-        item.currentWaterMeter>=0 &&
-        item.currentElectricMeter>=0 &&
-        (item.currentWaterMeter >= item.previousWaterMeter) &&
-        (item.currentElectricMeter >= item.previousElectricMeter)
+        item.currentWaterMeter >= 0 &&
+        item.currentElectricMeter >= 0 &&
+        item.currentWaterMeter >= item.previousWaterMeter &&
+        item.currentElectricMeter >= item.previousElectricMeter
     ) &&
     !isSameMonth.value &&
     !isBefore.value
