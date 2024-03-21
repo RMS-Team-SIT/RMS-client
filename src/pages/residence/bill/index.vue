@@ -116,7 +116,9 @@ onMounted(async () => {
             ไม่มีบิลในระบบ กรุณาสร้างบิลใหม่
           </p>
           <!-- Bill Collapse -->
-          <div
+          <BillListTable :bills="bills" :residence-id="residenceId" />
+
+          <!-- <div
             class="collapse collapse-arrow border border-base-300 shadow-sm m-2"
             v-for="(bill, index) in bills"
             :key="index"
@@ -127,7 +129,6 @@ onMounted(async () => {
               {{ dayjs(bill.meterRecord.record_date).format('DD/MM/YYYY') }}
             </div>
             <div class="collapse-content">
-              <!-- BillRoom -->
               <div
                 class="collapse collapse-arrow border border-base-300 shadow-sm m-2"
                 v-for="(billRoom, index) in bill.billRooms"
@@ -209,7 +210,7 @@ onMounted(async () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <p class="mt-5" v-if="bills.length">
             หมายเหตุ: คลิกเพื่อดูรายละเอียดเพิ่มเติม
           </p>

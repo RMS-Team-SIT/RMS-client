@@ -22,11 +22,27 @@ const perPage = ref(10);
 const showDeactive = ref(false);
 const { notify } = useNotification();
 const search = ref('');
+const selectedDateMeterRecord = ref('');
+const selectedStatus = ref('');
 
 const computedBills = computed(() => {
   const start = (currentPage.value - 1) * perPage.value;
   const end = start + perPage.value;
-  return props.bills.filter((i) => true).slice(start, end);
+  const showed = props.bills
+    .filter((bill) =>
+      selectedDateMeterRecord
+        ? bill.meterRecord.record_date === selectedDateMeterRecord.value
+        : true
+    )
+    .slice(start, end);
+  console.log({ showed });
+  return showed;
+});
+
+const recordDates = computed(() => {
+  return Array.from(
+    new Set(props.bills.map((bill) => bill.meterRecord.record_date))
+  );
 });
 
 const changePage = (page) => {
@@ -68,44 +84,78 @@ const visiblePages = computed(() => {
         มีบิลในระบบทั้งหมด:
         {{ props.bills.length }} ข้อมูล
       </p>
-      <div class="w-full flex align-middle items-center justify-end">
+
+      <div class="w-full flex align-middle items-center justify-start mt-5">
         <label class="label">
-          <span class="label-text">ค้นหาบิล:</span>
+          <span class="label-text">บิลของรอบมิเตอร์​:</span>
         </label>
-        <input
-          type="text"
-          placeholder="ค้นหาบิล"
-          class="input input-xs input-bordered bg-white rounded"
-          v-model="search"
-        />
+        <select
+          class="select select-bordered select-xs bg-white rounded"
+          v-model="selectedDateMeterRecord"
+        >
+          <option value="" selected>กรุณาเลือก</option>
+          <option
+            v-for="(date, index) in recordDates"
+            :key="index"
+            :value="date"
+          >
+            {{ dayjs(date).format('DD/MM/YYYY') }}
+          </option>
+        </select>
+
+        <label class="label">
+          <span class="label-text">สถานะบิล:</span>
+        </label>
+        <select
+          class="select select-bordered select-xs bg-white rounded"
+          v-model="selectedStatus"
+        >
+          <option value="" selected>กรุณาเลือก</option>
+          <option value="paid" >ชำระแล้ว</option>
+          <option value="unpaid" >ยังไม่ชำระ</option>
+        </select>
       </div>
       <table class="table table-xs">
         <!-- head -->
         <thead>
           <tr>
             <th>#</th>
-            <th>วันที่สร้าง</th>
-            <th>ใบมิเตอร์</th>
+            <th>ห้อง</th>
+            <th>ค่าน้ำ</th>
+            <th>ค่าไฟ</th>
+            <th>ค่าเช่า</th>
+            <th>ค่าอื่นๆ</th>
+            <th>รวม</th>
+            <th>สถานะ</th>
             <th>ดูข้อมูล</th>
+            <th>แก้ไข</th>
           </tr>
         </thead>
         <tbody>
           <!-- row 1 -->
-          <tr v-for="(bill, index) in computedBills" :key="index">
-            <!-- <td>
+          <tr
+            v-for="(billRoom, index) in computedBills[0]?.billRooms"
+            :key="index"
+          >
+            <td>
               {{ index + 1 }}
             </td>
             <td>
-              <span> {{ dayjs(bill.record_date).format('DD/MM/YYYY') }}</span>
+              {{ billRoom.room.name }}
+            </td>
+            <td>{{ billRoom.waterTotalPrice }} บาท</td>
+            <td>{{ billRoom.electricTotalPrice }} บาท</td>
+            <td>{{ billRoom.roomRentalPrice.toLocaleString() }} บาท</td>
+            <td>{{ billRoom.totalFeesPrice.toLocaleString() }} บาท</td>
+            <td>{{ billRoom.totalPrice.toLocaleString() }} บาท</td>
+            <td>
+              <Badge :badgeType="billRoom.isPaid ? 'success' : 'error'">
+                {{ billRoom.isPaid ? 'ชำระแล้ว' : 'ยังไม่ชำระ' }}
+              </Badge>
             </td>
             <td>
-              <span>
-                {{
-                  dayjs(bill.meterRecord.record_date).format('DD/MM/YYYY')
-                }}</span
-              >
-            </td> -->
-           
+              <Button btnType="ghost-pill">ดูข้อมูล</Button>
+            </td>
           </tr>
         </tbody>
       </table>
