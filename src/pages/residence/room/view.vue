@@ -86,20 +86,18 @@ onMounted(() => {
       <div class="bg-white mt-5 rounded-lg border p-5">
         <!-- Head -->
         <div class="flex justify-between">
-          <h1 class="text-2xl font-semibold text-dark-blue-200">
-            ห้องพัก: {{ room.name }}
-          </h1>
-          <!-- <Button
-            btnType="primary"
-            @click="
-              router.push({
-                name: 'update-room',
-                params: { residenceId, roomId: room.id },
-              })
-            "
+          <h1
+            class="text-2xl font-semibold text-dark-blue-200 flex items-center"
           >
-            แก้ไขข้อมูล
-          </Button> -->
+            ห้องพัก: {{ room.name }}
+            <Badge
+              badgeType="success"
+              size="lg"
+              v-if="room.status === 'AVAILABLE'"
+              >ว่าง</Badge
+            >
+            <Badge badgeType="error" size="lg" v-else>ไม่ว่าง</Badge>
+          </h1>
         </div>
         <!-- Body -->
         <div class="mt-5 grid grid-cols-2 gap-10">
@@ -109,19 +107,6 @@ onMounted(() => {
               <h1 class="text-lg font-semibold text-dark-blue-200">
                 ข้อมูลห้องพัก
               </h1>
-              <router-link
-                v-if="room.currentRenter"
-                class="text-dark-blue-200 underline"
-                :to="{
-                  name: 'update-room',
-                  params: {
-                    residenceId: $route.params.residenceId,
-                    roomId,
-                  },
-                }"
-              >
-                <ArrowTopRightOnSquareIcon class="h-6 w-6" />
-              </router-link>
             </div>
             <p>ชื่อห้อง: {{ room.name }}</p>
             <p>คำอธิบาย: {{ room.description || 'ไม่มีคำอธิบาย' }}</p>
@@ -132,7 +117,9 @@ onMounted(() => {
             </p>
             <p>
               สถานะ:
-              <Badge badgeType="success" v-if="room.status==='AVAILABLE'">ว่าง</Badge>
+              <Badge badgeType="success" v-if="room.status === 'AVAILABLE'"
+                >ว่าง</Badge
+              >
               <Badge badgeType="error" v-else>ไม่ว่าง</Badge>
             </p>
             <p>
@@ -146,23 +133,12 @@ onMounted(() => {
               บาท/หน่วย
             </p>
 
-            <p>
-              ค่าบริการอื่น ๆ :
-              {{
-                room.fees
-                  .map(
-                    (i) => `${i.feename} ราคา ${i.feeprice.toLocaleString()}  `
-                  )
-                  .join(', ')
-              }}
-            </p>
-
-            <!-- <p>
-                วันที่สร้าง: {{ dayjs(room.created_at).format('DD/MM/YYYY') }}
-              </p>
-              <p>
-                แก้ไขล่าสุด: {{ dayjs(room.updated_at).format('DD/MM/YYYY') }}
-              </p> -->
+            <p>ค่าบริการอื่น ๆ :</p>
+            <ul>
+              <li v-for="fee in room.fees" :key="fee._id">
+                {{ fee.feename }}: {{ fee.feeprice.toLocaleString() }} บาท
+              </li>
+            </ul>
           </div>
 
           <!-- ข้อมูลผู้เช่า -->
@@ -277,23 +253,21 @@ onMounted(() => {
 
       <!-- ข้อมูลประเภทห้อง -->
       <div class="space-y-3 rounded-lg bg-white mt-5 border p-5">
-            <div class="flex justify-between">
-              <h1 class="text-lg font-semibold text-dark-blue-200">
-                ประเภทห้องพัก
-              </h1>
-            </div>
-            <p>ประเภทห้อง: {{ room.type.name }}</p>
-            <p>รูปแบบห้อง: {{ room.type.category }}</p>
-            <p>ขนาดห้อง: {{ room.type.size }} ตร.ม.</p>
-            <p>คำอธิบาย: {{ room.type.description || 'ไม่มีคำอธิบาย' }}</p>
-            <p>
-              อัตราค่าเช่าต่อเดือน: {{ room.type.price.toLocaleString() }} บาท
-            </p>
-            <ImagePreview
-              :imageUrls="room.type.images.map((i) => FileService.getFile(i))"
-              preview-from="url"
-            />
-          </div>
+        <div class="flex justify-between">
+          <h1 class="text-lg font-semibold text-dark-blue-200">
+            ประเภทห้องพัก
+          </h1>
+        </div>
+        <p>ประเภทห้อง: {{ room.type.name }}</p>
+        <p>รูปแบบห้อง: {{ room.type.category }}</p>
+        <p>ขนาดห้อง: {{ room.type.size }} ตร.ม.</p>
+        <p>คำอธิบาย: {{ room.type.description || 'ไม่มีคำอธิบาย' }}</p>
+        <p>อัตราค่าเช่าต่อเดือน: {{ room.type.price.toLocaleString() }} บาท</p>
+        <ImagePreview
+          :imageUrls="room.type.images.map((i) => FileService.getFile(i))"
+          preview-from="url"
+        />
+      </div>
 
       <!-- ข้อมูลบิล -->
       <div class="space-y-3 rounded-lg bg-white mt-5 border p-5">
@@ -304,7 +278,7 @@ onMounted(() => {
         </div>
         <div v-if="!room.billRooms.length">ไม่มีบิลในอดีตในระบบ</div>
         <div
-          class="collapse collapse-arrow shadow-sm"
+          class="collapse collapse-arrow shadow-sm border"
           v-for="(bill, index) in room.billRooms"
           :key="index"
         >
@@ -312,12 +286,17 @@ onMounted(() => {
             type="checkbox"
             :checked="index == room.billRooms.length - 1"
           />
-          <div class="collapse-title text-lg font-bold underline">
+          <div class="collapse-title text-lg font-bold underline gap-2">
             บิลรอบมิเตอร์
             {{ dayjs(bill.meterRecord.record_date).format('MM/YYYY') }}
-            <Badge badgeType="success" v-if="index == room.billRooms.length - 1"
+            <Badge
+              badgeType="success"
+              v-if="index == room.billRooms.length - 1"
+              size="md"
               >บิลล่าสุด</Badge
             >
+            <Badge v-if="bill.isPaid" size="md">จ่ายแล้ว</Badge>
+            <Badge v-else badgeType="error" size="md">ยังไม่ได้จ่าย</Badge>
           </div>
           <div class="collapse-content">
             <div class="flex w-full">
@@ -389,24 +368,19 @@ onMounted(() => {
                   ค่าเช่าห้อง:
                   <b>{{ bill.roomRentalPrice.toLocaleString() }}</b> บาท
                 </p>
+                
               </div>
             </div>
             <Divider />
             <p class="text-lg font-bold mt-5 rounded-full">
               รวม:
-              {{
-                (
-                  bill.roomRentalPrice +
-                  bill.electricPriceRate * bill.totalElectricMeterUsage +
-                  bill.waterPriceRate * bill.totalWaterMeterUsage
-                ).toLocaleString()
-              }}
+              {{ bill.totalPrice.toLocaleString() }}
               บาท
             </p>
             <p>
               สถานะการจ่าย :
-              <Badge v-if="bill.isPaid">จ่ายแล้ว</Badge>
-              <Badge v-else badgeType="error">ยังไม่ได้จ่าย</Badge>
+              <Badge v-if="bill.isPaid" size="md">จ่ายแล้ว</Badge>
+              <Badge v-else badgeType="error" size="md">ยังไม่ได้จ่าย</Badge>
             </p>
           </div>
         </div>

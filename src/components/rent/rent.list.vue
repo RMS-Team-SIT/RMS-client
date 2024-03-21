@@ -13,6 +13,7 @@ import {
   ArrowRightCircleIcon,
   ArrowTopRightOnSquareIcon,
 } from '@heroicons/vue/24/outline';
+import Divider from '../common/divider.vue';
 
 const props = defineProps({
   rooms: {
@@ -33,6 +34,7 @@ const props = defineProps({
   },
 });
 
+const emits = defineEmits(['refetch']);
 const swal = inject('$swal');
 const currentPage = ref(1);
 const perPage = ref(10);
@@ -91,6 +93,13 @@ const editingRoomRenter = reactive({
   roomId: '',
   room: '',
   renterId: '',
+  renter: '',
+});
+
+const currentEditingRenter = computed(() => {
+  return props.residenceData.renters.find(
+    (r) => r._id === editingRoomRenter.renterId
+  );
 });
 
 const setEditingRoomRenter = (roomId) => {
@@ -120,10 +129,11 @@ const updateRoom = async () => {
   } else {
     notify({
       group: 'tr',
-      title: 'แก้ไขข้อมูลสำเร็จ',
-      text: 'ข้อมูลห้องพักได้รับการแก้ไขเรียบร้อยแล้ว',
+      title: 'เพิ่มผู้เช่าเข้าห้องสำเร็จ',
+      text: 'ข้อมูลผู้เช่าถูกเพิ่มเข้าห้องพักเรียบร้อยแล้ว',
       type: 'success',
     });
+    emits('refetch');
   }
   resetEditingRoomRenter();
   editRoom.close();
@@ -218,8 +228,7 @@ const updateRoom = async () => {
               <Button
                 v-else
                 btnType="secondary-pill"
-                onclick="editRoom.showModal()"
-                @click="setEditingRoomRenter(room._id)"
+                onclick="leaveRoom.showModal()"
                 >ย้ายออก
                 <ArrowRightCircleIcon class="h-5 w-5" />
               </Button>
@@ -255,6 +264,48 @@ const updateRoom = async () => {
                 </option>
               </select>
             </div>
+            <div class="divider divider-start">รายละเอียดผู้เช่า</div>
+            <p v-if="!editingRoomRenter.renterId">
+              กรุณาเลือกผู้เช่าที่จะเข้าพักห้องนี้
+            </p>
+            <div v-else>
+              <p>
+                ชื่อ:
+                <b>
+                  {{ currentEditingRenter.firstname }}
+                  {{ currentEditingRenter.lastname }}</b
+                >
+              </p>
+              <p>
+                เบอร์โทร: <b> {{ currentEditingRenter.phone }}</b>
+              </p>
+              <p>
+                อีเมล: <b> {{ currentEditingRenter.email }}</b>
+              </p>
+              <div class="flex gap-2">
+                <p>สัญญาเช่า:</p>
+                <div
+                  v-if="currentEditingRenter.renterContract"
+                  class="underline"
+                >
+                  <router-link
+                    target="_blank"
+                    class="flex items-center gap-2"
+                    :to="{
+                      name: 'pdf-preview',
+                      query: {
+                        filename: currentEditingRenter.renterContract,
+                      },
+                    }"
+                  >
+                    ดูไฟล์ <ArrowTopRightOnSquareIcon class="h-4 w-4" />
+                  </router-link>
+                </div>
+                <div v-else>
+                  <span class="text-red-500">ไม่มีไฟล์</span>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="modal-action flex mt-5">
@@ -262,8 +313,33 @@ const updateRoom = async () => {
               <button class="btn btn-sm mr-2" @click="resetEditingRoomRenter">
                 ปิด
               </button>
-              <button class="btn btn-sm btn-secondary" @click="updateRoom">
-                บันทึกข้อมูล
+              <button
+                class="btn btn-sm btn-secondary"
+                @click="updateRoom"
+                v-if="editingRoomRenter.renterId"
+              >
+                ยืนยันการเพิ่มผู้เช่าเข้าห้อง
+              </button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+
+      <dialog :id="`leaveRoom`" class="modal">
+        <div class="modal-box space-y-2">
+          <h3 class="font-bold text-lg">
+            ย้ายออกจากห้อง 
+          </h3>
+
+          <div class="modal-action flex mt-5">
+            <form method="dialog">
+              <button class="btn btn-sm mr-2">
+                ปิด
+              </button>
+              <button
+                class="btn btn-sm btn-secondary"
+              >
+                ยืนยันการย้ายออกจากห้อง
               </button>
             </form>
           </div>

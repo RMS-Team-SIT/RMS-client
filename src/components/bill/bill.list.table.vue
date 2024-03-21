@@ -1,7 +1,7 @@
 <script setup>
 import Badge from '../common/badge.vue';
 import Button from '@/components/common/button.vue';
-import { computed, inject, onMounted, reactive, ref } from 'vue';
+import { computed, inject, onMounted, reactive, ref, watch } from 'vue';
 import { useNotification } from '@kyvg/vue3-notification';
 import dayjs from 'dayjs';
 
@@ -21,18 +21,8 @@ const currentPage = ref(1);
 const perPage = ref(10);
 const showDeactive = ref(false);
 const { notify } = useNotification();
-const search = ref('');
 const selectedDateMeterRecord = ref('');
 const selectedStatus = ref('');
-
-const currentBill = computed(() => {
-  const showed = props.bills.filter((bill) =>
-    selectedDateMeterRecord
-      ? bill.meterRecord.record_date === selectedDateMeterRecord.value
-      : true
-  );
-  return showed;
-});
 
 const currentBillRooms = computed(() => {
   const start = (currentPage.value - 1) * perPage.value;
@@ -43,11 +33,13 @@ const currentBillRooms = computed(() => {
       : true
   );
   const billRooms = currentBill[0]?.billRooms || [];
-  const showed = billRooms.filter((billRoom) =>
-    selectedStatus
-      ? billRoom.isPaid === (selectedStatus.value === 'paid')
-      : true
-  ).slice(start, end);
+  const showed = billRooms
+    .filter((billRoom) =>
+      selectedStatus
+        ? billRoom.isPaid === (selectedStatus.value === 'paid')
+        : true
+    )
+    .slice(start, end);
   return showed;
 });
 
@@ -83,6 +75,15 @@ const visiblePages = computed(() => {
 
   return Array.from({ length: end - start + 1 }, (_, i) => start + i);
 });
+
+watch(
+  () => props.bills,
+  (newVal) => {
+    if (newVal.length) {
+      selectedDateMeterRecord.value = recordDates.value[0];
+    }
+  }
+);
 </script>
 
 <template>
@@ -127,76 +128,78 @@ const visiblePages = computed(() => {
           <option value="unpaid">ยังไม่ชำระ</option>
         </select>
       </div>
-      <table class="table table-xs" v-if="currentBillRooms.length">
-        <!-- head -->
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>ห้อง</th>
-            <th>ค่าน้ำ</th>
-            <th>ค่าไฟ</th>
-            <th>ค่าเช่า</th>
-            <th>ค่าอื่นๆ</th>
-            <th>รวม</th>
-            <th>สถานะ</th>
-            <th>ดูข้อมูล</th>
-            <th>แก้ไข</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- row 1 -->
-          <tr v-for="(billRoom, index) in currentBillRooms" :key="index">
-            <td>
-              {{ index + 1 }}
-            </td>
-            <td>
-              {{ billRoom.room.name }}
-            </td>
-            <td>{{ billRoom.waterTotalPrice }} บาท</td>
-            <td>{{ billRoom.electricTotalPrice }} บาท</td>
-            <td>{{ billRoom.roomRentalPrice.toLocaleString() }} บาท</td>
-            <td>{{ billRoom.totalFeesPrice.toLocaleString() }} บาท</td>
-            <td>{{ billRoom.totalPrice.toLocaleString() }} บาท</td>
-            <td>
-              <Badge :badgeType="billRoom.isPaid ? 'success' : 'error'">
-                {{ billRoom.isPaid ? 'ชำระแล้ว' : 'ยังไม่ชำระ' }}
-              </Badge>
-            </td>
-            <td>
-              <Button btnType="ghost-pill">ดูข้อมูล</Button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <p v-else class="mt-5">ไม่พบข้อมูล</p>
+      <div v-if="currentBillRooms.length">
+        <table class="table table-xs">
+          <!-- head -->
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ห้อง</th>
+              <th>ค่าน้ำ</th>
+              <th>ค่าไฟ</th>
+              <th>ค่าเช่า</th>
+              <th>ค่าอื่นๆ</th>
+              <th>รวม</th>
+              <th>สถานะ</th>
+              <th>ดูข้อมูล</th>
+              <th>แก้ไข</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- row 1 -->
+            <tr v-for="(billRoom, index) in currentBillRooms" :key="index">
+              <td>
+                {{ index + 1 }}
+              </td>
+              <td>
+                {{ billRoom.room.name }}
+              </td>
+              <td>{{ billRoom.waterTotalPrice }} บาท</td>
+              <td>{{ billRoom.electricTotalPrice }} บาท</td>
+              <td>{{ billRoom.roomRentalPrice.toLocaleString() }} บาท</td>
+              <td>{{ billRoom.totalFeesPrice.toLocaleString() }} บาท</td>
+              <td>{{ billRoom.totalPrice.toLocaleString() }} บาท</td>
+              <td>
+                <Badge :badgeType="billRoom.isPaid ? 'success' : 'error'">
+                  {{ billRoom.isPaid ? 'ชำระแล้ว' : 'ยังไม่ชำระ' }}
+                </Badge>
+              </td>
+              <td>
+                <Button btnType="ghost-pill">ดูข้อมูล</Button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-      <div class="join">
-        <button
-          class="join-item btn btn-xs"
-          :class="{ disabled: currentPage === 1 }"
-          @click="changePage(currentPage - 1)"
-        >
-          &laquo;
-        </button>
+        <div class="join">
+          <button
+            class="join-item btn btn-xs"
+            :class="{ disabled: currentPage === 1 }"
+            @click="changePage(currentPage - 1)"
+          >
+            &laquo;
+          </button>
 
-        <button
-          class="join-item btn btn-xs"
-          v-for="page in visiblePages"
-          :key="page"
-          :class="{ 'btn-active': page === currentPage }"
-          @click="changePage(page)"
-        >
-          {{ page }}
-        </button>
+          <button
+            class="join-item btn btn-xs"
+            v-for="page in visiblePages"
+            :key="page"
+            :class="{ 'btn-active': page === currentPage }"
+            @click="changePage(page)"
+          >
+            {{ page }}
+          </button>
 
-        <button
-          class="join-item btn btn-xs"
-          :class="{ disabled: currentPage === totalPages }"
-          @click="changePage(currentPage + 1)"
-        >
-          &raquo;
-        </button>
+          <button
+            class="join-item btn btn-xs"
+            :class="{ disabled: currentPage === totalPages }"
+            @click="changePage(currentPage + 1)"
+          >
+            &raquo;
+          </button>
+        </div>
       </div>
+      <p v-else class="mt-5">ไม่พบข้อมูล</p>
     </div>
   </div>
 </template>

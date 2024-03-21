@@ -84,6 +84,7 @@ onMounted(async () => {
         </div>
         <RentList
           class="mt-5"
+          @refetch="fetchData"
           :residenceId="residenceId"
           :rooms="residence.data.rooms"
           :roomTypes="residence.data.roomTypes"
