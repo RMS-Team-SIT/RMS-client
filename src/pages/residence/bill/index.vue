@@ -53,7 +53,7 @@ const fetchBills = async () => {
     let result = await response.json();
     console.log('bills', result);
     bills.value = result;
-    
+
     // sort bills by record_date
     bills.value.sort((a, b) => {
       return (
@@ -112,7 +112,9 @@ onMounted(async () => {
               <Button btnType="primary">สร้างบิลใหม่</Button>
             </router-link>
           </div>
-          <p class="mt-5 " v-if="!bills.length">ไม่มีบิลในระบบ กรุณาสร้างบิลใหม่</p>
+          <p class="mt-5" v-if="!bills.length">
+            ไม่มีบิลในระบบ กรุณาสร้างบิลใหม่
+          </p>
           <!-- Bill Collapse -->
           <div
             class="collapse collapse-arrow border border-base-300 shadow-sm m-2"
@@ -128,13 +130,12 @@ onMounted(async () => {
               <!-- BillRoom -->
               <div
                 class="collapse collapse-arrow border border-base-300 shadow-sm m-2"
-                v-for="(meterRecordItem, index) in bill.meterRecord
-                  .meterRecordItems"
+                v-for="(billRoom, index) in bill.billRooms"
                 :key="index"
               >
                 <input type="checkbox" />
                 <div class="collapse-title text-lg font-bold underline">
-                  ห้อง {{ meterRecordItem.room.name }}
+                  ห้อง {{ billRoom.room.name }}
                 </div>
                 <div class="collapse-content">
                   <div class="flex w-full">
@@ -142,29 +143,23 @@ onMounted(async () => {
                       <p class="text-lg font-bold">ค่าน้ำ</p>
                       <p>
                         มิเตอร์น้ำครั้งก่อน:
-                        {{ meterRecordItem.previousWaterMeter }}
+                        {{ billRoom.previousWaterMeter }}
                       </p>
                       <p>
                         มิเตอร์น้ำครั้งนี้:
-                        {{ meterRecordItem.currentWaterMeter }}
+                        {{ billRoom.currentWaterMeter }}
                       </p>
                       <p>
                         จำนวนหน่วย:
-                        {{ meterRecordItem.totalWaterMeterUsage }} หน่วย
+                        {{ billRoom.totalWaterMeterUsage }} หน่วย
                       </p>
                       <p>
                         อัตราค่าน้ำต่อหน่วย:
-                        {{ meterRecordItem.room.waterPriceRate }} บาท
+                        {{ billRoom.waterPriceRate }} บาท
                       </p>
                       <p>
                         บิลค่าน้ำ :
-                        <b
-                          >{{
-                            meterRecordItem.room.waterPriceRate *
-                            meterRecordItem.totalWaterMeterUsage
-                          }}
-                          บาท</b
-                        >
+                        <b>{{ billRoom.waterTotalPrice }} บาท</b>
                       </p>
                     </div>
                     <div class="divider divider-horizontal"></div>
@@ -172,29 +167,23 @@ onMounted(async () => {
                       <p class="text-lg font-bold">ค่าไฟ</p>
                       <p>
                         มิเตอร์ไฟครั้งก่อน:
-                        {{ meterRecordItem.previousElectricMeter }}
+                        {{ billRoom.previousElectricMeter }}
                       </p>
                       <p>
                         มิเตอร์ไฟครั้งนี้:
-                        {{ meterRecordItem.currentElectricMeter }}
+                        {{ billRoom.currentElectricMeter }}
                       </p>
                       <p>
                         จำนวนหน่วย:
-                        {{ meterRecordItem.totalElectricMeterUsage }}
+                        {{ billRoom.totalElectricMeterUsage }}
                       </p>
                       <p>
                         อัตราค่าไฟต่อหน่วย:
-                        {{ meterRecordItem.room.electricPriceRate }}
+                        {{ billRoom.electricPriceRate }}
                       </p>
                       <p>
                         บิลค่าไฟ :
-                        <b
-                          >{{
-                            meterRecordItem.room.electricPriceRate *
-                            meterRecordItem.totalElectricMeterUsage
-                          }}
-                          บาท</b
-                        >
+                        <b>{{ billRoom.electricTotalPrice }} บาท</b>
                       </p>
                     </div>
                     <div class="divider divider-horizontal"></div>
@@ -202,33 +191,28 @@ onMounted(async () => {
                       <p class="text-lg font-bold">ค่าเช่า</p>
                       <p>
                         ค่าเช่าห้อง:
-                        <b>{{ meterRecordItem.room.roomRentalPrice }}</b> บาท
+                        <b>{{ billRoom.room.roomRentalPrice }}</b> บาท
                       </p>
-                      
                     </div>
                   </div>
                   <Divider />
                   <p class="text-lg font-bold mt-5 rounded-full">
-                        รวม:
-                        {{
-                          meterRecordItem.room.roomRentalPrice +
-                          meterRecordItem.room.electricPriceRate *
-                            meterRecordItem.totalElectricMeterUsage +
-                          meterRecordItem.room.waterPriceRate *
-                            meterRecordItem.totalWaterMeterUsage
-                        }}
-                        บาท
-                      </p>
+                    รวม:
+                    {{ billRoom.totalPrice }}
+                    บาท
+                  </p>
                   <p>
                     สถานะการจ่าย :
-                    <Badge v-if="meterRecordItem.isPaid">จ่ายแล้ว</Badge>
+                    <Badge v-if="billRoom.isPaid">จ่ายแล้ว</Badge>
                     <Badge v-else badgeType="error">ยังไม่ได้จ่าย</Badge>
                   </p>
                 </div>
               </div>
             </div>
           </div>
-          <p class="mt-5" v-if="bills.length">หมายเหตุ: คลิกเพื่อดูรายละเอียดเพิ่มเติม</p>
+          <p class="mt-5" v-if="bills.length">
+            หมายเหตุ: คลิกเพื่อดูรายละเอียดเพิ่มเติม
+          </p>
         </div>
       </div>
     </div>

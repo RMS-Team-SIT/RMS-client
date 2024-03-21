@@ -19,10 +19,13 @@ const route = useRoute();
 const residenceId = route.params.residenceId;
 const payload = reactive({
   meterRecord: '', // MeterRecordId
+  meterRecordItems: [], // MeterRecordItemIds
 });
 
 const canSubmit = computed(() => {
-  return !!payload.meterRecord;
+  return (
+    !!payload.meterRecord && selectedMeterRecordForBillCreation.value.length
+  );
 });
 
 const search = ref('');
@@ -71,7 +74,10 @@ const fetchResidence = async () => {
 
 const submit = async () => {
   console.log('submit', payload);
-  const response = await BillService.create(residenceId, payload);
+  const response = await BillService.create(residenceId, {
+    ...payload,
+    meterRecordItems: selectedMeterRecordForBillCreation.value,
+  });
   if (response.status === 201) {
     notify({
       group: 'tr',
@@ -233,10 +239,10 @@ const toggleSelectAllMeterRecordForBillCreation = () => {
             กรุณาเลือกรอบมิเตอร์ที่ต้องการสร้างบิล
           </p>
           <div v-else>
-            <p>
+            <!-- <p class="">
               รอบมิเตอร์ :
               {{ dayjs(currentMeterRecord.record_date).format('DD/MM/YYYY') }}
-            </p>
+            </p> -->
 
             <div class="flex items-center justify-between">
               <div class="flex gap-2">
@@ -272,7 +278,7 @@ const toggleSelectAllMeterRecordForBillCreation = () => {
               </div>
             </div>
 
-            <div class="flex gap-2 items-center">
+            <div class="flex gap-2 items-center mt-5">
               <div class="flex gap-2 items-center">
                 <input
                   type="checkbox"
@@ -282,8 +288,11 @@ const toggleSelectAllMeterRecordForBillCreation = () => {
                     selectedMeterRecordForBillCreation.length ===
                     currentMeterRecord.meterRecordItems.length
                   "
+                  id="selectAllMeterRecordForBillCreation"
                 />
-                <p class="text-sm">เลือกทุกห้อง</p>
+                <label for="selectAllMeterRecordForBillCreation" class="text-sm"
+                  >เลือกทุกห้อง</label
+                >
               </div>
               <div class="flex gap-2 items-center">
                 <input
@@ -302,17 +311,20 @@ const toggleSelectAllMeterRecordForBillCreation = () => {
               </div>
             </div>
 
-            {{ selectedMeterRecordForBillCreation }}
+            <!-- {{ selectedMeterRecordForBillCreation }} -->
             <div class="grid grid-cols-3 gap-2 mt-5">
               <div
                 class="border border-base-300 shadow-sm rounded cursor-pointer"
                 v-for="(
                   meterRecordItem, index
-                ) in currentMeterRecord.meterRecordItems.filter((item) =>
-                  item.room.name.toLowerCase().includes(search.toLowerCase()) &&
-                  showOnlyRentedRoom
-                    ? item.room.status !== 'AVAILABLE'
-                    : true
+                ) in currentMeterRecord.meterRecordItems.filter(
+                  (item) =>
+                    item.room.name
+                      .toLowerCase()
+                      .includes(search.toLowerCase()) &&
+                    (showOnlyRentedRoom
+                      ? item.room.status !== 'AVAILABLE'
+                      : true)
                 )"
                 :key="index"
               >
@@ -336,11 +348,11 @@ const toggleSelectAllMeterRecordForBillCreation = () => {
                   </div>
 
                   <p
-                    class="text-sm text-gray-500"
+                    class="text-sm text-gray-500 mt-5"
                     onclick="billDetail.showModal()"
                     @click="setCurrentModalBillRoom(meterRecordItem)"
                   >
-                    กดเพื่อดูรายละเอียดเพิ่ม
+                    กด<b>ที่นี้</b>เพื่อดูรายละเอียดเพิ่ม
                   </p>
                 </div>
               </div>
