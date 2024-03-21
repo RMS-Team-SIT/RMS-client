@@ -144,15 +144,19 @@ const submit = async () => {
 };
 
 const canSubmit = computed(() => {
+  console.log('isFirstTime', isFirstTime.value);
+  console.log({ isSameMonth: isSameMonth.value });
+  console.log({ isBefore: isBefore.value });
+  console.log({ 'payload.meterRecordItems': payload.meterRecordItems });
   if (isFirstTime.value) return true;
   return (
     payload.record_date &&
     payload.meterRecordItems.every(
       (item) =>
-        item.currentWaterMeter &&
-        item.currentElectricMeter &&
-        item.currentWaterMeter >= item.previousWaterMeter &&
-        item.currentElectricMeter >= item.previousElectricMeter
+        item.currentWaterMeter>=0 &&
+        item.currentElectricMeter>=0 &&
+        (item.currentWaterMeter >= item.previousWaterMeter) &&
+        (item.currentElectricMeter >= item.previousElectricMeter)
     ) &&
     !isSameMonth.value &&
     !isBefore.value
