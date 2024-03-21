@@ -368,7 +368,20 @@ onMounted(() => {
                   ค่าเช่าห้อง:
                   <b>{{ bill.roomRentalPrice.toLocaleString() }}</b> บาท
                 </p>
-                
+                <p class="text-lg font-bold mt-2">ค่าบริการอื่น ๆ</p>
+                {{ bill.room }}
+                <!-- <span>
+                  <p
+                    v-for="(fee, index) in bill.room.fees"
+                    :key="index"
+                  >
+                    {{ fee.feename }}:
+                    <b>{{ fee.feeprice.toLocaleString() }}</b> บาท
+                  </p>
+                  <p v-if="!bill.room.fees.length">
+                    ไม่มีค่าบริการอื่น ๆ
+                  </p>
+                </span> -->
               </div>
             </div>
             <Divider />
