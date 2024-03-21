@@ -274,7 +274,7 @@ const showOnlyRentedRoom = ref(false);
           <div class="flex items-center justify-between">
             <div class="flex justify-start gap-2">
               <div class="flex gap-2 text-gray-500">
-                <UsersIcon class="w-5 h-5" />
+                <UsersIcon class="w-5 h-5 flex mx-auto" />
                 <p class="text-sm">ห้องที่มีคนเช่าอยู่</p>
               </div>
               <div class="flex gap-2 text-gray-500">
@@ -321,7 +321,7 @@ const showOnlyRentedRoom = ref(false);
                     <th>{{ room.name }}</th>
                     <td>
                       <UsersIcon
-                        class="w-5 h-5"
+                        class="w-5 h-5 flex mx-auto"
                         v-if="room.status !== 'AVAILABLE'"
                       />
                       <img
