@@ -87,9 +87,9 @@ onMounted(() => {
         <!-- Head -->
         <div class="flex justify-between">
           <h1
-            class="text-2xl font-semibold text-dark-blue-200 flex items-center"
+            class="text-2xl font-semibold text-dark-blue-200 flex items-center gap-2"
           >
-            ห้องพัก: {{ room.name }}
+            <p>ห้องพัก: {{ room.name }}</p>
             <Badge
               badgeType="success"
               size="lg"
@@ -369,19 +369,18 @@ onMounted(() => {
                   <b>{{ bill.roomRentalPrice.toLocaleString() }}</b> บาท
                 </p>
                 <p class="text-lg font-bold mt-2">ค่าบริการอื่น ๆ</p>
-                {{ bill.room }}
-                <!-- <span>
+                <span>
                   <p
-                    v-for="(fee, index) in bill.room.fees"
+                    v-for="(fee, index) in bill.fees"
                     :key="index"
                   >
                     {{ fee.feename }}:
                     <b>{{ fee.feeprice.toLocaleString() }}</b> บาท
                   </p>
-                  <p v-if="!bill.room.fees.length">
+                  <p v-if="!bill.fees.length">
                     ไม่มีค่าบริการอื่น ๆ
                   </p>
-                </span> -->
+                </span>
               </div>
             </div>
             <Divider />
