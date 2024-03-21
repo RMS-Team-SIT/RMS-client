@@ -132,7 +132,7 @@ onMounted(() => {
             </p>
             <p>
               สถานะ:
-              <Badge badgeType="success" v-if="!room.currentRenter">ว่าง</Badge>
+              <Badge badgeType="success" v-if="room.status==='AVAILABLE'">ว่าง</Badge>
               <Badge badgeType="error" v-else>ไม่ว่าง</Badge>
             </p>
             <p>
