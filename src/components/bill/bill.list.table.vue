@@ -4,6 +4,8 @@ import Button from '@/components/common/button.vue';
 import { computed, inject, onMounted, reactive, ref, watch } from 'vue';
 import { useNotification } from '@kyvg/vue3-notification';
 import dayjs from 'dayjs';
+import Divider from '../common/divider.vue';
+import FileService from '@/services/FileService';
 
 const props = defineProps({
   bills: {
@@ -21,6 +23,7 @@ const currentPage = ref(1);
 const perPage = ref(10);
 const showDeactive = ref(false);
 const { notify } = useNotification();
+const search = ref('');
 const selectedDateMeterRecord = ref('');
 const selectedStatus = ref('');
 
@@ -34,10 +37,16 @@ const currentBillRooms = computed(() => {
   );
   const billRooms = currentBill[0]?.billRooms || [];
   const showed = billRooms
-    .filter((billRoom) =>
-      selectedStatus
-        ? billRoom.isPaid === (selectedStatus.value === 'paid')
-        : true
+    .filter(
+      (billRoom) =>
+        (selectedStatus
+          ? billRoom.isPaid === (selectedStatus.value === 'paid')
+          : true) &&
+        (search.value
+          ? billRoom.room.name
+              .toLowerCase()
+              .includes(search.value.toLowerCase())
+          : true)
     )
     .slice(start, end);
   return showed;
@@ -84,6 +93,8 @@ watch(
     }
   }
 );
+
+const selectedBillRoomForModal = ref(null);
 </script>
 
 <template>
@@ -93,10 +104,10 @@ watch(
     </p>
     <div v-else>
       <!-- show number of renter -->
-      <p class="text-xs text-gray-500">
+      <!-- <p class="text-xs text-gray-500">
         มีบิลในระบบทั้งหมด:
-        {{ props.bills.length }} ข้อมูล
-      </p>
+        {{ props.bills.length }} รายการ
+      </p> -->
 
       <div class="w-full flex align-middle items-center justify-start mt-5">
         <label class="label">
@@ -106,7 +117,6 @@ watch(
           class="select select-bordered select-xs bg-white rounded"
           v-model="selectedDateMeterRecord"
         >
-          <option value="" selected>กรุณาเลือก</option>
           <option
             v-for="(date, index) in recordDates"
             :key="index"
@@ -128,7 +138,27 @@ watch(
           <option value="unpaid">ยังไม่ชำระ</option>
         </select>
       </div>
-      <div v-if="currentBillRooms.length">
+      <div class="flex gap-2 items-center">
+        <label class="label">
+          <span class="label-text">ค้นหา:</span>
+        </label>
+        <input
+          type="text"
+          placeholder="ค้นหาห้อง"
+          class="input input-xs input-bordered bg-white rounded"
+          v-model="search"
+        />
+      </div>
+
+      <p class="text-xs text-gray-500">
+        มีบิลทั้งหมดทั้งหมด:
+        {{ currentBillRooms.length }} รายการ (ชำระแล้ว:
+        {{ currentBillRooms.filter((billRoom) => billRoom.isPaid).length }}
+        รายการ, ยังไม่ชำระ:
+        {{ currentBillRooms.filter((billRoom) => !billRoom.isPaid).length }}
+        รายการ)
+      </p>
+      <div v-if="currentBillRooms.length" class="mt-2">
         <table class="table table-xs">
           <!-- head -->
           <thead>
@@ -141,6 +171,7 @@ watch(
               <th>ค่าอื่นๆ</th>
               <th>รวม</th>
               <th>สถานะ</th>
+              <th>หลักฐานการชำระเงิน</th>
               <th>ดูข้อมูล</th>
               <th>แก้ไข</th>
             </tr>
@@ -154,8 +185,8 @@ watch(
               <td>
                 {{ billRoom.room.name }}
               </td>
-              <td>{{ billRoom.waterTotalPrice }} บาท</td>
-              <td>{{ billRoom.electricTotalPrice }} บาท</td>
+              <td>{{ billRoom.waterTotalPrice.toLocaleString() }} บาท</td>
+              <td>{{ billRoom.electricTotalPrice.toLocaleString() }} บาท</td>
               <td>{{ billRoom.roomRentalPrice.toLocaleString() }} บาท</td>
               <td>{{ billRoom.totalFeesPrice.toLocaleString() }} บาท</td>
               <td>{{ billRoom.totalPrice.toLocaleString() }} บาท</td>
@@ -165,7 +196,23 @@ watch(
                 </Badge>
               </td>
               <td>
-                <Button btnType="ghost-pill">ดูข้อมูล</Button>
+                <Badge
+                  :badgeType="billRoom.paidEvidenceImage ? 'success' : 'error'"
+                >
+                  {{
+                    billRoom.paidEvidenceImage
+                      ? 'อัพโหลดแล้ว'
+                      : 'ยังไม่ได้อัพโหลด'
+                  }}
+                </Badge>
+              </td>
+              <td>
+                <Button
+                  btnType="ghost-pill"
+                  onclick="modal_1.showModal()"
+                  @click="selectedBillRoomForModal = billRoom"
+                  >ดูข้อมูล</Button
+                >
               </td>
             </tr>
           </tbody>
@@ -198,6 +245,162 @@ watch(
             &raquo;
           </button>
         </div>
+
+        <!-- Modal -->
+        <dialog :id="`modal_1`" class="modal z-50">
+          <div class="modal-box space-y-2 w-11/12 max-w-3xl border">
+            <div v-if="selectedBillRoomForModal">
+              <h3 class="font-bold text-lg items-center flex">
+                ข้อมูลบิลห้อง
+                {{ selectedBillRoomForModal.room.name }}
+                รอบมิเตอร์วันที่
+                {{ dayjs(selectedDateMeterRecord).format('DD/MM/YYYY') }}
+                <Badge
+                  :badgeType="
+                    selectedBillRoomForModal.isPaid ? 'success' : 'error'
+                  "
+                  size="md"
+                  class="ml-2"
+                >
+                  {{
+                    selectedBillRoomForModal.isPaid ? 'ชำระแล้ว' : 'ยังไม่ชำระ'
+                  }}
+                </Badge>
+              </h3>
+              <div class="mt-5">
+                <div class="flex w-full">
+                  <div class="w-full">
+                    <p class="text-lg font-bold">ค่าน้ำ</p>
+                    <p>
+                      มิเตอร์น้ำครั้งก่อน:
+                      {{ selectedBillRoomForModal.previousWaterMeter }}
+                    </p>
+                    <p>
+                      มิเตอร์น้ำครั้งนี้:
+                      {{ selectedBillRoomForModal.currentWaterMeter }}
+                    </p>
+                    <p>
+                      จำนวนหน่วย:
+                      {{ selectedBillRoomForModal.totalWaterMeterUsage }}
+                      หน่วย
+                    </p>
+                    <p>
+                      อัตราค่าน้ำต่อหน่วย:
+                      {{ selectedBillRoomForModal.waterPriceRate }} บาท
+                    </p>
+                    <p>
+                      บิลค่าน้ำ :
+                      <b
+                        >{{
+                          selectedBillRoomForModal.waterTotalPrice.toLocaleString()
+                        }}
+                        บาท</b
+                      >
+                    </p>
+                  </div>
+                  <div class="divider divider-horizontal"></div>
+                  <div class="w-full">
+                    <p class="text-lg font-bold">ค่าไฟ</p>
+                    <p>
+                      มิเตอร์ไฟครั้งก่อน:
+                      {{
+                        selectedBillRoomForModal.previousElectricMeter.toLocaleString()
+                      }}
+                    </p>
+                    <p>
+                      มิเตอร์ไฟครั้งนี้:
+                      {{
+                        selectedBillRoomForModal.currentElectricMeter.toLocaleString()
+                      }}
+                    </p>
+                    <p>
+                      จำนวนหน่วย:
+                      {{
+                        selectedBillRoomForModal.totalElectricMeterUsage.toLocaleString()
+                      }}
+                      หน่วย
+                    </p>
+                    <p>
+                      อัตราค่าไฟต่อหน่วย:
+                      {{
+                        selectedBillRoomForModal.electricPriceRate.toLocaleString()
+                      }}
+                      บาท
+                    </p>
+                    <p>
+                      บิลค่าไฟ :
+                      <b
+                        >{{
+                          selectedBillRoomForModal.electricTotalPrice.toLocaleString()
+                        }}
+                        บาท</b
+                      >
+                    </p>
+                  </div>
+                  <div class="divider divider-horizontal"></div>
+                  <div class="w-full">
+                    <p class="text-lg font-bold">ค่าเช่า</p>
+                    <p>
+                      ค่าเช่าห้อง:
+                      <b>{{
+                        selectedBillRoomForModal.roomRentalPrice.toLocaleString()
+                      }}</b>
+                      บาท
+                    </p>
+                    <p class="text-lg font-bold mt-2">ค่าบริการอื่น ๆ</p>
+
+                    <span>
+                      <p
+                        v-for="(fee, index) in selectedBillRoomForModal.fees"
+                        :key="index"
+                      >
+                        {{ fee.feename }}:
+                        <b>{{ fee.feeprice.toLocaleString() }}</b> บาท
+                      </p>
+                      <p v-if="!selectedBillRoomForModal.room.fees.length">
+                        ไม่มีค่าบริการอื่น ๆ
+                      </p>
+                    </span>
+                  </div>
+                </div>
+                <Divider />
+                <p class="text-lg font-bold">หลักฐานการชำระเงิน</p>
+                <div v-if="selectedBillRoomForModal.paidEvidenceImage">
+                  <img
+                    :src="
+                      FileService.getFile(
+                        selectedBillRoomForModal.paidEvidenceImage
+                      )
+                    "
+                    alt="หลักฐานการชำระเงิน"
+                    class="w-1/2"
+                  />
+                  <p class="text-red-500">
+                    * กรุณาตรวจสอบหลักฐานการชำระเงินให้ถี่ถ้วน
+                  </p>
+                </div>
+
+                <p v-else>ยังไม่ได้อัพโหลดหลักฐานการชำระเงิน</p>
+                <Divider />
+                <p class="text-lg font-bold mt-5 rounded-full">
+                  รวม:
+                  {{ selectedBillRoomForModal.totalPrice.toLocaleString() }}
+                  บาท
+                </p>
+              </div>
+            </div>
+            <div class="modal-action flex">
+              <form method="dialog">
+                <button
+                  class="btn btn-sm mr-2"
+                  @click="selectedBillRoomForModal = null"
+                >
+                  ปิด
+                </button>
+              </form>
+            </div>
+          </div>
+        </dialog>
       </div>
       <p v-else class="mt-5">ไม่พบข้อมูล</p>
     </div>
