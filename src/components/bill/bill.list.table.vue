@@ -25,17 +25,29 @@ const search = ref('');
 const selectedDateMeterRecord = ref('');
 const selectedStatus = ref('');
 
-const computedBills = computed(() => {
+const currentBill = computed(() => {
+  const showed = props.bills.filter((bill) =>
+    selectedDateMeterRecord
+      ? bill.meterRecord.record_date === selectedDateMeterRecord.value
+      : true
+  );
+  return showed;
+});
+
+const currentBillRooms = computed(() => {
   const start = (currentPage.value - 1) * perPage.value;
   const end = start + perPage.value;
-  const showed = props.bills
-    .filter((bill) =>
-      selectedDateMeterRecord
-        ? bill.meterRecord.record_date === selectedDateMeterRecord.value
-        : true
-    )
-    .slice(start, end);
-  console.log({ showed });
+  const currentBill = props.bills.filter((bill) =>
+    selectedDateMeterRecord
+      ? bill.meterRecord.record_date === selectedDateMeterRecord.value
+      : true
+  );
+  const billRooms = currentBill[0]?.billRooms || [];
+  const showed = billRooms.filter((billRoom) =>
+    selectedStatus
+      ? billRoom.isPaid === (selectedStatus.value === 'paid')
+      : true
+  ).slice(start, end);
   return showed;
 });
 
@@ -103,19 +115,19 @@ const visiblePages = computed(() => {
           </option>
         </select>
 
-        <label class="label">
+        <label class="label ml-2">
           <span class="label-text">สถานะบิล:</span>
         </label>
         <select
           class="select select-bordered select-xs bg-white rounded"
           v-model="selectedStatus"
         >
-          <option value="" selected>กรุณาเลือก</option>
-          <option value="paid" >ชำระแล้ว</option>
-          <option value="unpaid" >ยังไม่ชำระ</option>
+          <option value="" selected>ทั้งหมด</option>
+          <option value="paid">ชำระแล้ว</option>
+          <option value="unpaid">ยังไม่ชำระ</option>
         </select>
       </div>
-      <table class="table table-xs">
+      <table class="table table-xs" v-if="currentBillRooms.length">
         <!-- head -->
         <thead>
           <tr>
@@ -133,10 +145,7 @@ const visiblePages = computed(() => {
         </thead>
         <tbody>
           <!-- row 1 -->
-          <tr
-            v-for="(billRoom, index) in computedBills[0]?.billRooms"
-            :key="index"
-          >
+          <tr v-for="(billRoom, index) in currentBillRooms" :key="index">
             <td>
               {{ index + 1 }}
             </td>
@@ -159,6 +168,7 @@ const visiblePages = computed(() => {
           </tr>
         </tbody>
       </table>
+      <p v-else class="mt-5">ไม่พบข้อมูล</p>
 
       <div class="join">
         <button

@@ -317,10 +317,10 @@ onMounted(async () => {
           />
 
           <QuickLinkCard
-            :router-path="{ name: 'room', params: { residenceId } }"
+            :router-path="{ name: 'rent', params: { residenceId } }"
             title="การย้ายเข้า และย้ายออก"
             text="เข้าสู่ระบบการย้ายเข้า และย้ายออก"
-            :icons="[UserIcon, ArrowRightIcon, HomeIcon]"
+            :icons="[UserIcon, ArrowRightCircleIcon, HomeIcon]"
           />
         </div>
 

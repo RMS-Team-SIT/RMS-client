@@ -47,6 +47,9 @@ const roomType = () => import('./pages/residence/room-type/room-type.vue');
 const createRoomType = () => import('./pages/residence/room-type/create.vue');
 const viewRoomType = () => import('./pages/residence/room-type/view.vue');
 
+// rent
+const rent = () => import('./pages/residence/rent/rent.vue');
+
 // Fee and Electric
 const fee = () => import('./pages/residence/fee/fee.vue');
 const createFee = () => import('./pages/residence/fee/create-fee.vue');
@@ -496,6 +499,14 @@ const routes = [
     },
   },
   {
+    name: 'rent',
+    path: '/manage/residence/:residenceId/rent',
+    component: rent,
+    meta: {
+      title: 'การย้ายเข้า ย้ายออก',
+    },
+  },
+  {
     path: '/unavailable',
     component: unavailable,
     name: 'unavailable',
@@ -538,7 +549,8 @@ router.beforeEach(async (to, from, next) => {
     }
 
     if (to.name === 'unavailable') {
-      if (status.up) return next({ path: decodeURIComponent(to.query.returnPath) });
+      if (status.up)
+        return next({ path: decodeURIComponent(to.query.returnPath) });
       return next();
     }
 
@@ -640,7 +652,10 @@ router.beforeEach(async (to, from, next) => {
     }
   } catch (error) {
     console.error('Error in navigation guard:', error);
-    return next({ name: 'unavailable', query: { returnPath: encodeURIComponent(to.fullPath) } });
+    return next({
+      name: 'unavailable',
+      query: { returnPath: encodeURIComponent(to.fullPath) },
+    });
   }
 });
 

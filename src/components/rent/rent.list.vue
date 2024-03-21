@@ -8,7 +8,11 @@ import dayjs from 'dayjs';
 import BankIcon from '@/components/common/bank-icon.vue';
 import { useRouter } from 'vue-router';
 import RoomService from '@/services/RoomService';
-import { ArrowTopRightOnSquareIcon } from '@heroicons/vue/24/outline';
+import {
+  ArrowLeftCircleIcon,
+  ArrowRightCircleIcon,
+  ArrowTopRightOnSquareIcon,
+} from '@heroicons/vue/24/outline';
 
 const props = defineProps({
   rooms: {
@@ -58,6 +62,10 @@ const changePage = (page) => {
   }
 };
 
+const availableRenters = computed(() => {
+  return props.residenceData.renters.filter((r) => !r.room);
+});
+
 const totalPages = computed(() => {
   return Math.ceil(props.rooms.length / perPage.value);
 });
@@ -79,34 +87,28 @@ const visiblePages = computed(() => {
   return Array.from({ length: end - start + 1 }, (_, i) => start + i);
 });
 
-const editingRoom = reactive({
+const editingRoomRenter = reactive({
   roomId: '',
-  room: {},
+  room: '',
+  renterId: '',
 });
 
-const setEditingRoom = (roomId) => {
-  editingRoom.roomId = roomId;
-  editingRoom.room = { ...props.rooms.find((room) => room._id === roomId) };
-  editingRoom.room.type = editingRoom.room.type._id;
-};
-const setEditingRoomRentalPriceByRoomType = () => {
-  editingRoom.room.roomRentalPrice = props.roomTypes.find(
-    (t) => t._id === editingRoom.room.type
-  ).price;
+const setEditingRoomRenter = (roomId) => {
+  editingRoomRenter.roomId = roomId;
+  editingRoomRenter.room = props.rooms.find((r) => r._id === roomId);
 };
 
-const resetEditingRoom = () => {
-  editingRoom.roomId = '';
-  editingRoom.room = {};
+const resetEditingRoomRenter = () => {
+  editingRoomRenter.roomId = '';
+  editingRoomRenter.renterId = '';
 };
 
 const updateRoom = async () => {
-  const response = await RoomService.updateRoomDetail(
+  const response = await RoomService.updateRoomRenter(
     props.residenceId,
-    editingRoom.roomId,
-    { ...editingRoom.room }
+    editingRoomRenter.roomId,
+    { renterId: editingRoomRenter.renterId }
   );
-
   if (response.status !== 200) {
     const data = await response.json();
     notify({
@@ -122,13 +124,8 @@ const updateRoom = async () => {
       text: 'ข้อมูลห้องพักได้รับการแก้ไขเรียบร้อยแล้ว',
       type: 'success',
     });
-    props.rooms[props.rooms.findIndex((r) => r._id === editingRoom.roomId)] = {
-      ...editingRoom.room,
-      type: props.roomTypes.find((t) => t._id === editingRoom.room.type),
-    };
   }
-
-  resetEditingRoom();
+  resetEditingRoomRenter();
   editRoom.close();
 };
 </script>
@@ -142,8 +139,15 @@ const updateRoom = async () => {
       <!-- show number of renter -->
       <p class="text-xs text-gray-500">
         จำนวนห้องทั้งหมด:
-        {{ props.rooms?.filter((r) => r.isActive).length }} (เปิดใช้งาน),
-        {{ props.rooms?.filter((r) => !r.isActive).length }} (ปิดใช้งาน)
+        {{ props.rooms?.filter((r) => r.isActive).length }}, ห้องว่าง:
+        {{
+          props.rooms?.filter((r) => r.isActive && r.status === 'AVAILABLE')
+            .length
+        }}, ห้องไม่ว่าง:
+        {{
+          props.rooms?.filter((r) => r.isActive && r.status === 'OCCUPIED')
+            .length
+        }}
       </p>
       <div class="w-full flex align-middle items-center justify-end">
         <label class="label">
@@ -155,16 +159,6 @@ const updateRoom = async () => {
           class="input input-xs input-bordered bg-white rounded"
           v-model="search"
         />
-        <div class="form-control w-56">
-          <label class="cursor-pointer label">
-            <span class="label-text">แสดงข้อมูลที่โดนปิดใช้งาน</span>
-            <input
-              type="checkbox"
-              class="toggle toggle-primary"
-              v-model="showDeactive"
-            />
-          </label>
-        </div>
       </div>
       <table class="table table-xs">
         <!-- head -->
@@ -173,14 +167,9 @@ const updateRoom = async () => {
           <tr>
             <th>#</th>
             <th>ชื่อ</th>
-            <th>คำอธิบาย</th>
-            <th>ชั้น</th>
-            <th>ประเภทห้อง</th>
-            <th>ค่าเช่า</th>
             <th>สถานะห้อง</th>
             <th>ผู้เช่า</th>
-            <th></th>
-            <th></th>
+            <th>ย้ายเข้า/ย้ายออก</th>
           </tr>
         </thead>
         <tbody>
@@ -191,16 +180,6 @@ const updateRoom = async () => {
             <td>
               {{ room.name }}
             </td>
-            <td>
-              <span :class="{ 'text-gray-500': !room.description }">
-                {{ room.description || 'ไม่มีข้อมูล' }}
-              </span>
-            </td>
-            <td>{{ room.floor }}</td>
-            <td>
-              {{ room.type.name }}
-            </td>
-            <td>{{ room.roomRentalPrice.toLocaleString() }} บาท</td>
 
             <td>
               <Badge badgeType="success" v-if="room.status === 'AVAILABLE'"
@@ -225,29 +204,25 @@ const updateRoom = async () => {
               </router-link>
               <span v-else class="text-red-500"> ไม่มีผู้เช่า </span>
             </td>
-            <th>
-              <router-link
-                :to="{
-                  name: 'view-room',
-                  params: {
-                    residenceId: $route.params.residenceId,
-                    roomId: room._id,
-                  },
-                }"
-              >
-                <Button btnType="ghost-pill"
-                  >ดูข้อมูล
-                  <ArrowTopRightOnSquareIcon class="h-4 w-4" />
-                </Button>
-              </router-link>
-            </th>
+
             <th>
               <Button
-                btnType="ghost-pill"
+                btnType="success-pill"
                 onclick="editRoom.showModal()"
-                @click="setEditingRoom(room._id)"
-                >แก้ไข</Button
+                @click="setEditingRoomRenter(room._id)"
+                v-if="!room.currentRenter"
               >
+                <ArrowLeftCircleIcon class="h-5 w-5" />
+                ย้ายเข้า
+              </Button>
+              <Button
+                v-else
+                btnType="secondary-pill"
+                onclick="editRoom.showModal()"
+                @click="setEditingRoomRenter(room._id)"
+                >ย้ายออก
+                <ArrowRightCircleIcon class="h-5 w-5" />
+              </Button>
             </th>
           </tr>
         </tbody>
@@ -256,118 +231,35 @@ const updateRoom = async () => {
       <dialog :id="`editRoom`" class="modal">
         <div class="modal-box space-y-2">
           <h3 class="font-bold text-lg">
-            รายละเอียดห้อง : {{ editingRoom.room.name }}
+            ห้อง : {{ editingRoomRenter.room.name }}
           </h3>
 
-          <div class="grid grid-cols-2 gap-2">
-            <div>
-              <label class="label">
-                <span class="text-base label-text">ชื่อห้อง </span>
-              </label>
-              <input
-                type="text"
-                placeholder="ชื่อห้อง"
-                class="input input-bordered bg-white input-sm rounded-sm"
-                v-model="editingRoom.room.name"
-              />
-            </div>
-
-            <div>
+          <div class="grid grid-cols-1 gap-2">
+            <div class="col-span-1">
               <label class="label">
                 <span class="text-base label-text"
-                  >ประเภทห้อง <span class="text-red-500">*</span>
+                  >ผู้เช่า: <span class="text-red-500">*</span>
                 </span>
               </label>
               <select
                 class="select select-bordered w-full max-w-xs select-sm bg-white input-sm rounded-sm"
-                v-model="editingRoom.room.type"
-                @change="setEditingRoomRentalPriceByRoomType"
+                v-model="editingRoomRenter.renterId"
               >
-                <option value="">เลือกประเภทห้อง</option>
+                <option value="">เลือกผู้เช่า</option>
                 <option
-                  v-for="roomType in props.roomTypes"
-                  :key="roomType._id"
-                  :value="roomType._id"
+                  v-for="renter in availableRenters"
+                  :key="renter._id"
+                  :value="renter._id"
                 >
-                  {{ roomType.name }}
+                  {{ renter.firstname }} {{ renter.lastname }}
                 </option>
               </select>
             </div>
-
-            <div>
-              <label class="label">
-                <span class="text-base label-text"
-                  >ชั้น <span class="text-red-500">*</span>
-                </span>
-              </label>
-              <input
-                type="number"
-                min="0"
-                placeholder="ชั้น"
-                class="input input-bordered bg-white input-sm rounded-sm"
-                v-model="editingRoom.room.floor"
-              />
-            </div>
-
-            <div>
-              <label class="label">
-                <span class="text-base label-text"
-                  >ค่าเช่าบาท/เดือน
-                  <span class="text-red-500">*</span>
-                </span>
-              </label>
-              <input
-                type="number"
-                min="0"
-                placeholder="ค่าเช่าบาท/เดือน"
-                class="input input-bordered bg-white input-sm rounded-sm"
-                v-model="editingRoom.room.roomRentalPrice"
-              />
-            </div>
-
-            <div class="col-span-2">
-              <label class="label">
-                <span class="text-base label-text">คำอธิบาย</span>
-              </label>
-              <textarea
-                class="w-full textarea textarea-bordered rounded-sm bg-white"
-                v-model="editingRoom.room.description"
-              ></textarea>
-            </div>
-
-            <div class="col-span-2">
-              <label class="label">
-                <span class="text-base label-text"
-                  >ค่าบริการ <span class="text-red-500">*</span>
-                </span>
-              </label>
-              <p class="p-2" v-if="!props.residenceData.fees.length">
-                ไม่มีค่าบริการเพิ่มเติมในหอพัก
-              </p>
-              <div class="grid grid-cols-1 md:grid-cols-2">
-                <div
-                  v-for="(fee, feeIndex) in props.residenceData.fees"
-                  :key="feeIndex"
-                  class="flex items-center gap-2"
-                >
-                  <input
-                    type="checkbox"
-                    :id="index + fee._id"
-                    :value="fee._id"
-                    v-model="editingRoom.room.fees"
-                    class="checkbox checkbox-primary"
-                  />
-                  <label :for="index + fee._id" class="label text-sm">
-                    {{ fee.feename }} : {{ fee.feeprice.toLocaleString() }} บาท
-                  </label>
-                </div>
-              </div>
-            </div>
           </div>
 
-          <div class="modal-action flex">
+          <div class="modal-action flex mt-5">
             <form method="dialog">
-              <button class="btn btn-sm mr-2" @click="resetEditingRoom">
+              <button class="btn btn-sm mr-2" @click="resetEditingRoomRenter">
                 ปิด
               </button>
               <button class="btn btn-sm btn-secondary" @click="updateRoom">

@@ -42,7 +42,15 @@ class RoomService {
       'PUT',
       room
     );
-    
+
+  updateRoomRenter = async (residenceId, roomId, room) =>
+    sendRequest(
+      this.baseUrl,
+      `/residence/${residenceId}/room/${roomId}/renter`,
+      'PUT',
+      room
+    );
+
   deleteRoom = async (residenceId, roomId) =>
     sendRequest(
       this.baseUrl,
