@@ -105,13 +105,39 @@ const currentModalBillRoom = reactive({
   meterRecordItem: null,
 });
 
-const openModalBillRoom = (meterRecordItem) => {
+const setCurrentModalBillRoom = (meterRecordItem) => {
   currentModalBillRoom.meterRecordItem = meterRecordItem;
 };
 
 const resetCurrentModalBillRoom = () => {
   currentModalBillRoom.room = null;
   currentModalBillRoom.meterRecordItem = null;
+};
+
+const showOnlyRentedRoom = ref(false);
+const selectedMeterRecordForBillCreation = ref([]);
+const resetSelectedMeterRecordForBillCreation = () => {
+  selectedMeterRecordForBillCreation.value = [];
+};
+const selectAllMeterRecordForBillCreation = () => {
+  selectedMeterRecordForBillCreation.value =
+    currentMeterRecord.value.meterRecordItems.map((item) => item._id);
+};
+const selectAllRentedMeterRecordForBillCreation = () => {
+  selectedMeterRecordForBillCreation.value =
+    currentMeterRecord.value.meterRecordItems
+      .filter((item) => item.room.status !== 'AVAILABLE')
+      .map((item) => item._id);
+};
+const toggleSelectAllMeterRecordForBillCreation = () => {
+  if (
+    selectedMeterRecordForBillCreation.value.length ===
+    currentMeterRecord.value.meterRecordItems.length
+  ) {
+    resetSelectedMeterRecordForBillCreation();
+  } else {
+    selectAllMeterRecordForBillCreation();
+  }
 };
 </script>
 
@@ -178,7 +204,7 @@ const resetCurrentModalBillRoom = () => {
               :disabled="!canSubmit"
               @click="submit"
             >
-              สร้างบิลของทุกห้อง
+              สร้างบิลของห้องที่เลือก
             </Button>
           </div>
         </div>
@@ -211,33 +237,82 @@ const resetCurrentModalBillRoom = () => {
                   <p class="text-sm">ห้องที่ไม่มีคนเช่า</p>
                 </div>
               </div>
-              <div class="flex">
-                <label class="label">
-                  <span class="label-text">ค้นหาห้อง:</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="ค้นหาห้อง"
-                  class="input input-sm input-bordered bg-white rounded"
-                  v-model="search"
-                />
+              <div class="flex gap-2 items-center">
+                <div class="flex gap-2 items-center">
+                  <label class="label">
+                    <span class="label-text">ค้นหาห้อง:</span>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="ค้นหาห้อง"
+                    class="input input-sm input-bordered bg-white rounded"
+                    v-model="search"
+                  />
+                </div>
+                <div class="flex gap-2 items-center">
+                  <input
+                    type="checkbox"
+                    class="checkbox checkbox-primary"
+                    v-model="showOnlyRentedRoom"
+                  />
+                  <p class="text-sm">แสดงเฉพาะห้องที่มีผู้เช่า</p>
+                </div>
               </div>
             </div>
 
-            <div class="grid grid-cols-3 gap-2">
+            <div class="flex gap-2 items-center">
+              <div class="flex gap-2 items-center">
+                <input
+                  type="checkbox"
+                  class="checkbox checkbox-primary"
+                  @click="toggleSelectAllMeterRecordForBillCreation"
+                  :checked="
+                    selectedMeterRecordForBillCreation.length ===
+                    currentMeterRecord.meterRecordItems.length
+                  "
+                />
+                <p class="text-sm">เลือกทุกห้อง</p>
+              </div>
+              <div class="flex gap-2 items-center">
+                <input
+                  type="checkbox"
+                  class="checkbox checkbox-primary"
+                  @click="selectAllRentedMeterRecordForBillCreation"
+                  :checked="
+                    selectedMeterRecordForBillCreation.length &&
+                    selectedMeterRecordForBillCreation.length ===
+                      currentMeterRecord.meterRecordItems.filter(
+                        (item) => item.room.status !== 'AVAILABLE'
+                      ).length
+                  "
+                />
+                <p class="text-sm">เลือกทุกห้องที่มีคนเช่า</p>
+              </div>
+            </div>
+
+            {{ selectedMeterRecordForBillCreation }}
+            <div class="grid grid-cols-3 gap-2 mt-5">
               <div
                 class="border border-base-300 shadow-sm rounded cursor-pointer"
                 v-for="(
                   meterRecordItem, index
                 ) in currentMeterRecord.meterRecordItems.filter((item) =>
-                  item.room.name.toLowerCase().includes(search.toLowerCase())
+                  item.room.name.toLowerCase().includes(search.toLowerCase()) &&
+                  showOnlyRentedRoom
+                    ? item.room.status !== 'AVAILABLE'
+                    : true
                 )"
-                onclick="billDetail.showModal()"
-                @click="openModalBillRoom(meterRecordItem)"
                 :key="index"
               >
-                <div class="collapse-title text-lg font-medium">
+                <div class="text-lg font-medium p-5">
                   <div class="flex gap-2 justify-start items-center">
+                    <!-- check box -->
+                    <input
+                      type="checkbox"
+                      class="checkbox checkbox-primary"
+                      v-model="selectedMeterRecordForBillCreation"
+                      :value="meterRecordItem._id"
+                    />
                     <span
                       >ห้อง <b>{{ meterRecordItem.room.name }}</b></span
                     >
@@ -248,7 +323,13 @@ const resetCurrentModalBillRoom = () => {
                     <img :src="NoUserImg" class="w-5 h-5" v-else />
                   </div>
 
-                  <p class="text-sm text-gray-500">กดเพื่อดูรายละเอียดเพิ่ม</p>
+                  <p
+                    class="text-sm text-gray-500"
+                    onclick="billDetail.showModal()"
+                    @click="setCurrentModalBillRoom(meterRecordItem)"
+                  >
+                    กดเพื่อดูรายละเอียดเพิ่ม
+                  </p>
                 </div>
               </div>
             </div>

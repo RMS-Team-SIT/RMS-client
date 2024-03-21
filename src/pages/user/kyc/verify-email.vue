@@ -16,6 +16,7 @@ const userStore = useUserStore();
 const { notify } = useNotification();
 const currentUser = ref(userStore.getUser);
 const disableResendEmail = ref(false);
+const waitingTime = ref(60);
 const resendEmail = async () => {
   try {
     isLoading.value = true;
@@ -27,9 +28,17 @@ const resendEmail = async () => {
       text: 'ส่งอีเมลยืนยันอีกครั้งสำเร็จ',
       group: 'tr',
     });
+
+    const interval = setInterval(() => {
+      waitingTime.value -= 1;
+    }, 1000);
+    
     setTimeout(() => {
       disableResendEmail.value = false;
+      waitingTime.value = 60;
+      clearInterval(interval);
     }, 60000);
+
     isLoading.value = false;
   } catch (error) {
     notify({
@@ -61,7 +70,12 @@ onBeforeMount(async () => {
         />
       </div>
       <Steps
-        :stepList="['ยืนยันอีเมลของคุณ', 'เงื่อนไขข้อตกลง' ,'ยืนยันตัวตน', 'รอการอนุมัติ']"
+        :stepList="[
+          'ยืนยันอีเมลของคุณ',
+          'เงื่อนไขข้อตกลง',
+          'ยืนยันตัวตน',
+          'รอการอนุมัติ',
+        ]"
         :currentStep="1"
       />
 
@@ -88,7 +102,9 @@ onBeforeMount(async () => {
           ส่งอีเมลยืนยันอีกครั้ง
           <span v-if="isLoading" class="loading loading-dots loading-xs"></span>
         </Button>
-        <p class="text-sm text-red-500" v-if="disableResendEmail">กรุณารอ 60 เพื่อส่งอีกครั้ง</p>
+        <p class="text-sm text-red-500" v-if="disableResendEmail">
+          กรุณารอ {{ waitingTime }} วินาที เพื่อส่งอีกครั้ง
+        </p>
         <p>* หากทำการยืนยันอีเมลแล้ว กรุณารีเฟรชหน้านี้</p>
       </div>
     </div>
