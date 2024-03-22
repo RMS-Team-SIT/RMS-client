@@ -46,13 +46,8 @@ const deactiveRenter = async () => {
     >
     <p v-if="!canDelete" class="text-gray-500 text-sm">
       * ปิดการใช้งานผู้เช่าไม่ได้ ผู้เช่ารายนี้กำลังเช่าห้องอยู่:
-
-      <span class="text-red-500 underline cursor-pointer">
-        <router-link
-          :to="{ name: 'update-room', params: { roomId: room._id } }"
-        >
-          {{ room.name }}
-        </router-link>
+      <span class="text-red-500 underline">
+        {{ room.name }}
       </span>
       <br />
       โปรดลบผู้เช่ารายนี้ออกจากห้องก่อน

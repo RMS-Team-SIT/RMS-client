@@ -62,6 +62,12 @@ const props = defineProps({
                   params: {
                     residenceId: $route.params.residenceId,
                   },
+                  query: {
+                    meterRecordId: meterRecord._id,
+                    meterRecordDate: dayjs(meterRecord.record_date).format(
+                      'DD-MM-YYYY'
+                    ),
+                  },
                 }"
                 target="_blank"
               >

@@ -55,9 +55,10 @@ const canNext = computed(() => {
       renterData.email &&
       renterData.password
     );
-  } else if (currentStep.value == 2) {
-    return renterData.copyOfIdCard.file && renterData.renterContract.file;
-  }
+  } 
+  // else if (currentStep.value == 2) {
+  //   return renterData.copyOfIdCard.file && renterData.renterContract.file;
+  // }
   return true;
 });
 
