@@ -9,10 +9,12 @@ import Loading from './components/common/loading.vue';
 import { useI18n } from 'vue-i18n';
 import { languages } from './i18n';
 import CookieConsent from './components/common/cookie-consent.vue';
+import { useServerStore } from './stores/server.store';
 
 const router = useRouter();
 const route = useRoute();
 const userStore = useUserStore();
+const serverStore = useServerStore();
 const isLoading = ref(true);
 const { locale } = useI18n();
 const isThai = computed(() => locale.value === 'th');
@@ -68,16 +70,14 @@ const isShowCookieConsent = ref(
   localStorage.getItem('cookie-consent') !== 'accepted'
 );
 
-const accept = () => {
+const acceptCookieConsent = () => {
   localStorage.setItem('cookie-consent', 'accepted');
   isShowCookieConsent.value = false;
 };
 
 onMounted(async () => {
-  // setLang();
-  setTimeout(() => {
-    isLoading.value = false;
-  }, 500);
+  await serverStore.fetch();
+  isLoading.value = false;
 });
 </script>
 
@@ -92,7 +92,7 @@ onMounted(async () => {
     <router-view class="min-h-screen" />
     <notifications group="tr" position="top right" class="text-md" />
     <Footer v-if="shouldShowFooter" />
-    <CookieConsent v-if="isShowCookieConsent" @accept="accept" />
+    <CookieConsent v-if="isShowCookieConsent" @accept="acceptCookieConsent" />
   </div>
 </template>
 

@@ -28,7 +28,7 @@ const props = defineProps({
 const classes = computed(() => {
   const typeClasses = {
     info: ['badge-info'],
-    success: ['badge-success', 'text-white'],
+    success: ['badge-success'],
     warning: ['badge-warning'],
     error: ['badge-error', 'text-white'],
     ghost: ['badge-ghost'],

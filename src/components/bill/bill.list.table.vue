@@ -39,13 +39,14 @@ const currentBillRooms = computed(() => {
   const showed = billRooms
     .filter(
       (billRoom) =>
-        (selectedStatus
-          ? billRoom.isPaid === (selectedStatus.value === 'paid')
+        (selectedStatus.value
+          ? billRoom.status === selectedStatus.value
           : true) &&
         (search.value
           ? billRoom.room.name
               .toLowerCase()
-              .includes(search.value.toLowerCase())
+              .includes(search.value.toLowerCase()) ||
+            billRoom.billNo.toLowerCase().includes(search.value.toLowerCase())
           : true)
     )
     .slice(start, end);
@@ -103,12 +104,6 @@ const selectedBillRoomForModal = ref(null);
       ไม่พบบิลในระบบ กรุณาสร้าง
     </p>
     <div v-else>
-      <!-- show number of renter -->
-      <!-- <p class="text-xs text-gray-500">
-        มีบิลในระบบทั้งหมด:
-        {{ props.bills.length }} รายการ
-      </p> -->
-
       <div class="w-full flex align-middle items-center justify-start mt-5">
         <label class="label">
           <span class="label-text">บิลของรอบมิเตอร์​:</span>
@@ -134,28 +129,40 @@ const selectedBillRoomForModal = ref(null);
           v-model="selectedStatus"
         >
           <option value="" selected>ทั้งหมด</option>
-          <option value="paid">ชำระแล้ว</option>
-          <option value="unpaid">ยังไม่ชำระ</option>
+          <option value="PAID">ชำระแล้ว</option>
+          <option value="UPLOADED">อัพโหลดหลักฐานแล้ว</option>
+          <option value="UNPAID">ยังไม่ชำระ</option>
         </select>
-      </div>
-      <div class="flex gap-2 items-center">
-        <label class="label">
-          <span class="label-text">ค้นหา:</span>
-        </label>
-        <input
-          type="text"
-          placeholder="ค้นหาห้อง"
-          class="input input-xs input-bordered bg-white rounded"
-          v-model="search"
-        />
+
+        <div class="flex gap-2 items-center">
+          <label class="label">
+            <span class="label-text">ค้นหา:</span>
+          </label>
+          <input
+            type="text"
+            placeholder="ค้นหาห้อง/เลขที่บิล"
+            class="input input-xs input-bordered bg-white rounded"
+            v-model="search"
+          />
+        </div>
       </div>
 
       <p class="text-xs text-gray-500">
         มีบิลทั้งหมดทั้งหมด:
         {{ currentBillRooms.length }} รายการ (ชำระแล้ว:
-        {{ currentBillRooms.filter((billRoom) => billRoom.isPaid).length }}
-        รายการ, ยังไม่ชำระ:
-        {{ currentBillRooms.filter((billRoom) => !billRoom.isPaid).length }}
+        {{
+          currentBillRooms.filter((billRoom) => billRoom.status === 'PAID')
+            .length
+        }}
+        รายการ, อัพโหลดหลักฐานแล้ว:
+        {{
+          currentBillRooms.filter((billRoom) => billRoom.status === 'UPLOADED')
+            .length
+        }}, ยังไม่ชำระ:
+        {{
+          currentBillRooms.filter((billRoom) => billRoom.status === 'UNPAID')
+            .length
+        }}
         รายการ)
       </p>
       <div v-if="currentBillRooms.length" class="mt-2">
@@ -164,14 +171,14 @@ const selectedBillRoomForModal = ref(null);
           <thead>
             <tr>
               <th>#</th>
-              <th>ห้อง</th>
+              <th>เลขที่บิล</th>
+              <th>เลขที่ห้อง</th>
               <th>ค่าน้ำ</th>
               <th>ค่าไฟ</th>
               <th>ค่าเช่า</th>
               <th>ค่าอื่นๆ</th>
               <th>รวม</th>
               <th>สถานะ</th>
-              <th>หลักฐานการชำระเงิน</th>
               <th>ดูข้อมูล</th>
               <th>แก้ไข</th>
             </tr>
@@ -183,6 +190,9 @@ const selectedBillRoomForModal = ref(null);
                 {{ index + 1 }}
               </td>
               <td>
+                {{ billRoom.billNo }}
+              </td>
+              <td>
                 {{ billRoom.room.name }}
               </td>
               <td>{{ billRoom.waterTotalPrice.toLocaleString() }} บาท</td>
@@ -191,20 +201,13 @@ const selectedBillRoomForModal = ref(null);
               <td>{{ billRoom.totalFeesPrice.toLocaleString() }} บาท</td>
               <td>{{ billRoom.totalPrice.toLocaleString() }} บาท</td>
               <td>
-                <Badge :badgeType="billRoom.isPaid ? 'success' : 'error'">
-                  {{ billRoom.isPaid ? 'ชำระแล้ว' : 'ยังไม่ชำระ' }}
-                </Badge>
-              </td>
-              <td>
+                <Badge v-if="billRoom.status === 'PAID'">จ่ายแล้ว</Badge>
                 <Badge
-                  :badgeType="billRoom.paidEvidenceImage ? 'success' : 'error'"
+                  v-else-if="billRoom.status === 'UPLOADED'"
+                  badgeType="secondary"
+                  >อัพโหลดหลักฐานแล้ว</Badge
                 >
-                  {{
-                    billRoom.paidEvidenceImage
-                      ? 'อัพโหลดแล้ว'
-                      : 'ยังไม่ได้อัพโหลด'
-                  }}
-                </Badge>
+                <Badge v-else badgeType="error">ยังไม่ได้จ่าย</Badge>
               </td>
               <td>
                 <Button
@@ -250,22 +253,18 @@ const selectedBillRoomForModal = ref(null);
         <dialog :id="`modal_1`" class="modal z-50">
           <div class="modal-box space-y-2 w-11/12 max-w-3xl border">
             <div v-if="selectedBillRoomForModal">
-              <h3 class="font-bold text-lg items-center flex">
+              <h3 class="font-bold text-lg items-center flex gap-2">
                 ข้อมูลบิลห้อง
                 {{ selectedBillRoomForModal.room.name }}
                 รอบมิเตอร์วันที่
                 {{ dayjs(selectedDateMeterRecord).format('DD/MM/YYYY') }}
+                <Badge v-if="selectedBillRoomForModal.status === 'PAID'">จ่ายแล้ว</Badge>
                 <Badge
-                  :badgeType="
-                    selectedBillRoomForModal.isPaid ? 'success' : 'error'
-                  "
-                  size="md"
-                  class="ml-2"
+                  v-else-if="selectedBillRoomForModal.status === 'UPLOADED'"
+                  badgeType="secondary"
+                  >อัพโหลดหลักฐานแล้ว</Badge
                 >
-                  {{
-                    selectedBillRoomForModal.isPaid ? 'ชำระแล้ว' : 'ยังไม่ชำระ'
-                  }}
-                </Badge>
+                <Badge v-else badgeType="error">ยังไม่ได้จ่าย</Badge>
               </h3>
               <div class="mt-5">
                 <div class="flex w-full">

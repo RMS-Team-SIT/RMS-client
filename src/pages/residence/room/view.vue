@@ -295,7 +295,13 @@ onMounted(() => {
               size="md"
               >บิลล่าสุด</Badge
             >
-            <Badge v-if="bill.isPaid" size="md">จ่ายแล้ว</Badge>
+            <Badge v-if="bill.status === 'PAID'" size="md">จ่ายแล้ว</Badge>
+            <Badge
+              v-else-if="bill.status === 'UPLOADED'"
+              badgeType="secondary"
+              size="md"
+              >อัพโหลดหลักฐานแล้ว</Badge
+            >
             <Badge v-else badgeType="error" size="md">ยังไม่ได้จ่าย</Badge>
           </div>
           <div class="collapse-content">
@@ -370,16 +376,11 @@ onMounted(() => {
                 </p>
                 <p class="text-lg font-bold mt-2">ค่าบริการอื่น ๆ</p>
                 <span>
-                  <p
-                    v-for="(fee, index) in bill.fees"
-                    :key="index"
-                  >
+                  <p v-for="(fee, index) in bill.fees" :key="index">
                     {{ fee.feename }}:
                     <b>{{ fee.feeprice.toLocaleString() }}</b> บาท
                   </p>
-                  <p v-if="!bill.fees.length">
-                    ไม่มีค่าบริการอื่น ๆ
-                  </p>
+                  <p v-if="!bill.fees.length">ไม่มีค่าบริการอื่น ๆ</p>
                 </span>
               </div>
             </div>
@@ -390,8 +391,14 @@ onMounted(() => {
               บาท
             </p>
             <p>
-              สถานะการจ่าย :
-              <Badge v-if="bill.isPaid" size="md">จ่ายแล้ว</Badge>
+              สถานะ :
+              <Badge v-if="bill.status === 'PAID'" size="md">จ่ายแล้ว</Badge>
+              <Badge
+                v-else-if="bill.status === 'UPLOADED'"
+                badgeType="secondary"
+                size="md"
+                >อัพโหลดหลักฐานแล้ว</Badge
+              >
               <Badge v-else badgeType="error" size="md">ยังไม่ได้จ่าย</Badge>
             </p>
           </div>
