@@ -53,7 +53,6 @@ const fetchBills = async () => {
     let result = await response.json();
     console.log('bills', result);
     bills.value = result;
-
     // sort bills by record_date
     bills.value.sort((a, b) => {
       return (

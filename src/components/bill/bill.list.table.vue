@@ -102,11 +102,11 @@ const updateBillRoomStatus = async () => {
     const payloadData = {
       status: payload.status,
     };
-    console.log({
-      residenceId: props.residenceId,
-      payloadData,
-      selectedBillRoomForModal: selectedBillRoomForModal.value._id,
-    });
+    
+    if(payload.status === 'UNPAID') {
+      payloadData.paidEvidenceImage = null;
+    }
+   
     const response = await BillService.updateBillRoomStatus(
       props.residenceId,
       selectedBillRoomForModal.value.bill,
@@ -526,8 +526,12 @@ const payload = reactive({
                   </select>
                 </div>
                 <p class="text-sm text-gray-500">
-                  * หากทำการตรวจสอบหลักฐานการชำระเงินแล้วถูกต้อง
-                  ให้ทำการเปลี่ยนสถานะบิลเป็น <b>ชำระแล้ว</b> แล้ว
+                  * หากทำการตรวจสอบหลักฐานการชำระเงินแล้ว <b class="text-green-500">ถูกต้อง</b> 
+                  ให้ทำการเปลี่ยนสถานะบิลเป็น <b class="text-green-500">ชำระแล้ว</b> แล้ว
+                </p>
+                <p class="text-sm text-gray-500">
+                  * หากทำการตรวจสอบหลักฐานการชำระเงินแล้ว <b class="text-red-500">ไม่ถูกต้อง</b>
+                  ให้ทำการเปลี่ยนสถานะบิลเป็น <b class="text-red-500">ยังไม่ชำระ</b> แล้ว
                 </p>
               </div>
             </div>
