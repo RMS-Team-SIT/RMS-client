@@ -115,8 +115,12 @@ onMounted(async () => {
           <p class="mt-5" v-if="!bills.length">
             ไม่มีบิลในระบบ กรุณาสร้างบิลใหม่
           </p>
-          <!-- Bill Collapse -->
-          <BillListTable :bills="bills" :residence-id="residenceId" />
+
+          <BillListTable
+            :bills="bills"
+            :residence-id="residenceId"
+            @refetch="fetchBills"
+          />
         </div>
       </div>
     </div>

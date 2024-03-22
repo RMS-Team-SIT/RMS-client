@@ -23,6 +23,14 @@ class BillService {
       `/residence/${residenceId}/bill/${billId}`,
       'GET'
     );
+
+  updateBillRoomStatus = async (residenceId, billId, billRoomId, payload) =>
+    sendRequest(
+      this.baseUrl,
+      `/residence/${residenceId}/bill/${billId}/bill-room/${billRoomId}`,
+      'PUT',
+      payload
+    );
 }
 
 export default new BillService();

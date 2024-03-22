@@ -6,7 +6,9 @@ import { useNotification } from '@kyvg/vue3-notification';
 import dayjs from 'dayjs';
 import Divider from '../common/divider.vue';
 import FileService from '@/services/FileService';
+import BillService from '@/services/BillService';
 
+const emits = defineEmits(['refetch']);
 const props = defineProps({
   bills: {
     type: Array,
@@ -95,7 +97,56 @@ watch(
   }
 );
 
+const updateBillRoomStatus = async () => {
+  try {
+    const payloadData = {
+      status: payload.status,
+    };
+    console.log({
+      residenceId: props.residenceId,
+      payloadData,
+      selectedBillRoomForModal: selectedBillRoomForModal.value._id,
+    });
+    const response = await BillService.updateBillRoomStatus(
+      props.residenceId,
+      selectedBillRoomForModal.value.bill,
+      selectedBillRoomForModal.value._id,
+      payloadData
+    );
+
+    if (response.status === 200) {
+      notify({
+        group: 'tr',
+        title: 'แก้ไขสถานะบิลสำเร็จ',
+        type: 'success',
+      });
+    } else {
+      const error = response.data.error;
+      notify({
+        group: 'tr',
+        title: 'แก้ไขสถานะบิลไม่สำเร็จ',
+        text: 'กรุณาลองใหม่อีกครั้ง, ' + error.message,
+        type: 'error',
+      });
+    }
+  } catch (error) {
+    notify({
+      title: 'แก้ไขสถานะบิลไม่สำเร็จ',
+      type: 'error',
+    });
+  }
+  emits('refetch');
+  payload.status = null;
+  selectedBillRoomForModal.value = null;
+};
+
 const selectedBillRoomForModal = ref(null);
+const isEditing = ref(false);
+
+const payload = reactive({
+  paidEvidenceImage: null,
+  status: null,
+});
 </script>
 
 <template>
@@ -217,6 +268,22 @@ const selectedBillRoomForModal = ref(null);
                   >ดูข้อมูล</Button
                 >
               </td>
+              <td
+                v-if="
+                  billRoom.status === 'UPLOADED' || billRoom.status === 'PAID'
+                "
+              >
+                <Button
+                  btnType="ghost-pill"
+                  onclick="modal_2.showModal()"
+                  @click="
+                    selectedBillRoomForModal = billRoom;
+                    isEditing = true;
+                    payload.status = billRoom.status;
+                  "
+                  >แก้ไขสถานะ</Button
+                >
+              </td>
             </tr>
           </tbody>
         </table>
@@ -258,7 +325,9 @@ const selectedBillRoomForModal = ref(null);
                 {{ selectedBillRoomForModal.room.name }}
                 รอบมิเตอร์วันที่
                 {{ dayjs(selectedDateMeterRecord).format('DD/MM/YYYY') }}
-                <Badge v-if="selectedBillRoomForModal.status === 'PAID'">จ่ายแล้ว</Badge>
+                <Badge v-if="selectedBillRoomForModal.status === 'PAID'"
+                  >จ่ายแล้ว</Badge
+                >
                 <Badge
                   v-else-if="selectedBillRoomForModal.status === 'UPLOADED'"
                   badgeType="secondary"
@@ -362,7 +431,13 @@ const selectedBillRoomForModal = ref(null);
                     </span>
                   </div>
                 </div>
+                <p class="text-lg font-bold mt-5 rounded-full">
+                  รวม:
+                  {{ selectedBillRoomForModal.totalPrice.toLocaleString() }}
+                  บาท
+                </p>
                 <Divider />
+
                 <p class="text-lg font-bold">หลักฐานการชำระเงิน</p>
                 <div v-if="selectedBillRoomForModal.paidEvidenceImage">
                   <img
@@ -380,11 +455,79 @@ const selectedBillRoomForModal = ref(null);
                 </div>
 
                 <p v-else>ยังไม่ได้อัพโหลดหลักฐานการชำระเงิน</p>
-                <Divider />
+              </div>
+            </div>
+            <div class="modal-action flex">
+              <form method="dialog">
+                <button
+                  class="btn btn-sm mr-2"
+                  @click="selectedBillRoomForModal = null"
+                >
+                  ปิด
+                </button>
+              </form>
+            </div>
+          </div>
+        </dialog>
+
+        <dialog :id="`modal_2`" class="modal z-50">
+          <div class="modal-box space-y-2 w-11/12 max-w-3xl border">
+            <div v-if="selectedBillRoomForModal">
+              <h3 class="font-bold text-lg items-center flex gap-2">
+                ข้อมูลบิลห้อง
+                {{ selectedBillRoomForModal.room.name }}
+                รอบมิเตอร์วันที่
+                {{ dayjs(selectedDateMeterRecord).format('DD/MM/YYYY') }}
+                <Badge v-if="selectedBillRoomForModal.status === 'PAID'"
+                  >จ่ายแล้ว</Badge
+                >
+                <Badge
+                  v-else-if="selectedBillRoomForModal.status === 'UPLOADED'"
+                  badgeType="secondary"
+                  >อัพโหลดหลักฐานแล้ว</Badge
+                >
+                <Badge v-else badgeType="error">ยังไม่ได้จ่าย</Badge>
+              </h3>
+              <div class="mt-5">
+                <p class="text-lg font-bold">หลักฐานการชำระเงิน</p>
+                <div v-if="selectedBillRoomForModal.paidEvidenceImage">
+                  <img
+                    :src="
+                      FileService.getFile(
+                        selectedBillRoomForModal.paidEvidenceImage
+                      )
+                    "
+                    alt="หลักฐานการชำระเงิน"
+                    class="w-1/2"
+                  />
+                  <p class="text-red-500">
+                    * กรุณาตรวจสอบหลักฐานการชำระเงินให้ถี่ถ้วน
+                  </p>
+                </div>
+
+                <p v-else>ยังไม่ได้อัพโหลดหลักฐานการชำระเงิน</p>
+                <!-- <Divider /> -->
                 <p class="text-lg font-bold mt-5 rounded-full">
-                  รวม:
+                  ที่ต้องชำระรวม:
                   {{ selectedBillRoomForModal.totalPrice.toLocaleString() }}
                   บาท
+                </p>
+                <Divider />
+                <div class="flex gap-2 items-center">
+                  <p class="text-lg font-bold">เปลี่ยนสถานะบิล:</p>
+
+                  <select
+                    class="select select-bordered bg-white rounded select-sm"
+                    v-model="payload.status"
+                  >
+                    <option value="PAID">ชำระแล้ว</option>
+                    <option value="UPLOADED">อัพโหลดหลักฐานแล้ว</option>
+                    <option value="UNPAID">ยังไม่ชำระ</option>
+                  </select>
+                </div>
+                <p class="text-sm text-gray-500">
+                  * หากทำการตรวจสอบหลักฐานการชำระเงินแล้วถูกต้อง
+                  ให้ทำการเปลี่ยนสถานะบิลเป็น <b>ชำระแล้ว</b> แล้ว
                 </p>
               </div>
             </div>
@@ -395,6 +538,15 @@ const selectedBillRoomForModal = ref(null);
                   @click="selectedBillRoomForModal = null"
                 >
                   ปิด
+                </button>
+                <button
+                  class="btn btn-sm btn-secondary"
+                  @click="
+                    updateBillRoomStatus();
+                    selectedBillRoomForModal = null;
+                  "
+                >
+                  บันทึกข้อมูล
                 </button>
               </form>
             </div>
