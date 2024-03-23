@@ -43,8 +43,7 @@ const fetchMeterRecord = async () => {
     let result = await response.json();
     console.log('meter record', result);
     meterRecords.value = result.filter(
-      (record) =>
-        record.isBillGenerated === false && record.isFirstInitRecord === false
+      (record) => record.isFirstInitRecord === false
     );
   } else {
     notify({
@@ -239,11 +238,6 @@ const toggleSelectAllMeterRecordForBillCreation = () => {
             กรุณาเลือกรอบมิเตอร์ที่ต้องการสร้างบิล
           </p>
           <div v-else>
-            <!-- <p class="">
-              รอบมิเตอร์ :
-              {{ dayjs(currentMeterRecord.record_date).format('DD/MM/YYYY') }}
-            </p> -->
-
             <div class="flex items-center justify-between">
               <div class="flex gap-2">
                 <div class="flex gap-2 text-gray-500">
@@ -322,6 +316,7 @@ const toggleSelectAllMeterRecordForBillCreation = () => {
                     item.room.name
                       .toLowerCase()
                       .includes(search.toLowerCase()) &&
+                    item.isBillGenerated === false &&
                     (showOnlyRentedRoom
                       ? item.room.status !== 'AVAILABLE'
                       : true)
