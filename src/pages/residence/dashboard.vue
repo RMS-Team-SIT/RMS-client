@@ -120,7 +120,7 @@ onMounted(async () => {
               <h3 class="text-lg font-semibold mb-2">จำนวนห้อง</h3>
               <p class="flex gap-2 items-end">
                 <CountUp
-                  :end-val="stats.avaiableRoomCount"
+                  :end-val="stats.roomCount"
                   class="text-6xl text-green-400"
                 />
                 ห้อง
