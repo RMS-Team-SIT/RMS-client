@@ -102,11 +102,11 @@ const updateBillRoomStatus = async () => {
     const payloadData = {
       status: payload.status,
     };
-    
-    if(payload.status === 'UNPAID') {
+
+    if (payload.status === 'UNPAID') {
       payloadData.paidEvidenceImage = null;
     }
-   
+
     const response = await BillService.updateBillRoomStatus(
       props.residenceId,
       selectedBillRoomForModal.value.bill,
@@ -231,7 +231,7 @@ const payload = reactive({
               <th>รวม</th>
               <th>สถานะ</th>
               <th>ดูข้อมูล</th>
-              <th>แก้ไข</th>
+              <th>แก้ไขสถานะ</th>
             </tr>
           </thead>
           <tbody>
@@ -268,11 +268,7 @@ const payload = reactive({
                   >ดูข้อมูล</Button
                 >
               </td>
-              <td
-                v-if="
-                  billRoom.status === 'UPLOADED' || billRoom.status === 'PAID'
-                "
-              >
+              <td>
                 <Button
                   btnType="ghost-pill"
                   onclick="modal_2.showModal()"
@@ -280,6 +276,9 @@ const payload = reactive({
                     selectedBillRoomForModal = billRoom;
                     isEditing = true;
                     payload.status = billRoom.status;
+                  "
+                  v-if="
+                    billRoom.status === 'UPLOADED' || billRoom.status === 'PAID'
                   "
                   >แก้ไขสถานะ</Button
                 >
@@ -315,6 +314,7 @@ const payload = reactive({
             &raquo;
           </button>
         </div>
+        <p class="mt-5 text-sm">* การแก้ไขสถานะ สามารถทำได้เฉพาะบิลที่ <b>อัพโหลดหลักฐานแล้ว</b>  หรือ <b>จ่ายแล้ว</b> เท่านั้น</p>
 
         <!-- Modal -->
         <dialog :id="`modal_1`" class="modal z-50">
@@ -419,7 +419,9 @@ const payload = reactive({
 
                     <span>
                       <p
-                        v-for="(fee, index) in selectedBillRoomForModal.feesCache"
+                        v-for="(
+                          fee, index
+                        ) in selectedBillRoomForModal.feesCache"
                         :key="index"
                       >
                         {{ fee.feename }}:
@@ -526,12 +528,16 @@ const payload = reactive({
                   </select>
                 </div>
                 <p class="text-sm text-gray-500">
-                  * หากทำการตรวจสอบหลักฐานการชำระเงินแล้ว <b class="text-green-500">ถูกต้อง</b> 
-                  ให้ทำการเปลี่ยนสถานะบิลเป็น <b class="text-green-500">ชำระแล้ว</b> แล้ว
+                  * หากทำการตรวจสอบหลักฐานการชำระเงินแล้ว
+                  <b class="text-green-500">ถูกต้อง</b>
+                  ให้ทำการเปลี่ยนสถานะบิลเป็น
+                  <b class="text-green-500">ชำระแล้ว</b> แล้ว
                 </p>
                 <p class="text-sm text-gray-500">
-                  * หากทำการตรวจสอบหลักฐานการชำระเงินแล้ว <b class="text-red-500">ไม่ถูกต้อง</b>
-                  ให้ทำการเปลี่ยนสถานะบิลเป็น <b class="text-red-500">ยังไม่ชำระ</b> แล้ว
+                  * หากทำการตรวจสอบหลักฐานการชำระเงินแล้ว
+                  <b class="text-red-500">ไม่ถูกต้อง</b>
+                  ให้ทำการเปลี่ยนสถานะบิลเป็น
+                  <b class="text-red-500">ยังไม่ชำระ</b> แล้ว
                 </p>
               </div>
             </div>
