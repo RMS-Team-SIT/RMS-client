@@ -154,6 +154,7 @@ onMounted(async () => {
         </div>
         <FeeList
           class="mt-5"
+          @update="fetchData"
           :fees="residence.data.fees"
           :residenceId="residenceId"
         />

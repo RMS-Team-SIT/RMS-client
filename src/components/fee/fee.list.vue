@@ -28,6 +28,7 @@ const showDeactive = ref(false);
 const { notify } = useNotification();
 const router = useRouter();
 const search = ref('');
+const emits = defineEmits(['update']);
 
 const computedRooms = computed(() => {
   const start = (currentPage.value - 1) * perPage.value;
@@ -109,14 +110,40 @@ const updateFee = async () => {
       text: 'ข้อมูลได้รับการแก้ไขเรียบร้อยแล้ว',
       type: 'success',
     });
-    const index = props.fees.findIndex((f) => f._id === editingFee.feeId);
-    props.fees[index].feename = editingFee.feename;
-    props.fees[index].feeprice = editingFee.feeprice;
   }
 
+  emits('update');
   resetEditingFee();
   editFee.close();
 };
+
+const deleteFee = async () =>{
+  const response = await FeeService.delete(
+    props.residenceId,
+    editingFee.feeId,
+  );
+
+  if (response.status !== 200) {
+    const data = await response.json();
+    notify({
+      group: 'tr',
+      title: 'ลบข้อมูลไม่สำเร็จ',
+      text: 'เกิดข้อผิดพลาดในการลบข้อมูล,' + data.message,
+      type: 'error',
+    });
+  } else {
+    notify({
+      group: 'tr',
+      title: 'ลบข้อมูลสำเร็จ',
+      text: 'ข้อมูลได้รับการแก้ไขเรียบร้อยแล้ว',
+      type: 'success',
+    });
+    
+  }
+  emits('update');
+  resetEditingFee();
+  editFee.close();
+}
 </script>
 
 <template>
@@ -236,6 +263,8 @@ const updateFee = async () => {
       <dialog :id="`deleteFee`" class="modal">
         <div class="modal-box space-y-2">
           <h3 class="font-bold text-lg">ยืนยันการลบข้อมูล</h3>
+          
+          <p>หากทำการลบข้อมูลนี้ จะลบค่าใช้จ่ายเพิ่มเติมของห้องที่มีค่าใช้จ่ายนี้ด้วย</p>
           <p class="text-base">
             คุณต้องการลบข้อมูลค่าใช้จ่ายเพิ่มเติม
             <b>{{ editingFee.feePreviousName }}</b>
@@ -246,7 +275,7 @@ const updateFee = async () => {
               <button class="btn btn-sm mr-2" @click="resetEditingFee">
                 ปิด
               </button>
-              <button class="btn btn-sm btn-error" @click="updateFee">
+              <button class="btn btn-sm btn-error text-white" @click="deleteFee">
                 ยืนยันการลบข้อมูล
               </button>
             </form>

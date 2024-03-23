@@ -30,6 +30,13 @@ class FeeService {
       'POST',
       fees
     );
+
+  delete = async (residenceId, feeId) =>
+    sendRequest(
+      this.baseUrl,
+      `/residence/${residenceId}/fees/${feeId}`,
+      'DELETE'
+    );
 }
 
 export default new FeeService();

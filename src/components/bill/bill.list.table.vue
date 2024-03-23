@@ -419,13 +419,13 @@ const payload = reactive({
 
                     <span>
                       <p
-                        v-for="(fee, index) in selectedBillRoomForModal.fees"
+                        v-for="(fee, index) in selectedBillRoomForModal.feesCache"
                         :key="index"
                       >
                         {{ fee.feename }}:
                         <b>{{ fee.feeprice.toLocaleString() }}</b> บาท
                       </p>
-                      <p v-if="!selectedBillRoomForModal.room.fees.length">
+                      <p v-if="!selectedBillRoomForModal.feesCache.length">
                         ไม่มีค่าบริการอื่น ๆ
                       </p>
                     </span>

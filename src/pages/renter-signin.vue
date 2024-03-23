@@ -117,7 +117,7 @@ onMounted(async () => {
 
 const bgImg = ref('');
 const setBgImg = () => {
-  if (residence.value.images.length > 0)
+  if (residence.value && residence.value?.images?.length > 0)
     bgImg.value = FileService.getFile(residence.value.images[0]);
   else bgImg.value = '/5.jpg';
 };

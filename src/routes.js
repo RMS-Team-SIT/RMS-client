@@ -639,7 +639,7 @@ router.beforeEach(async (to, from, next) => {
     // Renter
     // Renter can access only public routes
     else if (user.role === 'renter') {
-      return next();
+      return false;
     }
 
     // Non-User

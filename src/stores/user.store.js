@@ -36,6 +36,8 @@ export const useUserStore = defineStore({
           const data = await response.json();
           this.user = data;
           this.isLoggedIn = true;
+        }else{
+          localStorage.removeItem('token');
         }
       } catch (error) {
         console.log('Error fetching user data', error);
