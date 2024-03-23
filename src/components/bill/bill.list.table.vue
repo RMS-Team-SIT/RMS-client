@@ -284,6 +284,30 @@ const payload = reactive({
                   >แก้ไขสถานะ</Button
                 >
               </td>
+              <td>
+                <router-link
+                  v-if="
+                    billRoom.status !== 'PAID'
+                  "
+                  :to="{
+                    name: 'print-bill-room',
+                    params: { billId: billRoom._id },
+                  }"
+                  target="_blank"
+                >
+                  <Button btnType="ghost-pill">พิมพ์ใบแจ้งหนี้</Button>
+                </router-link>
+                <router-link
+                  v-else
+                  :to="{
+                    name: 'print-bill-room',
+                    params: { billId: billRoom._id },
+                  }"
+                  target="_blank"
+                >
+                  <Button btnType="ghost-pill">พิมพ์ใบเสร็จรับเงิน</Button>
+                </router-link>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -315,7 +339,10 @@ const payload = reactive({
             &raquo;
           </button>
         </div>
-        <p class="mt-5 text-sm">* การแก้ไขสถานะ สามารถทำได้เฉพาะบิลที่ <b>อัพโหลดหลักฐานแล้ว</b>  หรือ <b>จ่ายแล้ว</b> เท่านั้น</p>
+        <p class="mt-5 text-sm">
+          * การแก้ไขสถานะ สามารถทำได้เฉพาะบิลที่ <b>อัพโหลดหลักฐานแล้ว</b> หรือ
+          <b>จ่ายแล้ว</b> เท่านั้น
+        </p>
 
         <!-- Modal -->
         <dialog :id="`modal_1`" class="modal z-50">

@@ -72,7 +72,11 @@ const updateMeterRecord = () =>
   import('./pages/residence/meter-record/update.vue');
 const viewMeterRecord = () => import('./pages/residence/meter-record/view.vue');
 
+// Admin
 const adminDashboard = () => import('./pages/admin/dashboard.vue');
+
+// Printable
+const printBillRoom = () => import('./pages/printable/bill-room.vue');
 
 const publicRoutes = [
   'home',
@@ -512,6 +516,14 @@ const routes = [
     name: 'unavailable',
     meta: {
       title: 'เซิฟเวอร์มีปัญหา โปรดลองใหม่อีกครั้ง',
+    },
+  },
+  {
+    name: 'print-bill-room',
+    path: '/manage/residence/:residenceId/print/bill-room/:billId',
+    component: printBillRoom,
+    meta: {
+      title: 'พิมพ์บิลห้องพัก',
     },
   },
   {

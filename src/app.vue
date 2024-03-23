@@ -34,6 +34,7 @@ const shouldShowFooter = computed(() => {
     'not-found',
     'unavailable',
     'renter-signin',
+    'print-bill-room'
   ];
   return !excludedRoutes.includes(route.name);
 });
@@ -49,6 +50,7 @@ const shouldShowNavbar = computed(() => {
     'not-found',
     'unavailable',
     'renter-signin',
+    'print-bill-room'
   ];
   return !excludedRoutes.includes(route.name);
 });
