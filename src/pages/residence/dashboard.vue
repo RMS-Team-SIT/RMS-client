@@ -292,14 +292,16 @@ onMounted(async () => {
       <!-- Quick link Section -->
       <section class="mt-5">
         <div class="divider font-bold divider-start">เข้าถึงระบบจัดการห้อง</div>
-        <div class="flex gap-2">
+        <div class="grid grid-cols-12 gap-2 w-1/2">
           <QuickLinkCard
+            class="col-span-4"
             :router-path="{ name: 'room', params: { residenceId } }"
             title="จัดการห้อง"
             text="เข้าสู่ระบบจัดการห้อง"
             :icon="HomeIcon"
           />
           <QuickLinkCard
+            class="col-span-4"
             :router-path="{ name: 'room-type', params: { residenceId } }"
             title="จัดการประเภทห้อง"
             text="เข้าสู่ระบบจัดการประเภทห้อง"
@@ -308,8 +310,9 @@ onMounted(async () => {
         </div>
 
         <div class="divider font-bold divider-start">ระบบจัดการผู้เช่า</div>
-        <div class="flex gap-2">
+        <div class="grid grid-cols-12 gap-2 w-1/2">
           <QuickLinkCard
+            class="col-span-4"
             :router-path="{ name: 'renter', params: { residenceId } }"
             title="จัดการผู้เช่า"
             text="เข้าสู่ระบบจัดการผู้เช่าในหอพักนี้"
@@ -317,6 +320,7 @@ onMounted(async () => {
           />
 
           <QuickLinkCard
+            class="col-span-4"
             :router-path="{ name: 'rent', params: { residenceId } }"
             title="การย้ายเข้า และย้ายออก"
             text="เข้าสู่ระบบการย้ายเข้า และย้ายออก"
@@ -327,8 +331,9 @@ onMounted(async () => {
         <div class="divider font-bold divider-start">
           การจดมิเตอร์ และสร้างบิล
         </div>
-        <div class="flex gap-2">
+        <div class="grid grid-cols-12 gap-2 w-1/2">
           <QuickLinkCard
+            class="col-span-4"
             :router-path="{ name: 'fee', params: { residenceId } }"
             title="จัดการราคาค่าใช้จ่าย"
             text="เข้าสู่หน้าจัดการราคาค่าใช้จ่าย"
@@ -336,6 +341,7 @@ onMounted(async () => {
           />
 
           <QuickLinkCard
+            class="col-span-4"
             :router-path="{ name: 'meter-record', params: { residenceId } }"
             title="ระบบบันทึกค่าน้ำ ค่าไฟ"
             text="เข้าสู่หน้าระบบบันทึกค่าน้ำ ค่าไฟ"
@@ -344,8 +350,9 @@ onMounted(async () => {
         </div>
 
         <div class="divider font-bold divider-start">ระบบจัดการชำระเงิน</div>
-        <div class="flex gap-2">
+        <div class="grid grid-cols-12 gap-2 w-1/2">
           <QuickLinkCard
+            class="col-span-4"
             :router-path="{ name: 'bill', params: { residenceId } }"
             title="จัดการบิล"
             text="เข้าสู่หน้าจัดการบิล"
@@ -353,6 +360,7 @@ onMounted(async () => {
           />
 
           <QuickLinkCard
+            class="col-span-4"
             :router-path="{ name: 'payment', params: { residenceId } }"
             title="จัดการช่องทางการชำระเงิน"
             text="เข้าสู่หน้าจัดการข้อมูลช่องทางการชำระเงิน"
@@ -361,8 +369,9 @@ onMounted(async () => {
         </div>
 
         <div class="divider font-bold divider-start">อื่น ๆ</div>
-        <div class="flex gap-2">
+        <div class="grid grid-cols-12 gap-2 w-1/2">
           <QuickLinkCard
+            class="col-span-4"
             :router-path="{ name: 'info', params: { residenceId } }"
             title="จัดการข้อมูลอื่น ๆ"
             text="เข้าสู่หน้าจัดการข้อมูลอื่น ๆ"

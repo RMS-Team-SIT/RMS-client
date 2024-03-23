@@ -176,7 +176,7 @@ const updateRoom = async () => {
         <thead>
           <tr>
             <th>#</th>
-            <th>ชื่อ</th>
+            <th>ชื่อห้อง</th>
             <th>สถานะห้อง</th>
             <th>ผู้เช่า</th>
             <th>ย้ายเข้า/ย้ายออก</th>
@@ -188,7 +188,18 @@ const updateRoom = async () => {
               {{ index + 1 }}
             </td>
             <td>
+              <router-link
+                class="text-dark-blue-200 underline"
+                :to="{
+                  name: 'view-room',
+                  params: {
+                    residenceId: $route.params.residenceId,
+                    roomId: room._id,
+                  },
+                }"
+              >
               {{ room.name }}
+              </router-link>
             </td>
 
             <td>
