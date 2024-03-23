@@ -10,6 +10,8 @@ import { ChartPieIcon, HomeIcon, UserIcon } from '@heroicons/vue/24/outline';
 import Button from '@/components/common/button.vue';
 import RenterListTable from '@/components/renter/renter.list.table.vue';
 import back from '@/components/common/back.vue';
+import ModernAlert from '@/components/common/modern-alert.vue';
+import { useClipboard } from '@vueuse/core';
 
 const router = useRouter();
 const route = useRoute();
@@ -42,6 +44,10 @@ const fetchData = async () => {
   }
 };
 
+const loginLink = `${import.meta.env.VITE_HOST}/auth/residence/${residenceId}/signin`;
+
+const { text, copy, copied, isSupported } = useClipboard()
+
 onMounted(async () => {
   await fetchData();
   isLoading.value = false;
@@ -67,6 +73,12 @@ onMounted(async () => {
 
       <back :to="{ name: 'dashboard', params: { residenceId } }" />
 
+      <ModernAlert
+        title="การเข้าสู่ระบบของผู้เช่า"
+        :text="`ผู้เช่าสามารถเข้าสู่ระบบได้โดยใช้ลิงก์นี้: ${loginLink}`"
+        linktext="คัดลอกลิงก์"
+        @click="copy(loginLink)"
+      />
       <div class="grid grid-cols-1">
         <div class="bg-white p-10 mt-2 shadow rounded-lg border">
           <div class="flex justify-between">

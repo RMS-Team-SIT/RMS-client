@@ -11,6 +11,7 @@ import Button from '@/components/common/button.vue';
 import ResidenceServices from '@/services/ResidenceServices';
 import { ArrowRightIcon } from '@heroicons/vue/24/outline';
 import RenterService from '@/services/RenterService';
+import FileService from '@/services/FileService';
 
 const store = useUserStore();
 const router = useRouter();
@@ -110,13 +111,24 @@ const fetchResidence = async () => {
 
 onMounted(async () => {
   await fetchResidence();
+  setBgImg();
   isLoading.value = false;
 });
+
+const bgImg = ref('');
+const setBgImg = () => {
+  if (residence.value.images.length > 0)
+    bgImg.value = FileService.getFile(residence.value.images[0]);
+  else bgImg.value = '/5.jpg';
+};
 </script>
 
 <template>
   <div class="flex h-screen">
-    <div class="flex-1 bg-cover flex flex-row">
+    <div
+      class="flex-1 bg-cover flex flex-row"
+      :style="`background-image: url(${bgImg});`"
+    >
       <div class="w-full md:w-1/3 lg:w-1/2">
         <div
           class="relative flex flex-col justify-center min-h-screen overflow-hidden bg-white font-nato"
@@ -191,7 +203,6 @@ onMounted(async () => {
 
 <style scoped>
 .bg-cover {
-  background-image: url('/5.jpg');
   background-position: center;
 }
 </style>
