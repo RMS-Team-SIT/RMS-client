@@ -110,6 +110,18 @@ onMounted(() => {
         <p>เลขบัญชี: 123-4-56789-0</p>
         <p>ชื่อบัญชี: บริษัท หอพัก จำกัด</p>
       </div>
+      <div class="divider divider-start">
+        หรือ
+      </div>
+      <div class="mt-5">
+        <p>ชำระเงินที่: ธนาคารไทยพาณิชย์</p>
+        <p>เลขบัญชี: 123-4-56789-0</p>
+        <p>ชื่อบัญชี: บริษัท หอพัก จำกัด</p>
+      </div>
+      <!-- Note for payment -->
+        <div class="mt-5">
+            <p>หมายเหตุ: กรุณาชำระเงินภายในวันที่ {{ residence.data.billDueDate }}</p>
+        </div>
     </div>
     <p></p>
   </div>

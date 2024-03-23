@@ -89,6 +89,7 @@ const residenceData = reactive({
   defaultElectricPriceRate: '',
   imageFiles: [],
   residenceBusinessLicense: { fileName: null, file: null, isEdited: false },
+  taxId: '',
 });
 
 const availableFacility = ref([]);
@@ -224,7 +225,7 @@ const updateCanNext = () => {
     residenceData.contact.contactName &&
     residenceData.contact.email
   );
-  canNexts.value[1] = !!residenceData.residenceBusinessLicense.file;
+  canNexts.value[1] = !!residenceData.residenceBusinessLicense.file && !!residenceData.taxId;
   canNexts.value[2] =
     !!residenceData.defaultElectricPriceRate &&
     !!residenceData.defaultWaterPriceRate;
@@ -365,6 +366,25 @@ onMounted(async () => {
                     >ยังไม่มีไฟล์ที่ถูกเลือก</span
                   >
                 </div>
+              </div>
+            </div>
+            <div class="relative bg-white p-10 pt-0 shadow-md rounded basis-full">
+              <h1 class="text-xl font-semibold text-dark-blue-200">
+                กรอกเลขประจำตัวผู้เสียภาษี
+              </h1>
+              <div>
+                <label class="label">
+                  <span class="text-base label-text"
+                    >เลขประจำตัวผู้เสียภาษี <span class="text-red-500">*</span></span
+                  >
+                </label>
+                <input
+                  type="text"
+                  placeholder="เลขประจำตัวผู้เสียภาษี"
+                  class="w-full input input-bordered bg-white input-sm rounded-sm"
+                  v-model="residenceData.taxId"
+                  :disabled="viewOnly"
+                />
               </div>
             </div>
             <!-- end -->
