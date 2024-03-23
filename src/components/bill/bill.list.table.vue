@@ -232,6 +232,7 @@ const payload = reactive({
               <th>สถานะ</th>
               <th>ดูข้อมูล</th>
               <th>แก้ไขสถานะ</th>
+              <th>พิมพ์ใบแจ้งหนี้/ใบเสร็จ</th>
             </tr>
           </thead>
           <tbody>
