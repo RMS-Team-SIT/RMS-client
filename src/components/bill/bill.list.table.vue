@@ -51,7 +51,16 @@ const currentBillRooms = computed(() => {
             billRoom.billNo.toLowerCase().includes(search.value.toLowerCase())
           : true)
     )
-    .slice(start, end);
+    .sort((a, b) => {
+      if (a.room.name < b.room.name) {
+        return -1;
+      }
+      if (a.room.name > b.room.name) {
+        return 1;
+      }
+      return 0;
+    })
+  // .slice(start, end);
   return showed;
 });
 
@@ -286,9 +295,7 @@ const payload = reactive({
               </td>
               <td>
                 <router-link
-                  v-if="
-                    billRoom.status !== 'PAID'
-                  "
+                  v-if="billRoom.status !== 'PAID'"
                   :to="{
                     name: 'print-bill-room',
                     params: { billId: billRoom._id },

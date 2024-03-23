@@ -45,6 +45,13 @@ const fetchMeterRecord = async () => {
     meterRecords.value = result.filter(
       (record) => record.isFirstInitRecord === false
     );
+    
+    // Filter out meterRecordItems that already have bill
+    meterRecords.value.forEach((record) => {
+      record.meterRecordItems = record.meterRecordItems.filter(
+        (item) => !item.isBillGenerated
+      );
+    });
   } else {
     notify({
       group: 'tr',
@@ -131,14 +138,18 @@ const selectAllMeterRecordForBillCreation = () => {
 const selectAllRentedMeterRecordForBillCreation = () => {
   selectedMeterRecordForBillCreation.value =
     currentMeterRecord.value.meterRecordItems
-      .filter((item) => item.room.status !== 'AVAILABLE')
+      .filter(
+        (item) =>
+          item.room.status !== 'AVAILABLE'
+      )
       .map((item) => item._id);
 };
 const togggleSelectAllRentedMeterRecordForBillCreation = () => {
   if (
     selectedMeterRecordForBillCreation.value.length ===
     currentMeterRecord.value.meterRecordItems.filter(
-      (item) => item.room.status !== 'AVAILABLE'
+      (item) =>
+        item.room.status !== 'AVAILABLE'
     ).length
   ) {
     resetSelectedMeterRecordForBillCreation();
@@ -149,7 +160,7 @@ const togggleSelectAllRentedMeterRecordForBillCreation = () => {
 const toggleSelectAllMeterRecordForBillCreation = () => {
   if (
     selectedMeterRecordForBillCreation.value.length ===
-    currentMeterRecord.value.meterRecordItems.length
+    currentMeterRecord.value.meterRecordItems.length 
   ) {
     resetSelectedMeterRecordForBillCreation();
   } else {
@@ -316,7 +327,6 @@ const toggleSelectAllMeterRecordForBillCreation = () => {
                     item.room.name
                       .toLowerCase()
                       .includes(search.toLowerCase()) &&
-                    item.isBillGenerated === false &&
                     (showOnlyRentedRoom
                       ? item.room.status !== 'AVAILABLE'
                       : true)
