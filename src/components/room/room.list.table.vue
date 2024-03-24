@@ -212,6 +212,7 @@ const updateRoom = async () => {
               <router-link
                 v-if="room.currentRenter"
                 class="text-dark-blue-200 underline"
+                target="_blank"
                 :to="{
                   name: 'update-renter',
                   params: {
