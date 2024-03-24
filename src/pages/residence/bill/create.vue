@@ -45,7 +45,7 @@ const fetchMeterRecord = async () => {
     meterRecords.value = result.filter(
       (record) => record.isFirstInitRecord === false
     );
-    
+
     // Filter out meterRecordItems that already have bill
     meterRecords.value.forEach((record) => {
       record.meterRecordItems = record.meterRecordItems.filter(
@@ -138,18 +138,14 @@ const selectAllMeterRecordForBillCreation = () => {
 const selectAllRentedMeterRecordForBillCreation = () => {
   selectedMeterRecordForBillCreation.value =
     currentMeterRecord.value.meterRecordItems
-      .filter(
-        (item) =>
-          item.room.status !== 'AVAILABLE'
-      )
+      .filter((item) => item.room.status !== 'AVAILABLE')
       .map((item) => item._id);
 };
 const togggleSelectAllRentedMeterRecordForBillCreation = () => {
   if (
     selectedMeterRecordForBillCreation.value.length ===
     currentMeterRecord.value.meterRecordItems.filter(
-      (item) =>
-        item.room.status !== 'AVAILABLE'
+      (item) => item.room.status !== 'AVAILABLE'
     ).length
   ) {
     resetSelectedMeterRecordForBillCreation();
@@ -160,7 +156,7 @@ const togggleSelectAllRentedMeterRecordForBillCreation = () => {
 const toggleSelectAllMeterRecordForBillCreation = () => {
   if (
     selectedMeterRecordForBillCreation.value.length ===
-    currentMeterRecord.value.meterRecordItems.length 
+    currentMeterRecord.value.meterRecordItems.length
   ) {
     resetSelectedMeterRecordForBillCreation();
   } else {
@@ -235,6 +231,10 @@ const toggleSelectAllMeterRecordForBillCreation = () => {
               สร้างบิลของห้องที่เลือก
             </Button>
           </div>
+          <p class="">
+            * ระบบจะแสดงข้อมูล
+            <b>ห้อง</b> ที่ยัง <b>ไม่มีการสร้างบิล</b> จากรอบมิเตอร์นี้เท่านั้น
+          </p>
         </div>
       </div>
 
@@ -243,12 +243,22 @@ const toggleSelectAllMeterRecordForBillCreation = () => {
         <div class="card-body">
           <div class="flex gap-2">
             <BanknotesIcon class="w-10 h-10 text-blue-500" />
-            <h2 class="card-title text-center">สรุปบิลของทุกห้อง</h2>
+            <h2 class="card-title text-center">
+              สรุปบิลของทุกห้องที่ยังไม่มีบิลจากรอบมิเตอร์นี้
+            </h2>
           </div>
           <p class="mt-5" v-if="!payload.meterRecord">
             กรุณาเลือกรอบมิเตอร์ที่ต้องการสร้างบิล
           </p>
-          <div v-else>
+          <div
+            v-else-if="
+              currentMeterRecord.meterRecordItems.filter(
+                (item) =>
+                  item.room.name.toLowerCase().includes(search.toLowerCase()) &&
+                  (showOnlyRentedRoom ? item.room.status !== 'AVAILABLE' : true)
+              ).length
+            "
+          >
             <div class="flex items-center justify-between">
               <div class="flex gap-2">
                 <div class="flex gap-2 text-gray-500">
@@ -367,6 +377,9 @@ const toggleSelectAllMeterRecordForBillCreation = () => {
               หมายเหตุ: กดเพื่อดูรายละเอียดเพิ่ม *
             </p>
           </div>
+          <div class="mt-5" v-else>
+            <p>ไม่มีห้องที่ยังไม่มีบิลจากรอบมิเตอร์นี้</p>
+          </div>
         </div>
       </div>
     </div>
@@ -393,10 +406,12 @@ const toggleSelectAllMeterRecordForBillCreation = () => {
                 </p>
                 <p>
                   จำนวนหน่วย:
-                  {{
-                    currentModalBillRoom.meterRecordItem.totalWaterMeterUsage
-                  }}
-                  หน่วย
+                  <b>
+                    {{
+                      currentModalBillRoom.meterRecordItem.totalWaterMeterUsage
+                    }}
+                    หน่วย
+                  </b>
                 </p>
                 <p>
                   อัตราค่าน้ำต่อหน่วย:
@@ -430,10 +445,14 @@ const toggleSelectAllMeterRecordForBillCreation = () => {
                 </p>
                 <p>
                   จำนวนหน่วย:
-                  {{
-                    currentModalBillRoom.meterRecordItem.totalElectricMeterUsage
-                  }}
-                  หน่วย
+                  <b>
+                    {{
+                      currentModalBillRoom.meterRecordItem
+                        .totalElectricMeterUsage
+                    }}
+
+                    หน่วย
+                  </b>
                 </p>
                 <p>
                   อัตราค่าไฟต่อหน่วย:

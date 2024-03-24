@@ -18,6 +18,7 @@ export const sendRequest = async (
   useFormData = false
 ) => {
   const url = `${baseUrl}${endpoint}`;
+  
   // note: headers are not needed for FormData
   const headers = !useFormData ? authHeader() : undefined;
 

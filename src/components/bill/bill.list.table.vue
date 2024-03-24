@@ -59,7 +59,7 @@ const currentBillRooms = computed(() => {
         return 1;
       }
       return 0;
-    })
+    });
   // .slice(start, end);
   return showed;
 });
@@ -298,7 +298,10 @@ const payload = reactive({
                   v-if="billRoom.status !== 'PAID'"
                   :to="{
                     name: 'print-bill-room',
-                    params: { billId: billRoom._id },
+                    params: {
+                      billId: billRoom.bill,
+                      billRoomId: billRoom._id,
+                    },
                   }"
                   target="_blank"
                 >
@@ -308,7 +311,10 @@ const payload = reactive({
                   v-else
                   :to="{
                     name: 'print-bill-room',
-                    params: { billId: billRoom._id },
+                    params: {
+                      billId: billRoom.bill,
+                      billRoomId: billRoom._id,
+                    },
                   }"
                   target="_blank"
                 >

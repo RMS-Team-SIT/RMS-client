@@ -155,7 +155,7 @@ const deleteFee = async () =>{
       <!-- show number of renter -->
       <p class="text-xs text-gray-500">
         จำนวนค่าบริการเพิ่มเติมทั้งหมด:
-        {{ props.fees.length }}
+        {{ props.fees.length }} รายการ
       </p>
       <div class="w-full flex align-middle items-center justify-end">
         <label class="label">
@@ -264,7 +264,7 @@ const deleteFee = async () =>{
         <div class="modal-box space-y-2">
           <h3 class="font-bold text-lg">ยืนยันการลบข้อมูล</h3>
           
-          <p>หากทำการลบข้อมูลนี้ จะลบค่าใช้จ่ายเพิ่มเติมของห้องที่มีค่าใช้จ่ายนี้ด้วย</p>
+          <p class="text-red-500">หากทำการลบข้อมูลนี้ จะลบค่าใช้จ่ายเพิ่มเติมของห้องที่มีค่าใช้จ่ายนี้ด้วย</p>
           <p class="text-base">
             คุณต้องการลบข้อมูลค่าใช้จ่ายเพิ่มเติม
             <b>{{ editingFee.feePreviousName }}</b>

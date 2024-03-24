@@ -24,6 +24,13 @@ class BillService {
       'GET'
     );
 
+  findBillRoom = async (residenceId, billId, billRoomId) =>
+    sendRequest(
+      this.baseUrl,
+      `/residence/${residenceId}/bill/${billId}/bill-room/${billRoomId}`,
+      'GET'
+    );
+
   updateBillRoomStatus = async (residenceId, billId, billRoomId, payload) =>
     sendRequest(
       this.baseUrl,

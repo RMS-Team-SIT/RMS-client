@@ -137,7 +137,7 @@ onMounted(async () => {
             class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
           >
             <AdjustmentsVerticalIcon class="w-8 h-8 text-dark-blue-200" />
-            จัดการราคาค่าใช้จ่ายในหอพัก
+            จัดการราคาค่าใช้จ่ายเพิ่มเติมในหอพัก
           </h1>
           <div>
             <router-link

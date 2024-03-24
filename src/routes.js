@@ -520,7 +520,7 @@ const routes = [
   },
   {
     name: 'print-bill-room',
-    path: '/manage/residence/:residenceId/print/bill-room/:billId',
+    path: '/manage/residence/:residenceId/print/bill/:billId/bill-room/:billRoomId',
     component: printBillRoom,
     meta: {
       title: 'พิมพ์บิลห้องพัก',

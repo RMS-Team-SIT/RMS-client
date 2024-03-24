@@ -102,7 +102,8 @@ onMounted(async () => {
             </p>
             <p>
               รหัสผ่าน:
-              {{ renter ? renter.password : 'ไม่มีผู้เช่า' }}
+              <!-- {{ renter ? renter.password : 'ไม่มีผู้เช่า' }} -->
+              ********
             </p>
             <h1 class="text-base font-semibold mt-5 text-dark-blue-200">
               ไฟล์เอกสาร
