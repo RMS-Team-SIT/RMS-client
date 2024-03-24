@@ -3,7 +3,7 @@ import BillService from '@/services/BillService';
 import ResidenceServices from '@/services/ResidenceServices';
 import { useNotification } from '@kyvg/vue3-notification';
 import { set } from '@vueuse/core';
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -82,10 +82,23 @@ onMounted(async () => {
   await fetchResidence();
   await fetchBillRoom();
   isLoading.value = false;
-  setTimeout(() => {
-    window.print();
-  }, 1000);
+  // setTimeout(() => {
+  //   window.print();
+  // }, 500);
 });
+
+watch(
+  isLoading.value,
+  (value) => {
+    console.log('isLoading', value);
+    if (!value) {
+      setTimeout(() => {
+        window.print();
+      }, 500);
+    }
+  },
+  { deep: true, immediate: true }
+);
 </script>
 
 <template>

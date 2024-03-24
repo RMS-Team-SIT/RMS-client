@@ -61,7 +61,6 @@ const updatePayment = () => import('./pages/residence/payment/update.vue');
 
 const bill = () => import('./pages/residence/bill/index.vue');
 const createBill = () => import('./pages/residence/bill/create.vue');
-const createBill2 = () => import('./pages/residence/bill/create2.vue');
 const updateBill = () => import('./pages/residence/bill/update.vue');
 const viewBill = () => import('./pages/residence/bill/view.vue');
 
@@ -378,14 +377,6 @@ const routes = [
     name: 'create-bill',
     path: '/manage/residence/:residenceId/bill/create',
     component: createBill,
-    meta: {
-      title: 'สร้างบิล',
-    },
-  },
-  {
-    name: 'create-bill-2',
-    path: '/manage/residence/:residenceId/bill/create2',
-    component: createBill2,
     meta: {
       title: 'สร้างบิล',
     },

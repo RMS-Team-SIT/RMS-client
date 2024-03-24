@@ -217,7 +217,7 @@ const toggleSelectAllMeterRecordForBillCreation = () => {
               </option>
             </select>
             <p class="text-red-500 text-sm" v-if="!payload.meterRecord">
-              * กรุณากรอกรอบมิเตอร์
+              * กรุณาเลือกรอบมิเตอร์
             </p>
           </div>
 

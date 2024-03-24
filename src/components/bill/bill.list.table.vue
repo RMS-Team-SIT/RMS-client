@@ -254,7 +254,14 @@ const payload = reactive({
                 {{ billRoom.billNo }}
               </td>
               <td>
-                {{ billRoom.room.name }}
+                <router-link
+                  class="cursor-pointer underline"
+                  target="_blank"
+                  :to="{
+                    name: 'view-room',
+                    params: { roomId: billRoom.room._id, residenceId: residenceId},
+                  }"
+                  >{{ billRoom.room.name }}</router-link>
               </td>
               <td>{{ billRoom.waterTotalPrice.toLocaleString() }} บาท</td>
               <td>{{ billRoom.electricTotalPrice.toLocaleString() }} บาท</td>
@@ -288,7 +295,7 @@ const payload = reactive({
                     payload.status = billRoom.status;
                   "
                   v-if="
-                    billRoom.status === 'UPLOADED' || billRoom.status === 'PAID'
+                    billRoom.status === 'UPLOADED' || billRoom.status === 'PAID' || true
                   "
                   >แก้ไขสถานะ</Button
                 >

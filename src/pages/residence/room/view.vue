@@ -286,7 +286,7 @@ onMounted(() => {
             type="checkbox"
             :checked="index == room.billRooms.length - 1"
           />
-          <div class="collapse-title text-lg font-bold underline gap-2">
+          <div class="collapse-title text-lg font-bold gap-2 flex items-center">
             บิลรอบมิเตอร์
             {{ dayjs(bill.meterRecord.record_date).format('MM/YYYY') }}
             <Badge

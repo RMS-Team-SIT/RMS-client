@@ -16,7 +16,6 @@ const { routerPath, title, text, icon, icons } = defineProps({
     required: true,
   },
   icon: {
-    type: Object,
     required: false,
   },
   icons: {
