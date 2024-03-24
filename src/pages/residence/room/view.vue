@@ -141,257 +141,162 @@ onMounted(() => {
             </ul>
           </div>
 
-          <!-- ข้อมูลผู้เช่า -->
-          <div class="space-y-3 rounded-lg">
+          <!-- ข้อมูลประเภทห้อง -->
+          <div class="space-y-3 rounded-lg bg-white border p-5">
             <div class="flex justify-between">
               <h1 class="text-lg font-semibold text-dark-blue-200">
-                ข้อมูลผู้เช่า
+                ประเภทห้องพัก
               </h1>
-              <router-link
-                target="_blank"
-                v-if="room.currentRenter"
-                class="text-dark-blue-200 underline"
-                :to="{
-                  name: 'view-renter',
-                  params: {
-                    residenceId: $route.params.residenceId,
-                    renterId: room.currentRenter._id,
-                  },
-                }"
-              >
-                <ArrowTopRightOnSquareIcon class="h-6 w-6" />
-              </router-link>
             </div>
-            <div v-if="!room.currentRenter">ไม่มีผู้เช่าห้องในขณะนี้</div>
-            <div v-else>
-              <p>
-                ชื่อผู้เช่า:
-                {{
-                  room.currentRenter
-                    ? room.currentRenter.firstname +
-                      ' ' +
-                      room.currentRenter.lastname
-                    : 'ไม่มีผู้เช่า'
-                }}
-              </p>
-              <p>
-                อีเมล:
-                {{
-                  room.currentRenter ? room.currentRenter.email : 'ไม่มีผู้เช่า'
-                }}
-              </p>
-              <p>
-                เบอร์โทร:
-                {{
-                  room.currentRenter ? room.currentRenter.phone : 'ไม่มีผู้เช่า'
-                }}
-              </p>
-              <h1 class="text-base font-semibold mt-5 text-dark-blue-200">
-                ข้อมูลบัญชีผู้เช่า
-              </h1>
-              <p>
-                ชื่อผู้ใช้:
-                {{
-                  room.currentRenter
-                    ? room.currentRenter.username
-                    : 'ไม่มีผู้เช่า'
-                }}
-              </p>
-              <p>รหัสผ่าน: ******</p>
-              <h1 class="text-base font-semibold mt-5 text-dark-blue-200">
-                ไฟล์เอกสาร
-              </h1>
-              <div class="flex gap-2">
-                สำเนาบัตรประชาชน:
-                <div v-if="room.currentRenter?.copyOfIdCard" class="underline">
-                  <router-link
-                    target="_blank"
-                    class="flex items-center gap-2"
-                    :to="{
-                      name: 'pdf-preview',
-                      query: {
-                        filename: room.currentRenter.copyOfIdCard,
-                      },
-                    }"
-                  >
-                    ดูไฟล์
-                    <ArrowTopRightOnSquareIcon class="h-4 w-4" />
-                  </router-link>
-                </div>
-                <div v-else>
-                  <span class="text-red-500">ไม่มีไฟล์ในระบบ</span>
-                </div>
-              </div>
-              <div class="flex gap-2">
-                สัญญาเช่า:
-                <div
-                  v-if="room.currentRenter?.renterContract"
-                  class="underline"
-                >
-                  <router-link
-                    target="_blank"
-                    class="flex items-center gap-2"
-                    :to="{
-                      name: 'pdf-preview',
-                      query: {
-                        filename: room.currentRenter.renterContract,
-                      },
-                    }"
-                  >
-                    ดูไฟล์
-                    <ArrowTopRightOnSquareIcon class="h-4 w-4" />
-                  </router-link>
-                </div>
-                <div v-else>
-                  <span class="text-red-500">ไม่มีไฟล์ในระบบ</span>
-                </div>
-              </div>
-            </div>
+            <p>ประเภทห้อง: {{ room.type.name }}</p>
+            <p>รูปแบบห้อง: {{ room.type.category }}</p>
+            <p>ขนาดห้อง: {{ room.type.size }} ตร.ม.</p>
+            <p>คำอธิบาย: {{ room.type.description || 'ไม่มีคำอธิบาย' }}</p>
+            <p>
+              อัตราค่าเช่าต่อเดือน: {{ room.type.price.toLocaleString() }} บาท
+            </p>
+            <ImagePreview
+              :imageUrls="room.type.images.map((i) => FileService.getFile(i))"
+              preview-from="url"
+            />
           </div>
         </div>
       </div>
 
-      <!-- ข้อมูลประเภทห้อง -->
-      <div class="space-y-3 rounded-lg bg-white mt-5 border p-5">
-        <div class="flex justify-between">
-          <h1 class="text-lg font-semibold text-dark-blue-200">
-            ประเภทห้องพัก
-          </h1>
-        </div>
-        <p>ประเภทห้อง: {{ room.type.name }}</p>
-        <p>รูปแบบห้อง: {{ room.type.category }}</p>
-        <p>ขนาดห้อง: {{ room.type.size }} ตร.ม.</p>
-        <p>คำอธิบาย: {{ room.type.description || 'ไม่มีคำอธิบาย' }}</p>
-        <p>อัตราค่าเช่าต่อเดือน: {{ room.type.price.toLocaleString() }} บาท</p>
-        <ImagePreview
-          :imageUrls="room.type.images.map((i) => FileService.getFile(i))"
-          preview-from="url"
-        />
-      </div>
-
-      <!-- ข้อมูลบิล -->
-      <div class="space-y-3 rounded-lg bg-white mt-5 border p-5">
-        <div class="flex justify-between">
-          <h1 class="text-lg font-semibold text-dark-blue-200">
-            ข้อมูลบิลในอดีตทั้งหมด
-          </h1>
-        </div>
-        <div v-if="!room.billRooms.length">ไม่มีบิลในอดีตในระบบ</div>
-        <div
-          class="collapse collapse-arrow shadow-sm border"
-          v-for="(bill, index) in room.billRooms"
-          :key="index"
-        >
-          <input
-            type="checkbox"
-            :checked="index == room.billRooms.length - 1"
-          />
-          <div class="collapse-title text-lg font-bold gap-2 flex items-center">
-            บิลรอบมิเตอร์
-            {{ dayjs(bill.meterRecord.record_date).format('MM/YYYY') }}
-            <Badge
-              badgeType="success"
-              v-if="index == room.billRooms.length - 1"
-              size="md"
-              >บิลล่าสุด</Badge
+      <div class="grid grid-cols-2 gap-2">
+        <!-- ข้อมูลผู้เช่า -->
+        <div class="space-y-3 rounded-lg bg-white mt-5 border p-5">
+          <div class="flex justify-between">
+            <h1 class="text-lg font-semibold text-dark-blue-200">
+              ข้อมูลผู้เช่าในปัจจุบัน
+            </h1>
+            <router-link
+              target="_blank"
+              v-if="room.currentRenter"
+              class="text-dark-blue-200 underline"
+              :to="{
+                name: 'view-renter',
+                params: {
+                  residenceId: $route.params.residenceId,
+                  renterId: room.currentRenter._id,
+                },
+              }"
             >
-            <Badge v-if="bill.status === 'PAID'" size="md">จ่ายแล้ว</Badge>
-            <Badge
-              v-else-if="bill.status === 'UPLOADED'"
-              badgeType="secondary"
-              size="md"
-              >อัพโหลดหลักฐานแล้ว</Badge
-            >
-            <Badge v-else badgeType="error" size="md">ยังไม่ได้จ่าย</Badge>
+              <ArrowTopRightOnSquareIcon class="h-6 w-6" />
+            </router-link>
           </div>
-          <div class="collapse-content">
-            <div class="flex w-full">
-              <div class="w-full">
-                <p class="text-lg font-bold">ค่าน้ำ</p>
-                <p>
-                  มิเตอร์น้ำครั้งก่อน:
-                  {{ bill.previousWaterMeter }}
-                </p>
-                <p>
-                  มิเตอร์น้ำครั้งนี้:
-                  {{ bill.currentWaterMeter }}
-                </p>
-                <p>
-                  จำนวนหน่วย:
-                  {{ bill.totalWaterMeterUsage }} หน่วย
-                </p>
-                <p>
-                  อัตราค่าน้ำต่อหน่วย:
-                  {{ bill.waterPriceRate.toLocaleString() }} บาท
-                </p>
-                <p>
-                  บิลค่าน้ำ :
-                  <b
-                    >{{
-                      (
-                        bill.waterPriceRate * bill.totalWaterMeterUsage
-                      ).toLocaleString()
-                    }}
-                    บาท</b
-                  >
-                </p>
-              </div>
-              <div class="divider divider-horizontal"></div>
-              <div class="w-full">
-                <p class="text-lg font-bold">ค่าไฟ</p>
-                <p>
-                  มิเตอร์ไฟครั้งก่อน:
-                  {{ bill.previousElectricMeter }}
-                </p>
-                <p>
-                  มิเตอร์ไฟครั้งนี้:
-                  {{ bill.currentElectricMeter }}
-                </p>
-                <p>
-                  จำนวนหน่วย:
-                  {{ bill.totalElectricMeterUsage }}
-                </p>
-                <p>
-                  อัตราค่าไฟต่อหน่วย:
-                  {{ bill.electricPriceRate.toLocaleString() }}
-                </p>
-                <p>
-                  บิลค่าไฟ :
-                  <b
-                    >{{
-                      (
-                        bill.electricPriceRate * bill.totalElectricMeterUsage
-                      ).toLocaleString()
-                    }}
-                    บาท</b
-                  >
-                </p>
-              </div>
-              <div class="divider divider-horizontal"></div>
-              <div class="w-full">
-                <p class="text-lg font-bold">ค่าเช่า</p>
-                <p>
-                  ค่าเช่าห้อง:
-                  <b>{{ bill.roomRentalPrice.toLocaleString() }}</b> บาท
-                </p>
-                <p class="text-lg font-bold mt-2">ค่าบริการอื่น ๆ</p>
-                <span>
-                  <p v-for="(fee, index) in bill.fees" :key="index">
-                    {{ fee.feename }}:
-                    <b>{{ fee.feeprice.toLocaleString() }}</b> บาท
-                  </p>
-                  <p v-if="!bill.fees.length">ไม่มีค่าบริการอื่น ๆ</p>
-                </span>
-              </div>
-            </div>
-            <Divider />
-            <p class="text-lg font-bold mt-5 rounded-full">
-              รวม:
-              {{ bill.totalPrice.toLocaleString() }}
-              บาท
+          <div v-if="!room.currentRenter">ไม่มีผู้เช่าห้องในขณะนี้</div>
+          <div v-else>
+            <p>
+              ชื่อผู้เช่า:
+              {{
+                room.currentRenter
+                  ? room.currentRenter.firstname +
+                    ' ' +
+                    room.currentRenter.lastname
+                  : 'ไม่มีผู้เช่า'
+              }}
             </p>
             <p>
-              สถานะ :
+              อีเมล:
+              {{
+                room.currentRenter ? room.currentRenter.email : 'ไม่มีผู้เช่า'
+              }}
+            </p>
+            <p>
+              เบอร์โทร:
+              {{
+                room.currentRenter ? room.currentRenter.phone : 'ไม่มีผู้เช่า'
+              }}
+            </p>
+            <h1 class="text-base font-semibold mt-5 text-dark-blue-200">
+              ข้อมูลบัญชีผู้เช่า
+            </h1>
+            <p>
+              ชื่อผู้ใช้:
+              {{
+                room.currentRenter
+                  ? room.currentRenter.username
+                  : 'ไม่มีผู้เช่า'
+              }}
+            </p>
+            <p>รหัสผ่าน: ******</p>
+            <h1 class="text-base font-semibold mt-5 text-dark-blue-200">
+              ไฟล์เอกสาร
+            </h1>
+            <div class="flex gap-2">
+              สำเนาบัตรประชาชน:
+              <div v-if="room.currentRenter?.copyOfIdCard" class="underline">
+                <router-link
+                  target="_blank"
+                  class="flex items-center gap-2"
+                  :to="{
+                    name: 'pdf-preview',
+                    query: {
+                      filename: room.currentRenter.copyOfIdCard,
+                    },
+                  }"
+                >
+                  ดูไฟล์
+                  <ArrowTopRightOnSquareIcon class="h-4 w-4" />
+                </router-link>
+              </div>
+              <div v-else>
+                <span class="text-red-500">ไม่มีไฟล์ในระบบ</span>
+              </div>
+            </div>
+            <div class="flex gap-2">
+              สัญญาเช่า:
+              <div v-if="room.currentRenter?.renterContract" class="underline">
+                <router-link
+                  target="_blank"
+                  class="flex items-center gap-2"
+                  :to="{
+                    name: 'pdf-preview',
+                    query: {
+                      filename: room.currentRenter.renterContract,
+                    },
+                  }"
+                >
+                  ดูไฟล์
+                  <ArrowTopRightOnSquareIcon class="h-4 w-4" />
+                </router-link>
+              </div>
+              <div v-else>
+                <span class="text-red-500">ไม่มีไฟล์ในระบบ</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ข้อมูลบิล -->
+        <div class="space-y-3 rounded-lg bg-white mt-5 border p-5">
+          <div class="flex justify-between">
+            <h1 class="text-lg font-semibold text-dark-blue-200">
+              ข้อมูลบิลในอดีตทั้งหมด
+            </h1>
+          </div>
+          <div v-if="!room.billRooms.length">ไม่มีบิลในอดีตในระบบ</div>
+          <div
+            class="collapse collapse-arrow shadow-sm border"
+            v-for="(bill, index) in room.billRooms"
+            :key="index"
+          >
+            <input
+              type="checkbox"
+              :checked="index == room.billRooms.length - 1"
+            />
+            <div
+              class="collapse-title text-lg font-bold gap-2 flex items-center"
+            >
+              บิลรอบมิเตอร์
+              {{ dayjs(bill.meterRecord.record_date).format('MM/YYYY') }}
+              <Badge
+                badgeType="success"
+                v-if="index == room.billRooms.length - 1"
+                size="md"
+                >บิลล่าสุด</Badge
+              >
               <Badge v-if="bill.status === 'PAID'" size="md">จ่ายแล้ว</Badge>
               <Badge
                 v-else-if="bill.status === 'UPLOADED'"
@@ -400,7 +305,105 @@ onMounted(() => {
                 >อัพโหลดหลักฐานแล้ว</Badge
               >
               <Badge v-else badgeType="error" size="md">ยังไม่ได้จ่าย</Badge>
-            </p>
+            </div>
+            <div class="collapse-content">
+              <div class="flex w-full">
+                <div class="w-full">
+                  <p class="text-lg font-bold">ค่าน้ำ</p>
+                  <p>
+                    มิเตอร์น้ำครั้งก่อน:
+                    {{ bill.previousWaterMeter }}
+                  </p>
+                  <p>
+                    มิเตอร์น้ำครั้งนี้:
+                    {{ bill.currentWaterMeter }}
+                  </p>
+                  <p>
+                    จำนวนหน่วย:
+                    {{ bill.totalWaterMeterUsage }} หน่วย
+                  </p>
+                  <p>
+                    อัตราค่าน้ำต่อหน่วย:
+                    {{ bill.waterPriceRate.toLocaleString() }} บาท
+                  </p>
+                  <p>
+                    บิลค่าน้ำ :
+                    <b
+                      >{{
+                        (
+                          bill.waterPriceRate * bill.totalWaterMeterUsage
+                        ).toLocaleString()
+                      }}
+                      บาท</b
+                    >
+                  </p>
+                </div>
+                <div class="divider divider-horizontal"></div>
+                <div class="w-full">
+                  <p class="text-lg font-bold">ค่าไฟ</p>
+                  <p>
+                    มิเตอร์ไฟครั้งก่อน:
+                    {{ bill.previousElectricMeter }}
+                  </p>
+                  <p>
+                    มิเตอร์ไฟครั้งนี้:
+                    {{ bill.currentElectricMeter }}
+                  </p>
+                  <p>
+                    จำนวนหน่วย:
+                    {{ bill.totalElectricMeterUsage }}
+                  </p>
+                  <p>
+                    อัตราค่าไฟต่อหน่วย:
+                    {{ bill.electricPriceRate.toLocaleString() }}
+                  </p>
+                  <p>
+                    บิลค่าไฟ :
+                    <b
+                      >{{
+                        (
+                          bill.electricPriceRate * bill.totalElectricMeterUsage
+                        ).toLocaleString()
+                      }}
+                      บาท</b
+                    >
+                  </p>
+                </div>
+                <div class="divider divider-horizontal"></div>
+                <div class="w-full">
+                  <p class="text-lg font-bold">ค่าเช่า</p>
+                  <p>
+                    ค่าเช่าห้อง:
+                    <b>{{ bill.roomRentalPrice.toLocaleString() }}</b> บาท
+                  </p>
+                  <p class="text-lg font-bold mt-2">ค่าบริการอื่น ๆ</p>
+                  <span>
+                    <p v-for="(fee, index) in bill.fees" :key="index">
+                      {{ fee.feename }}:
+                      <b>{{ fee.feeprice.toLocaleString() }}</b> บาท
+                    </p>
+                    <p v-if="!bill.fees.length">ไม่มีค่าบริการอื่น ๆ</p>
+                  </span>
+                </div>
+              </div>
+              <Divider />
+              <p class="text-lg font-bold mt-5 rounded-full">
+                รวม:
+                {{ bill.totalPrice.toLocaleString() }}
+                บาท
+              </p>
+              <p>
+                สถานะ :
+                <Badge v-if="bill.status === 'PAID'" size="md">จ่ายแล้ว</Badge>
+                <Badge
+                  v-else-if="bill.status === 'UPLOADED'"
+                  badgeType="secondary"
+                  size="md"
+                  >อัพโหลดหลักฐานแล้ว</Badge
+                >
+                <Badge v-else badgeType="error" size="md">ยังไม่ได้จ่าย</Badge>
+              </p>
+            </div>
           </div>
         </div>
       </div>
