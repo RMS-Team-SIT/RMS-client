@@ -259,9 +259,13 @@ const payload = reactive({
                   target="_blank"
                   :to="{
                     name: 'view-room',
-                    params: { roomId: billRoom.room._id, residenceId: residenceId},
+                    params: {
+                      roomId: billRoom.room._id,
+                      residenceId: residenceId,
+                    },
                   }"
-                  >{{ billRoom.room.name }}</router-link>
+                  >{{ billRoom.room.name }}</router-link
+                >
               </td>
               <td>{{ billRoom.waterTotalPrice.toLocaleString() }} บาท</td>
               <td>{{ billRoom.electricTotalPrice.toLocaleString() }} บาท</td>
@@ -295,7 +299,9 @@ const payload = reactive({
                     payload.status = billRoom.status;
                   "
                   v-if="
-                    billRoom.status === 'UPLOADED' || billRoom.status === 'PAID' || true
+                    billRoom.status === 'UPLOADED' ||
+                    billRoom.status === 'PAID' ||
+                    true
                   "
                   >แก้ไขสถานะ</Button
                 >
@@ -505,8 +511,14 @@ const payload = reactive({
                 </div>
 
                 <p v-else>ยังไม่ได้อัพโหลดหลักฐานการชำระเงิน</p>
+                <Divider />
+                <p class="text-lg font-bold">ผู้เช่าที่เรียกเก็บ</p>
+                <p v-if="selectedBillRoomForModal.renter">
+                  ชื่อ:
+                  {{ selectedBillRoomForModal.renter.firstname }}
+                  {{ selectedBillRoomForModal.renter.lastname }}
+                </p>
               </div>
-              
             </div>
             <div class="modal-action flex">
               <form method="dialog">
