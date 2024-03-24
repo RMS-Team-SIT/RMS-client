@@ -51,6 +51,13 @@ class RoomService {
       room
     );
 
+  deleteRoomRenter = async (residenceId, roomId) =>
+    sendRequest(
+      this.baseUrl,
+      `/residence/${residenceId}/room/${roomId}/renter`,
+      'DELETE'
+    );
+
   deleteRoom = async (residenceId, roomId) =>
     sendRequest(
       this.baseUrl,

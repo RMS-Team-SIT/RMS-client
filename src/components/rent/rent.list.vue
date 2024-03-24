@@ -51,7 +51,14 @@ const computedRooms = computed(() => {
     .filter((room) => {
       return (
         room.name.toLowerCase().includes(search.value.toLowerCase()) ||
-        room.description.toLowerCase().includes(search.value.toLowerCase())
+        room.description.toLowerCase().includes(search.value.toLowerCase()) ||
+        (room.currentRenter &&
+          (room.currentRenter.firstname
+            .toLowerCase()
+            .includes(search.value.toLowerCase()) ||
+            room.currentRenter.lastname
+              .toLowerCase()
+              .includes(search.value.toLowerCase())))
       );
     })
     .sort((a, b) => a.name.localeCompare(b.name))
@@ -138,6 +145,32 @@ const updateRoom = async () => {
   resetEditingRoomRenter();
   editRoom.close();
 };
+
+const moveOutRoom = async (roomId) => {
+  const response = await RoomService.deleteRoomRenter(
+    props.residenceId,
+    editingRoomRenter.roomId
+  );
+  if (response.status !== 200) {
+    const data = await response.json();
+    notify({
+      group: 'tr',
+      title: 'แก้ไขข้อมูลไม่สำเร็จ',
+      text: 'เกิดข้อผิดพลาดในการแก้ไขข้อมูลห้องพัก,' + data.message,
+      type: 'error',
+    });
+  } else {
+    notify({
+      group: 'tr',
+      title: 'ย้ายผู้เช่าออกจากห้องสำเร็จ',
+      text: 'ข้อมูลผู้เช่าถูกย้ายออกจากห้องพักเรียบร้อยแล้ว',
+      type: 'success',
+    });
+    emits('refetch');
+  }
+  resetEditingRoomRenter();
+  leaveRoom.close();
+};
 </script>
 
 <template>
@@ -161,11 +194,11 @@ const updateRoom = async () => {
       </p>
       <div class="w-full flex align-middle items-center justify-end">
         <label class="label">
-          <span class="label-text">ค้นหาห้องพัก:</span>
+          <span class="label-text">ค้นหา:</span>
         </label>
         <input
           type="text"
-          placeholder="ค้นหาห้องพัก"
+          placeholder="ค้นหาห้องพัก/ผู้เช่า"
           class="input input-xs input-bordered bg-white rounded"
           v-model="search"
         />
@@ -198,7 +231,7 @@ const updateRoom = async () => {
                   },
                 }"
               >
-              {{ room.name }}
+                {{ room.name }}
               </router-link>
             </td>
 
@@ -240,6 +273,7 @@ const updateRoom = async () => {
                 v-else
                 btnType="secondary-pill"
                 onclick="leaveRoom.showModal()"
+                @click="setEditingRoomRenter(room._id)"
                 >ย้ายออก
                 <ArrowRightCircleIcon class="h-5 w-5" />
               </Button>
@@ -338,18 +372,19 @@ const updateRoom = async () => {
 
       <dialog :id="`leaveRoom`" class="modal">
         <div class="modal-box space-y-2">
-          <h3 class="font-bold text-lg">
-            ย้ายออกจากห้อง 
-          </h3>
-
+          <h3 class="font-bold text-lg">ย้ายออกจากห้อง</h3>
+          <p>
+            ต้องการย้ายผู้เช่า
+            <b>
+              {{ editingRoomRenter.room.currentRenter?.firstname }}
+              {{ editingRoomRenter.room.currentRenter?.lastname }}</b
+            >
+            ออกจากห้อง <b> {{ editingRoomRenter.room.name }}</b> หรือไม่?
+          </p>
           <div class="modal-action flex mt-5">
             <form method="dialog">
-              <button class="btn btn-sm mr-2">
-                ปิด
-              </button>
-              <button
-                class="btn btn-sm btn-secondary"
-              >
+              <button class="btn btn-sm mr-2">ปิด</button>
+              <button @click="moveOutRoom" class="btn btn-sm btn-secondary">
                 ยืนยันการย้ายออกจากห้อง
               </button>
             </form>

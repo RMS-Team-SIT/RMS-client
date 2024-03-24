@@ -279,7 +279,7 @@ onMounted(() => {
           <div v-if="!room.billRooms.length">ไม่มีบิลในอดีตในระบบ</div>
           <div
             class="collapse collapse-arrow shadow-sm border"
-            v-for="(bill, index) in room.billRooms"
+            v-for="(bill, index) in room.billRooms.reverse()"
             :key="index"
           >
             <input
