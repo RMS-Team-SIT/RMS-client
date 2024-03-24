@@ -506,6 +506,7 @@ const payload = reactive({
 
                 <p v-else>ยังไม่ได้อัพโหลดหลักฐานการชำระเงิน</p>
               </div>
+              
             </div>
             <div class="modal-action flex">
               <form method="dialog">

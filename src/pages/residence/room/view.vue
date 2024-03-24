@@ -267,6 +267,26 @@ onMounted(() => {
               </div>
             </div>
           </div>
+          <Divider></Divider>
+          <div class="flex justify-between">
+            <h1 class="text-lg font-semibold text-dark-blue-200">
+              ข้อมูลผู้เช่าในอดีต
+            </h1>
+          </div>
+          <div v-if="!room.renterHistory.length">ไม่มีผู้เช่าในอดีตในระบบ</div>
+          <div
+            class="collapse collapse-arrow shadow-sm border"
+            v-for="(renter, index) in room.renterHistory.toReversed()"
+            :key="index"
+          >
+            <input type="checkbox" />
+            <div
+              class="collapse-title text-lg font-bold gap-2 flex items-center"
+            >
+              {{ renter.firstname }} {{ renter.lastname }}
+            </div>
+            <div class="collapse-content"></div>
+          </div>
         </div>
 
         <!-- ข้อมูลบิล -->
@@ -279,22 +299,16 @@ onMounted(() => {
           <div v-if="!room.billRooms.length">ไม่มีบิลในอดีตในระบบ</div>
           <div
             class="collapse collapse-arrow shadow-sm border"
-            v-for="(bill, index) in room.billRooms.reverse()"
+            v-for="(bill, index) in room.billRooms.toReversed()"
             :key="index"
           >
-            <input
-              type="checkbox"
-              :checked="index == room.billRooms.length - 1"
-            />
+            <input type="checkbox" :checked="index == 0" />
             <div
               class="collapse-title text-lg font-bold gap-2 flex items-center"
             >
               บิลรอบมิเตอร์
               {{ dayjs(bill.meterRecord.record_date).format('MM/YYYY') }}
-              <Badge
-                badgeType="success"
-                v-if="index == room.billRooms.length - 1"
-                size="md"
+              <Badge badgeType="success" v-if="index == 0" size="md"
                 >บิลล่าสุด</Badge
               >
               <Badge v-if="bill.status === 'PAID'" size="md">จ่ายแล้ว</Badge>
@@ -386,7 +400,6 @@ onMounted(() => {
                   </span>
                 </div>
               </div>
-              <Divider />
               <p class="text-lg font-bold mt-5 rounded-full">
                 รวม:
                 {{ bill.totalPrice.toLocaleString() }}
@@ -403,6 +416,39 @@ onMounted(() => {
                 >
                 <Badge v-else badgeType="error" size="md">ยังไม่ได้จ่าย</Badge>
               </p>
+              <Divider />
+              <p class="text-lg font-bold">หลักฐานการชำระเงิน</p>
+              <div v-if="bill.paidEvidenceImage">
+                <img
+                  :src="FileService.getFile(bill.paidEvidenceImage)"
+                  alt="หลักฐานการชำระเงิน"
+                  class="w-1/2"
+                />
+              </div>
+              <p v-else>ยังไม่ได้อัพโหลดหลักฐานการชำระเงิน</p>
+              <Divider />
+              <p class="text-lg font-bold">ผู้เช่าที่เรียกเก็บ</p>
+              <p v-if="bill.renter != null">
+                ชื่อผู้เช่า:
+                <router-link
+                  target="_blank"
+                  class="text-dark-blue-200 underline"
+                  :to="{
+                    name: 'view-renter',
+                    params: {
+                      residenceId: $route.params.residenceId,
+                      renterId: bill.renter._id,
+                    },
+                  }"
+                >
+                  {{
+                    bill.renter
+                      ? bill.renter.firstname + ' ' + bill.renter.lastname
+                      : 'ไม่มีผู้เช่า'
+                  }}
+                </router-link>
+              </p>
+              <p v-else>ไม่มีผู้เช่า</p>
             </div>
           </div>
         </div>
