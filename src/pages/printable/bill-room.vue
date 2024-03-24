@@ -210,7 +210,7 @@ watch(
 
       <!-- Note for payment -->
       <div class="mt-5">
-        <p>หมายเหตุ: {{ residence.data.paymentNote || 'ไม่มีข้อความ' }}</p>
+        <p>หมายเหตุ: {{ residence.data.paymentNotes || 'ไม่มีข้อความ' }}</p>
       </div>
     </div>
     <p></p>

@@ -134,11 +134,9 @@ onMounted(() => {
             </p>
 
             <p>ค่าบริการอื่น ๆ :</p>
-            <ul>
-              <li v-for="fee in room.fees" :key="fee._id">
-                {{ fee.feename }}: {{ fee.feeprice.toLocaleString() }} บาท
-              </li>
-            </ul>
+            <li v-for="fee in room.fees" :key="fee._id">
+              {{ fee.feename }}: {{ fee.feeprice.toLocaleString() }} บาท
+            </li>
           </div>
 
           <!-- ข้อมูลประเภทห้อง -->

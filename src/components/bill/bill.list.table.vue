@@ -515,9 +515,22 @@ const payload = reactive({
                 <p class="text-lg font-bold">ผู้เช่าที่เรียกเก็บ</p>
                 <p v-if="selectedBillRoomForModal.renter">
                   ชื่อ:
-                  {{ selectedBillRoomForModal.renter.firstname }}
-                  {{ selectedBillRoomForModal.renter.lastname }}
+                  <router-link
+                    target="_blank"
+                    :to="{
+                      name: 'view-renter',
+                      params: {
+                        renterId: selectedBillRoomForModal.renter._id,
+                        residenceId: residenceId,
+                      },
+                    }"
+                    class="cursor-pointer underline"
+                  >
+                    {{ selectedBillRoomForModal.renter.firstname }}
+                    {{ selectedBillRoomForModal.renter.lastname }}
+                  </router-link>
                 </p>
+                <p v-else>ไม่มีข้อมูลผู้เช่าที่เรียกเก็บ</p>
               </div>
             </div>
             <div class="modal-action flex">
