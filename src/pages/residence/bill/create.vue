@@ -501,7 +501,6 @@ const toggleSelectAllMeterRecordForBillCreation = () => {
                 </span>
               </div>
             </div>
-            <Divider />
             <p class="text-lg font-bold mt-5 rounded-full">
               รวม:
               {{

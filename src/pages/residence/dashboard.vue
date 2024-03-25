@@ -217,7 +217,7 @@ onMounted(async () => {
           <div
             class="p-6 bg-white rounded-lg shadow-md border border-gray-200 col-span-1"
           >
-            <h3 class="text-xl font-semibold mb-2 p-5">สถานะการจ่ายค่าห้อง</h3>
+            <h3 class="text-xl font-semibold mb-2 p-5">สถานะการจ่ายบิล</h3>
             <p v-if="!stats.avaiableRoomCount" class="p-5">ไม่มีห้องในระบบ</p>
             <RoomChart
               v-else

@@ -283,7 +283,16 @@ onMounted(() => {
             >
               {{ renter.firstname }} {{ renter.lastname }}
             </div>
-            <div class="collapse-content"></div>
+            <div class="collapse-content">
+              <p>
+                ชื่อผู้เช่า:
+                {{ renter.firstname }} {{ renter.lastname }}
+              </p>
+              <p>อีเมล: {{ renter.email }}</p>
+              <p>เบอร์โทร: {{ renter.phone }}</p>
+              <p>ชื่อผู้ใช้: {{ renter.username }}</p>
+              <p>รหัสผ่าน: ******</p>
+            </div>
           </div>
         </div>
 
