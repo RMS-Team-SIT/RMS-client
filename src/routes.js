@@ -514,7 +514,7 @@ const routes = [
   },
   {
     name: 'renter-dashboard',
-    path: '/renter/dashboard',
+    path: '/manage/residence/:residenceId/room/:roomId/renter/:renterId',
     component: renterDashboard,
     meta: {
       title: 'แดชบอร์ดผู้เช่า',

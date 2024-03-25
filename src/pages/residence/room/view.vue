@@ -11,11 +11,13 @@ import {
 } from '@heroicons/vue/24/outline';
 import { useNotification } from '@kyvg/vue3-notification';
 import dayjs from 'dayjs';
-import { onMounted, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import ImagePreview from '@/components/common/image.preview.vue';
 import FileService from '@/services/FileService';
 import back from '@/components/common/back.vue';
+import ImageUploadForm from '@/components/form/image.form.vue';
+import BillService from '@/services/BillService';
 
 const router = useRouter();
 const route = useRoute();
@@ -24,6 +26,8 @@ const roomId = route.params.roomId;
 const residenceId = route.params.residenceId;
 const isLoading = ref(true);
 const { notify } = useNotification();
+const isRenter = ref(true);
+const currentRenter = ref(null);
 
 const fetchRoom = async () => {
   try {
@@ -56,6 +60,64 @@ const fetchRoom = async () => {
   } finally {
     isLoading.value = false;
   }
+};
+
+const payload = reactive({
+  paidEvidenceImage: [],
+  status: 'UPLOADED',
+  imageFiles: [],
+});
+const getChildData = (data) => {
+  for (const key in data) {
+    payload[key] = data[key];
+  }
+};
+
+const uploadPaidEvidence = async (billRoomId) => {
+  if (payload.imageFiles.length) {
+    const response = await FileService.uploadImages(payload.imageFiles);
+    if (response.status == 201) {
+      const data = await response.json();
+      Array.from(data.files).forEach((file) => {
+        payload.paidEvidenceImage.push(file.fileName);
+      });
+    } else {
+      const data = await response.json();
+      notify({
+        group: 'tr',
+        title: 'เกิดข้อผิดพลาด',
+        text: 'ไม่สามาถอัปโหลดรูปภาพได้' + data?.message,
+        type: 'error',
+      });
+      return;
+    }
+  }
+
+  const response = await BillService.updateBillRoomStatus(
+    residenceId,
+    roomId,
+    billRoomId,
+    { ...payload, paidEvidenceImage: payload.paidEvidenceImage[0] }
+  );
+  if (response.status == 200) {
+    const data = await response.json();
+    notify({
+      group: 'tr',
+      title: 'สำเร็จ',
+      text: 'อัพโหลดหลักฐานการชำระเงินสำเร็จ',
+      type: 'success',
+    });
+  } else {
+    const data = await response.json();
+    notify({
+      group: 'tr',
+      title: 'เกิดข้อผิดพลาด',
+      text: 'ไม่สามาถอัพโหลดรูปภาพได้' + data?.message,
+      type: 'error',
+    });
+    return;
+  }
+  fetchRoom();
 };
 
 onMounted(() => {
@@ -219,79 +281,90 @@ onMounted(() => {
               }}
             </p>
             <p>รหัสผ่าน: ******</p>
-            <h1 class="text-base font-semibold mt-5 text-dark-blue-200">
-              ไฟล์เอกสาร
-            </h1>
-            <div class="flex gap-2">
-              สำเนาบัตรประชาชน:
-              <div v-if="room.currentRenter?.copyOfIdCard" class="underline">
-                <router-link
-                  target="_blank"
-                  class="flex items-center gap-2"
-                  :to="{
-                    name: 'pdf-preview',
-                    query: {
-                      filename: room.currentRenter.copyOfIdCard,
-                    },
-                  }"
+
+            <div v-if="!isRenter">
+              <h1 class="text-base font-semibold mt-5 text-dark-blue-200">
+                ไฟล์เอกสาร
+              </h1>
+              <div class="flex gap-2">
+                สำเนาบัตรประชาชน:
+                <div v-if="room.currentRenter?.copyOfIdCard" class="underline">
+                  <router-link
+                    target="_blank"
+                    class="flex items-center gap-2"
+                    :to="{
+                      name: 'pdf-preview',
+                      query: {
+                        filename: room.currentRenter.copyOfIdCard,
+                      },
+                    }"
+                  >
+                    ดูไฟล์
+                    <ArrowTopRightOnSquareIcon class="h-4 w-4" />
+                  </router-link>
+                </div>
+                <div v-else>
+                  <span class="text-red-500">ไม่มีไฟล์ในระบบ</span>
+                </div>
+              </div>
+              <div class="flex gap-2">
+                สัญญาเช่า:
+                <div
+                  v-if="room.currentRenter?.renterContract"
+                  class="underline"
                 >
-                  ดูไฟล์
-                  <ArrowTopRightOnSquareIcon class="h-4 w-4" />
-                </router-link>
-              </div>
-              <div v-else>
-                <span class="text-red-500">ไม่มีไฟล์ในระบบ</span>
-              </div>
-            </div>
-            <div class="flex gap-2">
-              สัญญาเช่า:
-              <div v-if="room.currentRenter?.renterContract" class="underline">
-                <router-link
-                  target="_blank"
-                  class="flex items-center gap-2"
-                  :to="{
-                    name: 'pdf-preview',
-                    query: {
-                      filename: room.currentRenter.renterContract,
-                    },
-                  }"
-                >
-                  ดูไฟล์
-                  <ArrowTopRightOnSquareIcon class="h-4 w-4" />
-                </router-link>
-              </div>
-              <div v-else>
-                <span class="text-red-500">ไม่มีไฟล์ในระบบ</span>
+                  <router-link
+                    target="_blank"
+                    class="flex items-center gap-2"
+                    :to="{
+                      name: 'pdf-preview',
+                      query: {
+                        filename: room.currentRenter.renterContract,
+                      },
+                    }"
+                  >
+                    ดูไฟล์
+                    <ArrowTopRightOnSquareIcon class="h-4 w-4" />
+                  </router-link>
+                </div>
+                <div v-else>
+                  <span class="text-red-500">ไม่มีไฟล์ในระบบ</span>
+                </div>
               </div>
             </div>
           </div>
-          <Divider></Divider>
-          <div class="flex justify-between">
-            <h1 class="text-lg font-semibold text-dark-blue-200">
-              ข้อมูลผู้เช่าในอดีต
-            </h1>
-          </div>
-          <div v-if="!room.renterHistory.length">ไม่มีผู้เช่าในอดีตในระบบ</div>
-          <div
-            class="collapse collapse-arrow shadow-sm border"
-            v-for="(renter, index) in room.renterHistory.toReversed()"
-            :key="index"
-          >
-            <input type="checkbox" />
+
+          <div v-if="!isRenter">
+            <Divider></Divider>
+            <div class="flex justify-between">
+              <h1 class="text-lg font-semibold text-dark-blue-200">
+                ข้อมูลผู้เช่าในอดีต
+              </h1>
+            </div>
+            <div v-if="!room.renterHistory.length">
+              ไม่มีผู้เช่าในอดีตในระบบ
+            </div>
             <div
-              class="collapse-title text-lg font-bold gap-2 flex items-center"
+              class="collapse collapse-arrow shadow-sm border"
+              v-for="(renter, index) in room.renterHistory.toReversed()"
+              :key="index"
             >
-              {{ renter.firstname }} {{ renter.lastname }}
-            </div>
-            <div class="collapse-content">
-              <p>
-                ชื่อผู้เช่า:
+              <input type="checkbox" />
+              <div
+                class="collapse-title text-lg font-bold gap-2 flex items-center"
+              >
                 {{ renter.firstname }} {{ renter.lastname }}
-              </p>
-              <p>อีเมล: {{ renter.email }}</p>
-              <p>เบอร์โทร: {{ renter.phone }}</p>
-              <p>ชื่อผู้ใช้: {{ renter.username }}</p>
-              <p>รหัสผ่าน: ******</p>
+              </div>
+              <div class="collapse-content">
+                <p>
+                  ชื่อผู้เช่า:
+                  {{ renter.firstname }} {{ renter.lastname }}
+                </p>
+                <p>อีเมล: {{ renter.email }}</p>
+                <p>เบอร์โทร: {{ renter.phone }}</p>
+                <p>ชื่อผู้ใช้: {{ renter.username }}</p>
+                <p>รหัสผ่าน: ******</p>
+              </div>
             </div>
           </div>
         </div>
@@ -300,7 +373,7 @@ onMounted(() => {
         <div class="space-y-3 rounded-lg bg-white mt-5 border p-5">
           <div class="flex justify-between">
             <h1 class="text-lg font-semibold text-dark-blue-200">
-              ข้อมูลบิลในอดีตทั้งหมด
+              ข้อมูลบิลทั้งหมด
             </h1>
           </div>
           <div v-if="!room.billRooms.length">ไม่มีบิลในอดีตในระบบ</div>
@@ -423,6 +496,22 @@ onMounted(() => {
                 >
                 <Badge v-else badgeType="error" size="md">ยังไม่ได้จ่าย</Badge>
               </p>
+              <p>
+                พิมพ์ใบแจ้งหนี้บิลนี้:
+                <router-link
+                  class="text-dark-blue-200 underline font-bold cursor-pointer"
+                  :to="{
+                    name: 'print-bill-room',
+                    params: {
+                      billId: bill.bill,
+                      billRoomId: bill._id,
+                    },
+                  }"
+                  target="_blank"
+                >
+                  พิมพ์ใบแจ้งหนี้
+                </router-link>
+              </p>
               <Divider />
               <p class="text-lg font-bold">หลักฐานการชำระเงิน</p>
               <div v-if="bill.paidEvidenceImage">
@@ -432,7 +521,27 @@ onMounted(() => {
                   class="w-1/2"
                 />
               </div>
-              <p v-else>ยังไม่ได้อัพโหลดหลักฐานการชำระเงิน</p>
+              <div v-else>
+                <p>
+                  ยังไม่ได้อัพโหลดหลักฐานการชำระเงิน กรุณาอัพโหลดหลักฐานด้านล่าง
+                </p>
+                <div class="mt-5" v-if="isRenter && bill.status === 'UNPAID'">
+                  <p class="text-lg font-bold">อัพโหลดหลักฐานการชำระเงิน</p>
+                  <div class="relative bg-white space-y-4 rounded basis-full">
+                    <ImageUploadForm
+                      @getImageFiles="getChildData"
+                      :imageFiles="payload.imageFiles"
+                      :max-files="1"
+                    />
+                    <Button
+                      @click="uploadPaidEvidence(bill._id)"
+                      class="btn-xs"
+                      buttonType="success"
+                      >บันทึกข้อมูล</Button
+                    >
+                  </div>
+                </div>
+              </div>
               <Divider />
               <p class="text-lg font-bold">ผู้เช่าที่เรียกเก็บ</p>
               <p v-if="bill.renter != null">
