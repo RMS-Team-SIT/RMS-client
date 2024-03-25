@@ -73,6 +73,9 @@ const viewMeterRecord = () => import('./pages/residence/meter-record/view.vue');
 // Admin
 const adminDashboard = () => import('./pages/admin/dashboard.vue');
 
+// Renter
+const renterDashboard = () => import('./pages/renter/dashboard.vue');
+
 // Printable
 const printBillRoom = () => import('./pages/printable/bill-room.vue');
 
@@ -84,6 +87,7 @@ const publicRoutes = [
   'reset-password',
   'verify-email',
   'renter-signin',
+  'renter-dashboard',
 ];
 
 const restrictedRoutesForLoggedInUsers = [
@@ -506,6 +510,14 @@ const routes = [
     component: printBillRoom,
     meta: {
       title: 'พิมพ์บิลห้องพัก',
+    },
+  },
+  {
+    name: 'renter-dashboard',
+    path: '/renter/dashboard',
+    component: renterDashboard,
+    meta: {
+      title: 'แดชบอร์ดผู้เช่า',
     },
   },
   {

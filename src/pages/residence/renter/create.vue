@@ -50,7 +50,7 @@ const canNext = computed(() => {
     return (
       renterData.firstname &&
       renterData.lastname &&
-      renterData.username &&
+      // renterData.username &&
       renterData.phone &&
       renterData.email &&
       renterData.password
@@ -72,7 +72,7 @@ const submitData = async () => {
   if (
     !renterData.firstname ||
     !renterData.lastname ||
-    !renterData.username ||
+    // !renterData.username ||
     !renterData.phone ||
     !renterData.email
   ) {

@@ -131,8 +131,8 @@ watch(renterInfo, () => {
         type="text"
         placeholder="ชื่อผู้ใช้"
         class="w-full input input-bordered bg-white input-sm rounded-sm"
-        v-model="renterInfo.username"
-        :disabled="viewOnly"
+        v-model="renterInfo.email"
+        :disabled="true"
       />
     </div>
 

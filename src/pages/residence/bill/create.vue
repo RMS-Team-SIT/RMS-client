@@ -311,6 +311,7 @@ const toggleSelectAllMeterRecordForBillCreation = () => {
               </div>
               <div class="flex gap-2 items-center">
                 <input
+                  id="selectAllRentedMeterRecordForBillCreation"
                   type="checkbox"
                   class="checkbox checkbox-primary"
                   @click="togggleSelectAllRentedMeterRecordForBillCreation"
@@ -322,7 +323,7 @@ const toggleSelectAllMeterRecordForBillCreation = () => {
                       ).length
                   "
                 />
-                <p class="text-sm">เลือกทุกห้องที่มีคนเช่า</p>
+                <label for="selectAllRentedMeterRecordForBillCreation" class="text-sm">เลือกทุกห้องที่มีคนเช่า</label>
               </div>
             </div>
 
