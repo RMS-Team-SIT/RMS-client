@@ -106,9 +106,8 @@ watch(
 <template>
   <div class="p-5" v-if="!isLoading">
     <div class="border border-black p-5">
-      {{ isPaid }}
       <h1 class="text-xl text-center" v-if="isPaid">
-        ใบเสร็จรับเงิน / Invoice
+        ใบเสร็จรับเงิน / Receipt
       </h1>
       <h1 class="text-xl text-center" v-else>ใบแจ้งหนี้ / Invoice</h1>
       <div class="flex justify-between">
@@ -229,7 +228,7 @@ watch(
       <div v-else class="flex justify-end">
         <div>
           <p class="mt-5">ลงชื่อ ________________ (ผู้รับเงิน)</p>
-          <p class="mt-5">
+          <p class="mt-5 text-center">
             ({{ residence.data.owner.firstname }}
             {{ residence.data.owner.lastname }} )
           </p>

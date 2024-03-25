@@ -26,7 +26,7 @@ const roomId = route.params.roomId;
 const residenceId = route.params.residenceId;
 const isLoading = ref(true);
 const { notify } = useNotification();
-const isRenter = ref(true);
+const isRenter = ref(route.query.renter === 'true');
 
 const fetchRoom = async () => {
   try {

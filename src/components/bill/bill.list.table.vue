@@ -108,6 +108,15 @@ watch(
 
 const updateBillRoomStatus = async () => {
   try {
+    if (!payload.status) {
+      notify({
+        group: 'tr',
+        title: 'แก้ไขสถานะบิลไม่สำเร็จ',
+        text: 'กรุณาเลือกสถานะบิล',
+        type: 'error',
+      });
+      return;
+    }
     const payloadData = {
       status: payload.status,
     };
@@ -145,7 +154,7 @@ const updateBillRoomStatus = async () => {
     });
   }
   emits('refetch');
-  payload.status = null;
+  payload.status = '';
   selectedBillRoomForModal.value = null;
 };
 
@@ -154,7 +163,7 @@ const isEditing = ref(false);
 
 const payload = reactive({
   paidEvidenceImage: null,
-  status: null,
+  status: '',
 });
 </script>
 
@@ -296,7 +305,6 @@ const payload = reactive({
                   @click="
                     selectedBillRoomForModal = billRoom;
                     isEditing = true;
-                    payload.status = billRoom.status;
                   "
                   v-if="
                     billRoom.status === 'UPLOADED' ||
@@ -589,15 +597,33 @@ const payload = reactive({
                   บาท
                 </p>
                 <Divider />
+                <div>
+                  สถานะบิลปัจจุบัน:
+                  <Badge
+                    v-if="selectedBillRoomForModal.status === 'PAID'"
+                    size="md"
+                    >จ่ายแล้ว</Badge
+                  >
+                  <Badge
+                    v-else-if="selectedBillRoomForModal.status === 'UPLOADED'"
+                    badgeType="secondary"
+                    size="md"
+                    >อัพโหลดหลักฐานแล้ว</Badge
+                  >
+                  <Badge v-else badgeType="error" size="md"
+                    >ยังไม่ได้จ่าย</Badge
+                  >
+                </div>
                 <div class="flex gap-2 items-center">
-                  <p class="text-lg font-bold">เปลี่ยนสถานะบิล:</p>
+                  <p class="">เปลี่ยนสถานะบิล:</p>
 
                   <select
                     class="select select-bordered bg-white rounded select-sm"
                     v-model="payload.status"
                   >
+                    <option value="" checked>กรุณาเลือก</option>
                     <option value="PAID">ชำระแล้ว</option>
-                    <option value="UPLOADED">อัพโหลดหลักฐานแล้ว</option>
+                    <!-- <option value="UPLOADED">อัพโหลดหลักฐานแล้ว</option> -->
                     <option value="UNPAID">ยังไม่ชำระ</option>
                   </select>
                 </div>
