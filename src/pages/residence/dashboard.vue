@@ -25,6 +25,7 @@ import ResidenceStat from '@/components/residence/residence.stat.vue';
 import temp from '@/components/residence/charts/income.vue';
 import RoomChart from '@/components/residence/charts/room.chart.vue';
 import divider from '@/components/common/divider.vue';
+import BillStatusChart from '@/components/residence/charts/bill-status.chart.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -44,6 +45,9 @@ const stats = reactive({
   notavaiableRoomCount: 30,
   paidRoomCount: 25,
   unpaidRoomCount: 5,
+  paidBillCount: 25,
+  unpaidBillCount: 5,
+  uploadedBillCount: 10,
   income: 0,
 });
 
@@ -218,12 +222,13 @@ onMounted(async () => {
             class="p-6 bg-white rounded-lg shadow-md border border-gray-200 col-span-1"
           >
             <h3 class="text-xl font-semibold mb-2 p-5">สถานะการจ่ายบิล</h3>
-            <p v-if="!stats.avaiableRoomCount" class="p-5">ไม่มีห้องในระบบ</p>
-            <RoomChart
+            <p v-if="!stats" class="p-5">ไม่มีห้องในระบบ</p>
+            <BillStatusChart
               v-else
               class="h-52 mx-auto"
-              :available="30"
-              :not-available="50"
+              :paid="stats.paidBillCount"
+              :uploaded="stats.uploadedBillCount"
+              :unpaid="stats.unpaidBillCount"
             />
             <p class="p-5 text-xs" v-if="stats.avaiableRoomCount">
               ห้องว่าง: {{ stats.avaiableRoomCount }} ห้อง, ไม่ว่าง:

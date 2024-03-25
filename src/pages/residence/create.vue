@@ -287,10 +287,10 @@ onMounted(async () => {
               class="relative bg-white p-10 space-y-4 shadow-md rounded basis-full"
             >
               <h1 class="text-xl font-semibold text-dark-blue-200">
-                อัปโหลดรูปภาพของหอพัก
+                รูปภาพของหอพัก
               </h1>
               <p class="text-sm mt-5">
-                กรุณาอัปโหลดรูปภาพของหอพัก เช่น ภาพถ่ายหอพัก
+                กรุณาอัพโหลดรูปภาพของหอพัก เช่น ภาพถ่ายหอพัก
                 เพื่อใช้ในการแสดงผลหอพัก
               </p>
               <ImageUploadForm
@@ -316,7 +316,7 @@ onMounted(async () => {
             <!-- File upload -->
             <div class="relative bg-white p-10 shadow-md rounded basis-full">
               <h1 class="text-xl font-semibold text-dark-blue-200">
-                อัพโหลดเอกสารใบอนุญาตประกอบกิจการหอพัก
+                เอกสารใบอนุญาตประกอบกิจการหอพัก
               </h1>
               <p class="text-sm mt-5">
                 กรุณาอัพโหลดเอกสารใบอนุญาตประกอบกิจการหอพัก
@@ -370,12 +370,12 @@ onMounted(async () => {
             </div>
             <div class="relative bg-white p-10 pt-0 shadow-md rounded basis-full">
               <h1 class="text-xl font-semibold text-dark-blue-200">
-                กรอกเลขประจำตัวผู้เสียภาษี
+                เลขประจำตัวผู้เสียภาษี
               </h1>
               <div>
                 <label class="label">
                   <span class="text-base label-text"
-                    >เลขประจำตัวผู้เสียภาษี <span class="text-red-500">*</span></span
+                    >กรอกเลขประจำตัวผู้เสียภาษี <span class="text-red-500">*</span></span
                   >
                 </label>
                 <input
