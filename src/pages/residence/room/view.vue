@@ -27,7 +27,6 @@ const residenceId = route.params.residenceId;
 const isLoading = ref(true);
 const { notify } = useNotification();
 const isRenter = ref(true);
-const currentRenter = ref(null);
 
 const fetchRoom = async () => {
   try {
@@ -131,6 +130,7 @@ onMounted(() => {
   <div v-if="room" class="min-h-screen">
     <div class="py-10 px-10 md:px-40">
       <Breadcrumb
+        v-if="!isRenter"
         :pathList="[
           { name: 'หน้าแรก', pathName: 'home' },
           { name: 'จัดการ', pathName: 'manage' },
@@ -143,7 +143,7 @@ onMounted(() => {
           { name: 'ดูข้อมูลห้องพัก' },
         ]"
       />
-      <back :to="{ name: 'room', params: { residenceId } }" />
+      <back v-if="!isRenter" :to="{ name: 'room', params: { residenceId } }" />
 
       <div class="bg-white mt-5 rounded-lg border p-5">
         <!-- Head -->
@@ -379,7 +379,7 @@ onMounted(() => {
           <div v-if="!room.billRooms.length">ไม่มีบิลในอดีตในระบบ</div>
           <div
             class="collapse collapse-arrow shadow-sm border"
-            v-for="(bill, index) in room.billRooms.toReversed()"
+            v-for="(billRoom, index) in room.billRooms.toReversed()"
             :key="index"
           >
             <input type="checkbox" :checked="index == 0" />
@@ -387,13 +387,15 @@ onMounted(() => {
               class="collapse-title text-lg font-bold gap-2 flex items-center"
             >
               บิลรอบมิเตอร์
-              {{ dayjs(bill.meterRecord.record_date).format('MM/YYYY') }}
+              {{ dayjs(billRoom.meterRecord.record_date).format('MM/YYYY') }}
               <Badge badgeType="success" v-if="index == 0" size="md"
                 >บิลล่าสุด</Badge
               >
-              <Badge v-if="bill.status === 'PAID'" size="md">จ่ายแล้ว</Badge>
+              <Badge v-if="billRoom.status === 'PAID'" size="md"
+                >จ่ายแล้ว</Badge
+              >
               <Badge
-                v-else-if="bill.status === 'UPLOADED'"
+                v-else-if="billRoom.status === 'UPLOADED'"
                 badgeType="secondary"
                 size="md"
                 >อัพโหลดหลักฐานแล้ว</Badge
@@ -406,26 +408,27 @@ onMounted(() => {
                   <p class="text-lg font-bold">ค่าน้ำ</p>
                   <p>
                     มิเตอร์น้ำครั้งก่อน:
-                    {{ bill.previousWaterMeter }}
+                    {{ billRoom.previousWaterMeter }}
                   </p>
                   <p>
                     มิเตอร์น้ำครั้งนี้:
-                    {{ bill.currentWaterMeter }}
+                    {{ billRoom.currentWaterMeter }}
                   </p>
                   <p>
                     จำนวนหน่วย:
-                    {{ bill.totalWaterMeterUsage }} หน่วย
+                    {{ billRoom.totalWaterMeterUsage }} หน่วย
                   </p>
                   <p>
                     อัตราค่าน้ำต่อหน่วย:
-                    {{ bill.waterPriceRate.toLocaleString() }} บาท
+                    {{ billRoom.waterPriceRate.toLocaleString() }} บาท
                   </p>
                   <p>
                     บิลค่าน้ำ :
                     <b
                       >{{
                         (
-                          bill.waterPriceRate * bill.totalWaterMeterUsage
+                          billRoom.waterPriceRate *
+                          billRoom.totalWaterMeterUsage
                         ).toLocaleString()
                       }}
                       บาท</b
@@ -437,26 +440,27 @@ onMounted(() => {
                   <p class="text-lg font-bold">ค่าไฟ</p>
                   <p>
                     มิเตอร์ไฟครั้งก่อน:
-                    {{ bill.previousElectricMeter }}
+                    {{ billRoom.previousElectricMeter }}
                   </p>
                   <p>
                     มิเตอร์ไฟครั้งนี้:
-                    {{ bill.currentElectricMeter }}
+                    {{ billRoom.currentElectricMeter }}
                   </p>
                   <p>
                     จำนวนหน่วย:
-                    {{ bill.totalElectricMeterUsage }}
+                    {{ billRoom.totalElectricMeterUsage }}
                   </p>
                   <p>
                     อัตราค่าไฟต่อหน่วย:
-                    {{ bill.electricPriceRate.toLocaleString() }}
+                    {{ billRoom.electricPriceRate.toLocaleString() }}
                   </p>
                   <p>
                     บิลค่าไฟ :
                     <b
                       >{{
                         (
-                          bill.electricPriceRate * bill.totalElectricMeterUsage
+                          billRoom.electricPriceRate *
+                          billRoom.totalElectricMeterUsage
                         ).toLocaleString()
                       }}
                       บาท</b
@@ -468,28 +472,30 @@ onMounted(() => {
                   <p class="text-lg font-bold">ค่าเช่า</p>
                   <p>
                     ค่าเช่าห้อง:
-                    <b>{{ bill.roomRentalPrice.toLocaleString() }}</b> บาท
+                    <b>{{ billRoom.roomRentalPrice.toLocaleString() }}</b> บาท
                   </p>
                   <p class="text-lg font-bold mt-2">ค่าบริการอื่น ๆ</p>
                   <span>
-                    <p v-for="(fee, index) in bill.fees" :key="index">
+                    <p v-for="(fee, index) in billRoom.fees" :key="index">
                       {{ fee.feename }}:
                       <b>{{ fee.feeprice.toLocaleString() }}</b> บาท
                     </p>
-                    <p v-if="!bill.fees.length">ไม่มีค่าบริการอื่น ๆ</p>
+                    <p v-if="!billRoom.fees.length">ไม่มีค่าบริการอื่น ๆ</p>
                   </span>
                 </div>
               </div>
               <p class="text-lg font-bold mt-5 rounded-full">
                 รวม:
-                {{ bill.totalPrice.toLocaleString() }}
+                {{ billRoom.totalPrice.toLocaleString() }}
                 บาท
               </p>
               <p>
                 สถานะ :
-                <Badge v-if="bill.status === 'PAID'" size="md">จ่ายแล้ว</Badge>
+                <Badge v-if="billRoom.status === 'PAID'" size="md"
+                  >จ่ายแล้ว</Badge
+                >
                 <Badge
-                  v-else-if="bill.status === 'UPLOADED'"
+                  v-else-if="billRoom.status === 'UPLOADED'"
                   badgeType="secondary"
                   size="md"
                   >อัพโหลดหลักฐานแล้ว</Badge
@@ -503,8 +509,8 @@ onMounted(() => {
                   :to="{
                     name: 'print-bill-room',
                     params: {
-                      billId: bill.bill,
-                      billRoomId: bill._id,
+                      billId: billRoom.bill,
+                      billRoomId: billRoom._id,
                     },
                   }"
                   target="_blank"
@@ -514,9 +520,9 @@ onMounted(() => {
               </p>
               <Divider />
               <p class="text-lg font-bold">หลักฐานการชำระเงิน</p>
-              <div v-if="bill.paidEvidenceImage">
+              <div v-if="billRoom.paidEvidenceImage">
                 <img
-                  :src="FileService.getFile(bill.paidEvidenceImage)"
+                  :src="FileService.getFile(billRoom.paidEvidenceImage)"
                   alt="หลักฐานการชำระเงิน"
                   class="w-1/2"
                 />
@@ -525,7 +531,10 @@ onMounted(() => {
                 <p>
                   ยังไม่ได้อัพโหลดหลักฐานการชำระเงิน กรุณาอัพโหลดหลักฐานด้านล่าง
                 </p>
-                <div class="mt-5" v-if="isRenter && bill.status === 'UNPAID'">
+                <div
+                  class="mt-5"
+                  v-if="isRenter && billRoom.status === 'UNPAID'"
+                >
                   <p class="text-lg font-bold">อัพโหลดหลักฐานการชำระเงิน</p>
                   <div class="relative bg-white space-y-4 rounded basis-full">
                     <ImageUploadForm
@@ -534,7 +543,7 @@ onMounted(() => {
                       :max-files="1"
                     />
                     <Button
-                      @click="uploadPaidEvidence(bill._id)"
+                      @click="uploadPaidEvidence(billRoom._id)"
                       class="btn-xs"
                       buttonType="success"
                       >บันทึกข้อมูล</Button
@@ -544,7 +553,7 @@ onMounted(() => {
               </div>
               <Divider />
               <p class="text-lg font-bold">ผู้เช่าที่เรียกเก็บ</p>
-              <p v-if="bill.renter != null">
+              <p v-if="billRoom.renter != null">
                 ชื่อผู้เช่า:
                 <router-link
                   target="_blank"
@@ -553,13 +562,15 @@ onMounted(() => {
                     name: 'view-renter',
                     params: {
                       residenceId: $route.params.residenceId,
-                      renterId: bill.renter._id,
+                      renterId: billRoom.renter._id,
                     },
                   }"
                 >
                   {{
-                    bill.renter
-                      ? bill.renter.firstname + ' ' + bill.renter.lastname
+                    billRoom.renter
+                      ? billRoom.renter.firstname +
+                        ' ' +
+                        billRoom.renter.lastname
                       : 'ไม่มีผู้เช่า'
                   }}
                 </router-link>

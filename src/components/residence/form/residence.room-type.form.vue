@@ -174,7 +174,7 @@ watch(childData, () => {
           class="input input-bordered bg-white input-sm rounded-sm"
           v-model="temp.name"
         />
-        <p class="text-xs text-gray-500">เช่น ดีลักซ์, ซูเปอร์ดีลักซ์</p>
+        <p class="text-xs text-gray-500">เช่น สแตนดาร์ด, ดีลักซ์, สวีท</p>
       </div>
 
       <div>

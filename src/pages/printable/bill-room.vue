@@ -13,6 +13,7 @@ const billId = route.params.billId;
 const billRoomId = route.params.billRoomId;
 const residenceId = route.params.residenceId;
 const isLoading = ref(true);
+const isPaid = ref(false);
 
 const { notify } = useNotification();
 
@@ -28,6 +29,7 @@ const fetchBillRoom = async () => {
     console.log('bill room', result);
     billRoom.data = result;
     billRoom.isLoaded = true;
+    isPaid.value = result.status === 'PAID';
   } else {
     notify({
       group: 'tr',
@@ -104,7 +106,11 @@ watch(
 <template>
   <div class="p-5" v-if="!isLoading">
     <div class="border border-black p-5">
-      <h1 class="text-xl text-center">ใบแจ้งหนี้ / Invoice</h1>
+      {{ isPaid }}
+      <h1 class="text-xl text-center" v-if="isPaid">
+        ใบเสร็จรับเงิน / Invoice
+      </h1>
+      <h1 class="text-xl text-center" v-else>ใบแจ้งหนี้ / Invoice</h1>
       <div class="flex justify-between">
         <div>
           <p>หอพัก: {{ residence.data.name }}</p>
@@ -116,12 +122,18 @@ watch(
           <p>วันที่: {{ new Date().toLocaleDateString() }}</p>
           <p>เลขที่ใบแจ้งหนี้: {{ billRoom.data.billNo }}</p>
           <p>ห้อง : {{ billRoom.data.room.name }}</p>
-          <p>ชำระก่อน: วันที่ {{ residence.data.billDueDate }}</p>
+          <p v-if="!isPaid">ชำระก่อน: วันที่ {{ residence.data.billDueDate }}</p>
         </div>
       </div>
       <!-- Items -->
       <table class="w-full mt-5">
         <thead>
+          <tr>
+            <th class="border border-black text-left" colspan="6">
+              ชื่อผู้เช่า: {{ billRoom.data.renter.firstname }}
+              {{ billRoom.data.renter?.lastname }}
+            </th>
+          </tr>
           <tr>
             <th class="border border-black">รายการ</th>
             <th class="border border-black">จดครั้งก่อน</th>
@@ -196,21 +208,32 @@ watch(
       </table>
 
       <!-- Where to pay -->
-      <div
-        class="mt-5"
-        v-for="(payment, index) in residence.data.payments.filter(
-          (e) => e.isActive
-        )"
-        :key="index"
-      >
-        <p>ชำระเงินที่: {{ payment.bank.thai_name }}</p>
-        <p>เลขบัญชี: {{ payment.account_number }}</p>
-        <p>ชื่อบัญชี: {{ payment.account_name }}</p>
-      </div>
+      <div v-if="!isPaid">
+        <div
+          class="mt-5"
+          v-for="(payment, index) in residence.data.payments.filter(
+            (e) => e.isActive
+          )"
+          :key="index"
+        >
+          <p>ชำระเงินที่: {{ payment.bank.thai_name }}</p>
+          <p>เลขบัญชี: {{ payment.account_number }}</p>
+          <p>ชื่อบัญชี: {{ payment.account_name }}</p>
+        </div>
 
-      <!-- Note for payment -->
-      <div class="mt-5">
-        <p>หมายเหตุ: {{ residence.data.paymentNotes || 'ไม่มีข้อความ' }}</p>
+        <!-- Note for payment -->
+        <div class="mt-5">
+          <p>หมายเหตุ: {{ residence.data.paymentNotes || 'ไม่มีข้อความ' }}</p>
+        </div>
+      </div>
+      <div v-else class="flex justify-end">
+        <div>
+          <p class="mt-5">ลงชื่อ ________________ (ผู้รับเงิน)</p>
+          <p class="mt-5">
+            ({{ residence.data.owner.firstname }}
+            {{ residence.data.owner.lastname }} )
+          </p>
+        </div>
       </div>
     </div>
     <p></p>
