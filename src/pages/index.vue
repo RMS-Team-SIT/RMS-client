@@ -54,7 +54,7 @@ import { projectFullName } from '@/utils/constants';
 
 <style scoped>
 .bg-cover {
-  background-image: url('/8.jpg');
+  background-image: url('/8c.jpg');
   background-position: center;
 }
 </style>
