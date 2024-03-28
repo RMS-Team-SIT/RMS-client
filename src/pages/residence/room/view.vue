@@ -184,15 +184,15 @@ const removePaidEvidence = async (billRoomId) => {
     />
     <back v-if="!isRenter" :to="{ name: 'room', params: { residenceId } }" />
 
-    <div
+    <div class="mt-2"
       v-if="
-        isRenter && room.billRooms.filter((b) => b.status === 'UNPAID').length
+        room.billRooms.filter((b) => b.status === 'UNPAID').length
       "
     >
       <Alert>
         มีบิลค้างชำระจำนวน
         {{ room.billRooms.filter((b) => b.status === 'UNPAID').length }}
-        รายการ กรุณาจ่ายบิลให้เสร็จโดยเร็วที่สุด
+        รายการ 
       </Alert>
     </div>
     <ModernAlert
@@ -599,7 +599,7 @@ const removePaidEvidence = async (billRoomId) => {
             </div>
             <div v-else>
               <p>
-                ยังไม่ได้อัพโหลดหลักฐานการชำระเงิน กรุณาอัพโหลดหลักฐานด้านล่าง
+                ยังไม่ได้อัพโหลดหลักฐานการชำระเงิน
               </p>
               <div class="mt-5" v-if="isRenter && billRoom.status === 'UNPAID'">
                 <p class="text-lg font-bold">อัพโหลดหลักฐานการชำระเงิน</p>
