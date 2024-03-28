@@ -197,7 +197,7 @@ const removePaidEvidence = async (billRoomId) => {
         </Alert>
       </div>
       <ModernAlert
-        v-else
+        v-else-if="isRenter"
         class="mt-2"
         title="คำแนะนำ"
         text="หากมีปัญหาหรือข้อสงสัยใด ๆ กรุณาติดต่อผู้ดูแลห้องพัก"
@@ -607,8 +607,9 @@ const removePaidEvidence = async (billRoomId) => {
                   v-if="isRenter && billRoom.status === 'UPLOADED'"
                   class="btn-xs mt-2"
                   btnType="secondary"
-                  >ลบรูปภาพ</Button
+                  >ลบหลักฐานการชำระเงิน</Button
                 >
+                <p>* หากต้องการเปลี่ยนรูปหลักฐานการชำระเงิน กรุณาลบหลักฐานการชำระเงินแล้วอัพโหลดใหม่</p>
               </div>
               <div v-else>
                 <p>
@@ -637,7 +638,7 @@ const removePaidEvidence = async (billRoomId) => {
               </div>
               <Divider />
               <p class="text-lg font-bold">ผู้เช่าที่เรียกเก็บ</p>
-              <p v-if="billRoom.renter != null">
+              <p v-if="billRoom.renter">
                 ชื่อผู้เช่า:
                 <router-link
                   target="_blank"

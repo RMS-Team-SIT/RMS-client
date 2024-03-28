@@ -98,7 +98,7 @@ onMounted(async () => {
         </div>
 
         <div class="grid grid-cols-2 gap-2 col-span-2 mt-5 w-1/2">
-          <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
+          <div class=" bg-white rounded-lg">
             <h3 class="text-lg font-semibold mb-2">ค่าน้ำต่อหน่วย</h3>
             <p class="flex gap-2 items-end">
               <CountUp
@@ -108,7 +108,7 @@ onMounted(async () => {
               บาท/หน่วย
             </p>
           </div>
-          <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
+          <div class="bg-white rounded-lg">
             <h3 class="text-lg font-semibold mb-2">ค่าไฟฟ้าต่อหน่วย</h3>
             <p class="flex gap-2 items-end">
               <CountUp
@@ -137,7 +137,7 @@ onMounted(async () => {
             class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
           >
             <AdjustmentsVerticalIcon class="w-8 h-8 text-dark-blue-200" />
-            จัดการราคาค่าใช้จ่ายเพิ่มเติมในหอพัก
+            จัดการราคาค่าบริการเพิ่มเติมที่เรียกเก็บ
           </h1>
           <div>
             <router-link
@@ -148,7 +148,7 @@ onMounted(async () => {
                 },
               }"
             >
-              <Button btnType="primary">เพิ่มค่าใช้จ่ายเพิ่มเติม</Button>
+              <Button btnType="primary">เพิ่มค่าบริการเพิ่มเติมที่เรียกเก็บ</Button>
             </router-link>
           </div>
         </div>

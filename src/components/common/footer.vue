@@ -6,7 +6,7 @@ const thisYear = new Date().getFullYear();
 </script>
 
 <template>
-  <footer class="footer p-10 bg-white text-base-content border-t">
+  <footer class="footer p-10 bg-gray-100 text-base-content rounded">
     <aside>
       <Logo />
       <p>
@@ -29,8 +29,8 @@ const thisYear = new Date().getFullYear();
       <div class="link link-hover">Privacy policy</div>
       <div class="link link-hover">Cookie policy</div>
     </nav>
+    <p class="p-2 w-full text-center text-sm">&copf; RMS team</p>
   </footer>
-  <p class="p-2 w-full text-center text-sm">&copf; RMS team</p>
 </template>
 
 <style scoped>

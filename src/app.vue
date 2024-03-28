@@ -34,7 +34,7 @@ const shouldShowFooter = computed(() => {
     'not-found',
     'unavailable',
     'renter-signin',
-    'print-bill-room'
+    'print-bill-room',
   ];
   return !excludedRoutes.includes(route.name);
 });

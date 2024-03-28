@@ -8,7 +8,6 @@ import ResidenceServices from '@/services/ResidenceServices';
 import Loading from '@/components/common/loading.vue';
 import PaidChart from '@/components/residence/charts/paid.chart.vue';
 import AvailableChart from '@/components/residence/charts/available.chart.vue';
-import IncomeChart from '@/components/residence/charts/income.chart.vue';
 import {
   BanknotesIcon,
   ChartPieIcon,
@@ -22,7 +21,7 @@ import {
 } from '@heroicons/vue/24/outline';
 import QuickLinkCard from '@/components/common/quick-link-card.vue';
 import ResidenceStat from '@/components/residence/residence.stat.vue';
-import temp from '@/components/residence/charts/income.vue';
+import IncomeChart from '@/components/residence/charts/income.vue';
 import RoomChart from '@/components/residence/charts/room.chart.vue';
 import divider from '@/components/common/divider.vue';
 import BillStatusChart from '@/components/residence/charts/bill-status.chart.vue';
@@ -48,7 +47,10 @@ const stats = reactive({
   paidBillCount: 25,
   unpaidBillCount: 5,
   uploadedBillCount: 10,
-  income: 0,
+  income: [
+    24599, 30000, 20000, 15000, 25000, 30000, 20000, 15000, 25000, 30000, 20000,
+    15000,
+  ],
 });
 
 const fetchData = async () => {
@@ -117,7 +119,37 @@ onMounted(async () => {
         </h1>
 
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-2">
-          <div class="grid grid-cols-2 gap-2">
+          <!-- รายได้ของหอพักในปีนี้ -->
+          <div
+            class="p-5 bg-white rounded-lg shadow-md border border-gray-200 col-span-2"
+          >
+            <h3 class="text-xl font-semibold mb-2 p-5">
+              รายได้ของหอพักในปีนี้
+            </h3>
+            <IncomeChart :data="stats.income" />
+          </div>
+
+         
+          <!-- สถานะห้องว่าง -->
+          <div
+            class="p-6 bg-white rounded-lg shadow-md border border-gray-200 col-span-1"
+          >
+            <h3 class="text-xl font-semibold mb-2 p-5">สถานะห้องว่าง</h3>
+            <p v-if="!stats.avaiableRoomCount" class="p-5">ไม่มีห้องในระบบ</p>
+            <RoomChart
+              v-else
+              class="h-52 mx-auto"
+              :available="stats.avaiableRoomCount"
+              :not-available="stats.notavaiableRoomCount"
+            />
+            <p class="p-5 text-xs" v-if="stats.avaiableRoomCount">
+              ห้องว่าง: {{ stats.avaiableRoomCount }} ห้อง, ไม่ว่าง:
+              {{ stats.notavaiableRoomCount }} ห้อง
+            </p>
+          </div>
+
+           <!-- Other -->
+           <div class="grid grid-cols-2 gap-2">
             <div
               class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
             >
@@ -171,33 +203,6 @@ onMounted(async () => {
             </div>
           </div>
 
-          <!-- รายได้ของหอพักในปีนี้ -->
-          <div
-            class="p-5 bg-white rounded-lg shadow-md border border-gray-200 col-span-2"
-          >
-            <h3 class="text-xl font-semibold mb-2 p-5">
-              รายได้ของหอพักในปีนี้
-            </h3>
-            <temp />
-          </div>
-
-          <!-- สถานะห้องว่าง -->
-          <div
-            class="p-6 bg-white rounded-lg shadow-md border border-gray-200 col-span-1"
-          >
-            <h3 class="text-xl font-semibold mb-2 p-5">สถานะห้องว่าง</h3>
-            <p v-if="!stats.avaiableRoomCount" class="p-5">ไม่มีห้องในระบบ</p>
-            <RoomChart
-              v-else
-              class="h-52 mx-auto"
-              :available="stats.avaiableRoomCount"
-              :not-available="stats.notavaiableRoomCount"
-            />
-            <p class="p-5 text-xs" v-if="stats.avaiableRoomCount">
-              ห้องว่าง: {{ stats.avaiableRoomCount }} ห้อง, ไม่ว่าง:
-              {{ stats.notavaiableRoomCount }} ห้อง
-            </p>
-          </div>
 
           <!-- สถานะห้องว่าง -->
           <div
@@ -221,7 +226,9 @@ onMounted(async () => {
           <div
             class="p-6 bg-white rounded-lg shadow-md border border-gray-200 col-span-1"
           >
-            <h3 class="text-xl font-semibold mb-2 p-5">สถานะการจ่ายบิล</h3>
+            <h3 class="text-xl font-semibold mb-2 p-5">
+              สถานะการจ่ายบิลของรอบบิลล่าสุด
+            </h3>
             <p v-if="!stats" class="p-5">ไม่มีห้องในระบบ</p>
             <BillStatusChart
               v-else
@@ -230,9 +237,10 @@ onMounted(async () => {
               :uploaded="stats.uploadedBillCount"
               :unpaid="stats.unpaidBillCount"
             />
-            <p class="p-5 text-xs" v-if="stats.avaiableRoomCount">
-              ห้องว่าง: {{ stats.avaiableRoomCount }} ห้อง, ไม่ว่าง:
-              {{ stats.notavaiableRoomCount }} ห้อง
+            <p class="p-5 text-xs">
+              จ่ายแล้ว: {{ stats.paidBillCount }} บิล, ยังไม่จ่าย:
+              {{ stats.unpaidBillCount }} บิล, อัพโหลดแล้ว:
+              {{ stats.uploadedBillCount }} บิล
             </p>
           </div>
 

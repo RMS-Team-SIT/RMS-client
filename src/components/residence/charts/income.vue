@@ -1,16 +1,33 @@
 <script setup>
-const {
-  data
-} = defineProps({
+const { data } = defineProps({
   data: {
     type: Array,
     required: true,
-    default: [0,0,0,0,0,0,0,0,0,0,0,0],
+    default: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   },
-})
+});
 const options = {
   chart: {
-    id: 'apexchart-example',
+    id: 'income-column-chart',
+    type: 'bar',
+  },
+  plotOptions: {
+    bar: {
+      horizontal: false,
+      columnWidth: '55%',
+      endingShape: 'rounded',
+    },
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    show: true,
+    width: 2,
+    colors: ['transparent'],
+  },
+  fill: {
+    opacity: 1,
   },
   xaxis: {
     categories: [
@@ -28,6 +45,18 @@ const options = {
       'ธันวาคม',
     ],
   },
+  yaxis: {
+    title: {
+      text: 'บาท',
+    },
+  },
+  tooltip: {
+    y: {
+      formatter: function (val) {
+        return val.toLocaleString() + ' บาท';
+      },
+    },
+  },
 };
 const series = [
   {
@@ -38,14 +67,13 @@ const series = [
 </script>
 
 <template>
-  <div class="w-full flex justify-center lg:justify-start">
-    <apexchart
-      width="500"
-      type="line"
-      :options="options"
-      :series="series"
-    ></apexchart>
-  </div>
+  <apexchart
+    class="min-w-full h-96"
+    width="500"
+    type="bar"
+    :options="options"
+    :series="series"
+  ></apexchart>
 </template>
 
 <style scoped></style>
