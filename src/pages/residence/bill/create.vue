@@ -167,7 +167,7 @@ const toggleSelectAllMeterRecordForBillCreation = () => {
 
 <template>
   <Loading v-if="isLoading" />
-  <div class="py-10 px-10 md:px-40" v-else>
+  <div class="py-10 px-10 md:px-20" v-else>
     <Breadcrumb
       :pathList="[
         { name: 'หน้าแรก', pathName: 'home' },

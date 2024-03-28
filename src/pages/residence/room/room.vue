@@ -60,7 +60,7 @@ onMounted(async () => {
   <LoggedIn>
     <Loading v-if="isLoading" class="min-h-screen" />
     <div v-if="residence.data" class="min-h-screen w-full">
-      <div class="py-10 px-10 md:px-40">
+      <div class="py-10 px-10 md:px-20">
         <Breadcrumb
           :pathList="[
             { name: 'หน้าแรก', pathName: 'home' },
