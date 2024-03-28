@@ -1,11 +1,11 @@
 <script setup>
-import Sidebar from '@/components/common/sidebar.vue';
+import SidebarResidence from '@/components/common/sidebar-residence.vue';
 </script>
 
 <template>
-  <div class="flex h-screen">
+  <div class="flex min-h-screen">
     <!-- Sidebar -->
-    <Sidebar />
+    <SidebarResidence />
 
     <slot class="w-full"></slot>
   </div>

@@ -10,7 +10,7 @@ import Button from '@/components/common/button.vue';
 import RoomListTable from '@/components/room/room.list.table.vue';
 import { HomeIcon, HomeModernIcon } from '@heroicons/vue/24/outline';
 import back from '@/components/common/back.vue';
-import LoggedIn from '@/layout/loggedIn.vue';
+import LoggedIn from '@/layout/loggedInLandlord.vue';
 
 const router = useRouter();
 const route = useRoute();

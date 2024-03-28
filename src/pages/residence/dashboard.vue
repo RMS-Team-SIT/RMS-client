@@ -18,6 +18,7 @@ import {
   AdjustmentsHorizontalIcon,
   ArrowRightIcon,
   HomeModernIcon,
+  ArrowRightCircleIcon,
 } from '@heroicons/vue/24/outline';
 import QuickLinkCard from '@/components/common/quick-link-card.vue';
 import ResidenceStat from '@/components/residence/residence.stat.vue';
@@ -25,6 +26,7 @@ import IncomeChart from '@/components/residence/charts/income.vue';
 import RoomChart from '@/components/residence/charts/room.chart.vue';
 import divider from '@/components/common/divider.vue';
 import BillStatusChart from '@/components/residence/charts/bill-status.chart.vue';
+import LoggedInLandlord from '@/layout/loggedInLandlord.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -95,304 +97,306 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
-  <div v-if="residence.data" class="min-h-screen">
-    <div class="py-10 px-10 md:px-40">
-      <Breadcrumb
-        :pathList="[
-          { name: 'หน้าแรก', pathName: 'home' },
-          { name: 'จัดการ', pathName: 'manage' },
-          {
-            name: `${residence.data.name}`,
-            pathName: 'dashboard',
-            params: { residenceId },
-          },
-          { name: 'แดชบอร์ด' },
-        ]"
-      />
+  <LoggedInLandlord v-else>
+    <div v-if="residence.data" class="min-h-screen">
+      <div class="py-10 px-10 md:px-40">
+        <Breadcrumb
+          :pathList="[
+            { name: 'หน้าแรก', pathName: 'home' },
+            { name: 'จัดการ', pathName: 'manage' },
+            {
+              name: `${residence.data.name}`,
+              pathName: 'dashboard',
+              params: { residenceId },
+            },
+            { name: 'แดชบอร์ด' },
+          ]"
+        />
 
-      <section>
-        <h1
-          class="text-xl font-semibold text-dark-blue-200 my-5 flex items-center gap-2"
-        >
-          <ChartPieIcon class="h-8 w-8 inline-block" /> ข้อมูลภาพรวม :
-          {{ residence.data.name }}
-        </h1>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-2">
-          <!-- รายได้ของหอพักในปีนี้ -->
-          <div
-            class="p-5 bg-white rounded-lg shadow-md border border-gray-200 col-span-2"
+        <section>
+          <h1
+            class="text-xl font-semibold text-dark-blue-200 my-5 flex items-center gap-2"
           >
-            <h3 class="text-xl font-semibold mb-2 p-5">
-              รายได้ของหอพักในปีนี้
-            </h3>
-            <IncomeChart :data="stats.income" />
-          </div>
+            <ChartPieIcon class="h-8 w-8 inline-block" /> ข้อมูลภาพรวม :
+            {{ residence.data.name }}
+          </h1>
 
-         
-          <!-- สถานะห้องว่าง -->
-          <div
-            class="p-6 bg-white rounded-lg shadow-md border border-gray-200 col-span-1"
-          >
-            <h3 class="text-xl font-semibold mb-2 p-5">สถานะห้องว่าง</h3>
-            <p v-if="!stats.avaiableRoomCount" class="p-5">ไม่มีห้องในระบบ</p>
-            <RoomChart
-              v-else
-              class="h-52 mx-auto"
-              :available="stats.avaiableRoomCount"
-              :not-available="stats.notavaiableRoomCount"
-            />
-            <p class="p-5 text-xs" v-if="stats.avaiableRoomCount">
-              ห้องว่าง: {{ stats.avaiableRoomCount }} ห้อง, ไม่ว่าง:
-              {{ stats.notavaiableRoomCount }} ห้อง
-            </p>
-          </div>
-
-           <!-- Other -->
-           <div class="grid grid-cols-2 gap-2">
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-2">
+            <!-- รายได้ของหอพักในปีนี้ -->
             <div
-              class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
+              class="p-5 bg-white rounded-lg shadow-md border border-gray-200 col-span-2"
             >
-              <h3 class="text-lg font-semibold mb-2">จำนวนห้อง</h3>
-              <p class="flex gap-2 items-end">
-                <CountUp
-                  :end-val="stats.roomCount"
-                  class="text-6xl text-green-400"
-                />
-                ห้อง
-              </p>
-            </div>
-
-            <div
-              class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
-            >
-              <h3 class="text-lg font-semibold mb-2">จำนวนผู้เช่า</h3>
-              <p class="flex gap-2 items-end">
-                <CountUp
-                  :end-val="stats.renterCount"
-                  class="text-6xl text-green-400"
-                />
-                คน
-              </p>
-            </div>
-
-            <div
-              class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
-            >
-              <h3 class="text-lg font-semibold mb-2">จำนวนประเภทห้อง</h3>
-              <p class="flex gap-2 items-end">
-                <CountUp
-                  :end-val="residence.data.roomTypes.length"
-                  class="text-6xl text-green-400"
-                />
-                ประเภท
-              </p>
-            </div>
-
-            <div
-              class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
-            >
-              <h3 class="text-lg font-semibold mb-2">ช่องทางการชำระเงิน</h3>
-              <p class="flex gap-2 items-end">
-                <CountUp
-                  :end-val="stats.paymentCount"
-                  class="text-6xl text-green-400"
-                />
-                ช่องทาง
-              </p>
-            </div>
-          </div>
-
-
-          <!-- สถานะห้องว่าง -->
-          <div
-            class="p-6 bg-white rounded-lg shadow-md border border-gray-200 col-span-1"
-          >
-            <h3 class="text-xl font-semibold mb-2 p-5">สถานะห้อง</h3>
-            <p v-if="!stats.avaiableRoomCount" class="p-5">ไม่มีห้องในระบบ</p>
-            <RoomChart
-              v-else
-              class="h-52 mx-auto"
-              :available="stats.avaiableRoomCount"
-              :not-available="stats.notavaiableRoomCount"
-            />
-            <p class="p-5 text-xs" v-if="stats.avaiableRoomCount">
-              ห้องว่าง: {{ stats.avaiableRoomCount }} ห้อง, ไม่ว่าง:
-              {{ stats.notavaiableRoomCount }} ห้อง
-            </p>
-          </div>
-
-          <!-- สถานะการจ่ายค่าห้อง -->
-          <div
-            class="p-6 bg-white rounded-lg shadow-md border border-gray-200 col-span-1"
-          >
-            <h3 class="text-xl font-semibold mb-2 p-5">
-              สถานะการจ่ายบิลของรอบบิลล่าสุด
-            </h3>
-            <p v-if="!stats" class="p-5">ไม่มีห้องในระบบ</p>
-            <BillStatusChart
-              v-else
-              class="h-52 mx-auto"
-              :paid="stats.paidBillCount"
-              :uploaded="stats.uploadedBillCount"
-              :unpaid="stats.unpaidBillCount"
-            />
-            <p class="p-5 text-xs">
-              จ่ายแล้ว: {{ stats.paidBillCount }} บิล, ยังไม่จ่าย:
-              {{ stats.unpaidBillCount }} บิล, อัพโหลดแล้ว:
-              {{ stats.uploadedBillCount }} บิล
-            </p>
-          </div>
-
-          <div class="grid grid-cols-2 gap-2 col-span-2">
-            <div
-              class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
-            >
-              <h3 class="text-lg font-semibold mb-2">ค่าน้ำต่อหน่วย</h3>
-              <p class="flex gap-2 items-end">
-                <CountUp
-                  :end-val="residence.data.defaultWaterPriceRate"
-                  class="text-6xl text-green-400"
-                />
-                บาท/หน่วย
-              </p>
-            </div>
-
-            <div
-              class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
-            >
-              <h3 class="text-lg font-semibold mb-2">ค่าไฟฟ้าต่อหน่วย</h3>
-              <p class="flex gap-2 items-end">
-                <CountUp
-                  :end-val="residence.data.defaultElectricPriceRate"
-                  class="text-6xl text-green-400"
-                />
-                บาท/หน่วย
-              </p>
-            </div>
-
-            <div
-              class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
-            >
-              <h3 class="text-lg font-semibold mb-2">สิ่งอำนวยความสะดวก</h3>
-              <p class="flex gap-2 items-end">
-                <CountUp
-                  :end-val="residence.data.facilities.length"
-                  class="text-6xl text-green-400"
-                />
-                รายการ
-              </p>
-            </div>
-
-            <div
-              class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
-            >
-              <h3 class="text-base font-semibold mb-2">
-                รายการเก็บเงินเพิ่มเติม
+              <h3 class="text-xl font-semibold mb-2 p-5">
+                รายได้ของหอพักในปีนี้
               </h3>
-              <p class="flex gap-2 items-end">
-                <CountUp
-                  :end-val="residence.data.fees.length"
-                  class="text-6xl text-green-400"
-                />
-                รายการ
+              <IncomeChart :data="stats.income" />
+            </div>
+
+            <!-- สถานะห้องว่าง -->
+            <div
+              class="p-6 bg-white rounded-lg shadow-md border border-gray-200 col-span-1"
+            >
+              <h3 class="text-xl font-semibold mb-2 p-5">สถานะห้องว่าง</h3>
+              <p v-if="!stats.avaiableRoomCount" class="p-5">ไม่มีห้องในระบบ</p>
+              <RoomChart
+                v-else
+                class="h-52 mx-auto"
+                :available="stats.avaiableRoomCount"
+                :not-available="stats.notavaiableRoomCount"
+              />
+              <p class="p-5 text-xs" v-if="stats.avaiableRoomCount">
+                ห้องว่าง: {{ stats.avaiableRoomCount }} ห้อง, ไม่ว่าง:
+                {{ stats.notavaiableRoomCount }} ห้อง
               </p>
             </div>
+
+            <!-- Other -->
+            <div class="grid grid-cols-2 gap-2">
+              <div
+                class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
+              >
+                <h3 class="text-lg font-semibold mb-2">จำนวนห้อง</h3>
+                <p class="flex gap-2 items-end">
+                  <CountUp
+                    :end-val="stats.roomCount"
+                    class="text-6xl text-green-400"
+                  />
+                  ห้อง
+                </p>
+              </div>
+
+              <div
+                class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
+              >
+                <h3 class="text-lg font-semibold mb-2">จำนวนผู้เช่า</h3>
+                <p class="flex gap-2 items-end">
+                  <CountUp
+                    :end-val="stats.renterCount"
+                    class="text-6xl text-green-400"
+                  />
+                  คน
+                </p>
+              </div>
+
+              <div
+                class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
+              >
+                <h3 class="text-lg font-semibold mb-2">จำนวนประเภทห้อง</h3>
+                <p class="flex gap-2 items-end">
+                  <CountUp
+                    :end-val="residence.data.roomTypes.length"
+                    class="text-6xl text-green-400"
+                  />
+                  ประเภท
+                </p>
+              </div>
+
+              <div
+                class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
+              >
+                <h3 class="text-lg font-semibold mb-2">ช่องทางการชำระเงิน</h3>
+                <p class="flex gap-2 items-end">
+                  <CountUp
+                    :end-val="stats.paymentCount"
+                    class="text-6xl text-green-400"
+                  />
+                  ช่องทาง
+                </p>
+              </div>
+            </div>
+
+            <!-- สถานะห้องว่าง -->
+            <div
+              class="p-6 bg-white rounded-lg shadow-md border border-gray-200 col-span-1"
+            >
+              <h3 class="text-xl font-semibold mb-2 p-5">สถานะห้อง</h3>
+              <p v-if="!stats.avaiableRoomCount" class="p-5">ไม่มีห้องในระบบ</p>
+              <RoomChart
+                v-else
+                class="h-52 mx-auto"
+                :available="stats.avaiableRoomCount"
+                :not-available="stats.notavaiableRoomCount"
+              />
+              <p class="p-5 text-xs" v-if="stats.avaiableRoomCount">
+                ห้องว่าง: {{ stats.avaiableRoomCount }} ห้อง, ไม่ว่าง:
+                {{ stats.notavaiableRoomCount }} ห้อง
+              </p>
+            </div>
+
+            <!-- สถานะการจ่ายค่าห้อง -->
+            <div
+              class="p-6 bg-white rounded-lg shadow-md border border-gray-200 col-span-1"
+            >
+              <h3 class="text-xl font-semibold mb-2 p-5">
+                สถานะการจ่ายบิลของรอบบิลล่าสุด
+              </h3>
+              <p v-if="!stats" class="p-5">ไม่มีห้องในระบบ</p>
+              <BillStatusChart
+                v-else
+                class="h-52 mx-auto"
+                :paid="stats.paidBillCount"
+                :uploaded="stats.uploadedBillCount"
+                :unpaid="stats.unpaidBillCount"
+              />
+              <p class="p-5 text-xs">
+                จ่ายแล้ว: {{ stats.paidBillCount }} บิล, ยังไม่จ่าย:
+                {{ stats.unpaidBillCount }} บิล, อัพโหลดแล้ว:
+                {{ stats.uploadedBillCount }} บิล
+              </p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 col-span-2">
+              <div
+                class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
+              >
+                <h3 class="text-lg font-semibold mb-2">ค่าน้ำต่อหน่วย</h3>
+                <p class="flex gap-2 items-end">
+                  <CountUp
+                    :end-val="residence.data.defaultWaterPriceRate"
+                    class="text-6xl text-green-400"
+                  />
+                  บาท/หน่วย
+                </p>
+              </div>
+
+              <div
+                class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
+              >
+                <h3 class="text-lg font-semibold mb-2">ค่าไฟฟ้าต่อหน่วย</h3>
+                <p class="flex gap-2 items-end">
+                  <CountUp
+                    :end-val="residence.data.defaultElectricPriceRate"
+                    class="text-6xl text-green-400"
+                  />
+                  บาท/หน่วย
+                </p>
+              </div>
+
+              <div
+                class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
+              >
+                <h3 class="text-lg font-semibold mb-2">สิ่งอำนวยความสะดวก</h3>
+                <p class="flex gap-2 items-end">
+                  <CountUp
+                    :end-val="residence.data.facilities.length"
+                    class="text-6xl text-green-400"
+                  />
+                  รายการ
+                </p>
+              </div>
+
+              <div
+                class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
+              >
+                <h3 class="text-base font-semibold mb-2">
+                  รายการเก็บเงินเพิ่มเติม
+                </h3>
+                <p class="flex gap-2 items-end">
+                  <CountUp
+                    :end-val="residence.data.fees.length"
+                    class="text-6xl text-green-400"
+                  />
+                  รายการ
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Quick link Section -->
-      <section class="mt-5">
-        <div class="divider font-bold divider-start">เข้าถึงระบบจัดการห้อง</div>
-        <div class="grid grid-cols-12 gap-2">
-          <QuickLinkCard
-            class="col-span-4"
-            :router-path="{ name: 'room', params: { residenceId } }"
-            title="จัดการห้อง"
-            text="เข้าสู่ระบบจัดการห้อง"
-            :icon="HomeIcon"
-          />
-          <QuickLinkCard
-            class="col-span-4"
-            :router-path="{ name: 'room-type', params: { residenceId } }"
-            title="จัดการประเภทห้อง"
-            text="เข้าสู่ระบบจัดการประเภทห้อง"
-            :icon="HomeModernIcon"
-          />
-        </div>
+        <!-- Quick link Section -->
+        <section class="mt-5">
+          <div class="divider font-bold divider-start">
+            เข้าถึงระบบจัดการห้อง
+          </div>
+          <div class="grid grid-cols-12 gap-2">
+            <QuickLinkCard
+              class="col-span-4"
+              :router-path="{ name: 'room', params: { residenceId } }"
+              title="จัดการห้อง"
+              text="เข้าสู่ระบบจัดการห้อง"
+              :icon="HomeIcon"
+            />
+            <QuickLinkCard
+              class="col-span-4"
+              :router-path="{ name: 'room-type', params: { residenceId } }"
+              title="จัดการประเภทห้อง"
+              text="เข้าสู่ระบบจัดการประเภทห้อง"
+              :icon="HomeModernIcon"
+            />
+          </div>
 
-        <div class="divider font-bold divider-start">ระบบจัดการผู้เช่า</div>
-        <div class="grid grid-cols-12 gap-2">
-          <QuickLinkCard
-            class="col-span-4"
-            :router-path="{ name: 'renter', params: { residenceId } }"
-            title="จัดการผู้เช่า"
-            text="เข้าสู่ระบบจัดการผู้เช่าในหอพักนี้"
-            :icon="UserIcon"
-          />
+          <div class="divider font-bold divider-start">ระบบจัดการผู้เช่า</div>
+          <div class="grid grid-cols-12 gap-2">
+            <QuickLinkCard
+              class="col-span-4"
+              :router-path="{ name: 'renter', params: { residenceId } }"
+              title="จัดการผู้เช่า"
+              text="เข้าสู่ระบบจัดการผู้เช่าในหอพักนี้"
+              :icon="UserIcon"
+            />
 
-          <QuickLinkCard
-            class="col-span-4"
-            :router-path="{ name: 'rent', params: { residenceId } }"
-            title="การย้ายเข้า และย้ายออก"
-            text="เข้าสู่ระบบการย้ายเข้า และย้ายออก"
-            :icons="[UserIcon, ArrowRightCircleIcon, HomeIcon]"
-          />
-        </div>
+            <QuickLinkCard
+              class="col-span-4"
+              :router-path="{ name: 'rent', params: { residenceId } }"
+              title="การย้ายเข้า และย้ายออก"
+              text="เข้าสู่ระบบการย้ายเข้า และย้ายออก"
+              :icons="[UserIcon, ArrowRightCircleIcon, HomeIcon]"
+            />
+          </div>
 
-        <div class="divider font-bold divider-start">
-          การจดมิเตอร์ และสร้างบิล
-        </div>
-        <div class="grid grid-cols-12 gap-2">
-          <QuickLinkCard
-            class="col-span-4"
-            :router-path="{ name: 'fee', params: { residenceId } }"
-            title="จัดการราคาค่าใช้จ่าย"
-            text="เข้าสู่หน้าจัดการราคาค่าใช้จ่าย"
-            :icon="CreditCardIcon"
-          />
+          <div class="divider font-bold divider-start">
+            การจดมิเตอร์ และสร้างบิล
+          </div>
+          <div class="grid grid-cols-12 gap-2">
+            <QuickLinkCard
+              class="col-span-4"
+              :router-path="{ name: 'fee', params: { residenceId } }"
+              title="จัดการราคาค่าใช้จ่าย"
+              text="เข้าสู่หน้าจัดการราคาค่าใช้จ่าย"
+              :icon="CreditCardIcon"
+            />
 
-          <QuickLinkCard
-            class="col-span-4"
-            :router-path="{ name: 'meter-record', params: { residenceId } }"
-            title="ระบบบันทึกค่าน้ำ ค่าไฟ"
-            text="เข้าสู่หน้าระบบบันทึกค่าน้ำ ค่าไฟ"
-            :icon="AdjustmentsHorizontalIcon"
-          />
-        </div>
+            <QuickLinkCard
+              class="col-span-4"
+              :router-path="{ name: 'meter-record', params: { residenceId } }"
+              title="ระบบบันทึกค่าน้ำ ค่าไฟ"
+              text="เข้าสู่หน้าระบบบันทึกค่าน้ำ ค่าไฟ"
+              :icon="AdjustmentsHorizontalIcon"
+            />
+          </div>
 
-        <div class="divider font-bold divider-start">ระบบจัดการชำระเงิน</div>
-        <div class="grid grid-cols-12 gap-2">
-          <QuickLinkCard
-            class="col-span-4"
-            :router-path="{ name: 'bill', params: { residenceId } }"
-            title="จัดการบิล"
-            text="เข้าสู่หน้าจัดการบิล"
-            :icon="BanknotesIcon"
-          />
+          <div class="divider font-bold divider-start">ระบบจัดการชำระเงิน</div>
+          <div class="grid grid-cols-12 gap-2">
+            <QuickLinkCard
+              class="col-span-4"
+              :router-path="{ name: 'bill', params: { residenceId } }"
+              title="จัดการบิล"
+              text="เข้าสู่หน้าจัดการบิล"
+              :icon="BanknotesIcon"
+            />
 
-          <QuickLinkCard
-            class="col-span-4"
-            :router-path="{ name: 'payment', params: { residenceId } }"
-            title="จัดการช่องทางการชำระเงิน"
-            text="เข้าสู่หน้าจัดการข้อมูลช่องทางการชำระเงิน"
-            :icon="CreditCardIcon"
-          />
-        </div>
+            <QuickLinkCard
+              class="col-span-4"
+              :router-path="{ name: 'payment', params: { residenceId } }"
+              title="จัดการช่องทางการชำระเงิน"
+              text="เข้าสู่หน้าจัดการข้อมูลช่องทางการชำระเงิน"
+              :icon="CreditCardIcon"
+            />
+          </div>
 
-        <div class="divider font-bold divider-start">อื่น ๆ</div>
-        <div class="grid grid-cols-12 gap-2">
-          <QuickLinkCard
-            class="col-span-4"
-            :router-path="{ name: 'info', params: { residenceId } }"
-            title="จัดการข้อมูลอื่น ๆ"
-            text="เข้าสู่หน้าจัดการข้อมูลอื่น ๆ"
-          />
-        </div>
-      </section>
+          <div class="divider font-bold divider-start">อื่น ๆ</div>
+          <div class="grid grid-cols-12 gap-2">
+            <QuickLinkCard
+              class="col-span-4"
+              :router-path="{ name: 'info', params: { residenceId } }"
+              title="จัดการข้อมูลอื่น ๆ"
+              text="เข้าสู่หน้าจัดการข้อมูลอื่น ๆ"
+            />
+          </div>
+        </section>
+      </div>
     </div>
-  </div>
+  </LoggedInLandlord>
 </template>
 
 <style scoped></style>

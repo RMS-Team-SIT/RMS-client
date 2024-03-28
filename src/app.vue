@@ -10,6 +10,7 @@ import { useI18n } from 'vue-i18n';
 import { languages } from './i18n';
 import CookieConsent from './components/common/cookie-consent.vue';
 import { useServerStore } from './stores/server.store';
+import LoggedInLandlord from './layout/loggedInLandlord.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -50,7 +51,7 @@ const shouldShowNavbar = computed(() => {
     'not-found',
     'unavailable',
     'renter-signin',
-    'print-bill-room'
+    'print-bill-room',
   ];
   return !excludedRoutes.includes(route.name);
 });
