@@ -1,10 +1,13 @@
 <script setup>
 import {
   AdjustmentsHorizontalIcon,
+  ArrowLeftCircleIcon,
   ArrowRightCircleIcon,
   BanknotesIcon,
   BellAlertIcon,
   ChartPieIcon,
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon,
   Cog6ToothIcon,
   CreditCardIcon,
   HomeIcon,
@@ -13,6 +16,7 @@ import {
 } from '@heroicons/vue/24/outline';
 import Divider from './divider.vue';
 import { useRoute, useRouter } from 'vue-router';
+import { ref } from 'vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -21,19 +25,27 @@ const residenceId = route.params.residenceId;
 const goto = (name) => {
   router.push({ name: name, params: { residenceId: residenceId } });
 };
+
+const isSidebarOpen = ref(true);
+
+const toggleSidebar = () => {
+  isSidebarOpen.value = !isSidebarOpen.value;
+};
 </script>
 
 <template>
   <div
-    class="relative flex flex-col bg-clip-border rounded-sm bg-white text-gray-700 w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5"
+    v-show="isSidebarOpen"
+    class="relative flex flex-col bg-clip-border rounded-sm bg-white text-gray-700 w-full max-w-[20rem] p-4 border"
   >
-    <!-- <div class="mb-2 p-4">
-      <h5
-        class="block antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-gray-900"
-      >
-        Residence Management System
-      </h5>
-    </div> -->
+    <button
+      @click="goto('home')"
+      class="flex items-center gap-2 bg-clip-border bg-white text-gray-700 p-4 hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none border"
+    >
+      <ArrowLeftCircleIcon class="h-5 w-5" />
+      กลับสู่หน้าหอพักทั้งหมด
+    </button>
+
     <nav
       class="flex flex-col gap-1 min-w-[240px] p-2 text-base font-normal text-gray-700"
     >
@@ -169,12 +181,16 @@ const goto = (name) => {
           <Cog6ToothIcon class="h-5 w-5" />
         </div>
         จัดการข้อมูลอื่น ๆ
-        
       </div>
-
-      
     </nav>
   </div>
+  <button
+    @click="toggleSidebar"
+    class="relative flex items-start bg-clip-border bg-white text-gray-700 p-4 hover:bg-blue-50 hover:bg-opacity-80 hover:text-blue-900 outline-none border border-l-0"
+  >
+    <ChevronDoubleRightIcon v-if="!isSidebarOpen" class="h-5 w-5" />
+    <ChevronDoubleLeftIcon v-else class="h-5 w-5" />
+  </button>
 </template>
 
 <style scoped></style>
