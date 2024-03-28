@@ -120,7 +120,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Loading v-if="isLoading" class="min-h-screen" />
+  <Loading v-if="isLoading" class="min-h-screen w-full" />
   <div class="py-10 px-10 md:px-20 w-full" v-else>
     <Breadcrumb
       :pathList="[

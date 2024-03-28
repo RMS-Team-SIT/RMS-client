@@ -26,11 +26,13 @@ const props = defineProps({
 
 <template>
   <div class="navbar shadow-sm p-0 px-10 md:px-40 bg-base-100 border-b">
-    <div
-      class="flex-1 gap-4 cursor-pointer"
-      @click="router.push({ name: 'home' })"
-    >
-      <img class="w-12 h-12" :src="logoImg" alt="" />
+    <div class="flex-1 gap-4 cursor-pointer">
+      <img
+        class="w-12 h-12"
+        :src="logoImg"
+        alt=""
+        @click="router.push({ name: 'home' })"
+      />
       <!-- <a class="text-xl">
         <span class="font-bold text-dark-blue-200">{{ projectFullName }}</span>
       </a> -->

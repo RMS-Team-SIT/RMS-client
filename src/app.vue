@@ -85,7 +85,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Loading v-if="isLoading" class="min-h-screen" />
+  <Loading v-if="isLoading" class="min-h-screen w-full" />
   <div class="font-noto" v-else>
     <navbar
       v-if="shouldShowNavbar"

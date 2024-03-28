@@ -96,8 +96,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Loading v-if="isLoading" class="min-h-screen" />
-  <div v-if="residence.data" class="py-10 px-20 md:px-20 min-h-screen">
+  <Loading v-if="isLoading" class="min-h-screen w-full" />
+  <div v-else class="py-10 px-20 md:px-20 min-h-screen">
     <Breadcrumb
       :pathList="[
         { name: 'หน้าแรก', pathName: 'home' },
@@ -194,7 +194,7 @@ onMounted(async () => {
         </div>
 
         <!-- สถานะห้องว่าง -->
-        <div
+        <!-- <div
           class="p-6 bg-white rounded-lg shadow-md border border-gray-200 col-span-1"
         >
           <h3 class="text-xl font-semibold mb-2 p-5">สถานะห้อง</h3>
@@ -209,11 +209,11 @@ onMounted(async () => {
             ห้องว่าง: {{ stats.avaiableRoomCount }} ห้อง, ไม่ว่าง:
             {{ stats.notavaiableRoomCount }} ห้อง
           </p>
-        </div>
+        </div> -->
 
         <!-- สถานะการจ่ายค่าห้อง -->
         <div
-          class="p-6 bg-white rounded-lg shadow-md border border-gray-200 col-span-1"
+          class="p-6 bg-white rounded-lg shadow-md border border-gray-200 col-span-2"
         >
           <h3 class="text-xl font-semibold mb-2 p-5">
             สถานะการจ่ายบิลของรอบบิลล่าสุด
@@ -284,7 +284,7 @@ onMounted(async () => {
     </section>
 
     <!-- Quick link Section -->
-    <section class="mt-5">
+    <!-- <section class="mt-5">
       <div class="divider font-bold divider-start">เข้าถึงระบบจัดการห้อง</div>
       <div class="grid grid-cols-12 gap-2">
         <QuickLinkCard
@@ -371,7 +371,7 @@ onMounted(async () => {
           text="เข้าสู่หน้าจัดการข้อมูลอื่น ๆ"
         />
       </div>
-    </section>
+    </section> -->
   </div>
 </template>
 

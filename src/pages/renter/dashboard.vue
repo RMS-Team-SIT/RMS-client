@@ -65,7 +65,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Loading v-if="isLoading" class="min-h-screen" />
+  <Loading v-if="isLoading" class="min-h-screen w-full" />
   <div v-if="room" class="min-h-screen">
     <div class="py-10 px-10 md:px-20 w-full">
       <Breadcrumb

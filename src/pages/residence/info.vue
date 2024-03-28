@@ -48,7 +48,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Loading v-if="isLoading" class="min-h-screen" />
+  <Loading v-if="isLoading" class="min-h-screen w-full" />
   <div v-if="residence.data" class="bg-gray-50 min-h-screen">
     <div class="py-10 px-10 md:px-20 w-full">
       <Breadcrumb

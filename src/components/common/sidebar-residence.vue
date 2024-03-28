@@ -25,7 +25,7 @@ const goto = (name) => {
 
 <template>
   <div
-    class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5"
+    class="relative flex flex-col bg-clip-border rounded-sm bg-white text-gray-700 w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5"
   >
     <!-- <div class="mb-2 p-4">
       <h5

@@ -105,7 +105,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <loading v-if="isLoading" class="min-h-screen" />
+  <Loading v-if="isLoading" class="min-h-screen w-full" />
   <div class="card w-full" v-else>
     <div class="card-body px-10 md:px-40">
       <div class="flex flex-row justify-between">
