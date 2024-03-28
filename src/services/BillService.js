@@ -38,6 +38,19 @@ class BillService {
       'PUT',
       payload
     );
+
+  updateBillRoomPaidEvidence = async (
+    residenceId,
+    billId,
+    billRoomId,
+    payload
+  ) =>
+    sendRequest(
+      this.baseUrl,
+      `/residence/${residenceId}/bill/${billId}/bill-room/${billRoomId}/paid-evidence`,
+      'PUT',
+      payload
+    );
 }
 
 export default new BillService();

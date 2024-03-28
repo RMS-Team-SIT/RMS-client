@@ -101,11 +101,11 @@ const uploadPaidEvidence = async (billRoomId) => {
     }
   }
 
-  const response = await BillService.updateBillRoomStatus(
+  const response = await BillService.updateBillRoomPaidEvidence(
     residenceId,
     roomId,
     billRoomId,
-    { ...payload, paidEvidenceImage: payload.paidEvidenceImage[0] }
+    { paidEvidenceImage: payload.paidEvidenceImage[0] }
   );
   if (response.status == 200) {
     const data = await response.json();
@@ -136,11 +136,11 @@ onMounted(() => {
 });
 
 const removePaidEvidence = async (billRoomId) => {
-  const response = await BillService.updateBillRoomStatus(
+  const response = await BillService.updateBillRoomPaidEvidence(
     residenceId,
     roomId,
     billRoomId,
-    { status: 'UNPAID', paidEvidenceImage: null }
+    { paidEvidenceImage: null }
   );
   if (response.status == 200) {
     const data = await response.json();
