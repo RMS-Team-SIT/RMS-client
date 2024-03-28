@@ -68,13 +68,20 @@ const payload = reactive({
   status: 'UPLOADED',
   imageFiles: [],
 });
+
+const resetPayload = () => {
+  payload.paidEvidenceImage = [];
+  payload.status = 'UPLOADED';
+  payload.imageFiles = [];
+};
+
 const getChildData = (data) => {
   for (const key in data) {
     payload[key] = data[key];
   }
 };
 
-const updatePaidEvidence = async (billRoomId, isReset = false) => {
+const uploadPaidEvidence = async (billRoomId) => {
   if (payload.imageFiles.length) {
     const response = await FileService.uploadImages(payload.imageFiles);
     if (response.status == 201) {
@@ -119,12 +126,43 @@ const updatePaidEvidence = async (billRoomId, isReset = false) => {
     return;
   }
   fetchRoom();
+  resetPayload();
 };
 
 onMounted(() => {
   fetchRoom();
+  resetPayload();
   isLoading.value = false;
 });
+
+const removePaidEvidence = async (billRoomId) => {
+  const response = await BillService.updateBillRoomStatus(
+    residenceId,
+    roomId,
+    billRoomId,
+    { status: 'UNPAID', paidEvidenceImage: null }
+  );
+  if (response.status == 200) {
+    const data = await response.json();
+    notify({
+      group: 'tr',
+      title: 'สำเร็จ',
+      text: 'ลบหลักฐานการชำระเงินสำเร็จ',
+      type: 'success',
+    });
+  } else {
+    const data = await response.json();
+    notify({
+      group: 'tr',
+      title: 'เกิดข้อผิดพลาด',
+      text: 'ไม่สามาถลบหลักฐานการชำระเงินได้' + data?.message,
+      type: 'error',
+    });
+    return;
+  }
+  fetchRoom();
+  resetPayload();
+};
 </script>
 
 <template>
@@ -147,15 +185,17 @@ onMounted(() => {
       />
       <back v-if="!isRenter" :to="{ name: 'room', params: { residenceId } }" />
 
-      <Alert
+      <div
         v-if="
           isRenter && room.billRooms.filter((b) => b.status === 'UNPAID').length
         "
       >
-        มีบิลค้างชำระจำนวน
-        {{ room.billRooms.filter((b) => b.status === 'UNPAID').length }} รายการ
-        กรุณาจ่ายบิลให้เสร็จภายในวันที่ {{ 5 }} ของทุกเดือน
-      </Alert>
+        <Alert>
+          มีบิลค้างชำระจำนวน
+          {{ room.billRooms.filter((b) => b.status === 'UNPAID').length }}
+          รายการ กรุณาจ่ายบิลให้เสร็จโดยเร็วที่สุด
+        </Alert>
+      </div>
       <ModernAlert
         v-else
         class="mt-2"
@@ -253,7 +293,7 @@ onMounted(() => {
             </h1>
             <router-link
               target="_blank"
-              v-if="room.currentRenter"
+              v-if="room.currentRenter && !isRenter"
               class="text-dark-blue-200 underline"
               :to="{
                 name: 'view-renter',
@@ -534,7 +574,11 @@ onMounted(() => {
                 <Badge v-else badgeType="error" size="md">ยังไม่ได้จ่าย</Badge>
               </p>
               <p>
-                พิมพ์ใบแจ้งหนี้บิลนี้:
+                {{
+                  billRoom.status !== 'PAID'
+                    ? 'พิมพ์ใบแจ้งหนี้'
+                    : 'พิมพ์ใบเสร็จรับเงิน'
+                }}:
                 <router-link
                   class="text-dark-blue-200 underline font-bold cursor-pointer"
                   :to="{
@@ -546,9 +590,10 @@ onMounted(() => {
                   }"
                   target="_blank"
                 >
-                  พิมพ์ใบแจ้งหนี้
+                  กดที่นี่
                 </router-link>
               </p>
+
               <Divider />
               <p class="text-lg font-bold">หลักฐานการชำระเงิน</p>
               <div v-if="billRoom.paidEvidenceImage">
@@ -559,8 +604,9 @@ onMounted(() => {
                 />
                 <Button
                   @click="removePaidEvidence(billRoom._id)"
-                  class="btn-xs"
-                  buttonType="primary"
+                  v-if="isRenter && billRoom.status === 'UPLOADED'"
+                  class="btn-xs mt-2"
+                  btnType="secondary"
                   >ลบรูปภาพ</Button
                 >
               </div>
@@ -580,9 +626,10 @@ onMounted(() => {
                       :max-files="1"
                     />
                     <Button
-                      @click="updatePaidEvidence(billRoom._id)"
+                      @click="uploadPaidEvidence(billRoom._id)"
+                      :disabled="!payload.imageFiles.length"
                       class="btn-xs"
-                      buttonType="success"
+                      btnType="success"
                       >บันทึกข้อมูล</Button
                     >
                   </div>

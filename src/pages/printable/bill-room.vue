@@ -230,7 +230,7 @@ watch(
           <p class="mt-5">ลงชื่อ ________________ (ผู้รับเงิน)</p>
           <p class="mt-5 text-center">
             ({{ residence.data.owner.firstname }}
-            {{ residence.data.owner.lastname }} )
+            {{ residence.data.owner.lastname }})
           </p>
         </div>
       </div>
