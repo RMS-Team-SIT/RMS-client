@@ -8,6 +8,7 @@ import { useNotification } from '@kyvg/vue3-notification';
 import ResidenceServices from '@/services/ResidenceServices';
 import BankService from '@/services/BankService';
 import PaymentService from '@/services/PaymentService';
+import Back from '@/components/common/back.vue';
 
 const router = useRouter();
 const route = useRoute();

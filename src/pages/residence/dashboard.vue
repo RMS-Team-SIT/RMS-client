@@ -97,7 +97,6 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
-  <LoggedInLandlord v-else>
     <div v-if="residence.data" class="min-h-screen">
       <div class="py-10 px-20 md:px-20">
         <Breadcrumb
@@ -396,7 +395,6 @@ onMounted(async () => {
         </section>
       </div>
     </div>
-  </LoggedInLandlord>
 </template>
 
 <style scoped></style>

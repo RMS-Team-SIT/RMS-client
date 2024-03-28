@@ -92,7 +92,10 @@ onMounted(async () => {
       :isLoggedIn="userStore.isLoggedIn"
       :user="userStore.getUser"
     />
-    <router-view class="min-h-screen" />
+    <LoggedInLandlord v-if="userStore.isLoggedIn && $route.params?.residenceId">
+      <router-view class="min-h-screen" />
+    </LoggedInLandlord>
+    <router-view v-else class="min-h-screen" />
     <notifications group="tr" position="top right" class="text-md" />
     <Footer v-if="shouldShowFooter" />
     <CookieConsent v-if="isShowCookieConsent" @accept="acceptCookieConsent" />

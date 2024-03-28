@@ -7,7 +7,7 @@ import SidebarResidence from '@/components/common/sidebar-residence.vue';
     <!-- Sidebar -->
     <SidebarResidence />
 
-    <slot class="w-full"></slot>
+    <slot class="w-full min-w-full"></slot>
   </div>
 </template>
 

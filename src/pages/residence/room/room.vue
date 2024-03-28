@@ -10,7 +10,6 @@ import Button from '@/components/common/button.vue';
 import RoomListTable from '@/components/room/room.list.table.vue';
 import { HomeIcon, HomeModernIcon } from '@heroicons/vue/24/outline';
 import back from '@/components/common/back.vue';
-import LoggedIn from '@/layout/loggedInLandlord.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -57,60 +56,55 @@ onMounted(async () => {
 </script>
 
 <template>
-  <LoggedIn>
-    <Loading v-if="isLoading" class="min-h-screen" />
-    <div v-if="residence.data" class="min-h-screen w-full">
-      <div class="py-10 px-10 md:px-20">
-        <Breadcrumb
-          :pathList="[
-            { name: 'หน้าแรก', pathName: 'home' },
-            { name: 'จัดการ', pathName: 'manage' },
-            {
-              name: `${residence.data.name}`,
-              pathName: 'dashboard',
-              params: { residenceId },
-            },
-            { name: 'จัดการห้องพัก' },
-          ]"
-        />
+  <Loading v-if="isLoading" class="min-h-screen" />
+  <div v-if="residence.data" class="min-h-screen w-full">
+    <div class="py-10 px-10 md:px-20">
+      <Breadcrumb
+        :pathList="[
+          { name: 'หน้าแรก', pathName: 'home' },
+          { name: 'จัดการ', pathName: 'manage' },
+          {
+            name: `${residence.data.name}`,
+            pathName: 'dashboard',
+            params: { residenceId },
+          },
+          { name: 'จัดการห้องพัก' },
+        ]"
+      />
 
-        <back
-          :to="{ name: 'dashboard', params: { residenceId } }"
-          class="mt-5"
-        />
+      <back :to="{ name: 'dashboard', params: { residenceId } }" class="mt-5" />
 
-        <div class="bg-white p-10 mt-2 shadow rounded-lg border">
-          <div class="flex justify-between">
-            <h1
-              class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
+      <div class="bg-white p-10 mt-2 shadow rounded-lg border">
+        <div class="flex justify-between">
+          <h1
+            class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
+          >
+            <HomeIcon class="w-8 h-8 text-dark-blue-200" />
+            ห้อง
+          </h1>
+          <div>
+            <router-link
+              :to="{
+                name: 'create-room',
+                params: {
+                  residenceId,
+                },
+              }"
             >
-              <HomeIcon class="w-8 h-8 text-dark-blue-200" />
-              ห้อง
-            </h1>
-            <div>
-              <router-link
-                :to="{
-                  name: 'create-room',
-                  params: {
-                    residenceId,
-                  },
-                }"
-              >
-                <Button btnType="primary">เพิ่มห้องพัก</Button>
-              </router-link>
-            </div>
+              <Button btnType="primary">เพิ่มห้องพัก</Button>
+            </router-link>
           </div>
-          <RoomListTable
-            class="mt-5"
-            :residenceId="residenceId"
-            :rooms="residence.data.rooms"
-            :roomTypes="residence.data.roomTypes"
-            :residenceData="residence.data"
-          />
         </div>
+        <RoomListTable
+          class="mt-5"
+          :residenceId="residenceId"
+          :rooms="residence.data.rooms"
+          :roomTypes="residence.data.roomTypes"
+          :residenceData="residence.data"
+        />
       </div>
     </div>
-  </LoggedIn>
+  </div>
 </template>
 
 <style scoped></style>
