@@ -297,7 +297,7 @@ onMounted(async () => {
       <!-- Quick link Section -->
       <section class="mt-5">
         <div class="divider font-bold divider-start">เข้าถึงระบบจัดการห้อง</div>
-        <div class="grid grid-cols-12 gap-2 w-1/2">
+        <div class="grid grid-cols-12 gap-2">
           <QuickLinkCard
             class="col-span-4"
             :router-path="{ name: 'room', params: { residenceId } }"
@@ -315,7 +315,7 @@ onMounted(async () => {
         </div>
 
         <div class="divider font-bold divider-start">ระบบจัดการผู้เช่า</div>
-        <div class="grid grid-cols-12 gap-2 w-1/2">
+        <div class="grid grid-cols-12 gap-2">
           <QuickLinkCard
             class="col-span-4"
             :router-path="{ name: 'renter', params: { residenceId } }"
@@ -336,7 +336,7 @@ onMounted(async () => {
         <div class="divider font-bold divider-start">
           การจดมิเตอร์ และสร้างบิล
         </div>
-        <div class="grid grid-cols-12 gap-2 w-1/2">
+        <div class="grid grid-cols-12 gap-2">
           <QuickLinkCard
             class="col-span-4"
             :router-path="{ name: 'fee', params: { residenceId } }"
@@ -355,7 +355,7 @@ onMounted(async () => {
         </div>
 
         <div class="divider font-bold divider-start">ระบบจัดการชำระเงิน</div>
-        <div class="grid grid-cols-12 gap-2 w-1/2">
+        <div class="grid grid-cols-12 gap-2">
           <QuickLinkCard
             class="col-span-4"
             :router-path="{ name: 'bill', params: { residenceId } }"
@@ -374,7 +374,7 @@ onMounted(async () => {
         </div>
 
         <div class="divider font-bold divider-start">อื่น ๆ</div>
-        <div class="grid grid-cols-12 gap-2 w-1/2">
+        <div class="grid grid-cols-12 gap-2">
           <QuickLinkCard
             class="col-span-4"
             :router-path="{ name: 'info', params: { residenceId } }"

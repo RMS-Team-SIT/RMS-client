@@ -110,13 +110,15 @@ const setDefaultMeterRecordItems = async () => {
       currentElectricMeter: findRecord(room._id)?.currentElectricMeter || 0,
       previousWaterMeter: findRecord(room._id)?.currentWaterMeter || 0,
       previousElectricMeter: findRecord(room._id)?.currentElectricMeter || 0,
+      totalWaterMeterUsage: 0,
+      totalElectricMeterUsage: 0,
     };
   });
 };
 
 const submit = async () => {
   isLoading.value = true;
-
+  console.log(payload);
   const response = await MeterRecordService.create(residenceId, {
     ...payload,
     record_date: isFirstTime.value
@@ -193,7 +195,7 @@ watch(payload, () => {
   console.log({ payload });
 });
 
-const showOnlyRentedRoom = ref(false);
+const showOnlyRentedRoom = ref(true);
 </script>
 
 <template>
@@ -391,6 +393,15 @@ const showOnlyRentedRoom = ref(false);
                           calcualteTotalElectricMeterUsage(room._id))
                       }}
                     </td>
+                  </tr>
+                  <tr
+                    v-if="
+                      !rooms.filter((r) =>
+                        showOnlyRentedRoom ? r.status !== 'AVAILABLE' : true
+                      ).length
+                    "
+                  >
+                    <td colspan="8" class="text-center">ไม่มีห้องพักในระบบ</td>
                   </tr>
                 </tbody>
               </table>

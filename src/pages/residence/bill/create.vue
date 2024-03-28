@@ -126,7 +126,7 @@ const resetCurrentModalBillRoom = () => {
   currentModalBillRoom.meterRecordItem = null;
 };
 
-const showOnlyRentedRoom = ref(false);
+const showOnlyRentedRoom = ref(true);
 const selectedMeterRecordForBillCreation = ref([]);
 const resetSelectedMeterRecordForBillCreation = () => {
   selectedMeterRecordForBillCreation.value = [];
@@ -250,15 +250,7 @@ const toggleSelectAllMeterRecordForBillCreation = () => {
           <p class="mt-5" v-if="!payload.meterRecord">
             กรุณาเลือกรอบมิเตอร์ที่ต้องการสร้างบิล
           </p>
-          <div
-            v-else-if="
-              currentMeterRecord.meterRecordItems.filter(
-                (item) =>
-                  item.room.name.toLowerCase().includes(search.toLowerCase()) &&
-                  (showOnlyRentedRoom ? item.room.status !== 'AVAILABLE' : true)
-              ).length
-            "
-          >
+          <div v-else>
             <div class="flex items-center justify-between">
               <div class="flex gap-2">
                 <div class="flex gap-2 text-gray-500">
@@ -323,7 +315,11 @@ const toggleSelectAllMeterRecordForBillCreation = () => {
                       ).length
                   "
                 />
-                <label for="selectAllRentedMeterRecordForBillCreation" class="text-sm">เลือกทุกห้องที่มีคนเช่า</label>
+                <label
+                  for="selectAllRentedMeterRecordForBillCreation"
+                  class="text-sm"
+                  >เลือกทุกห้องที่มีคนเช่า</label
+                >
               </div>
             </div>
 
@@ -373,13 +369,9 @@ const toggleSelectAllMeterRecordForBillCreation = () => {
                 </div>
               </div>
             </div>
-
             <p class="text-sm text-gray-500">
               หมายเหตุ: กดเพื่อดูรายละเอียดเพิ่ม *
             </p>
-          </div>
-          <div class="mt-5" v-else>
-            <p>ไม่มีห้องที่ยังไม่มีบิลจากรอบมิเตอร์นี้</p>
           </div>
         </div>
       </div>

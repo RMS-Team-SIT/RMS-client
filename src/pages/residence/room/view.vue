@@ -345,7 +345,7 @@ onMounted(() => {
               ไม่มีผู้เช่าในอดีตในระบบ
             </div>
             <div
-              class="collapse collapse-arrow shadow-sm border"
+              class="collapse collapse-arrow shadow-sm border mt-5"
               v-for="(renter, index) in room.renterHistory.toReversed()"
               :key="index"
             >
@@ -360,10 +360,20 @@ onMounted(() => {
                   ชื่อผู้เช่า:
                   {{ renter.firstname }} {{ renter.lastname }}
                 </p>
-                <p>อีเมล: {{ renter.email }}</p>
                 <p>เบอร์โทร: {{ renter.phone }}</p>
-                <p>ชื่อผู้ใช้: {{ renter.username }}</p>
-                <p>รหัสผ่าน: ******</p>
+                <router-link
+                  class="underline text-dark-blue-200 font-bold cursor-pointer"
+                  target="_blank"
+                  :to="{
+                    name: 'view-renter',
+                    params: {
+                      residenceId: $route.params.residenceId,
+                      renterId: renter._id,
+                    },
+                  }"
+                >
+                  <p>ดูข้อมูลเพิ่มเติม</p>
+                </router-link>
               </div>
             </div>
           </div>
