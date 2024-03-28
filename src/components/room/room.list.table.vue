@@ -214,7 +214,7 @@ const updateRoom = async () => {
                 class="text-dark-blue-200 underline"
                 target="_blank"
                 :to="{
-                  name: 'update-renter',
+                  name: 'view-renter',
                   params: {
                     residenceId: $route.params.residenceId,
                     renterId: room.currentRenter._id,
