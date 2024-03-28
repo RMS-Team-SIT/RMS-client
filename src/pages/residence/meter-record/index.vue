@@ -52,50 +52,48 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
-  <div v-if="residence.data" class="min-h-screen">
-    <div class="py-10 px-10 md:px-20">
-      <Breadcrumb
-        :pathList="[
-          { name: 'หน้าแรก', pathName: 'home' },
-          { name: 'จัดการ', pathName: 'manage' },
-          {
-            name: `${residence.data.name}`,
-            pathName: 'dashboard',
-            params: { residenceId },
-          },
-          { name: 'ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ' },
-        ]"
-      />
-      <back :to="{ name: 'dashboard', params: { residenceId } }"  />
+  <div v-if="residence.data" class="py-10 px-10 md:px-20 w-full min-h-screen">
+    <Breadcrumb
+      :pathList="[
+        { name: 'หน้าแรก', pathName: 'home' },
+        { name: 'จัดการ', pathName: 'manage' },
+        {
+          name: `${residence.data.name}`,
+          pathName: 'dashboard',
+          params: { residenceId },
+        },
+        { name: 'ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ' },
+      ]"
+    />
+    <back :to="{ name: 'dashboard', params: { residenceId } }" />
 
-      <div class="grid grid-cols-1">
-        <div class="bg-white p-10 mt-2 shadow rounded-lg border">
-          <div class="flex justify-between">
-            <h1 class="text-2xl font-semibold text-dark-blue-200">
-              ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ
-            </h1>
-            <router-link
-              :to="{
-                name: 'create-meter-record',
-                params: {
-                  residenceId,
-                },
-              }"
-            >
-              <Button btnType="primary">สร้างใบบันทึกค่ามิเตอร์</Button>
-            </router-link>
-          </div>
-          <MeterRecordListTable
-            class="mt-5"
-            :residenceId="residenceId"
-            :meter-records="residence.data.meterRecord"
-          />
-          <p class="mt-5" v-if="residence.data.meterRecord.length">
-            หมายเหตุ: สามารถ<b>แก้ไข</b>ข้อมูลได้เฉพาะ
-            <b>การจดครั้งล่าสุด</b> และ
-            <b>มิเตอร์ที่ยังไม่ได้สร้างบิล</b> เท่านั้น
-          </p>
+    <div class="grid grid-cols-1">
+      <div class="bg-white p-10 mt-2 shadow rounded-lg border">
+        <div class="flex justify-between">
+          <h1 class="text-2xl font-semibold text-dark-blue-200">
+            ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ
+          </h1>
+          <router-link
+            :to="{
+              name: 'create-meter-record',
+              params: {
+                residenceId,
+              },
+            }"
+          >
+            <Button btnType="primary">สร้างใบบันทึกค่ามิเตอร์</Button>
+          </router-link>
         </div>
+        <MeterRecordListTable
+          class="mt-5"
+          :residenceId="residenceId"
+          :meter-records="residence.data.meterRecord"
+        />
+        <p class="mt-5" v-if="residence.data.meterRecord.length">
+          หมายเหตุ: สามารถ<b>แก้ไข</b>ข้อมูลได้เฉพาะ
+          <b>การจดครั้งล่าสุด</b> และ
+          <b>มิเตอร์ที่ยังไม่ได้สร้างบิล</b> เท่านั้น
+        </p>
       </div>
     </div>
   </div>

@@ -66,99 +66,99 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
-  <div v-if="residence.data" class="min-h-screen">
-    <div class="py-10 px-10 md:px-20">
-      <Breadcrumb
-        :pathList="[
-          { name: 'หน้าแรก', pathName: 'home' },
-          { name: 'จัดการ', pathName: 'manage' },
-          {
-            name: `${residence.data.name}`,
-            pathName: 'dashboard',
-            params: { residenceId },
-          },
-          {
-            name: 'จัดการราคาค่าใช้จ่ายในหอพัก',
-            pathName: 'fee',
-            params: { residenceId },
-          },
-        ]"
-      />
+  <div v-if="residence.data" class="py-10 px-10 md:px-20 w-full min-h-screen">
+    <Breadcrumb
+      :pathList="[
+        { name: 'หน้าแรก', pathName: 'home' },
+        { name: 'จัดการ', pathName: 'manage' },
+        {
+          name: `${residence.data.name}`,
+          pathName: 'dashboard',
+          params: { residenceId },
+        },
+        {
+          name: 'จัดการราคาค่าใช้จ่ายในหอพัก',
+          pathName: 'fee',
+          params: { residenceId },
+        },
+      ]"
+    />
 
-      <back :to="{ name: 'dashboard', params: { residenceId } }" class="mt-5" />
+    <back :to="{ name: 'dashboard', params: { residenceId } }" class="mt-5" />
 
-      <div class="bg-white p-10 shadow rounded-lg border mt-2">
-        <div class="flex justify-between">
-          <h1
-            class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
-          >
-            <BoltIcon class="w-8 h-8 text-dark-blue-200" />
-            จัดการค่าสาธารณูปโภค
-          </h1>
-        </div>
-
-        <div class="grid grid-cols-2 gap-2 col-span-2 mt-5 w-1/2">
-          <div class=" bg-white rounded-lg">
-            <h3 class="text-lg font-semibold mb-2">ค่าน้ำต่อหน่วย</h3>
-            <p class="flex gap-2 items-end">
-              <CountUp
-                :end-val="residence.data.defaultWaterPriceRate"
-                class="text-6xl text-green-400"
-              />
-              บาท/หน่วย
-            </p>
-          </div>
-          <div class="bg-white rounded-lg">
-            <h3 class="text-lg font-semibold mb-2">ค่าไฟฟ้าต่อหน่วย</h3>
-            <p class="flex gap-2 items-end">
-              <CountUp
-                :end-val="residence.data.defaultElectricPriceRate"
-                class="text-6xl text-green-400"
-              />
-              บาท/หน่วย
-            </p>
-          </div>
-        </div>
-        <router-link
-          :to="{
-            name: 'update-utility',
-            params: {
-              residenceId,
-            },
-          }"
+    <div class="bg-white p-10 shadow rounded-lg border mt-2">
+      <div class="flex justify-between">
+        <h1
+          class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
         >
-          <Button class="mt-5">แก้ไขราคาค่าสาธารณูปโภค</Button>
-        </router-link>
+          <BoltIcon class="w-8 h-8 text-dark-blue-200" />
+          จัดการค่าสาธารณูปโภค
+        </h1>
       </div>
 
-      <div class="bg-white p-10 shadow rounded-lg border mt-5">
-        <div class="flex justify-between mt-5">
-          <h1
-            class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
-          >
-            <AdjustmentsVerticalIcon class="w-8 h-8 text-dark-blue-200" />
-            จัดการราคาค่าบริการเพิ่มเติมที่เรียกเก็บ
-          </h1>
-          <div>
-            <router-link
-              :to="{
-                name: 'create-fee',
-                params: {
-                  residenceId,
-                },
-              }"
-            >
-              <Button btnType="primary">เพิ่มค่าบริการเพิ่มเติมที่เรียกเก็บ</Button>
-            </router-link>
-          </div>
+      <div class="grid grid-cols-2 gap-2 col-span-2 mt-5 w-1/2">
+        <div class="bg-white rounded-lg">
+          <h3 class="text-lg font-semibold mb-2">ค่าน้ำต่อหน่วย</h3>
+          <p class="flex gap-2 items-end">
+            <CountUp
+              :end-val="residence.data.defaultWaterPriceRate"
+              class="text-6xl text-green-400"
+            />
+            บาท/หน่วย
+          </p>
         </div>
-        <FeeList
-          class="mt-5"
-          @update="fetchData"
-          :fees="residence.data.fees"
-          :residenceId="residenceId"
-        />
+        <div class="bg-white rounded-lg">
+          <h3 class="text-lg font-semibold mb-2">ค่าไฟฟ้าต่อหน่วย</h3>
+          <p class="flex gap-2 items-end">
+            <CountUp
+              :end-val="residence.data.defaultElectricPriceRate"
+              class="text-6xl text-green-400"
+            />
+            บาท/หน่วย
+          </p>
+        </div>
       </div>
+      <router-link
+        :to="{
+          name: 'update-utility',
+          params: {
+            residenceId,
+          },
+        }"
+      >
+        <Button class="mt-5">แก้ไขราคาค่าสาธารณูปโภค</Button>
+      </router-link>
+    </div>
+
+    <div class="bg-white p-10 shadow rounded-lg border mt-5">
+      <div class="flex justify-between mt-5">
+        <h1
+          class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
+        >
+          <AdjustmentsVerticalIcon class="w-8 h-8 text-dark-blue-200" />
+          จัดการราคาค่าบริการเพิ่มเติมที่เรียกเก็บ
+        </h1>
+        <div>
+          <router-link
+            :to="{
+              name: 'create-fee',
+              params: {
+                residenceId,
+              },
+            }"
+          >
+            <Button btnType="primary"
+              >เพิ่มค่าบริการเพิ่มเติมที่เรียกเก็บ</Button
+            >
+          </router-link>
+        </div>
+      </div>
+      <FeeList
+        class="mt-5"
+        @update="fetchData"
+        :fees="residence.data.fees"
+        :residenceId="residenceId"
+      />
     </div>
   </div>
 </template>

@@ -44,9 +44,11 @@ const fetchData = async () => {
   }
 };
 
-const loginLink = `${import.meta.env.VITE_HOST}/auth/residence/${residenceId}/signin`;
+const loginLink = `${
+  import.meta.env.VITE_HOST
+}/auth/residence/${residenceId}/signin`;
 
-const { text, copy, copied, isSupported } = useClipboard()
+const { text, copy, copied, isSupported } = useClipboard();
 
 onMounted(async () => {
   await fetchData();
@@ -56,52 +58,50 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
-  <div v-if="residence.data" class="min-h-screen">
-    <div class="py-10 px-10 md:px-20">
-      <Breadcrumb
-        :pathList="[
-          { name: 'หน้าแรก', pathName: 'home' },
-          { name: 'จัดการ', pathName: 'manage' },
-          {
-            name: `${residence.data.name}`,
-            pathName: 'dashboard',
-            params: { residenceId },
-          },
-          { name: 'จัดการผู้เช่า' },
-        ]"
-      />
+  <div v-if="residence.data" class="py-10 px-10 md:px-20 w-full min-h-screen">
+    <Breadcrumb
+      :pathList="[
+        { name: 'หน้าแรก', pathName: 'home' },
+        { name: 'จัดการ', pathName: 'manage' },
+        {
+          name: `${residence.data.name}`,
+          pathName: 'dashboard',
+          params: { residenceId },
+        },
+        { name: 'จัดการผู้เช่า' },
+      ]"
+    />
 
-      <back :to="{ name: 'dashboard', params: { residenceId } }" />
+    <back :to="{ name: 'dashboard', params: { residenceId } }" />
 
-      <ModernAlert
-        title="การเข้าสู่ระบบของผู้เช่า"
-        :text="`ผู้เช่าสามารถเข้าสู่ระบบได้โดยใช้ลิงก์นี้: ${loginLink}`"
-        linktext="คัดลอกลิงก์"
-        @click="copy(loginLink)"
-      />
-      <div class="grid grid-cols-1">
-        <div class="bg-white p-10 mt-2 shadow rounded-lg border">
-          <div class="flex justify-between">
-            <h1 class="text-2xl font-semibold text-dark-blue-200 flex gap-2">
-              <UserIcon class="w-8 h-8" />
-              ผู้เช่าทั้งหมด
-            </h1>
-            <router-link
-              :to="{
-                name: 'create-renter',
-                params: {
-                  residenceId,
-                },
-              }"
-            >
-              <Button btnType="primary">เพิ่มข้อมูลผู้เช่า</Button>
-            </router-link>
-          </div>
-          <RenterListTable
-            :residenceId="residenceId"
-            :renters="residence.data.renters"
-          />
+    <ModernAlert
+      title="การเข้าสู่ระบบของผู้เช่า"
+      :text="`ผู้เช่าสามารถเข้าสู่ระบบได้โดยใช้ลิงก์นี้: ${loginLink}`"
+      linktext="คัดลอกลิงก์"
+      @click="copy(loginLink)"
+    />
+    <div class="grid grid-cols-1">
+      <div class="bg-white p-10 mt-2 shadow rounded-lg border">
+        <div class="flex justify-between">
+          <h1 class="text-2xl font-semibold text-dark-blue-200 flex gap-2">
+            <UserIcon class="w-8 h-8" />
+            ผู้เช่าทั้งหมด
+          </h1>
+          <router-link
+            :to="{
+              name: 'create-renter',
+              params: {
+                residenceId,
+              },
+            }"
+          >
+            <Button btnType="primary">เพิ่มข้อมูลผู้เช่า</Button>
+          </router-link>
         </div>
+        <RenterListTable
+          :residenceId="residenceId"
+          :renters="residence.data.renters"
+        />
       </div>
     </div>
   </div>

@@ -79,48 +79,46 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
-  <div v-if="residence.data" class="min-h-screen">
-    <div class="py-10 px-10 md:px-20">
-      <Breadcrumb
-        :pathList="[
-          { name: 'หน้าแรก', pathName: 'home' },
-          { name: 'จัดการ', pathName: 'manage' },
-          {
-            name: `${residence.data.name}`,
-            pathName: 'dashboard',
-            params: { residenceId },
-          },
-          { name: 'ระบบจัดการบิล' },
-        ]"
-      />
-      <back :to="{ name: 'dashboard', params: { residenceId } }" />
-      <div class="grid grid-cols-1">
-        <div class="bg-white p-10 mt-2 shadow rounded-lg border">
-          <div class="flex justify-between">
-            <h1 class="text-2xl font-semibold text-dark-blue-200">
-              ระบบจัดการบิล
-            </h1>
-            <router-link
-              :to="{
-                name: 'create-bill',
-                params: {
-                  residenceId,
-                },
-              }"
-            >
-              <Button btnType="primary">สร้างบิลใหม่</Button>
-            </router-link>
-          </div>
-          <p class="mt-5" v-if="!bills.length">
-            ไม่มีบิลในระบบ กรุณาสร้างบิลใหม่
-          </p>
-
-          <BillListTable
-            :bills="bills"
-            :residence-id="residenceId"
-            @refetch="fetchBills"
-          />
+  <div v-if="residence.data" class="py-10 px-10 md:px-20 w-full min-h-screen">
+    <Breadcrumb
+      :pathList="[
+        { name: 'หน้าแรก', pathName: 'home' },
+        { name: 'จัดการ', pathName: 'manage' },
+        {
+          name: `${residence.data.name}`,
+          pathName: 'dashboard',
+          params: { residenceId },
+        },
+        { name: 'ระบบจัดการบิล' },
+      ]"
+    />
+    <back :to="{ name: 'dashboard', params: { residenceId } }" />
+    <div class="grid grid-cols-1">
+      <div class="bg-white p-10 mt-2 shadow rounded-lg border">
+        <div class="flex justify-between">
+          <h1 class="text-2xl font-semibold text-dark-blue-200">
+            ระบบจัดการบิล
+          </h1>
+          <router-link
+            :to="{
+              name: 'create-bill',
+              params: {
+                residenceId,
+              },
+            }"
+          >
+            <Button btnType="primary">สร้างบิลใหม่</Button>
+          </router-link>
         </div>
+        <p class="mt-5" v-if="!bills.length">
+          ไม่มีบิลในระบบ กรุณาสร้างบิลใหม่
+        </p>
+
+        <BillListTable
+          :bills="bills"
+          :residence-id="residenceId"
+          @refetch="fetchBills"
+        />
       </div>
     </div>
   </div>

@@ -58,46 +58,48 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
-  <div v-if="residence.data" class="min-h-screen">
-    <div class="py-10 px-10 md:px-20">
-      <Breadcrumb
-        :pathList="[
-          { name: 'หน้าแรก', pathName: 'home' },
-          { name: 'จัดการ', pathName: 'manage' },
-          {
-            name: `${residence.data.name}`,
-            pathName: 'dashboard',
-            params: { residenceId },
-          },
-          { name: 'จัดการประเภทห้องพัก', pathName: 'room-type', params: { residenceId }},
-        ]"
-      />
+  <div v-if="residence.data" class="py-10 px-10 md:px-20 w-full min-h-screen">
+    <Breadcrumb
+      :pathList="[
+        { name: 'หน้าแรก', pathName: 'home' },
+        { name: 'จัดการ', pathName: 'manage' },
+        {
+          name: `${residence.data.name}`,
+          pathName: 'dashboard',
+          params: { residenceId },
+        },
+        {
+          name: 'จัดการประเภทห้องพัก',
+          pathName: 'room-type',
+          params: { residenceId },
+        },
+      ]"
+    />
 
-      <back :to="{ name: 'dashboard', params: { residenceId } }" class="mt-5" />
+    <back :to="{ name: 'dashboard', params: { residenceId } }" class="mt-5" />
 
-      <div class="bg-white p-10 mt-2 shadow rounded-lg border">
-        <div class="flex justify-between">
-          <h1
-            class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
+    <div class="bg-white p-10 mt-2 shadow rounded-lg border">
+      <div class="flex justify-between">
+        <h1
+          class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
+        >
+          <HomeModernIcon class="w-8 h-8 text-dark-blue-200" />
+          ประเภทห้อง
+        </h1>
+        <div>
+          <router-link
+            :to="{
+              name: 'create-room-type',
+              params: {
+                residenceId,
+              },
+            }"
           >
-            <HomeModernIcon class="w-8 h-8 text-dark-blue-200" />
-            ประเภทห้อง
-          </h1>
-          <div>
-            <router-link
-              :to="{
-                name: 'create-room-type',
-                params: {
-                  residenceId,
-                },
-              }"
-            >
-              <Button btnType="primary">เพิ่มประเภทห้องพัก</Button>
-            </router-link>
-          </div>
+            <Button btnType="primary">เพิ่มประเภทห้องพัก</Button>
+          </router-link>
         </div>
-        <RoomTypeListTable class="mt-5" :roomTypes="residence.data.roomTypes" />
       </div>
+      <RoomTypeListTable class="mt-5" :roomTypes="residence.data.roomTypes" />
     </div>
   </div>
 </template>

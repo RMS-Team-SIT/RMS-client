@@ -44,45 +44,43 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
-  <div v-if="residence.data" class="min-h-screen">
-    <div class="py-10 px-10 md:px-20">
-      <Breadcrumb
-        :pathList="[
-          { name: 'หน้าแรก', pathName: 'home' },
-          { name: 'จัดการ', pathName: 'manage' },
-          {
-            name: `${residence.data.name}`,
-            pathName: 'dashboard',
-            params: { residenceId },
-          },
-          { name: 'ช่องทางการชำระเงิน' },
-        ]"
-      />
-      
-      <back :to="{ name: 'dashboard', params: { residenceId } }" />
+  <div v-if="residence.data" class="py-10 px-10 md:px-20 w-full min-h-screen">
+    <Breadcrumb
+      :pathList="[
+        { name: 'หน้าแรก', pathName: 'home' },
+        { name: 'จัดการ', pathName: 'manage' },
+        {
+          name: `${residence.data.name}`,
+          pathName: 'dashboard',
+          params: { residenceId },
+        },
+        { name: 'ช่องทางการชำระเงิน' },
+      ]"
+    />
 
-      <div class="grid grid-cols-1">
-        <div class="bg-white p-10 mt-2 shadow rounded-lg border">
-          <div class="flex justify-between">
-            <h1 class="text-2xl font-semibold text-dark-blue-200">
-              ช่องทางการชำระเงิน
-            </h1>
-            <router-link
-              :to="{
-                name: 'create-payment',
-                params: {
-                  residenceId,
-                },
-              }"
-            >
-              <Button btnType="primary">เพิ่มช่องทางการชำระเงิน</Button>
-            </router-link>
-          </div>
-          <PaymentListTable
-            :residenceId="residenceId"
-            :payments="residence.data.payments"
-          />
+    <back :to="{ name: 'dashboard', params: { residenceId } }" />
+
+    <div class="grid grid-cols-1">
+      <div class="bg-white p-10 mt-2 shadow rounded-lg border">
+        <div class="flex justify-between">
+          <h1 class="text-2xl font-semibold text-dark-blue-200">
+            ช่องทางการชำระเงิน
+          </h1>
+          <router-link
+            :to="{
+              name: 'create-payment',
+              params: {
+                residenceId,
+              },
+            }"
+          >
+            <Button btnType="primary">เพิ่มช่องทางการชำระเงิน</Button>
+          </router-link>
         </div>
+        <PaymentListTable
+          :residenceId="residenceId"
+          :payments="residence.data.payments"
+        />
       </div>
     </div>
   </div>

@@ -168,7 +168,7 @@ const removePaidEvidence = async (billRoomId) => {
 <template>
   <Loading v-if="isLoading" class="min-h-screen" />
   <div v-if="room" class="min-h-screen">
-    <div class="py-10 px-10 md:px-20">
+    <div class="py-10 px-10 md:px-20 w-full">
       <Breadcrumb
         v-if="!isRenter"
         :pathList="[
