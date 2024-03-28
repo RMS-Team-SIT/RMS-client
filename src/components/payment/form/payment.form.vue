@@ -97,10 +97,8 @@ watch(childData, () => {
 
 <template>
   <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
-    <h1 class="text-xl font-semibold text-dark-blue-200">
-      ตั้งค่าช่องทางการชำระเงิน
-    </h1>
-    <p class="text-xs">โปรดใส่ข้อมูลช่องทางการชำระเงิน</p>
+    <h1 class="text-xl font-semibold text-dark-blue-200">ช่องทางการชำระเงิน</h1>
+    <p class="text-xs" v-if="!viewOnly">โปรดใส่ข้อมูลช่องทางการชำระเงิน</p>
 
     <div class="flex flex-col lg:flex-row gap-5" v-if="!viewOnly">
       <div>

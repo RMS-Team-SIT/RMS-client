@@ -58,7 +58,7 @@ watch(residenceFacility, () => {
     <h1 class="text-xl font-semibold text-dark-blue-200">
       สิ่งอำนวยความสะดวกภายในหอพัก
     </h1>
-    <p class="text-sm">กรุณาเลือกสิ่งอำนวยความสะดวกที่มีในหอพักของคุณ</p>
+    <p class="text-sm" v-if="!viewOnly">กรุณาเลือกสิ่งอำนวยความสะดวกที่มีในหอพักของคุณ</p>
     <!-- select all -->
     <div class="flex items-center gap-2 text-sm">
       <input

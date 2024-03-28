@@ -94,10 +94,10 @@ watch(childData, () => {
 <template>
   <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
     <h1 class="text-xl font-semibold text-dark-blue-200">
-      กำหนดค่าบริการเพิ่มเติมที่เรียกเก็บ
+      ค่าบริการเพิ่มเติมที่เรียกเก็บ
     </h1>
-    <p class="text-sm">
-      เช่น ค่าอินเทอร์เน็ต ค่าส่วนกลาง ค่าฟิตเนส ค่าจอดรถ
+    <p class="text-sm" v-if="!viewOnly">
+      กำหนดค่าบริการเพิ่มเติมที่เรียกเก็บ เช่น ค่าอินเทอร์เน็ต ค่าส่วนกลาง ค่าฟิตเนส ค่าจอดรถ
     </p>  
 
     <!-- Add fee (feename, feeprice) -->
@@ -136,6 +136,7 @@ watch(childData, () => {
         </Button>
       </div>
     </div>
+    <p v-if="!childData.fees.length">ไม่มีค่าบริการเพิ่มเติมที่เรียกเก็บ</p>
   </div>
 </template>
 

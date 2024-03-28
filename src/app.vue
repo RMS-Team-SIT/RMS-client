@@ -56,6 +56,11 @@ const shouldShowNavbar = computed(() => {
   return !excludedRoutes.includes(route.name);
 });
 
+const shouldShowSidebar = computed(() => {
+  const excludedRoutes = ['pending-residence'];
+  return userStore.isLoggedIn && route.params?.residenceId && !excludedRoutes.includes(route.name); ;
+});
+
 const setLang = () => {
   const lang = localStorage.getItem('lang') || 'en';
   const supportedLang = languages.find((l) => l.value === lang);
@@ -92,7 +97,7 @@ onMounted(async () => {
       :isLoggedIn="userStore.isLoggedIn"
       :user="userStore.getUser"
     />
-    <LoggedInLandlord v-if="userStore.isLoggedIn && $route.params?.residenceId">
+    <LoggedInLandlord v-if="shouldShowSidebar">
       <router-view class="min-h-screen" />
     </LoggedInLandlord>
     <router-view v-else class="min-h-screen" />
