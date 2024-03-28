@@ -3,11 +3,12 @@ const props = defineProps({
   title: String,
   text: String,
   linktext: String,
+  type: String,
 });
 </script>
 
 <template>
-  <div role="alert" class="alert shadow-lg">
+  <div role="alert" class="alert shadow-lg" :class="type">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"

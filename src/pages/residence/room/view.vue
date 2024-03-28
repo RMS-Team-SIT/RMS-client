@@ -18,6 +18,8 @@ import FileService from '@/services/FileService';
 import back from '@/components/common/back.vue';
 import ImageUploadForm from '@/components/form/image.form.vue';
 import BillService from '@/services/BillService';
+import Alert from '@/components/common/alert.vue';
+import ModernAlert from '@/components/common/modern-alert.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -72,7 +74,7 @@ const getChildData = (data) => {
   }
 };
 
-const uploadPaidEvidence = async (billRoomId) => {
+const updatePaidEvidence = async (billRoomId, isReset = false) => {
   if (payload.imageFiles.length) {
     const response = await FileService.uploadImages(payload.imageFiles);
     if (response.status == 201) {
@@ -145,6 +147,23 @@ onMounted(() => {
       />
       <back v-if="!isRenter" :to="{ name: 'room', params: { residenceId } }" />
 
+      <Alert
+        v-if="
+          isRenter && room.billRooms.filter((b) => b.status === 'UNPAID').length
+        "
+      >
+        มีบิลค้างชำระจำนวน
+        {{ room.billRooms.filter((b) => b.status === 'UNPAID').length }} รายการ
+        กรุณาจ่ายบิลให้เสร็จภายในวันที่ {{ 5 }} ของทุกเดือน
+      </Alert>
+      <ModernAlert
+        v-else
+        class="mt-2"
+        title="คำแนะนำ"
+        text="หากมีปัญหาหรือข้อสงสัยใด ๆ กรุณาติดต่อผู้ดูแลห้องพัก"
+        type="info"
+      />
+
       <div class="bg-white mt-5 rounded-lg border p-5">
         <!-- Head -->
         <div class="flex justify-between">
@@ -152,13 +171,15 @@ onMounted(() => {
             class="text-2xl font-semibold text-dark-blue-200 flex items-center gap-2"
           >
             <p>ห้องพัก: {{ room.name }}</p>
-            <Badge
-              badgeType="success"
-              size="lg"
-              v-if="room.status === 'AVAILABLE'"
-              >ว่าง</Badge
-            >
-            <Badge badgeType="error" size="lg" v-else>ไม่ว่าง</Badge>
+            <div v-if="!isRenter">
+              <Badge
+                badgeType="success"
+                size="lg"
+                v-if="room.status === 'AVAILABLE'"
+                >ว่าง</Badge
+              >
+              <Badge badgeType="error" size="lg" v-else>ไม่ว่าง</Badge>
+            </div>
           </h1>
         </div>
         <!-- Body -->
@@ -177,7 +198,7 @@ onMounted(() => {
               อัตราค่าเช่าต่อเดือน:
               {{ room.roomRentalPrice.toLocaleString() }} บาท
             </p>
-            <p>
+            <p v-if="!isRenter">
               สถานะ:
               <Badge badgeType="success" v-if="room.status === 'AVAILABLE'"
                 >ว่าง</Badge
@@ -212,9 +233,9 @@ onMounted(() => {
             <p>รูปแบบห้อง: {{ room.type.category }}</p>
             <p>ขนาดห้อง: {{ room.type.size }} ตร.ม.</p>
             <p>คำอธิบาย: {{ room.type.description || 'ไม่มีคำอธิบาย' }}</p>
-            <p>
+            <!-- <p>
               อัตราค่าเช่าต่อเดือน: {{ room.type.price.toLocaleString() }} บาท
-            </p>
+            </p> -->
             <ImagePreview
               :imageUrls="room.type.images.map((i) => FileService.getFile(i))"
               preview-from="url"
@@ -536,6 +557,12 @@ onMounted(() => {
                   alt="หลักฐานการชำระเงิน"
                   class="w-1/2"
                 />
+                <Button
+                  @click="removePaidEvidence(billRoom._id)"
+                  class="btn-xs"
+                  buttonType="primary"
+                  >ลบรูปภาพ</Button
+                >
               </div>
               <div v-else>
                 <p>
@@ -553,7 +580,7 @@ onMounted(() => {
                       :max-files="1"
                     />
                     <Button
-                      @click="uploadPaidEvidence(billRoom._id)"
+                      @click="updatePaidEvidence(billRoom._id)"
                       class="btn-xs"
                       buttonType="success"
                       >บันทึกข้อมูล</Button

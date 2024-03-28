@@ -72,7 +72,7 @@ const changePage = (page) => {
 };
 
 const availableRenters = computed(() => {
-  return props.residenceData.renters.filter((r) => !r.room);
+  return props.residenceData.renters.filter((r) => !r.room && r.isActive);
 });
 
 const totalPages = computed(() => {
