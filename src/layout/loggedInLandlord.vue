@@ -3,7 +3,7 @@ import SidebarResidence from '@/components/common/sidebar-residence.vue';
 </script>
 
 <template>
-  <div class="flex min-h-screen">
+  <div class="flex min-h-screen w-full">
     <!-- Sidebar -->
     <SidebarResidence />
 

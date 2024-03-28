@@ -76,7 +76,7 @@ onMounted(() => {
       />
       <back :to="{ name: 'room', params: { residenceId } }" />
 
-      <div class="bg-white mt-5 rounded-lg border p-5">
+      <div class="bg-white mt-5 rounded-lg border p-5 w-full">
         <!-- Head -->
         <div class="flex justify-between">
           <h1

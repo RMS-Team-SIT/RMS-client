@@ -98,9 +98,9 @@ onMounted(async () => {
       :user="userStore.getUser"
     />
     <LoggedInLandlord v-if="shouldShowSidebar">
-      <router-view class="min-h-screen" />
+      <router-view class="min-h-screen w-full" />
     </LoggedInLandlord>
-    <router-view v-else class="min-h-screen" />
+    <router-view v-else class="min-h-screen w-full" />
     <notifications group="tr" position="top right" class="text-md" />
     <Footer v-if="shouldShowFooter" />
     <CookieConsent v-if="isShowCookieConsent" @accept="acceptCookieConsent" />
