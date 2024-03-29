@@ -64,7 +64,7 @@ onBeforeMount(async () => {
 
 <template>
   <div class="min-h-screen">
-    <div class="py-10 px-10 md:px-20 w-full">
+    <div class="py-10 px-20 md:px-40 w-full">
       <Breadcrumb
         :pathList="[
           { name: 'หน้าแรก', pathName: 'home' },
