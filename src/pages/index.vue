@@ -241,15 +241,16 @@ import demo6 from '@/assets/img/demo6.webp';
           <div class="mb-8">
             <img
               class="object-center object-cover rounded-full h-36 w-36"
-              src="https://avatars.githubusercontent.com/u/51380509?v=4"
+              src="/cat-manager.jpg"
+
               alt="photo"
             />
           </div>
           <div class="text-center">
             <p class="text-xl text-white font-bold mb-2">สิริวัฒก์ ใจยั่งยืน</p>
-            <!-- <p class="text-base text-gray-400 font-normal">
-              Fullstack Developer
-            </p> -->
+            <p class="text-base text-gray-400 font-normal">
+              Cat Manager
+            </p>
           </div>
         </div>
         <div
@@ -258,13 +259,13 @@ import demo6 from '@/assets/img/demo6.webp';
           <div class="mb-8">
             <img
               class="object-center object-cover rounded-full h-36 w-36"
-              src="/tan.jpg"
+              src="/tan-drag.jpg"
               alt="photo"
             />
           </div>
           <div class="text-center">
             <p class="text-xl text-white font-bold mb-2">รวิศ น้อยวงศ์</p>
-            <!-- <p class="text-base text-gray-400 font-normal">UX UI Designer</p> -->
+            <p class="text-base text-gray-400 font-normal">Drag Dealer</p>
           </div>
         </div>
         <div
@@ -273,13 +274,13 @@ import demo6 from '@/assets/img/demo6.webp';
           <div class="mb-8">
             <img
               class="object-center object-cover rounded-full h-36 w-36"
-              src="/fern.jpg"
+              src="/tole.webp"
               alt="photo"
             />
           </div>
           <div class="text-center">
             <p class="text-xl text-white font-bold mb-2">มนัสสินี เวชวิฐาน</p>
-            <!-- <p class="text-base text-gray-400 font-normal">BA, Tester</p> -->
+            <p class="text-base text-gray-400 font-normal">Tole Tole</p>
           </div>
         </div>
       </div>
