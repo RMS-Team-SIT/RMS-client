@@ -1,5 +1,4 @@
-<script setup>
-</script>
+<script setup></script>
 
 <template>
   <!-- component -->
@@ -107,7 +106,7 @@
 
     <!-- Parallax Background -->
     <section
-      class="flex flex-col w-full h-[500px] bg-cover justify-center items-center bg-img"
+      class="flex flex-col w-full bg-cover bg-fixed bg-center h-[500px] justify-center items-center bg-img"
     >
       <h1 class="text-gray-700 text-5xl font-semibold mt-20 mb-10">
         ทำให้การจัดการหอพักของคุณง่ายขึ้น
@@ -116,7 +115,7 @@
   </main>
 
   <!-- component -->
-  <section class="py-20 bg-white" id="highlight">
+  <section class="py-20 bg-white" id="highlight" data-aos="fade-up">
     <div class="flex flex-col px-8 mx-auto space-y-12 max-w-7xl xl:px-12">
       <div class="relative">
         <h2
@@ -133,7 +132,11 @@
           และให้ผู้เช่าได้รับความสะดวกสบายตลอดระยะเวลาที่พัก
         </p>
       </div>
-      <div class="flex flex-col mb-8 animated fadeIn sm:flex-row">
+
+      <div
+        class="flex flex-col mb-8 animated fadeIn sm:flex-row"
+        data-aos="fade-up"
+      >
         <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12 sm:order-last">
           <img class="rounded-lg" src="/demo2.webp" alt="demo2" />
         </div>
@@ -154,7 +157,11 @@
           </p>
         </div>
       </div>
-      <div class="flex flex-col mb-8 animated fadeIn sm:flex-row">
+
+      <div
+        class="flex flex-col mb-8 animated fadeIn sm:flex-row"
+        data-aos="fade-up"
+      >
         <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12">
           <img class="rounded-lg" src="/demo5.webp" alt="" />
         </div>
@@ -176,7 +183,11 @@
           </p>
         </div>
       </div>
-      <div class="flex flex-col mb-8 animated fadeIn sm:flex-row">
+
+      <div
+        class="flex flex-col mb-8 animated fadeIn sm:flex-row"
+        data-aos="fade-up"
+      >
         <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12 sm:order-last">
           <img class="rounded-lg" src="/demo4.webp" alt="" />
         </div>
