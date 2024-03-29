@@ -31,10 +31,10 @@ const props = defineProps({
 
 <template>
   <div
-    class="navbar shadow-sm p-0 px-10 md:px-40 bg-base-100 border-b"
+    class="flex shadow-sm p-0 px-10 md:px-40 bg-base-100 border-b"
     :class="{ 'bg-dark-blue-200 border-dark-blue-200 text-white': isHome }"
   >
-    <div class="flex-1 gap-4 cursor-pointer">
+    <div class="flex-1 gap-4 cursor-pointer items-center p-2">
       <img
         class="w-12 h-12"
         :src="isHome ? logoWhiteImg : logoImg"
@@ -77,7 +77,7 @@ const props = defineProps({
         class="menu menu-horizontal px-1 text-center align-middle items-center"
       >
         <NavNotification :notifications="user.notifications" />
-        <div class="flex gap-2 items-center rounded-lg p-2">
+        <div class="flex gap-2 items-center rounded-lg p-0">
           <p>
             {{ user.fullname }} {{ user.role === 'admin' ? ': admin' : '' }}
           </p>

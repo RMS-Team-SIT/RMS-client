@@ -36,7 +36,7 @@ const toggleSidebar = () => {
 <template>
   <div
     v-show="isSidebarOpen"
-    class="relative flex flex-col bg-clip-border rounded-sm bg-white text-gray-700 w-full max-w-[20rem] p-4 border"
+    class="relative flex flex-col bg-clip-border rounded-sm bg-white text-gray-700 w-full max-w-[15rem] p-4 border sm:w-auto sm:max-w-[15rem] sm:text-sm text-xs"
   >
     <button
       @click="goto('home')"
@@ -47,7 +47,7 @@ const toggleSidebar = () => {
     </button>
 
     <nav
-      class="flex flex-col gap-1 min-w-[240px] p-2 text-base font-normal text-gray-700"
+      class="flex flex-col gap-1 p-2 text-gray-700"
     >
       <div class="divider font-bold divider-start">หอพัก</div>
       <div
@@ -185,8 +185,9 @@ const toggleSidebar = () => {
     </nav>
   </div>
   <button
-    class="bg-clip-border h-20 bg-white text-gray-700 p-1 hover:bg-blue-50 hover:bg-opacity-80 hover:text-blue-900 border border-l-0"
+    class="bg-clip-border h-10 text-gray-700 p-1 hover:bg-blue-50 hover:bg-opacity-80 hover:text-blue-900 border border-l-0"
     @click="toggleSidebar"
+    :class="{ 'bg-black text-white': !isSidebarOpen }"
   >
     <ChevronDoubleRightIcon v-if="!isSidebarOpen" class="h-4 w-4" />
     <ChevronDoubleLeftIcon v-else class="h-4 w-4" />
