@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import BankIcon from '@/components/common/bank-icon.vue';
 import { useRouter } from 'vue-router';
 import { ArrowTopRightOnSquareIcon } from '@heroicons/vue/24/outline';
+import { truncate } from '@/utils/string';
 
 const props = defineProps({
   roomTypes: {
@@ -174,7 +175,7 @@ const visiblePages = computed(() => {
             </td>
             <td>
               <span :class="{ 'text-gray-500': !room.description }">
-                {{ room.description || 'ไม่มีข้อมูล' }}
+                {{ truncate(room.description) || 'ไม่มีข้อมูล' }}
               </span>
             </td>
             <td>
