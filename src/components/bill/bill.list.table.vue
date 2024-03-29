@@ -402,7 +402,7 @@ const payload = reactive({
                 ข้อมูลบิลห้อง
                 {{ selectedBillRoomForModal.room.name }}
                 รอบมิเตอร์วันที่
-                {{ dayjs(selectedMeterRecordId).format('DD/MM/YYYY') }}
+                {{ dayjs(selectedMeterRecordId[1]).format('DD/MM/YYYY') }}
                 <Badge v-if="selectedBillRoomForModal.status === 'PAID'"
                   >จ่ายแล้ว</Badge
                 >
@@ -577,7 +577,7 @@ const payload = reactive({
                 ข้อมูลบิลห้อง
                 {{ selectedBillRoomForModal.room.name }}
                 รอบมิเตอร์วันที่
-                {{ dayjs(selectedMeterRecordId).format('DD/MM/YYYY') }}
+                {{ dayjs(selectedMeterRecordId[1]).format('DD/MM/YYYY') }}
                 <Badge v-if="selectedBillRoomForModal.status === 'PAID'"
                   >จ่ายแล้ว</Badge
                 >

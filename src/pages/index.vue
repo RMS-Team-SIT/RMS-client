@@ -1,9 +1,9 @@
 <script setup>
 import { projectFullName } from '@/utils/constants';
-import demo1 from '@/assets/img/demo1.png';
-import demo2 from '@/assets/img/demo2.png';
-import demo3 from '@/assets/img/demo3.png';
-import demo4 from '@/assets/img/demo4.png';
+import demo1 from '@/assets/img/demo1.webp';
+import demo2 from '@/assets/img/demo2.webp';
+import demo3 from '@/assets/img/demo3.webp';
+import demo4 from '@/assets/img/demo4.webp';
 </script>
 
 <template>
