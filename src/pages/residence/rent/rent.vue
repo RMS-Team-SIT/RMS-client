@@ -84,7 +84,7 @@ onMounted(async () => {
           <!-- <UserIcon class="w-8 h-8 text-dark-blue-200" /> -->
           <ArrowRightCircleIcon class="w-8 h-8 text-dark-blue-200" />
           <!-- <HomeIcon class="w-8 h-8 text-dark-blue-200" /> -->
-          จัดการการย้ายเข้าอยู่ และออกห้อง
+          การย้ายเข้าและย้ายออก
         </h1>
       </div>
       <RentList

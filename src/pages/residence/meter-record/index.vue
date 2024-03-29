@@ -62,7 +62,7 @@ onMounted(async () => {
           pathName: 'dashboard',
           params: { residenceId },
         },
-        { name: 'ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ' },
+        { name: 'ระบบบันทึกค่าน้ำ ค่าไฟ ' },
       ]"
     />
     <back :to="{ name: 'dashboard', params: { residenceId } }" />
@@ -71,7 +71,7 @@ onMounted(async () => {
       <div class="bg-white p-10 mt-2 shadow rounded-lg border">
         <div class="flex justify-between">
           <h1 class="text-2xl font-semibold text-dark-blue-200">
-            ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ
+            ระบบบันทึกค่าน้ำ ค่าไฟ 
           </h1>
           <router-link
             :to="{

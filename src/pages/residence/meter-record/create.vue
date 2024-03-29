@@ -211,7 +211,7 @@ const showOnlyRentedRoom = ref(true);
           params: { residenceId },
         },
         {
-          name: 'ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ',
+          name: 'ระบบบันทึกค่าน้ำ ค่าไฟ ',
           pathName: 'meter-record',
           params: { residenceId },
         },

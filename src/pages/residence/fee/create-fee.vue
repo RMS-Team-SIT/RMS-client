@@ -125,7 +125,7 @@ onMounted(async () => {
               params: { residenceId },
             },
             {
-              name: 'จัดการราคาค่าใช้จ่ายในหอพัก',
+              name: 'จัดการค่าใช้จ่ายในหอพัก',
               pathName: 'fee',
               params: { residenceId },
             },

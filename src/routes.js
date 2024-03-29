@@ -398,7 +398,7 @@ const routes = [
     path: '/manage/residence/:residenceId/meter-record',
     component: meterRecord,
     meta: {
-      title: 'ระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ',
+      title: 'ระบบบันทึกค่าน้ำ ค่าไฟ ',
     },
   },
   {
@@ -406,7 +406,7 @@ const routes = [
     path: '/manage/residence/:residenceId/meter-record/create',
     component: createMeterRecord,
     meta: {
-      title: 'สร้างระบบบันทึกค่าน้ำ ค่าไฟ และค่าบริการอื่น ๆ',
+      title: 'สร้างระบบบันทึกค่าน้ำ ค่าไฟ ',
     },
   },
   {
@@ -470,7 +470,7 @@ const routes = [
     path: '/manage/residence/:residenceId/fee',
     component: fee,
     meta: {
-      title: 'จัดการราคาค่าใช้จ่ายในหอพัก',
+      title: 'จัดการค่าใช้จ่ายในหอพัก',
     },
   },
   {
@@ -486,7 +486,7 @@ const routes = [
     path: '/manage/residence/:residenceId/fee/update-utility',
     component: updateUtility,
     meta: {
-      title: 'จัดการราคาค่าใช้จ่ายในหอพัก',
+      title: 'จัดการค่าใช้จ่ายในหอพัก',
     },
   },
   {

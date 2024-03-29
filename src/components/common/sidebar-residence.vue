@@ -126,7 +126,7 @@ const toggleSidebar = () => {
         <div class="place-items-center mr-4 flex">
           <CreditCardIcon class="h-5 w-5" />
         </div>
-        จัดการราคาต่าง ๆ
+        จัดการค่าใช้จ่ายต่าง ๆ
       </div>
 
       <div

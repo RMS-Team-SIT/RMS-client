@@ -77,7 +77,7 @@ onMounted(async () => {
           params: { residenceId },
         },
         {
-          name: 'จัดการราคาค่าใช้จ่ายในหอพัก',
+          name: 'จัดการค่าใช้จ่ายในหอพัก',
           pathName: 'fee',
           params: { residenceId },
         },
@@ -126,7 +126,7 @@ onMounted(async () => {
           },
         }"
       >
-        <Button class="mt-5">แก้ไขราคาค่าสาธารณูปโภค</Button>
+        <Button class="mt-5">แก้ไขค่าสาธารณูปโภค</Button>
       </router-link>
     </div>
 
@@ -136,7 +136,7 @@ onMounted(async () => {
           class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
         >
           <AdjustmentsVerticalIcon class="w-8 h-8 text-dark-blue-200" />
-          จัดการราคาค่าบริการเพิ่มเติมที่เรียกเก็บ
+          จัดการค่าบริการเพิ่มเติมที่เรียกเก็บ
         </h1>
         <div>
           <router-link
