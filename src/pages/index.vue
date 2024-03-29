@@ -265,7 +265,7 @@ import demo6 from '@/assets/img/demo6.webp';
           </div>
           <div class="text-center">
             <p class="text-xl text-white font-bold mb-2">รวิศ น้อยวงศ์</p>
-            <p class="text-base text-gray-400 font-normal">Drag Dealer</p>
+            <p class="text-base text-gray-400 font-normal">Drug Dealer</p>
           </div>
         </div>
         <div
