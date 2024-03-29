@@ -186,10 +186,10 @@ const toggleSidebar = () => {
   </div>
   <button
     @click="toggleSidebar"
-    class="relative flex items-start bg-clip-border bg-white text-gray-700 p-4 hover:bg-blue-50 hover:bg-opacity-80 hover:text-blue-900 outline-none border border-l-0"
+    class="relative flex items-start bg-clip-border bg-white text-gray-700 p-1 hover:bg-blue-50 hover:bg-opacity-80 hover:text-blue-900 outline-none border border-l-0"
   >
-    <ChevronDoubleRightIcon v-if="!isSidebarOpen" class="h-5 w-5" />
-    <ChevronDoubleLeftIcon v-else class="h-5 w-5" />
+    <ChevronDoubleRightIcon v-if="!isSidebarOpen" class="h-4 w-4" />
+    <ChevronDoubleLeftIcon v-else class="h-4 w-4" />
   </button>
 </template>
 

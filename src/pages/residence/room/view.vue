@@ -592,7 +592,7 @@ const removePaidEvidence = async (billRoomId) => {
                 btnType="secondary"
                 >ลบหลักฐานการชำระเงิน</Button
               >
-              <p>
+              <p v-if="isRenter">
                 * หากต้องการเปลี่ยนรูปหลักฐานการชำระเงิน
                 กรุณาลบหลักฐานการชำระเงินแล้วอัพโหลดใหม่
               </p>

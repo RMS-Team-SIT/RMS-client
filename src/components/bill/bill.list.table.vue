@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import Divider from '../common/divider.vue';
 import FileService from '@/services/FileService';
 import BillService from '@/services/BillService';
+import { useRoute, useRouter } from 'vue-router';
 
 const emits = defineEmits(['refetch']);
 const props = defineProps({
@@ -18,23 +19,30 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
 });
 
+const router = useRouter();
+const route = useRoute();
 const swal = inject('$swal');
 const currentPage = ref(1);
 const perPage = ref(10);
 const showDeactive = ref(false);
 const { notify } = useNotification();
 const search = ref('');
-const selectedDateMeterRecord = ref('');
+const selectedMeterRecordId = ref('');
 const selectedStatus = ref('');
+const query = ref(route.query);
 
 const currentBillRooms = computed(() => {
   const start = (currentPage.value - 1) * perPage.value;
   const end = start + perPage.value;
   const currentBill = props.bills.filter((bill) =>
-    selectedDateMeterRecord
-      ? bill.meterRecord.record_date === selectedDateMeterRecord.value
+    selectedMeterRecordId
+      ? bill.meterRecord._id === selectedMeterRecordId.value
       : true
   );
   const billRooms = currentBill[0]?.billRooms || [];
@@ -64,9 +72,14 @@ const currentBillRooms = computed(() => {
   return showed;
 });
 
-const recordDates = computed(() => {
+const meterRecordIds = computed(() => {
   return Array.from(
-    new Set(props.bills.map((bill) => bill.meterRecord.record_date))
+    new Set(
+      props.bills.map((bill) => [
+        bill.meterRecord._id,
+        bill.meterRecord.record_date,
+      ])
+    )
   );
 });
 
@@ -101,7 +114,10 @@ watch(
   () => props.bills,
   (newVal) => {
     if (newVal.length) {
-      selectedDateMeterRecord.value = recordDates.value[0];
+      selectedMeterRecordId.value =
+        query.value.meterRecordId || meterRecordIds.value[0][0];
+      search.value = query.value.search || '';
+      selectedStatus.value = query.value.status || '';
     }
   }
 );
@@ -179,12 +195,12 @@ const payload = reactive({
         </label>
         <select
           class="select select-bordered select-xs bg-white rounded"
-          v-model="selectedDateMeterRecord"
+          v-model="selectedMeterRecordId"
         >
           <option
-            v-for="(date, index) in recordDates"
+            v-for="([id, date], index) in meterRecordIds"
             :key="index"
-            :value="date"
+            :value="id"
           >
             {{ dayjs(date).format('DD/MM/YYYY') }}
           </option>
@@ -280,7 +296,7 @@ const payload = reactive({
               <td>{{ billRoom.electricTotalPrice.toLocaleString() }} บาท</td>
               <td>{{ billRoom.roomRentalPrice.toLocaleString() }} บาท</td>
               <td>{{ billRoom.totalFeesPrice.toLocaleString() }} บาท</td>
-              <td>{{ billRoom.totalPrice.toLocaleString() }} บาท</td>
+              <td class="font-bold">{{ billRoom.totalPrice.toLocaleString() }} บาท</td>
               <td>
                 <Badge v-if="billRoom.status === 'PAID'">จ่ายแล้ว</Badge>
                 <Badge
@@ -386,7 +402,7 @@ const payload = reactive({
                 ข้อมูลบิลห้อง
                 {{ selectedBillRoomForModal.room.name }}
                 รอบมิเตอร์วันที่
-                {{ dayjs(selectedDateMeterRecord).format('DD/MM/YYYY') }}
+                {{ dayjs(selectedMeterRecordId).format('DD/MM/YYYY') }}
                 <Badge v-if="selectedBillRoomForModal.status === 'PAID'"
                   >จ่ายแล้ว</Badge
                 >
@@ -561,7 +577,7 @@ const payload = reactive({
                 ข้อมูลบิลห้อง
                 {{ selectedBillRoomForModal.room.name }}
                 รอบมิเตอร์วันที่
-                {{ dayjs(selectedDateMeterRecord).format('DD/MM/YYYY') }}
+                {{ dayjs(selectedMeterRecordId).format('DD/MM/YYYY') }}
                 <Badge v-if="selectedBillRoomForModal.status === 'PAID'"
                   >จ่ายแล้ว</Badge
                 >

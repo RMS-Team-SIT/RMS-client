@@ -115,6 +115,7 @@ onMounted(async () => {
         </p>
 
         <BillListTable
+          :isLoading="isLoading"
           :bills="bills"
           :residence-id="residenceId"
           @refetch="fetchBills"
