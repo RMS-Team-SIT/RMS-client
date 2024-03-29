@@ -4,6 +4,8 @@ import demo1 from '@/assets/img/demo1.webp';
 import demo2 from '@/assets/img/demo2.webp';
 import demo3 from '@/assets/img/demo3.webp';
 import demo4 from '@/assets/img/demo4.webp';
+import demo5 from '@/assets/img/demo5.webp';
+import demo6 from '@/assets/img/demo6.webp';
 </script>
 
 <template>
@@ -132,10 +134,10 @@ import demo4 from '@/assets/img/demo4.webp';
         <p
           class="w-full py-8 mx-auto -mt-2 text-lg text-center text-gray-700 intro sm:max-w-3xl"
         >
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Blanditiis
-          odio, similique quaerat eveniet quia nisi voluptas illum minus
-          nesciunt, non fuga quis perspiciatis, laboriosam eaque beatae est rem
-          tempore repellendus.
+          ระบบของเราจะช่วยให้การบริหารจัดการหอพักเป็นเรื่องง่ายอีกทั้งยังช่วยลดระยะเวลาในการบริหารจัดการ
+          <br />
+          โดยมีจุดมุ่งหมายเพื่ออำนวยความสะดวกให้กับผู้ประกอบการ
+          และให้ผู้เช่าได้รับความสะดวกสบายตลอดระยะเวลาที่พัก
         </p>
       </div>
       <div
@@ -143,11 +145,7 @@ import demo4 from '@/assets/img/demo4.webp';
         data-aos="fade-up"
       >
         <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12 sm:order-last">
-          <img
-            class="rounded-lg shadow-xl"
-            src="https://cdn.devdojo.com/images/december2020/dashboard-011.png"
-            alt=""
-          />
+          <img class="rounded-lg" :src="demo2" alt="demo2" />
         </div>
         <div
           class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-7/12 sm:pr-16"
@@ -155,15 +153,14 @@ import demo4 from '@/assets/img/demo4.webp';
           <p
             class="mb-2 text-sm font-semibold leading-none text-left text-indigo-600 uppercase"
           >
-            Drag-n-drop design
+            ภาพรวมหอพัก: แดชบอร์ด
           </p>
           <h3 class="mt-2 text-2xl sm:text-left md:text-4xl">
-            Design Made Easy
+            ภาพรวมหอพัก: แดชบอร์ด
           </h3>
           <p class="mt-5 text-lg text-gray-700 text md:text-left">
-            Crafting your user experience has never been easier, with our
-            intuitive drag'n drop interface you will be creating beatiful
-            designs in no time.
+            ผู้ประกอบการสามารถดูภาพรวมของหอพักผ่านหน้าแดชบอร์ด เช่น
+            รายได้ของหอพัก สถานะห้องว่าง สถานะการจ่ายบิล
           </p>
         </div>
       </div>
@@ -174,7 +171,7 @@ import demo4 from '@/assets/img/demo4.webp';
         <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12">
           <img
             class="rounded-lg shadow-xl"
-            src="https://cdn.devdojo.com/images/december2020/dashboard-04.png"
+            :src="demo5"
             alt=""
           />
         </div>
@@ -187,12 +184,12 @@ import demo4 from '@/assets/img/demo4.webp';
             know your data
           </p>
           <h3 class="mt-2 text-2xl sm:text-left md:text-4xl">
-            Optimized For Conversions
+            การจดมิเตอร์และจัดการค่าใช้จ่ายต่าง ๆ
           </h3>
           <p class="mt-5 text-lg text-gray-700 text md:text-left">
-            Backed by data, these templates have been crafted for ultimate
-            optimization. Now, converting your visitors into customers is easier
-            than ever before.
+            ผู้ประกอบการสามารถบันทึกค่าสาธารณูปโภค ค่าใช้จ่ายเพิ่มเติม เช่น
+            ค่าอินเทอร์เน็ต ค่าส่วนกลาง
+            อีกทั้งยังสามารถบันทึกมิเตอร์การใช้งานสาธารณูปโภคของแต่ละห้องในแต่ละเดือนได้
           </p>
         </div>
       </div>
@@ -201,11 +198,7 @@ import demo4 from '@/assets/img/demo4.webp';
         data-aos="fade-up"
       >
         <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12 sm:order-last">
-          <img
-            class="rounded-lg shadow-xl"
-            src="https://cdn.devdojo.com/images/december2020/dashboard-03.png"
-            alt=""
-          />
+          <img class="rounded-lg" :src="demo4" alt="" />
         </div>
         <div
           class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-7/12 sm:pr-16"
@@ -216,11 +209,15 @@ import demo4 from '@/assets/img/demo4.webp';
             Easy to customize
           </p>
           <h3 class="mt-2 text-2xl sm:text-left md:text-4xl">
-            Make It Your Own
+            การจัดการบิล และแจ้งชำระออนไลน์
           </h3>
           <p class="mt-5 text-lg text-gray-700 text md:text-left">
-            All templates and components are fully customizable. You can use
-            these templates to tell your personal story and convey your message.
+            ผู้ประกอบการสามารถสร้างบิลที่ผู้เช่าจะต้องชำระในแต่ละเดือนได้
+            ระบบจะคำนวณค่าใช้จากจากมิเตอร์และค่าใช้จ่ายที่ตั้งไว้
+            อีกทั้งยังสามารถพิมพ์ใบแจ้งหนี้หรือใบเสร็จรับเงินได้ภายในระบบ
+            ผู้เช่าจะได้รับการแจ้งเตือนบิลที่ต้องชำระผ่านอีเมล
+            ผู้เช่าสามารถดูบิลที่ต้องชำระ, บิลค้างชำระ
+            และสามารถแจ้งชำระออนไลน์ได้ภายในระบบ
           </p>
         </div>
       </div>
@@ -250,7 +247,9 @@ import demo4 from '@/assets/img/demo4.webp';
           </div>
           <div class="text-center">
             <p class="text-xl text-white font-bold mb-2">สิริวัฒก์ ใจยั่งยืน</p>
-            <p class="text-base text-gray-400 font-normal">Fullstack Developer</p>
+            <!-- <p class="text-base text-gray-400 font-normal">
+              Fullstack Developer
+            </p> -->
           </div>
         </div>
         <div
@@ -265,7 +264,7 @@ import demo4 from '@/assets/img/demo4.webp';
           </div>
           <div class="text-center">
             <p class="text-xl text-white font-bold mb-2">รวิศ น้อยวงศ์</p>
-            <p class="text-base text-gray-400 font-normal">UX UI Designer</p>
+            <!-- <p class="text-base text-gray-400 font-normal">UX UI Designer</p> -->
           </div>
         </div>
         <div
@@ -280,7 +279,7 @@ import demo4 from '@/assets/img/demo4.webp';
           </div>
           <div class="text-center">
             <p class="text-xl text-white font-bold mb-2">มนัสสินี เวชวิฐาน</p>
-            <p class="text-base text-gray-400 font-normal">BA, Tester</p>
+            <!-- <p class="text-base text-gray-400 font-normal">BA, Tester</p> -->
           </div>
         </div>
       </div>

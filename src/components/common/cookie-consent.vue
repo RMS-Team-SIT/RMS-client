@@ -16,9 +16,9 @@
             ยอมรับทั้งหมด
           </button>
         </div>
-        <button class="text-sm underline" @click="onSettings">
+        <!-- <button class="text-sm underline" @click="onSettings">
           ตั้งค่าคุกกี้
-        </button>
+        </button> -->
       </div>
     </div>
   </div>
