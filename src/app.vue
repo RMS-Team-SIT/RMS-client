@@ -86,7 +86,11 @@ const acceptCookieConsent = () => {
 
 onMounted(async () => {
   await serverStore.fetch();
-  isLoading.value = false;
+  // wait 500ms to show loading
+  setTimeout(() => {
+    isLoading.value = false;
+  }, 500);
+  // isLoading.value = false;
 });
 </script>
 
