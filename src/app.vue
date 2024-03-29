@@ -90,13 +90,12 @@ onMounted(async () => {
   setTimeout(() => {
     isLoading.value = false;
   }, 500);
-  // isLoading.value = false;
 });
 </script>
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen w-full" />
-  <div class="font-noto" v-else>
+  <div class="font-noto" v-show="!isLoading">
     <navbar
       v-if="shouldShowNavbar"
       :isLoggedIn="userStore.isLoggedIn"
