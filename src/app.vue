@@ -91,6 +91,7 @@ onMounted(async () => {
     isLoading.value = false;
   }, 500);
 });
+
 </script>
 
 <template>
