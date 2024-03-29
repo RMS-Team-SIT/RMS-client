@@ -36,6 +36,7 @@ const shouldShowFooter = computed(() => {
     'unavailable',
     'renter-signin',
     'print-bill-room',
+    'home'
   ];
   return !excludedRoutes.includes(route.name);
 });
@@ -57,7 +58,7 @@ const shouldShowNavbar = computed(() => {
 });
 
 const shouldShowSidebar = computed(() => {
-  const excludedRoutes = ['pending-residence'];
+  const excludedRoutes = ['pending-residence','print-bill-room'];
   return userStore.isLoggedIn && route.params?.residenceId && !excludedRoutes.includes(route.name); ;
 });
 
@@ -96,6 +97,7 @@ onMounted(async () => {
       v-if="shouldShowNavbar"
       :isLoggedIn="userStore.isLoggedIn"
       :user="userStore.getUser"
+      :isHome="route.name === 'home'"
     />
     <LoggedInLandlord v-if="shouldShowSidebar">
       <router-view class="min-h-screen w-full" />

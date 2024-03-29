@@ -21,11 +21,18 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  isHome: {
+    type: Boolean,
+    default: false,
+  },
 });
 </script>
 
 <template>
-  <div class="navbar shadow-sm p-0 px-10 md:px-40 bg-base-100 border-b">
+  <div
+    class="navbar shadow-sm p-0 px-10 md:px-40 bg-base-100 border-b"
+    :class="{ 'bg-dark-blue-200 border-dark-blue-200 text-white': isHome }"
+  >
     <div class="flex-1 gap-4 cursor-pointer">
       <img
         class="w-12 h-12"
@@ -33,18 +40,32 @@ const props = defineProps({
         alt=""
         @click="router.push({ name: 'home' })"
       />
-      <!-- <a class="text-xl">
-        <span class="font-bold text-dark-blue-200">{{ projectFullName }}</span>
-      </a> -->
     </div>
     <div class="flex-none" v-if="!isLoggedIn">
       <ul
         class="menu menu-horizontal px-1 text-center align-middle items-center"
       >
         <li>
-          <router-link :to="{ name: 'home' }">หน้าแรก</router-link>
+          <router-link
+            :to="{ name: 'home' }"
+            :class="{ 'text-white hover:text-gray-500': isHome }"
+            >หน้าแรก</router-link
+          >
         </li>
-        <li><router-link :to="{ name: 'home' }">เกี่ยวกับเรา</router-link></li>
+        <li>
+          <router-link
+            :to="{ name: 'home' }"
+            :class="{ 'text-white hover:text-gray-500': isHome }"
+            >จุดเด่นของระบบ</router-link
+          >
+        </li>
+        <li>
+          <router-link
+            :to="{ name: 'home' }"
+            :class="{ 'text-white hover:text-gray-500': isHome }"
+            >เกี่ยวกับทีม</router-link
+          >
+        </li>
         <router-link to="/signin">
           <Button btnType="secondary-pill">เข้าสู่ระบบ</Button>
         </router-link>

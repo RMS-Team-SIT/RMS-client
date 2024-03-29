@@ -15,6 +15,7 @@ module.exports = {
         'light-red': '#EA5455',
         cream: '#E4DCCF',
         'light-cream': '#F9F5EB',
+        'red-orange': '#f4713a',
       },
     },
   },

@@ -25,6 +25,7 @@ const classes = computed(() => {
     'md:text-md',
     'lg:text-sm',
     'btn-sm',
+    'border-0'
   ];
 
   const typeToClasses = {
