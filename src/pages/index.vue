@@ -1,4 +1,12 @@
-<script setup></script>
+<script setup>
+import { projectFullName } from '@/utils/constants';
+import demo1 from '@/assets/img/demo1.webp';
+import demo2 from '@/assets/img/demo2.webp';
+import demo3 from '@/assets/img/demo3.webp';
+import demo4 from '@/assets/img/demo4.webp';
+import demo5 from '@/assets/img/demo5.webp';
+import demo6 from '@/assets/img/demo6.webp';
+</script>
 
 <template>
   <!-- component -->
@@ -46,7 +54,7 @@
         >
           <div class="h-28 flex flex-wrap content-center">
             <div>
-              <img class="inline-block mt-28 xl:block" src="/demo1.webp" />
+              <img class="inline-block mt-28 xl:block" :src="demo1" />
             </div>
           </div>
         </div>
@@ -75,7 +83,7 @@
         <div class="flex justify-center items-center">
           <img
             class="w-full h-auto max-w-lg mx-auto"
-            src="/demo2.webp"
+            :src="demo2"
             alt="Illustration"
           />
         </div>
@@ -106,7 +114,7 @@
 
     <!-- Parallax Background -->
     <section
-      class="flex flex-col w-full bg-cover bg-fixed bg-center h-[500px] justify-center items-center bg-img"
+      class="flex flex-col w-full h-[500px] bg-cover bg-fixed bg-center justify-center items-center bg-img"
     >
       <h1 class="text-gray-700 text-5xl font-semibold mt-20 mb-10">
         ทำให้การจัดการหอพักของคุณง่ายขึ้น
@@ -115,7 +123,7 @@
   </main>
 
   <!-- component -->
-  <section class="py-20 bg-white" id="highlight" data-aos="fade-up">
+  <section class="py-20 bg-white" data-aos="fade-up" id="highlight">
     <div class="flex flex-col px-8 mx-auto space-y-12 max-w-7xl xl:px-12">
       <div class="relative">
         <h2
@@ -132,13 +140,12 @@
           และให้ผู้เช่าได้รับความสะดวกสบายตลอดระยะเวลาที่พัก
         </p>
       </div>
-
       <div
         class="flex flex-col mb-8 animated fadeIn sm:flex-row"
         data-aos="fade-up"
       >
         <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12 sm:order-last">
-          <img class="rounded-lg" src="/demo2.webp" alt="demo2" />
+          <img class="rounded-lg" :src="demo2" alt="demo2" />
         </div>
         <div
           class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-7/12 sm:pr-16"
@@ -157,13 +164,16 @@
           </p>
         </div>
       </div>
-
       <div
         class="flex flex-col mb-8 animated fadeIn sm:flex-row"
         data-aos="fade-up"
       >
         <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12">
-          <img class="rounded-lg" src="/demo5.webp" alt="" />
+          <img
+            class="rounded-lg"
+            :src="demo5"
+            alt=""
+          />
         </div>
         <div
           class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-7/12 sm:pl-16"
@@ -183,13 +193,12 @@
           </p>
         </div>
       </div>
-
       <div
         class="flex flex-col mb-8 animated fadeIn sm:flex-row"
         data-aos="fade-up"
       >
         <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12 sm:order-last">
-          <img class="rounded-lg" src="/demo4.webp" alt="" />
+          <img class="rounded-lg" :src="demo4" alt="" />
         </div>
         <div
           class="flex flex-col justify-center mt-5 mb-8 md:mt-0 sm:w-1/2 md:w-7/12 sm:pr-16"
@@ -216,7 +225,7 @@
   </section>
 
   <!-- member -->
-  <div class="w-full" id="member">
+  <div class="w-full" data-aos="fade-up" id="member">
     <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-12">
       <div class="text-center pb-12">
         <h1 class="font-bold text-3xl md:text-4xl lg:text-5xl font-heading">
@@ -280,7 +289,7 @@
 
 <style scoped>
 .bg-img {
-  background-image: url('/8c-min.jpg');
+  background-image: url('/8c.jpg');
   background-position: center;
 }
 </style>
