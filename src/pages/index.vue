@@ -250,7 +250,7 @@ import demo4 from '@/assets/img/demo4.png';
           </div>
           <div class="text-center">
             <p class="text-xl text-white font-bold mb-2">สิริวัฒก์ ใจยั่งยืน</p>
-            <p class="text-base text-gray-400 font-normal">Fullstack Developer, UXUI Designer</p>
+            <p class="text-base text-gray-400 font-normal">Fullstack Developer</p>
           </div>
         </div>
         <div
@@ -280,7 +280,7 @@ import demo4 from '@/assets/img/demo4.png';
           </div>
           <div class="text-center">
             <p class="text-xl text-white font-bold mb-2">มนัสสินี เวชวิฐาน</p>
-            <p class="text-base text-gray-400 font-normal">UX UI Designer</p>
+            <p class="text-base text-gray-400 font-normal">BA, Tester</p>
           </div>
         </div>
       </div>
