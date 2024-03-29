@@ -576,12 +576,12 @@ router.beforeEach(async (to, from, next) => {
     );
     const isAdminRoute = adminRoutes.includes(to.name);
 
-    console.log({
-      isPublicRoute,
-      isRestrictedForLoggedIn,
-      isAdminRoute,
-      role: user.role,
-    });
+    // console.log({
+    //   isPublicRoute,
+    //   isRestrictedForLoggedIn,
+    //   isAdminRoute,
+    //   role: user.role,
+    // });
 
     // Admin
     // Admin can access all routes
