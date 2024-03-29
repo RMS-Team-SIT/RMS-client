@@ -170,7 +170,7 @@ import demo6 from '@/assets/img/demo6.webp';
       >
         <div class="flex items-center mb-8 sm:w-1/2 md:w-5/12">
           <img
-            class="rounded-lg shadow-xl"
+            class="rounded-lg"
             :src="demo5"
             alt=""
           />
