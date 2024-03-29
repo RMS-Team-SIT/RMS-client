@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import Button from './button.vue';
 import blankprofileImg from '@/assets/img/bp.webp';
 import logoImg from '@/assets/img/logo.png';
+import logoWhiteImg from '@/assets/img/logo-white.png';
 import { BellIcon } from '@heroicons/vue/24/outline';
 import Divider from './divider.vue';
 import Badge from './badge.vue';
@@ -36,7 +37,7 @@ const props = defineProps({
     <div class="flex-1 gap-4 cursor-pointer">
       <img
         class="w-12 h-12"
-        :src="logoImg"
+        :src="isHome ? logoWhiteImg : logoImg"
         alt=""
         @click="router.push({ name: 'home' })"
       />
