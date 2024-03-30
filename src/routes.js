@@ -551,6 +551,7 @@ router.beforeEach(async (to, from, next) => {
 
     if (!status.up) {
       console.info('API Status: Down');
+      if (to.name === 'home') return next();
       if (to.name !== 'unavailable')
         return next({
           name: 'unavailable',
