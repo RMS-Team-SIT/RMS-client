@@ -6,7 +6,7 @@ import { useNotification } from '@kyvg/vue3-notification';
 import ResidenceServices from '@/services/ResidenceServices';
 import FileService from '@/services/FileService';
 import Loading from '@/components/common/loading.vue';
-import { ChartPieIcon, HomeIcon, UserIcon } from '@heroicons/vue/24/outline';
+import { ChartPieIcon, HomeIcon, PlusIcon, UserIcon } from '@heroicons/vue/24/outline';
 import Button from '@/components/common/button.vue';
 import RenterListTable from '@/components/renter/renter.list.table.vue';
 import back from '@/components/common/back.vue';
@@ -95,7 +95,9 @@ onMounted(async () => {
               },
             }"
           >
-            <Button btnType="primary">เพิ่มข้อมูลผู้เช่า</Button>
+            <Button >
+              <PlusIcon class="w-5 h-5" />
+              เพิ่มข้อมูลผู้เช่า</Button>
           </router-link>
         </div>
         <RenterListTable

@@ -6,6 +6,7 @@ import { useRouter } from 'vue-router';
 import FileService from '@/services/FileService';
 import { computed } from 'vue';
 import { truncate } from '@/utils/string';
+import { ArrowTopRightOnSquareIcon, ChartPieIcon } from '@heroicons/vue/24/outline';
 
 const router = useRouter();
 
@@ -43,15 +44,19 @@ const imageSrc = computed(() => {
       <div class="card-actions justify-between items-center">
         <Button
           v-if="props.residence.isApproved"
-          class="btn"
-          btnType="secondary"
+          btnType=""
+          class="underline"
           @click="
             router.push({
               name: 'dashboard',
               params: { residenceId: props.residence._id },
             })
           "
-          >เข้าสู่หน้าแดชบอร์ด</Button
+          >
+          <!-- <ChartPieIcon class="w-5 h-5" /> -->
+          เข้าสู่หน้าแดชบอร์ด
+          <ArrowTopRightOnSquareIcon class="w-5 h-5" />
+          </Button
         >
         <Button
           v-else

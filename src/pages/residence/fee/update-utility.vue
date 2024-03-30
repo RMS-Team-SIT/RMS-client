@@ -14,7 +14,7 @@ import ResidenceSettingForm from '@/components/residence/form/residence.setting.
 
 const router = useRouter();
 const route = useRoute();
-const stepList = ['แก้ไขข้อมูลค่าสาธารณูปโภค', 'ตรวจสอบข้อมูล'];
+const stepList = ['แก้ไขข้อมูล', 'ตรวจสอบข้อมูล'];
 const numberOfSteps = stepList.length;
 const residenceId = route.params.residenceId;
 const roomId = route.params.roomId;
