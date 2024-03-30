@@ -203,12 +203,12 @@ watch(data, () => {
         <Button
           btn-type="secondary"
           @click="router.push({ name: 'payment', params: { residenceId } })"
-          class="rounded-badge"
+          
         >
           ยกเลิก
         </Button>
 
-        <Button @click="submitData" class="rounded-badge" btnType="primary" :disabled="!canSubmit">
+        <Button @click="submitData"  btnType="primary" :disabled="!canSubmit">
           บันทึกข้อมูล
         </Button>
       </div>
