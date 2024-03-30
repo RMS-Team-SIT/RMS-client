@@ -1,34 +1,4 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
-import demo2 from '@/assets/img/demo2.webp';
-import demo4 from '@/assets/img/demo4.webp';
-import demo5 from '@/assets/img/demo5.webp';
-
-const scrollHandler = () => {
-  // Your scroll handling logic here
-  // For now, we're just debouncing the scroll event
-};
-
-// Debounce function
-const debounce = (func, wait) => {
-  let timeout;
-  return function() {
-    const context = this;
-    const args = arguments;
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      func.apply(context, args);
-    }, wait);
-  };
-};
-
-onMounted(() => {
-  window.addEventListener('scroll', debounce(scrollHandler, 100));
-});
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', debounce(scrollHandler, 100));
-});
 </script>
 
 <template>
