@@ -45,7 +45,7 @@ import demo2 from '@/assets/img/demo2.webp';
 
     <!-- Parallax Background -->
     <section
-      class="flex flex-col w-full h-[500px] bg-cover bg-fixed bg-center justify-center items-center"
+      class="flex flex-col w-full h-[500px] bg-cover bg-fixed bg-center justify-center items-center bg-img"
     >
       <h1 class="text-gray-700 text-5xl font-semibold mt-20 mb-10">
         ทำให้การจัดการหอพักของคุณง่ายขึ้น
@@ -55,8 +55,8 @@ import demo2 from '@/assets/img/demo2.webp';
 </template>
 
 <style scoped>
-/* .bg-img {
+.bg-img {
   background-image: url('/8c.jpg');
   background-position: center;
-} */
+}
 </style>
