@@ -44,7 +44,7 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen w-full" />
-  <div v-if="residence.data" class="py-10 px-10 md:px-20 w-full min-h-screen">
+  <div v-if="residence.data" class="py-10 px-10 md:px-5 w-full min-h-screen">
     <Breadcrumb
       :pathList="[
         { name: 'หน้าแรก', pathName: 'home' },
@@ -58,7 +58,7 @@ onMounted(async () => {
       ]"
     />
 
-    <back :to="{ name: 'dashboard', params: { residenceId } }" />
+    <!-- <back :to="{ name: 'dashboard', params: { residenceId } }" /> -->
 
     <div class="grid grid-cols-1">
       <div class="bg-white p-10 mt-2 shadow rounded-lg border">

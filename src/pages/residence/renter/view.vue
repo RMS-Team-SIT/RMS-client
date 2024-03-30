@@ -48,7 +48,7 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen w-full" />
-  <div class="py-10 px-10 md:px-20 w-full min-h-screen">
+  <div class="py-10 px-10 md:px-5 w-full min-h-screen">
     <Breadcrumb
       :pathList="[
         { name: 'หน้าแรก', pathName: 'home' },

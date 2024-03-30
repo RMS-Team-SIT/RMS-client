@@ -11,9 +11,9 @@ import demo6 from '@/assets/img/demo6.webp';
 <template>
   <!-- component -->
   <section>
-    <div class="bg-dark-blue-200 text-white py-1">
+    <div class="bg-dark-blue-200 text-white p-10">
       <div
-        class="container mx-auto flex flex-col md:flex-row items-center my-12 md:my-24"
+        class="container mx-auto flex flex-col md:flex-row items-center"
       >
         <div
           class="flex flex-col w-full lg:w-1/3 justify-center items-start p-8"
@@ -50,7 +50,7 @@ import demo6 from '@/assets/img/demo6.webp';
           </div>
         </div>
         <div
-          class="p-8 mt-12 mb-6 md:mb-0 md:mt-0 ml-0 md:ml-12 lg:w-2/3 justify-center"
+          class="p-8 md:mb-0 md:mt-0 ml-0 md:ml-12 lg:w-2/3 justify-center"
         >
           <div class="h-28 flex flex-wrap content-center">
             <div>

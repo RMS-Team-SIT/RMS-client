@@ -49,37 +49,29 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen w-full" />
-  <div v-if="residence.data" class="bg-gray-50 min-h-screen">
-    <div class="py-10 px-10 md:px-20 w-full">
-      <Breadcrumb
-        :pathList="[
-          { name: 'หน้าแรก', pathName: 'home' },
-          { name: 'จัดการ', pathName: 'manage' },
-          {
-            name: `${residence.data.name}`,
-            pathName: 'dashboard',
-            params: { residenceId },
-          },
-          { name: 'ข้อมูลทั่วไป' },
-        ]"
-      />
-      <Button
-        btnType="primary"
-        class="mt-5"
-        @click="router.push({ name: 'dashboard', params: { residenceId } })"
-      >
-        กลับหน้าแดชบอร์ด
-      </Button>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2 mt-2">
-        <ResidenceInfo :residence="residence.data" />
-        <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
-          <h1 class="text-xl font-semibold text-dark-blue-200">รูปภาพ</h1>
-          <ImagePreview
-            :imageUrls="residence.data.images"
-            preview-from="url"
-            class="min-h-full"
-          />
-        </div>
+  <div v-if="residence.data" class="py-10 px-10 md:px-5 w-full min-h-screen">
+    <Breadcrumb
+      :pathList="[
+        { name: 'หน้าแรก', pathName: 'home' },
+        { name: 'จัดการ', pathName: 'manage' },
+        {
+          name: `${residence.data.name}`,
+          pathName: 'dashboard',
+          params: { residenceId },
+        },
+        { name: 'ข้อมูลทั่วไป' },
+      ]"
+    />
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2 mt-2">
+      <ResidenceInfo :residence="residence.data" />
+      <div class="relative bg-white p-10 space-y-4 shadow-md rounded">
+        <h1 class="text-xl font-semibold text-dark-blue-200">รูปภาพ</h1>
+        <ImagePreview
+          :imageUrls="residence.data.images"
+          preview-from="url"
+          class="min-h-full"
+        />
       </div>
     </div>
   </div>
