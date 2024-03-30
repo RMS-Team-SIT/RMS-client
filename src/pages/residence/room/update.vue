@@ -218,7 +218,7 @@ onMounted(async () => {
             btn-type="secondary"
             @click="router.push({ name: 'room', params: { residenceId } })"
             v-if="currentStep == 1"
-            class="rounded-badge"
+            
           >
             ยกเลิก
           </Button>
@@ -226,7 +226,7 @@ onMounted(async () => {
             btn-type="secondary"
             @click="changeStep('back')"
             v-if="currentStep > 1"
-            class="rounded-badge"
+            
           >
             <ArrowLeftIcon class="w-4 h-4" />
             ย้อนกลับ
@@ -234,12 +234,12 @@ onMounted(async () => {
           <Button
             v-if="currentStep == numberOfSteps"
             @click="submitData"
-            class="rounded-badge"
+            
             btnType="primary"
           >
             บันทึกข้อมูล
           </Button>
-          <Button @click="changeStep('next')" class="rounded-badge" v-else>
+          <Button @click="changeStep('next')"  v-else>
             ถัดไป
             <ArrowRightIcon class="w-4 h-4" />
           </Button>

@@ -6,6 +6,11 @@ import { useRouter } from 'vue-router';
 import FileService from '@/services/FileService';
 import { computed } from 'vue';
 import { truncate } from '@/utils/string';
+import {
+  ArrowTopRightOnSquareIcon,
+  ChartPieIcon,
+} from '@heroicons/vue/24/outline';
+import Badge from '../common/badge.vue';
 
 const router = useRouter();
 
@@ -26,7 +31,7 @@ const imageSrc = computed(() => {
 
 <template>
   <div
-    class="card card-side bg-base-100 border border-gray-200 mt-5 hover:shadow hover:cursor-pointer hover:border-gray-300"
+    class="card card-side bg-base-100 border border-gray-200 hover:shadow hover:border-gray-300"
   >
     <figure>
       <img class="w-60 h-60 rounded-lg" :src="imageSrc" />
@@ -36,6 +41,12 @@ const imageSrc = computed(() => {
         ชื่อหอพัก : {{ truncate(props.residence?.name, 50) }}
       </h2>
       <p>
+        สถานะการอนุมัติ:
+        <Badge :badgeType="props.residence.isApproved ? 'success' : 'warning'">
+          {{ props.residence.isApproved ? 'อนุมัติแล้ว' : 'รอการอนุมัติ' }}
+        </Badge>
+      </p>
+      <p>
         รายละเอียด :
         {{ truncate(props.residence?.description || 'ไม่มีข้อมูล', 50) }}
       </p>
@@ -43,16 +54,19 @@ const imageSrc = computed(() => {
       <div class="card-actions justify-between items-center">
         <Button
           v-if="props.residence.isApproved"
-          class="btn"
-          btnType="secondary"
+          btnType=""
+          class="underline"
           @click="
             router.push({
               name: 'dashboard',
               params: { residenceId: props.residence._id },
             })
           "
-          >เข้าสู่หน้าแดชบอร์ด</Button
         >
+          <!-- <ChartPieIcon class="w-5 h-5" /> -->
+          เข้าสู่หน้าแดชบอร์ด
+          <ArrowTopRightOnSquareIcon class="w-5 h-5" />
+        </Button>
         <Button
           v-else
           @click="

@@ -279,7 +279,7 @@ const validateErrorMsg = (field) => {
         </div>
         <div class="py-1">
           <div v-if="!isLoading">
-            <Button class="btn btn-block mt-2" type="submit">
+            <Button btn-type="primary" class="btn btn-block mt-2" type="submit">
               สมัครสมาชิก
             </Button>
           </div>

@@ -4,7 +4,7 @@ import { computed } from 'vue';
 const props = defineProps({
   btnType: {
     type: String,
-    default: 'primary',
+    // default: 'primary',
     validator: (value) =>
       [
         'primary',
@@ -14,6 +14,7 @@ const props = defineProps({
         'secondary-pill',
         'ghost-pill',
         'success-pill',
+        'circle',
       ].includes(value),
   },
 });
@@ -29,10 +30,17 @@ const classes = computed(() => {
   ];
 
   const typeToClasses = {
+    circle: [
+      'bg-dark-blue-200',
+      'hover:bg-dark-blue-100',
+      'btn-circle',
+      'btn-outline',
+      'text-white',
+    ],
     primary: [
       'bg-dark-blue-200',
       'hover:bg-dark-blue-100',
-      'rounded-md',
+      'rounded',
       'text-white',
     ],
     secondary: ['bg-light-red', 'hover:bg-red-700', 'rounded-md', 'text-white'],

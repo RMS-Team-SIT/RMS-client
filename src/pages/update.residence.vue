@@ -172,7 +172,7 @@ const submitData = async () => {};
           <Button
             @click="changeStep('back')"
             v-if="currentStep > 1"
-            class="rounded-badge"
+            
           >
             <ArrowLeftIcon class="w-4 h-4" />
             ย้อนกลับ
@@ -180,12 +180,12 @@ const submitData = async () => {};
           <Button
             v-if="currentStep == numberOfSteps"
             @click="submitData"
-            class="rounded-badge"
+            
             btnType="secondary"
           >
             บันทึกข้อมูล
           </Button>
-          <Button @click="changeStep('next')" class="rounded-badge" v-else>
+          <Button @click="changeStep('next')"  v-else>
             ต่อไป
             <ArrowRightIcon class="w-4 h-4" />
           </Button>

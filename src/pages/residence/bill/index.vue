@@ -12,6 +12,7 @@ import dayjs from 'dayjs';
 import Divider from '@/components/common/divider.vue';
 import Badge from '@/components/common/badge.vue';
 import back from '@/components/common/back.vue';
+import { PlusIcon } from '@heroicons/vue/24/outline';
 
 const router = useRouter();
 const route = useRoute();
@@ -109,7 +110,9 @@ onMounted(async () => {
               },
             }"
           >
-            <Button btnType="primary">สร้างบิลใหม่</Button>
+            <Button >
+              <PlusIcon class="w-5 h-5" />
+              สร้างบิลใหม่</Button>
           </router-link>
         </div>
         <p class="mt-5" v-if="!bills.length">

@@ -154,14 +154,14 @@ watch(residenceData, () => {
         <div class="flex justify-end gap-2 mt-2">
           <Button
             @click="router.go(-1)"
-            class="rounded-badge"
+            
             btnType="secondary"
           >
             ยกเลิก
           </Button>
           <Button
             @click="submitData"
-            class="rounded-badge"
+            
             btnType="primary"
             :disabled="!canSubmit"
           >

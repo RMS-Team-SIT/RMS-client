@@ -8,6 +8,7 @@ import Loading from '@/components/common/loading.vue';
 import PaymentListTable from '@/components/payment/payment.list.table.vue';
 import Button from '@/components/common/button.vue';
 import back from '@/components/common/back.vue';
+import { PlusIcon } from '@heroicons/vue/24/outline';
 
 const router = useRouter();
 const route = useRoute();
@@ -74,7 +75,9 @@ onMounted(async () => {
               },
             }"
           >
-            <Button btnType="primary">เพิ่มช่องทางการชำระเงิน</Button>
+            <Button>
+              <PlusIcon class="w-5 h-5" />
+              เพิ่มช่องทางการชำระเงิน</Button>
           </router-link>
         </div>
         <PaymentListTable

@@ -6,6 +6,7 @@ import ResidenceCard from '@/components/residence/residence.card.vue';
 import Loading from '@/components/common/loading.vue';
 import { useNotification } from '@kyvg/vue3-notification';
 import ResidenceServices from '@/services/ResidenceServices';
+import { PlusIcon } from '@heroicons/vue/24/outline';
 
 const isLoading = ref(true);
 const residences = reactive({
@@ -65,18 +66,30 @@ onBeforeMount(async () => {
 <template>
   <div class="min-h-screen">
     <div class="py-10 px-20 md:px-40 w-full">
-      <Breadcrumb
+      <!-- <Breadcrumb
         :pathList="[
           { name: 'หน้าแรก', pathName: 'home' },
           { name: 'จัดการ', pathName: 'manage' },
         ]"
-      />
+      /> -->
+      <!-- <div  v-if="!approvedResidences.length && !pendingResidences.length">
+        ดูเหมือนว่าคุณยังไม่มีหอพักใดๆ ในระบบของเรา
+
+        <router-link :to="{ name: 'create-residence' }">
+          <Button btn-type="primary"> 
+            <PlusIcon class="w-5 h-5" />
+            สร้างหอพัก</Button>
+        </router-link>
+        
+      </div> -->
       <div class="relative bg-white space-y-5 rounded">
         <div class="flex flex-row justify-between">
           <h1 class="text-3xl font-semibold text-dark-blue-200">หอพักของคุณ</h1>
 
           <router-link :to="{ name: 'create-residence' }">
-            <Button>สร้างหอพัก</Button>
+            <Button btn-type="primary"> 
+              <PlusIcon class="w-5 h-5" />
+              สร้างหอพัก</Button>
           </router-link>
         </div>
         <!-- <p class="text-xs">หน้านี้จะแสดงหอพักทั้งหมดของคุณ</p> -->
@@ -118,7 +131,7 @@ onBeforeMount(async () => {
               v-if="!approvedResidences.length"
               class="text-center text-sm p-10"
             >
-              ไม่มีหอพักที่อนุมัติแล้ว
+              ดูเหมือนว่าคุณไม่มีหอพักที่ได้รับการอนุมัติในขณะนี้
             </p>
           </div>
 
@@ -156,7 +169,7 @@ onBeforeMount(async () => {
               v-if="!pendingResidences.length"
               class="text-center text-sm p-10"
             >
-              ไม่มีหอพักที่รอการอนุมัติ
+              ดูเหมือนว่าคุณไม่มีหอพักที่รอการอนุมัติในขณะนี้
             </p>
           </div>
         </div>

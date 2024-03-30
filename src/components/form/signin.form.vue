@@ -106,7 +106,7 @@ const validateErrorMsg = (field) => {
           </p>
         </div>
         <div v-if="!isLoading">
-          <Button class="btn btn-block" type="submit">
+          <Button btn-type="primary" class="btn btn-block" type="submit">
             <ArrowRightIcon class="w-5 h-5" />
             เข้าสู่ระบบ
           </Button>
