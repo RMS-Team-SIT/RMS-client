@@ -7,6 +7,7 @@ import RoomInfoForm from '@/components/room/form/room.info.form.vue';
 import RoomService from '@/services/RoomService';
 import {
   ArrowTopRightOnSquareIcon,
+  HomeIcon,
   ShareIcon,
 } from '@heroicons/vue/24/outline';
 import { useNotification } from '@kyvg/vue3-notification';
@@ -209,16 +210,8 @@ const removePaidEvidence = async (billRoomId) => {
         <h1
           class="text-2xl font-semibold text-dark-blue-200 flex items-center gap-2"
         >
+          <HomeIcon class="h-6 w-6" />
           <p>ห้องพัก: {{ room.name }}</p>
-          <div v-if="!isRenter">
-            <Badge
-              badgeType="success"
-              size="lg"
-              v-if="room.status === 'AVAILABLE'"
-              >ว่าง</Badge
-            >
-            <Badge badgeType="error" size="lg" v-else>ไม่ว่าง</Badge>
-          </div>
         </h1>
       </div>
       <!-- Body -->
