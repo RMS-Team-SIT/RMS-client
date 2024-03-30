@@ -8,7 +8,7 @@ import FileService from '@/services/FileService';
 import Loading from '@/components/common/loading.vue';
 import Button from '@/components/common/button.vue';
 import RoomListTable from '@/components/room/room.list.table.vue';
-import { HomeIcon, HomeModernIcon, PlusCircleIcon, PlusIcon } from '@heroicons/vue/24/outline';
+import { HomeIcon, HomeModernIcon } from '@heroicons/vue/24/outline';
 import back from '@/components/common/back.vue';
 
 const router = useRouter();
@@ -91,10 +91,7 @@ onMounted(async () => {
                 },
               }"
             >
-              <Button btnType="">
-                <PlusIcon class="w-5 h-5" />
-                เพิ่มห้อง
-              </Button>
+              <Button btnType="primary">เพิ่มห้องพัก</Button>
             </router-link>
           </div>
         </div>

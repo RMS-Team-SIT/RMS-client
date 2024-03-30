@@ -8,7 +8,7 @@ import FileService from '@/services/FileService';
 import Loading from '@/components/common/loading.vue';
 import Button from '@/components/common/button.vue';
 import RoomListTable from '@/components/room/room.list.table.vue';
-import { HomeIcon, HomeModernIcon, PlusIcon } from '@heroicons/vue/24/outline';
+import { HomeIcon, HomeModernIcon } from '@heroicons/vue/24/outline';
 import RoomTypeListTable from '@/components/room-type/room-type.list.table.vue';
 import back from '@/components/common/back.vue';
 
@@ -95,10 +95,7 @@ onMounted(async () => {
               },
             }"
           >
-            <Button>
-              <PlusIcon class="w-5 h-5" />
-              เพิ่มประเภทห้องพัก</Button
-            >
+            <Button btnType="primary">เพิ่มประเภทห้องพัก</Button>
           </router-link>
         </div>
       </div>

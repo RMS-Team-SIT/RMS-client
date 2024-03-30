@@ -14,8 +14,6 @@ import {
   HomeModernIcon,
   BoltIcon,
   AdjustmentsVerticalIcon,
-PlusIcon,
-PencilSquareIcon,
 } from '@heroicons/vue/24/outline';
 import RoomTypeListTable from '@/components/room-type/room-type.list.table.vue';
 import back from '@/components/common/back.vue';
@@ -128,10 +126,7 @@ onMounted(async () => {
           },
         }"
       >
-        <Button class="mt-5">
-          แก้ไขค่าสาธารณูปโภค
-          <PencilSquareIcon class="w-5 h-5" />
-        </Button>
+        <Button class="mt-5">แก้ไขค่าสาธารณูปโภค</Button>
       </router-link>
     </div>
 
@@ -152,10 +147,8 @@ onMounted(async () => {
               },
             }"
           >
-            <Button 
-              >
-              <PlusIcon class="w-5 h-5" />
-              เพิ่มค่าบริการเพิ่มเติมที่เรียกเก็บ</Button
+            <Button btnType="primary"
+              >เพิ่มค่าบริการเพิ่มเติมที่เรียกเก็บ</Button
             >
           </router-link>
         </div>

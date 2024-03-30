@@ -510,7 +510,7 @@ onMounted(async () => {
               btn-type="secondary"
               @click="changeStep('back')"
               v-if="currentStep > 1 && currentStep < 9"
-              
+              class="rounded-badge"
             >
               <ArrowLeftIcon class="w-4 h-4" />
               ย้อนกลับ
@@ -518,7 +518,7 @@ onMounted(async () => {
             <Button
               v-if="currentStep == 8"
               @click="changeStep('next')"
-              
+              class="rounded-badge"
               btnType="primary"
             >
               ยืนยันการสร้างหอพัก
@@ -526,14 +526,14 @@ onMounted(async () => {
             <Button
               v-else-if="currentStep == 9"
               @click="router.push({ name: 'manage' })"
-              
+              class="rounded-badge"
               btnType="primary"
             >
               กลับสู่หน้าหลัก
             </Button>
             <Button
               @click="changeStep('next')"
-              
+              class="rounded-badge"
               v-else
               :disabled="!canNexts[currentStep - 1]"
             >

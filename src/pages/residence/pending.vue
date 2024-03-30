@@ -276,14 +276,14 @@ onMounted(async () => {
               btn-type="secondary"
               @click="changeStep('back')"
               v-if="currentStep > 1"
-              
+              class="rounded-badge"
             >
               <ArrowLeftIcon class="w-4 h-4" />
               ย้อนกลับ
             </Button>
             <Button
               @click="approveResidence"
-              
+              class="rounded-badge"
               v-if="user.role == 'admin' && currentStep == 2"
             >
               อนุมัติข้อมูล
@@ -291,7 +291,7 @@ onMounted(async () => {
 
             <Button
               @click="router.push({ name: 'home' })"
-              
+              class="rounded-badge"
               v-if="user.role == 'user' && currentStep == 2"
             >
               กลับไปหน้าหลัก
@@ -299,7 +299,7 @@ onMounted(async () => {
 
             <Button
               @click="changeStep('next')"
-              
+              class="rounded-badge"
               v-if="currentStep < numberOfSteps"
             >
               ถัดไป
