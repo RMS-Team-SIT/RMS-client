@@ -35,10 +35,17 @@ const excludedRoutes = [
 
 const shouldShowFooter = computed(() => !excludedRoutes.includes(route.name));
 const shouldShowNavbar = computed(() => !excludedRoutes.includes(route.name));
-const shouldShowSidebar = computed(() => {
+const isUseLandlordSidebar = computed(() => {
   return (
     userStore.isLoggedIn &&
     route.params?.residenceId &&
+    !excludedRoutes.includes(route.name)
+  );
+});
+
+const isUseAdminSidebar = computed(() => {
+  return (
+    userStore.isLoggedIn &&
     !excludedRoutes.includes(route.name)
   );
 });
@@ -68,7 +75,7 @@ onMounted(() => {
       :user="userStore.getUser"
       :isHome="route.name === 'home'"
     />
-    <LoggedInLandlord v-if="shouldShowSidebar">
+    <LoggedInLandlord v-if="isUseLandlordSidebar">
       <router-view class="min-h-screen w-full" />
     </LoggedInLandlord>
     <router-view v-else class="min-h-screen w-full" />
