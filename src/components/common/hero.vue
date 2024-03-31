@@ -43,7 +43,7 @@
         <div class="p-8 md:mb-0 md:mt-0 ml-0 md:ml-12 lg:w-2/3 justify-center">
           <div class="h-28 flex flex-wrap content-center">
             <div>
-              <img class="inline-block xl:block" src="/demo1.png" />
+              <img class="inline-block xl:block" src="/demo1.webp" />
             </div>
           </div>
         </div>
