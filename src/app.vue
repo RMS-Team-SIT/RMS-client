@@ -7,6 +7,7 @@ import { projectName } from './utils/constants';
 import { useUserStore } from './stores/user.store';
 import Loading from './components/common/loading.vue';
 import CookieConsent from './components/common/cookie-consent.vue';
+import LoggedInLandlord from '@/layout/logged-in-landlord.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -15,7 +16,7 @@ const isLoading = ref(true);
 
 // Set meta title
 watchEffect(
-  () => (document.title = `${projectName} | ${route.meta.title || ''}`)
+  () => (document.title = `${projectName}${' | ' + route.meta.title || ''}`)
 );
 
 const excludedRoutes = [
@@ -29,16 +30,22 @@ const excludedRoutes = [
   'unavailable',
   'renter-signin',
   'print-bill-room',
-  'pending-residence'
+  'pending-residence',
 ];
 
 const shouldShowFooter = computed(() => !excludedRoutes.includes(route.name));
 const shouldShowNavbar = computed(() => !excludedRoutes.includes(route.name));
 const shouldShowSidebar = computed(() => {
-  return userStore.isLoggedIn && route.params?.residenceId && !excludedRoutes.includes(route.name);
+  return (
+    userStore.isLoggedIn &&
+    route.params?.residenceId &&
+    !excludedRoutes.includes(route.name)
+  );
 });
 
-const isShowCookieConsent = ref(localStorage.getItem('cookie-consent') !== 'accepted');
+const isShowCookieConsent = ref(
+  localStorage.getItem('cookie-consent') !== 'accepted'
+);
 
 const acceptCookieConsent = () => {
   localStorage.setItem('cookie-consent', 'accepted');

@@ -26,7 +26,6 @@ import IncomeChart from '@/components/residence/charts/income.vue';
 import RoomChart from '@/components/residence/charts/room.chart.vue';
 import divider from '@/components/common/divider.vue';
 import BillStatusChart from '@/components/residence/charts/bill-status.chart.vue';
-import LoggedInLandlord from '@/layout/loggedInLandlord.vue';
 
 const router = useRouter();
 const route = useRoute();
