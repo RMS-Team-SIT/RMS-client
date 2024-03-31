@@ -14,7 +14,7 @@ import {
   HomeModernIcon,
   UserIcon,
 } from '@heroicons/vue/24/outline';
-import Divider from './divider.vue';
+import Divider from '../common/divider.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { ref } from 'vue';
 
@@ -46,9 +46,7 @@ const toggleSidebar = () => {
       กลับสู่หน้าหอพักทั้งหมด
     </button>
 
-    <nav
-      class="flex flex-col gap-1 p-2 text-gray-700"
-    >
+    <nav class="flex flex-col gap-1 p-2 text-gray-700">
       <div class="divider font-bold divider-start">หอพัก</div>
       <div
         @click="goto('dashboard')"

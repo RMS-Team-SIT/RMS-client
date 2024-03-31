@@ -100,7 +100,7 @@ const restrictedRoutesForLoggedInUsers = [
   'renter-signin',
 ];
 
-const adminRoutes = ['admin-dashboard'];
+export const adminRoutes = ['admin-dashboard'];
 
 const routes = [
   {

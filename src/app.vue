@@ -8,6 +8,8 @@ import { useUserStore } from './stores/user.store';
 import Loading from './components/common/loading.vue';
 import CookieConsent from './components/common/cookie-consent.vue';
 import LoggedInLandlord from '@/layout/logged-in-landlord.vue';
+import LoggedInAdmin from '@/layout/logged-in-admin.vue';
+import { adminRoutes } from '@/routes';
 
 const router = useRouter();
 const route = useRoute();
@@ -44,10 +46,17 @@ const isUseLandlordSidebar = computed(() => {
 });
 
 const isUseAdminSidebar = computed(() => {
-  return (
-    userStore.isLoggedIn &&
-    !excludedRoutes.includes(route.name)
-  );
+  return userStore.isLoggedIn && adminRoutes.includes(route.name);
+});
+
+const sidebarComponent = computed(() => {
+  if (isUseLandlordSidebar.value) {
+    return LoggedInLandlord;
+  } else if (isUseAdminSidebar.value) {
+    return LoggedInAdmin;
+  } else {
+    return 'div';
+  }
 });
 
 const isShowCookieConsent = ref(
@@ -68,17 +77,18 @@ onMounted(() => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen w-full" />
-  <div class="font-noto" v-show="!isLoading">
+  <div class="font-noto" v-else>
     <navbar
       v-if="shouldShowNavbar"
       :isLoggedIn="userStore.isLoggedIn"
       :user="userStore.getUser"
       :isHome="route.name === 'home'"
     />
-    <LoggedInLandlord v-if="isUseLandlordSidebar">
-      <router-view class="min-h-screen w-full" />
-    </LoggedInLandlord>
-    <router-view v-else class="min-h-screen w-full" />
+
+    <component :is="sidebarComponent" class="min-h-screen w-full">
+      <router-view />
+    </component>
+
     <notifications group="tr" position="top right" class="text-md" />
     <Footer v-if="shouldShowFooter" />
     <CookieConsent v-if="isShowCookieConsent" @accept="acceptCookieConsent" />
