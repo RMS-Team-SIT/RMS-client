@@ -7,9 +7,6 @@ const { notify } = useNotification();
 const router = useRouter();
 const userStore = useUserStore();
 
-// Redirect to login page
-router.push({ name: 'signin' });
-
 // Clear user from store
 userStore.clearUser();
 
@@ -17,12 +14,15 @@ userStore.clearUser();
 localStorage.removeItem('token');
 
 // show notification
-notify({
-  group: 'tr',
-  title: 'สำเร็จ',
-  text: 'ออกจากระบบเรียบร้อย',
-  type: 'success',
-});
+// notify({
+//   group: 'tr',
+//   title: 'สำเร็จ',
+//   text: 'ออกจากระบบเรียบร้อย',
+//   type: 'success',
+// });
+
+// Redirect to login page
+router.push({ name: 'signin' });
 </script>
 
 <template></template>
