@@ -12,6 +12,9 @@ import '@sweetalert2/themes/material-ui/material-ui.min.css';
 import { baseUrl, baseGetFileUrl } from './services/constants';
 import i18n from './i18n';
 import VueApexCharts from "vue3-apexcharts";
+import AOS from 'aos';
+import 'aos/dist/aos.css'; 
+
 
 const pinia = createPinia();
 const app = createApp(App);
@@ -22,5 +25,7 @@ app.use(VueApexCharts);
 app.use(pinia);
 app.use(router);
 app.use(i18n);
+
+AOS.init();
 
 app.mount('#app');
