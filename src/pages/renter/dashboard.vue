@@ -1,3 +1,4 @@
+div
 <script setup>
 import Badge from '@/components/common/badge.vue';
 import Breadcrumb from '@/components/common/breadcrumb.vue';
@@ -66,10 +67,11 @@ const fetchRoom = async () => {
 };
 onMounted(async () => {
   userStore.fetchUserData();
-  const { residence, room } = userStore.getUser;
+  const renter = userStore.getUser;
+  console.log('renter', renter);
   // Set residenceId
-  residenceId.value = residence._id;
-  roomId.value = room._id;
+  residenceId.value = renter.residence._id;
+  roomId.value = renter.room._id;
   await fetchRoom();
 
   isLoading.value = false;
@@ -79,8 +81,6 @@ onMounted(async () => {
 <template>
   <Loading v-if="isLoading" class="min-h-screen w-full" />
   <div v-else class="py-10 px-10 md:px-5 w-full min-h-screen">
-    {{ residenceId}}
-    {{ roomId }}
     <Breadcrumb
       :pathList="[
         { name: 'หน้าแรก', pathName: 'home' },
@@ -94,41 +94,97 @@ onMounted(async () => {
     </h1>
 
     <!-- Grid -->
-    <div class="grid grid-cols-2 gap-2">
-      <div class="grid grid-cols-2 gap-2">
-        <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
-          <h3 class="text-lg font-semibold mb-2">จำนวนบิลที่ชำระแล้ว</h3>
-          <p class="flex gap-2 items-end">
-            <CountUp :end-val="1" class="text-6xl text-green-400" />
-            บิล
-          </p>
-        </div>
-        <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
-          <h3 class="text-lg font-semibold mb-2">จำนวนบิลค้างชำระ</h3>
-          <p class="flex gap-2 items-end">
-            <CountUp :end-val="1" class="text-6xl text-red-400" />
-            บิล
-          </p>
-        </div>
-        <div
-          class="p-5 bg-white rounded-lg shadow-md border border-gray-200 col-span-2"
-        >
-          <h3 class="text-xl font-semibold mb-2 p-5">
-            จำนวนเงินการจ่ายบิลที่ผ่านมา
-          </h3>
-          <IncomeChart
-            :data="[0, 0, 0, 0, 0, 0, 0, 0, 4000, 5000, 6000, 4000]"
-          />
-        </div>
+    <div class="grid grid-cols-4 gap-2">
+      <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
+        <h3 class="text-lg font-semibold mb-2">จำนวนบิลที่ชำระแล้ว</h3>
+        <p class="flex gap-2 items-end">
+          <CountUp :end-val="1" class="text-6xl text-green-400" />
+          บิล
+        </p>
       </div>
-      <div class="grid-cols-2 gap-2">
-        <div
-          class="p-5 bg-white rounded-lg shadow-md border border-gray-200 col-span-2"
-        >
-          <h3 class="text-xl font-semibold mb-2 p-5">ข้อมูลห้องที่เช่าอยู่</h3>
-        </div>
+      <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
+        <h3 class="text-lg font-semibold mb-2">จำนวนบิลค้างชำระ</h3>
+        <p class="flex gap-2 items-end">
+          <CountUp :end-val="1" class="text-6xl text-red-400" />
+          บิล
+        </p>
+      </div>
+      <div
+        class="p-5 bg-white rounded-lg shadow-md border border-gray-200 col-span-2"
+      >
+        <h3 class="text-lg font-semibold mb-2">จำนวนเงินที่ต้องชำระ</h3>
+        <p class="flex gap-2 items-end">
+          <CountUp :end-val="10000" class="text-6xl text-red-400" />
+          บาท
+        </p>
+      </div>
+
+      <div
+        class="p-5 bg-white rounded-lg shadow-md border border-gray-200 col-span-4"
+      >
+        <h3 class="text-xl font-semibold mb-2 p-5">
+          จำนวนเงินการจ่ายบิลที่ผ่านมา
+        </h3>
+        <IncomeChart :data="[0, 0, 0, 0, 0, 0, 0, 0, 4000, 5000, 6000, 4000]" />
       </div>
     </div>
+
+    <div class="grid grid-cols-2 gap-2 mt-5">
+      <!-- ข้อมูลห้อง -->
+      <div class="space-y-3 rounded-lg bg-white border p-5">
+        <div class="flex justify-between">
+          <h1 class="text-lg font-semibold text-dark-blue-200">
+            ข้อมูลห้องพัก
+          </h1>
+        </div>
+        <p>ชื่อห้อง: {{ room.name }}</p>
+        <p>คำอธิบาย: {{ room.description || 'ไม่มีคำอธิบาย' }}</p>
+        <p>ชั้น: {{ room.floor }}</p>
+        <p>
+          อัตราค่าเช่าต่อเดือน:
+          {{ room.roomRentalPrice.toLocaleString() }} บาท
+        </p>
+        <p v-if="!isRenter">
+          สถานะ:
+          <Badge badgeType="success" v-if="room.status === 'AVAILABLE'"
+            >ว่าง</Badge
+          >
+          <Badge badgeType="error" v-else>ไม่ว่าง</Badge>
+        </p>
+        <p>
+          ค่าน้ำ:
+          {{ room.residence.defaultWaterPriceRate.toLocaleString() }}
+          บาท/หน่วย
+        </p>
+        <p>
+          ค่าไฟ:
+          {{ room.residence.defaultElectricPriceRate.toLocaleString() }}
+          บาท/หน่วย
+        </p>
+
+        <p>ค่าบริการอื่น ๆ :</p>
+        <li v-for="fee in room.fees" :key="fee._id">
+          {{ fee.feename }}: {{ fee.feeprice.toLocaleString() }} บาท
+        </li>
+      </div>
+      <!-- ข้อมูลประเภทห้อง -->
+      <div class="space-y-3 rounded-lg bg-white border p-5">
+        <div class="flex justify-between">
+          <h1 class="text-lg font-semibold text-dark-blue-200">
+            ประเภทห้องพัก
+          </h1>
+        </div>
+        <p>ประเภทห้อง: {{ room.type.name }}</p>
+        <p>รูปแบบห้อง: {{ room.type.category }}</p>
+        <p>ขนาดห้อง: {{ room.type.size }} ตร.ม.</p>
+        <p>คำอธิบาย: {{ room.type.description || 'ไม่มีคำอธิบาย' }}</p>
+        <ImagePreview
+          :imageUrls="room.type.images.map((i) => FileService.getFile(i))"
+          preview-from="url"
+        />
+      </div>
+    </div>
+   
   </div>
 </template>
 

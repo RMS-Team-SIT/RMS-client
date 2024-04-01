@@ -76,6 +76,7 @@ const adminDashboard = () => import('./pages/admin/dashboard.vue');
 
 // Renter
 const renterDashboard = () => import('./pages/renter/dashboard.vue');
+const renterBills = () => import('./pages/renter/renter-bills.vue');
 
 // Printable
 const printBillRoom = () => import('./pages/printable/bill-room.vue');
@@ -501,6 +502,14 @@ const routes = [
     },
   },
   {
+    name: 'renter-bills',
+    path: '/renter/bills',
+    component: renterBills,
+    meta: {
+      title: 'บิลผู้เช่า',
+    },
+  },
+  {
     path: '/:path(.*)',
     component: NotFound,
     name: 'not-found',
@@ -532,7 +541,13 @@ const restrictedRoutesForLoggedInUsers = [
 
 export const adminRoutes = ['admin-dashboard'];
 
-export const renterRoutes = ['renter-dashboard', 'renter-signin', 'signout'];
+export const renterRoutes = [
+  'renter-dashboard',
+  'renter-signin',
+  'renter-bills',
+  'signout',
+  'print-bill-room',
+];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.VITE_BASE),
