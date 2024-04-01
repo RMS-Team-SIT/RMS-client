@@ -12,6 +12,7 @@ import {
   CreditCardIcon,
   HomeIcon,
   HomeModernIcon,
+  MagnifyingGlassIcon,
   UserIcon,
 } from '@heroicons/vue/24/outline';
 import Divider from '../common/divider.vue';
@@ -36,7 +37,7 @@ const toggleSidebar = () => {
 <template>
   <div
     v-show="isSidebarOpen"
-    class="relative flex flex-col bg-clip-border rounded-sm bg-white text-gray-700 w-full max-w-[15rem] p-4 border sm:w-auto sm:max-w-[15rem] sm:text-sm text-xs"
+    class="relative flex flex-col bg-clip-border rounded-sm bg-white text-gray-700 w-full max-w-[20rem] p-4 border sm:w-auto sm:min-w-[15rem] sm:max-w-[30rem] sm:text-sm text-xs"
   >
     <nav class="flex flex-col gap-1 p-2 text-gray-700">
       <div class="divider font-bold divider-start">จัดการ</div>
@@ -60,6 +61,17 @@ const toggleSidebar = () => {
         class="flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-blue-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
       >
         <div class="grid place-items-center mr-4">
+          <MagnifyingGlassIcon class="h-5 w-5" />
+        </div>
+        อนุมัติหอพัก
+      </div>
+      <div
+        @click="goto('room')"
+        role="button"
+        tabindex="0"
+        class="flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-blue-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
+      >
+        <div class="grid place-items-center mr-4">
           <HomeIcon class="h-5 w-5" />
         </div>
         จัดการหอพักทั้งหมด
@@ -68,6 +80,17 @@ const toggleSidebar = () => {
      
       <div class="divider font-bold divider-start">ระบบจัดการผู้ใช้</div>
 
+      <div
+        @click="goto('room')"
+        role="button"
+        tabindex="0"
+        class="flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-blue-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
+      >
+        <div class="grid place-items-center mr-4">
+          <MagnifyingGlassIcon class="h-5 w-5" />
+        </div>
+        อนุมัติผู้ใช้
+      </div>
       <div
         @click="goto('renter')"
         role="button"

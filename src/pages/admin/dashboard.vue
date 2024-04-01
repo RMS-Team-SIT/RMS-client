@@ -23,6 +23,8 @@ import UserServices from '@/services/UserServices';
 import ResidenceServices from '@/services/ResidenceServices';
 import BlankprofileImg from '@/assets/img/bp.webp';
 import { projectFullName } from '@/utils/constants';
+import UserChart from '@/components/admin/charts/user-chart.vue';
+import ResidenceChart from '@/components/admin/charts/residence-chart.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -31,50 +33,14 @@ const { notify } = useNotification();
 const isLoading = ref(true);
 
 const userStats = reactive({
-  totalPendingUsers: {
-    title: 'จำนวนผู้ใช้งานที่รอการอนุมัติ',
-    val: 0,
-    desc: 'จำนวนผู้ใช้งานที่รอการอนุมัติ',
-    icon: ClockIcon,
-    route: 'admin-manage-residence',
-  },
-  totalUsers: {
-    title: 'จำนวนผู้ใช้งานทั้งหมด',
-    val: 0,
-    desc: 'จำนวนผู้ใช้งานทั้งหมดที่ผ่านการยืนยันตัวตนแล้ว',
-    icon: UserIcon,
-    route: 'admin-manage-user',
-  },
-  totalAdmins: {
-    title: 'จำนวนผู้ดูแลระบบทั้งหมด',
-    val: 0,
-    desc: 'จำนวนผู้ดูแลระบบทั้งหมด',
-    icon: UserIcon,
-    route: 'admin-manage-user',
-  },
-});
-const residenceStats = reactive({
-  totalPendingResidences: {
-    title: 'จำนวนหอพักที่รอการอนุมัติ',
-    val: 0,
-    desc: 'จำนวนหอพักที่รอการอนุมัติ',
-    icon: ClockIcon,
-    route: 'admin-manage-user',
-  },
-  totalApprovedResidences: {
-    title: 'จำนวนหอพักที่ผ่านการอนุมัติ',
-    val: 0,
-    desc: 'จำนวนหอพักที่ผ่านการอนุมัติทั้งหมด',
-    icon: HomeIcon,
-    route: 'admin-manage-residence',
-  },
+  totalPendingUsers: 0,
+  totalUsers: 0,
+  totalAdmins: 0,
 });
 
-const mapUserStatsToArray = computed(() => {
-  return Object.values(userStats);
-});
-const mapResidenceStatsToArray = computed(() => {
-  return Object.values(residenceStats);
+const residenceStats = reactive({
+  totalPendingResidences: 0,
+  totalApprovedResidences: 0,
 });
 
 const fetchStats = async () => {
@@ -83,9 +49,9 @@ const fetchStats = async () => {
     if (response.status === 200) {
       const stats = await response.json();
       const { totalAdmins, totalUsers, totalPendingUsers } = stats;
-      userStats.totalAdmins.val = totalAdmins;
-      userStats.totalUsers.val = totalUsers;
-      userStats.totalPendingUsers.val = totalPendingUsers;
+      userStats.totalAdmins = totalAdmins;
+      userStats.totalUsers = totalUsers;
+      userStats.totalPendingUsers = totalPendingUsers;
     }
   } catch (error) {}
   try {
@@ -94,8 +60,8 @@ const fetchStats = async () => {
       const stats = await response.json();
       console.log('residenceStats', stats);
       const { totalApprovedResidences, totalPendingResidences } = stats;
-      residenceStats.totalApprovedResidences.val = totalApprovedResidences;
-      residenceStats.totalPendingResidences.val = totalPendingResidences;
+      residenceStats.totalApprovedResidences = totalApprovedResidences;
+      residenceStats.totalPendingResidences = totalPendingResidences;
       log;
     }
   } catch (error) {}
@@ -171,166 +137,151 @@ onMounted(async () => {
 
 <template>
   <Loading v-if="isLoading" class="min-h-screen w-full" />
-  <div class="py-10 px-10 md:px-5 w-full min-h-screen">
+  <div v-else class="py-10 px-10 md:px-5 w-full min-h-screen">
     <Breadcrumb
       :pathList="[
         { name: 'หน้าแรก', pathName: 'home' },
-        { name: 'จัดการระบบ', pathName: 'manage' },
+        { name: 'แดชบอร์ด', pathName: 'admin-dashboard' },
       ]"
     />
 
     <h1
       class="text-xl font-semibold text-dark-blue-200 my-5 flex items-center gap-2"
     >
-      <ChartPieIcon class="h-8 w-8 inline-block" /> จัดการระบบ
+      <ChartPieIcon class="h-8 w-8 inline-block" /> ข้อมูลภาพรวมของระบบ
       {{ projectFullName }}
     </h1>
 
-    <div role="tablist" class="tabs tabs-lifted">
-      <input
-        type="radio"
-        name="my_tabs_2"
-        role="tab"
-        class="tab"
-        aria-label="ผู้ใช้งาน"
-        checked
-      />
-      <div
-        role="tabpanel"
-        class="tab-content bg-base-100 border-base-300 rounded-box p-6"
-      >
-        <h1 class="text-xl font-semibold text-dark-blue-200">
-          ข้อมูลผู้ใช้งาน
-        </h1>
-        <Stats :stats="mapUserStatsToArray" class="mt-5" />
-
-        <div
-          class="relative bg-white p-5 mt-5 space-y-4 rounded border border-gray-200"
-        >
-          <h1
-            class="text-base font-semibold text-dark-blue-200 flex gap-2 items-center"
-          >
-            ผู้ใช้งานที่รอการอนุมัติ
-            <UserIcon class="h-8 w-8 text-primary" />
-            <ClockIcon class="h-8 w-8 text-primary" />
-          </h1>
-          <p class="text-sm" v-if="!pendingKYCUser.length">
-            ไม่มีผู้ใช้งานที่รอการอนุมัติในขณะนี้
-          </p>
-          <div
-            v-for="(user, index) in pendingKYCUser"
-            :key="index"
-            class="flex items-center gap-2 justify-between border p-2 rounded-lg border-gray-200 hover:border-primary transition-all cursor-pointer"
-          >
-            <div class="flex items-center gap-2">
-              <img
-                :src="BlankprofileImg"
-                alt="user profile"
-                class="h-10 w-10 rounded-full"
-              />
-              <div>
-                <h1 class="text-sm font-semibold">
-                  {{ user.firstname }} {{ user.lastname }}
-                </h1>
-                <p class="text-xs">{{ user.email }}</p>
-              </div>
-            </div>
-
-            <div class="flex items-center gap-2">
-              <button
-                class="btn btn-primary btn-sm"
-                :onclick="`kyc_modal_${index}.showModal()`"
-              >
-                ดูข้อมูลเพิ่มเติม
-              </button>
-            </div>
-
-            <!-- Modal -->
-
-            <dialog :id="`kyc_modal_${index}`" class="modal">
-              <div class="modal-box space-y-2">
-                <h3 class="font-bold text-lg">รายละเอียดผู้ใช้งาน</h3>
-
-                <p>ชื่อผู้ใช้งาน : {{ user.firstname }} {{ user.lastname }}</p>
-                <p>อีเมล : {{ user.email }} (ยืนยันแล้ว)</p>
-                <p>เบอร์โทร : {{ user.phone }}</p>
-                <p>หมายเลขบัตรประชาชน : {{ user.idcardNumber }}</p>
-
-                <div class="modal-action flex">
-                  <form method="dialog">
-                    <!-- if there is a button in form, it will close the modal -->
-                    <button class="btn btn-sm">ปิด</button>
-                  </form>
-                  <button
-                    class="btn btn-success btn-sm"
-                    @click="approveUser(user._id)"
-                  >
-                    อนุมัติบัญชีผู้ใช้
-                  </button>
-                </div>
-              </div>
-            </dialog>
-          </div>
-        </div>
+    <!-- Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-2">
+      <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
+        <h3 class="text-xl font-semibold mb-2 p-5">ข้อมูลผู้ใช้งาน</h3>
+        <UserChart
+          :totalUsers="userStats.totalUsers"
+          :totalAdmins="userStats.totalAdmins"
+          :totalPendingUsers="userStats.totalPendingUsers"
+        />
       </div>
 
-      <input
-        type="radio"
-        name="my_tabs_2"
-        role="tab"
-        class="tab"
-        aria-label="หอพัก"
-      />
-      <div
-        role="tabpanel"
-        class="tab-content bg-base-100 border-base-300 rounded-box p-6"
+      <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
+        <h3 class="text-xl font-semibold mb-2 p-5">ข้อมูลหอพัก</h3>
+        <ResidenceChart
+          :totalPendingResidences="residenceStats.totalPendingResidences"
+          :totalApprovedResidences="residenceStats.totalApprovedResidences"
+        />
+      </div>
+    </div>
+
+    <div
+      class="relative bg-white p-10 mt-5 space-y-4 rounded border border-gray-200"
+    >
+      <h1
+        class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
       >
-        <h1 class="text-xl font-semibold text-dark-blue-200">ข้อมูลหอพัก</h1>
-        <Stats :stats="mapResidenceStatsToArray" class="mt-5" />
+        ผู้ใช้งานที่รอการอนุมัติ
+        <UserIcon class="h-8 w-8 text-primary" />
+        <ClockIcon class="h-8 w-8 text-primary" />
+      </h1>
+      <p class="text-sm" v-if="!pendingKYCUser.length">
+        ไม่มีผู้ใช้งานที่รอการอนุมัติในขณะนี้
+      </p>
+      <div
+        v-for="(user, index) in pendingKYCUser"
+        :key="index"
+        class="flex items-center gap-2 justify-between border p-2 rounded-lg border-gray-200 hover:border-primary transition-all cursor-pointer"
+      >
+        <div class="flex items-center gap-2">
+          <img
+            :src="BlankprofileImg"
+            alt="user profile"
+            class="h-10 w-10 rounded-full"
+          />
+          <div>
+            <h1 class="text-sm font-semibold">
+              {{ user.firstname }} {{ user.lastname }}
+            </h1>
+            <p class="text-xs">{{ user.email }}</p>
+          </div>
+        </div>
 
-        <div
-          class="relative bg-white p-10 mt-5 space-y-4 rounded border border-gray-200"
-        >
-          <h1
-            class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
+        <div class="flex items-center gap-2">
+          <button
+            class="btn btn-primary btn-sm"
+            :onclick="`kyc_modal_${index}.showModal()`"
           >
-            หอพักที่รอการอนุมัติ
-            <HomeIcon class="h-8 w-8 text-primary" />
-            <ClockIcon class="h-8 w-8 text-primary" />
-          </h1>
-          <p class="text-sm" v-if="!pendingResidence.length">
-            ไม่มีหอพักที่รอการอนุมัติในขณะนี้
-          </p>
-          <div
-            v-for="(residence, index) in pendingResidence"
-            :key="index"
-            class="flex items-center gap-2 justify-between border p-2 rounded-lg border-gray-200 hover:border-primary transition-all cursor-pointer"
-          >
-            <div class="flex items-center gap-2">
-              <HomeIcon class="h-10 w-10 text-primary" />
+            ดูข้อมูลเพิ่มเติม
+          </button>
+        </div>
 
-              <div>
-                <h1 class="text-sm font-semibold">
-                  {{ residence.name }}
-                </h1>
-              </div>
-            </div>
+        <!-- Modal -->
 
-            <div class="flex items-center gap-2">
+        <dialog :id="`kyc_modal_${index}`" class="modal">
+          <div class="modal-box space-y-2">
+            <h3 class="font-bold text-lg">รายละเอียดผู้ใช้งาน</h3>
+
+            <p>ชื่อผู้ใช้งาน : {{ user.firstname }} {{ user.lastname }}</p>
+            <p>อีเมล : {{ user.email }} (ยืนยันแล้ว)</p>
+            <p>เบอร์โทร : {{ user.phone }}</p>
+            <p>หมายเลขบัตรประชาชน : {{ user.idcardNumber }}</p>
+
+            <div class="modal-action flex">
+              <form method="dialog">
+                <!-- if there is a button in form, it will close the modal -->
+                <button class="btn btn-sm">ปิด</button>
+              </form>
               <button
-                class="btn btn-primary btn-sm"
-                @click="
-                  router.push({
-                    name: 'pending-residence',
-                    params: { residenceId: residence._id },
-                  })
-                "
-                :onclick="`res_modal_${index}.showModal()`"
+                class="btn btn-success btn-sm"
+                @click="approveUser(user._id)"
               >
-                ดูข้อมูลเพิ่มเติม
+                อนุมัติบัญชีผู้ใช้
               </button>
             </div>
           </div>
+        </dialog>
+      </div>
+    </div>
+
+    <div
+      class="relative bg-white p-10 mt-5 space-y-4 rounded border border-gray-200"
+    >
+      <h1
+        class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
+      >
+        หอพักที่รอการอนุมัติ
+        <HomeIcon class="h-8 w-8 text-primary" />
+        <ClockIcon class="h-8 w-8 text-primary" />
+      </h1>
+      <p class="text-sm" v-if="!pendingResidence.length">
+        ไม่มีหอพักที่รอการอนุมัติในขณะนี้
+      </p>
+      <div
+        v-for="(residence, index) in pendingResidence"
+        :key="index"
+        class="flex items-center gap-2 justify-between border p-2 rounded-lg border-gray-200 hover:border-primary transition-all cursor-pointer"
+      >
+        <div class="flex items-center gap-2">
+          <HomeIcon class="h-10 w-10 text-primary" />
+
+          <div>
+            <h1 class="text-sm font-semibold">
+              {{ residence.name }}
+            </h1>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button
+            class="btn btn-primary btn-sm"
+            @click="
+              router.push({
+                name: 'pending-residence',
+                params: { residenceId: residence._id },
+              })
+            "
+            :onclick="`res_modal_${index}.showModal()`"
+          >
+            ดูข้อมูลเพิ่มเติม
+          </button>
         </div>
       </div>
     </div>

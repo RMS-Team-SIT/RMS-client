@@ -129,8 +129,8 @@ watch(
         <thead>
           <tr>
             <th class="border border-black text-left" colspan="6">
-              ชื่อผู้เช่า: {{ billRoom.data.renter.firstname }}
-              {{ billRoom.data.renter?.lastname }}
+              ชื่อผู้เช่า: {{ billRoom.data.renter?.firstname || 'ไม่มีผู้เช่าที่เรียกเก็บ' }}
+              {{ billRoom.data.renter?.lastname || '' }}
             </th>
           </tr>
           <tr>
