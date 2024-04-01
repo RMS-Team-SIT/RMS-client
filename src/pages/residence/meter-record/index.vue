@@ -11,6 +11,7 @@ import MeterRecordListTable from '@/components/meter-record/meter-record.list.ta
 import NoRecord from '@/components/meter-record/no-record.vue';
 import MeterRecordService from '@/services/MeterRecordService';
 import back from '@/components/common/back.vue';
+import { PlusIcon } from '@heroicons/vue/24/outline';
 
 const router = useRouter();
 const route = useRoute();
@@ -81,7 +82,10 @@ onMounted(async () => {
               },
             }"
           >
-            <Button btnType="primary">สร้างใบบันทึกค่ามิเตอร์</Button>
+            <Button>
+              <PlusIcon class="w-5 h-5" />
+              สร้างใบบันทึกค่ามิเตอร์
+            </Button>
           </router-link>
         </div>
         <MeterRecordListTable
