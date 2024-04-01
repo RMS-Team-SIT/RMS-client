@@ -132,6 +132,34 @@ const uploadPaidEvidence = async (billRoomId) => {
   fetchRoom();
   resetPayload();
 };
+const removePaidEvidence = async (billRoomId) => {
+  const response = await BillService.updateBillRoomPaidEvidence(
+    residenceId,
+    roomId,
+    billRoomId,
+    { paidEvidenceImage: null }
+  );
+  if (response.status == 200) {
+    const data = await response.json();
+    notify({
+      group: 'tr',
+      title: 'สำเร็จ',
+      text: 'ลบหลักฐานการชำระเงินสำเร็จ',
+      type: 'success',
+    });
+  } else {
+    const data = await response.json();
+    notify({
+      group: 'tr',
+      title: 'เกิดข้อผิดพลาด',
+      text: 'ไม่สามาถลบหลักฐานการชำระเงินได้' + data?.message,
+      type: 'error',
+    });
+    return;
+  }
+  fetchRoom();
+  resetPayload();
+};
 
 onMounted(async () => {
   userStore.fetchUserData();
