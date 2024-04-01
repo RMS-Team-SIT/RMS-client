@@ -1,9 +1,7 @@
 <script setup>
 import SigninForm from '@/components/form/signin.form.vue';
-import { useUserStore } from '@/stores/user.store';
 import { useNotification } from '@kyvg/vue3-notification';
 import { useRoute, useRouter } from 'vue-router';
-import UserService from '@/services/UserServices.js';
 import { reactive, ref, computed, onMounted } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
@@ -12,6 +10,7 @@ import ResidenceServices from '@/services/ResidenceServices';
 import { ArrowRightIcon } from '@heroicons/vue/24/outline';
 import RenterService from '@/services/RenterService';
 import FileService from '@/services/FileService';
+import { useUserStore } from '@/stores/user.store';
 
 const store = useUserStore();
 const router = useRouter();
@@ -61,7 +60,7 @@ const handleFormData = async () => {
     let data = await response.json();
 
     localStorage.setItem('token', data.access_token);
-    await store.fetchUserData();
+    store.fetchUserData();
 
     notify({
       group: 'tr',
@@ -70,14 +69,7 @@ const handleFormData = async () => {
       type: 'success',
     });
 
-    const user = store.getUser;
-    console.log('user', user);
-    // // check if user is admin
-    // if (user.role === 'admin') {
-    //   router.push({ name: 'admin-dashboard' });
-    // } else {
-    //   router.push({ name: 'manage' });
-    // }
+    router.push({ name: 'renter-dashboard' });
   } else {
     let data = await response.json();
     console.log(data);
@@ -178,7 +170,7 @@ const setBgImg = () => {
                 </p>
               </div>
               <div v-if="!isLoading">
-                <Button class="btn btn-block" type="submit">
+                <Button btn-type="primary" class="btn btn-block" type="submit">
                   <ArrowRightIcon class="w-5 h-5" />
                   เข้าสู่ระบบ
                 </Button>

@@ -518,7 +518,6 @@ const publicRoutes = [
   'reset-password',
   'verify-email',
   'renter-signin',
-  // 'renter-dashboard',
   'unavailable',
 ];
 
@@ -533,7 +532,7 @@ const restrictedRoutesForLoggedInUsers = [
 
 export const adminRoutes = ['admin-dashboard'];
 
-export const renterRoutes = ['renter-dashboard'];
+export const renterRoutes = ['renter-dashboard', 'renter-signin', 'signout'];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.VITE_BASE),
@@ -573,26 +572,28 @@ router.beforeEach(async (to, from, next) => {
       return next();
     }
 
-    const userStore = useUserStore();
-    await userStore.fetchUserData();
-    const user = userStore.getUser;
-
     const isPublicRoute = publicRoutes.includes(to.name);
     const isRestrictedForLoggedIn = restrictedRoutesForLoggedInUsers.includes(
       to.name
     );
     const isAdminRoute = adminRoutes.includes(to.name);
+    const isRenterRoute = renterRoutes.includes(to.name);
 
-    // console.log({
-    //   isPublicRoute,
-    //   isRestrictedForLoggedIn,
-    //   isAdminRoute,
-    //   role: user.role,
-    // });
+    const userStore = useUserStore();
+    await userStore.fetchUserData();
+    const user = userStore.getUser;
+
+    console.log({
+      isPublicRoute,
+      isRestrictedForLoggedIn,
+      isAdminRoute,
+      isRenterRoute,
+      user,
+    });
 
     // Admin
     // Admin can access all routes
-    if (user.role === 'admin') {
+    if (user && user.role === 'admin') {
       if (isRestrictedForLoggedIn) {
         return next({ name: 'admin-dashboard' });
       }
@@ -601,7 +602,7 @@ router.beforeEach(async (to, from, next) => {
 
     // User
     // User can access all routes except admin routes and restricted routes for logged in users
-    else if (user.role === 'user') {
+    else if (user && user.role === 'user') {
       if (isAdminRoute) {
         return next({ name: 'manage' });
       }
@@ -656,9 +657,21 @@ router.beforeEach(async (to, from, next) => {
     }
 
     // Renter
-    // Renter can access only public routes
-    else if (user.role === 'renter') {
-      return false;
+    // Renter can access only renter routes
+    else if (user && user.role === 'renter') {
+      if (isAdminRoute) {
+        return next({ name: 'renter-dashboard' });
+      }
+
+      if (isRestrictedForLoggedIn) {
+        return next({ name: 'renter-dashboard' });
+      }
+
+      if (isRenterRoute) {
+        return next();
+      }
+
+      return next({ name: 'renter-dashboard' });
     }
 
     // Non-User

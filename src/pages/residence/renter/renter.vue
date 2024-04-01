@@ -48,6 +48,15 @@ const loginLink = `${
   import.meta.env.VITE_HOST
 }/auth/residence/${residenceId}/signin`;
 
+const copyText = (text) => {
+  copy(text);
+  notify({
+    group: 'tr',
+    title: 'คัดลอกลิงก์สำเร็จ',
+    text: 'ลิงก์ได้ถูกคัดลอกไปยังคลิปบอร์ดแล้ว',
+    type: 'success',
+  });
+};
 const { text, copy, copied, isSupported } = useClipboard();
 
 onMounted(async () => {
@@ -78,7 +87,7 @@ onMounted(async () => {
       title="การเข้าสู่ระบบของผู้เช่า"
       :text="`ผู้เช่าสามารถเข้าสู่ระบบได้โดยใช้ลิงก์นี้: ${loginLink}`"
       linktext="คัดลอกลิงก์"
-      @click="copy(loginLink)"
+      @click="copyText(loginLink)"
     />
     <div class="grid grid-cols-1">
       <div class="bg-white p-10 mt-2 shadow rounded-lg border">

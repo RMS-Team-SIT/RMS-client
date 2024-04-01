@@ -20,13 +20,14 @@ export const useUserStore = defineStore({
         ...state.user,
         fullname: `${state.user.firstname} ${state.user.lastname}`,
         isLoggedIn: state.isLoggedIn,
-        role: state.user.role[0],
+        role: state.user.role[0] || null,
       };
     },
   },
   actions: {
     async fetchUserData() {
       try {
+        console.log('fetching user data');
         let token = localStorage.getItem('token');
         if (!token) {
           return;
@@ -36,7 +37,7 @@ export const useUserStore = defineStore({
           const data = await response.json();
           this.user = data;
           this.isLoggedIn = true;
-        }else{
+        } else {
           localStorage.removeItem('token');
         }
       } catch (error) {
