@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useUserStore } from './stores/user.store';
 import { useServerStore } from './stores/server.store';
+import { projectFullName, projectName } from './utils/constants';
 
 const index = () => import('@/pages/index.vue');
 const NotFound = () => import('@/pages/not-found.vue');
@@ -548,6 +549,9 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   try {
+    // set page title
+    document.title = `${projectName} | ` + to.meta.title || 'หน้าแรก';
+
     const serverStore = useServerStore();
     await serverStore.fetch();
     const status = serverStore.getStatus;

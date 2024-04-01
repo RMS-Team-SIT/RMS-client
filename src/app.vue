@@ -17,15 +17,6 @@ const route = useRoute();
 const userStore = useUserStore();
 const isLoading = ref(true);
 
-// Set meta title
-watch(route, () => {
-  if (route.meta.title === 'undefined') {
-    document.title = `${projectName}`;
-  } else {
-    document.title = `${projectName}${' | ' + route.meta.title || ''}`;
-  }
-});
-
 const excludedRoutes = [
   'signup',
   'signin',
