@@ -191,11 +191,13 @@ const removePaidEvidence = async (billRoomId) => {
       "
     >
       <Alert>
-        มีบิลค้างชำระจำนวน
+        ห้องนี้มีบิลค้างชำระจำนวน
         {{ room.billRooms.filter((b) => b.status === 'UNPAID').length }}
         รายการ 
       </Alert>
     </div>
+
+    
     <ModernAlert
       v-else-if="isRenter"
       class="mt-2"
