@@ -9,7 +9,8 @@ import Loading from './components/common/loading.vue';
 import CookieConsent from './components/common/cookie-consent.vue';
 import LoggedInLandlord from '@/layout/logged-in-landlord.vue';
 import LoggedInAdmin from '@/layout/logged-in-admin.vue';
-import { adminRoutes } from '@/routes';
+import LoggedInRenter from '@/layout/logged-in-renter.vue';
+import { adminRoutes, renterRoutes } from '@/routes';
 
 const router = useRouter();
 const route = useRoute();
@@ -49,14 +50,15 @@ const isUseAdminSidebar = computed(() => {
   return userStore.isLoggedIn && adminRoutes.includes(route.name);
 });
 
+const isUseRenterSidebar = computed(() => {
+  return userStore.isLoggedIn && renterRoutes.includes(route.name);
+});
+
 const sidebarComponent = computed(() => {
-  if (isUseLandlordSidebar.value) {
-    return LoggedInLandlord;
-  } else if (isUseAdminSidebar.value) {
-    return LoggedInAdmin;
-  } else {
-    return 'div';
-  }
+  if (isUseLandlordSidebar.value) return LoggedInLandlord;
+  if (isUseAdminSidebar.value) return LoggedInAdmin;
+  if (isUseRenterSidebar.value) return LoggedInRenter;
+  return 'div';
 });
 
 const isShowCookieConsent = ref(

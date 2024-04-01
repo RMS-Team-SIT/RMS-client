@@ -79,29 +79,7 @@ const renterDashboard = () => import('./pages/renter/dashboard.vue');
 // Printable
 const printBillRoom = () => import('./pages/printable/bill-room.vue');
 
-const publicRoutes = [
-  'home',
-  'signup',
-  'signin',
-  'forget-password',
-  'reset-password',
-  'verify-email',
-  'renter-signin',
-  'renter-dashboard',
-  'unavailable',
-];
-
-const restrictedRoutesForLoggedInUsers = [
-  'home',
-  'signup',
-  'signin',
-  'forget-password',
-  'reset-password',
-  'renter-signin',
-];
-
-export const adminRoutes = ['admin-dashboard'];
-
+// Routes
 const routes = [
   {
     name: 'home',
@@ -515,7 +493,7 @@ const routes = [
   },
   {
     name: 'renter-dashboard',
-    path: '/manage/residence/:residenceId/room/:roomId/renter/:renterId',
+    path: '/renter/dashboard',
     component: renterDashboard,
     meta: {
       title: 'แดชบอร์ดผู้เช่า',
@@ -530,6 +508,31 @@ const routes = [
     },
   },
 ];
+
+const publicRoutes = [
+  'home',
+  'signup',
+  'signin',
+  'forget-password',
+  'reset-password',
+  'verify-email',
+  'renter-signin',
+  // 'renter-dashboard',
+  'unavailable',
+];
+
+const restrictedRoutesForLoggedInUsers = [
+  'home',
+  'signup',
+  'signin',
+  'forget-password',
+  'reset-password',
+  'renter-signin',
+];
+
+export const adminRoutes = ['admin-dashboard'];
+
+export const renterRoutes = ['renter-dashboard'];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.VITE_BASE),
