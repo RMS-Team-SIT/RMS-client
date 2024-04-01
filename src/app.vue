@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, watchEffect } from 'vue';
+import { ref, computed, onMounted, watchEffect, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import navbar from './components/common/navbar.vue';
 import Footer from './components/common/footer.vue';
@@ -18,9 +18,13 @@ const userStore = useUserStore();
 const isLoading = ref(true);
 
 // Set meta title
-watchEffect(
-  () => (document.title = `${projectName}${' | ' + route.meta.title || ''}`)
-);
+watch(route, () => {
+  if (route.meta.title === 'undefined') {
+    document.title = `${projectName}`;
+  } else {
+    document.title = `${projectName}${' | ' + route.meta.title || ''}`;
+  }
+});
 
 const excludedRoutes = [
   'signup',
