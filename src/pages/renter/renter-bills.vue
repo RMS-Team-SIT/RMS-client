@@ -336,11 +336,14 @@ onMounted(async () => {
             </router-link>
           </p>
 
-          <Divider />
           <div v-if="billRoom.status !== 'PAID'">
+            <Divider />
             <p class="text-lg font-bold">ช่องทางการชำระเงิน</p>
 
-            <p v-if="!room.residence.payments.filter((e) => e.isActive).length" class="text-red-500">
+            <p
+              v-if="!room.residence.payments.filter((e) => e.isActive).length"
+              class="text-red-500"
+            >
               ไม่มีช่องทางการชำระเงินที่เปิดใช้งาน กรุณาติดต่อเจ้าของหอพัก
             </p>
 
