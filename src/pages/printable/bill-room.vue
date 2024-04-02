@@ -121,7 +121,7 @@ watch(
           <p>วันที่: {{ new Date().toLocaleDateString() }}</p>
           <p>เลขที่ใบแจ้งหนี้: {{ billRoom.data.billNo }}</p>
           <p>ห้อง : {{ billRoom.data.room.name }}</p>
-          <p v-if="!isPaid">ชำระก่อน: วันที่ {{ residence.data.billDueDate }}</p>
+          <!-- <p v-if="!isPaid">ชำระก่อน: วันที่ {{ residence.data.billDueDate }}</p> -->
         </div>
       </div>
       <!-- Items -->
