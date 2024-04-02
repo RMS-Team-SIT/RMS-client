@@ -34,7 +34,7 @@ const props = defineProps({
     class="flex shadow-sm p-0 px-10 md:px-40 bg-base-100 border-b"
     :class="{ 'bg-dark-blue-200 border-dark-blue-200 text-white': isHome }"
   >
-    <div class="flex-1 gap-4 cursor-pointer items-center p-2">
+    <div class="flex-1 cursor-pointer items-center p-2">
       <img
         class="w-12 h-12"
         :src="isHome ? logoWhiteImg : logoImg"
@@ -79,7 +79,9 @@ const props = defineProps({
         <NavNotification :notifications="user.notifications" />
         <div class="flex gap-2 items-center rounded-lg p-0">
           <p>
-            {{ user.fullname }} {{ user.role === 'admin' ? ': admin' : '' }}
+            {{ user.fullname }} 
+            {{ user.role === 'admin' ? ': ผู้ดูแลระบบ' : '' }} 
+            {{ user.role === 'renter' ? ': ผู้เช่า' : '' }}
           </p>
           <div class="dropdown dropdown-end">
             <label tabindex="0" class="btn btn-ghost btn-circle avatar">
