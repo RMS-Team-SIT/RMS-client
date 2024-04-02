@@ -9,6 +9,7 @@ import RoomService from '@/services/RoomService';
 import CountUp from 'vue-countup-v3';
 import {
   ArrowTopRightOnSquareIcon,
+  BanknotesIcon,
   ChartPieIcon,
   ShareIcon,
 } from '@heroicons/vue/24/outline';
@@ -24,6 +25,7 @@ import IncomeChart from '@/components/residence/charts/income.vue';
 import { useUserStore } from '@/stores/user.store';
 import Loading from '@/components/common/loading.vue';
 import BillService from '@/services/BillService';
+import BankIcon from '@/components/common/bank-icon.vue';
 
 const router = useRouter();
 const userStore = useUserStore();
@@ -184,16 +186,18 @@ onMounted(async () => {
       ]"
     />
 
-    <!-- ข้อมูลบิล -->
-    <div class="space-y-3 rounded-lg bg-white mt-5">
+    <div class="bg-white p-10 shadow rounded-lg border mt-2">
       <div class="flex justify-between">
-        <h1 class="text-lg font-semibold text-dark-blue-200">
+        <h1
+          class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
+        >
+          <BanknotesIcon class="w-8 h-8 text-dark-blue-200" />
           ข้อมูลบิลทั้งหมด
         </h1>
       </div>
-      <div v-if="!room.billRooms.length">ไม่มีบิลในอดีตในระบบ</div>
+      <div class="mt-5" v-if="!room.billRooms.length">ไม่มีบิลในอดีต</div>
       <div
-        class="collapse collapse-arrow shadow-sm border"
+        class="collapse collapse-arrow shadow-sm border mt-5"
         v-for="(billRoom, index) in room.billRooms.toReversed()"
         :key="index"
       >
@@ -333,6 +337,44 @@ onMounted(async () => {
           </p>
 
           <Divider />
+          <div v-if="billRoom.status !== 'PAID'">
+            <p class="text-lg font-bold">ช่องทางการชำระเงิน</p>
+
+            <p v-if="!room.residence.payments.filter((e) => e.isActive).length" class="text-red-500">
+              ไม่มีช่องทางการชำระเงินที่เปิดใช้งาน กรุณาติดต่อเจ้าของหอพัก
+            </p>
+
+            <div
+              v-for="(payment, index) in room.residence.payments.filter(
+                (e) => e.isActive
+              )"
+              :key="index"
+            >
+              <p class="flex gap-2 items-center">
+                ธนาคาร: <BankIcon :bank="payment.bank.bank" size="xl" />
+                <b> {{ payment.bank.thai_name }}</b>
+              </p>
+              <p>
+                เลขบัญชี:
+                <b>
+                  {{ payment.account_number }}
+                </b>
+              </p>
+              <p>
+                ชื่อบัญชี:
+                <b>
+                  {{ payment.account_name }}
+                </b>
+              </p>
+            </div>
+            <div class="mt-5">
+              <p>
+                หมายเหตุ: {{ room.residence.paymentNotes || 'ไม่มีข้อความ' }}
+              </p>
+            </div>
+          </div>
+
+          <Divider />
           <p class="text-lg font-bold">หลักฐานการชำระเงิน</p>
           <div v-if="billRoom.paidEvidenceImage">
             <img
@@ -373,17 +415,14 @@ onMounted(async () => {
             </div>
           </div>
           <Divider />
-          <p class="text-lg font-bold">ผู้เช่าที่เรียกเก็บ</p>
-          <p v-if="billRoom.renter">
-            ชื่อผู้เช่า:
-
+          <p v-if="billRoom?.renter" class="text-lg font-bold">
+            ผู้เช่าที่เรียกเก็บ:
             {{
               billRoom.renter
-                ? billRoom.renter.firstname + ' ' + billRoom.renter.lastname
+                ? billRoom.renter?.firstname + ' ' + billRoom.renter?.lastname
                 : 'ไม่มีผู้เช่า'
             }}
           </p>
-          <p v-else>ไม่มีผู้เช่า</p>
         </div>
       </div>
     </div>
