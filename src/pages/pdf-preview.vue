@@ -6,6 +6,7 @@ import FileService from '@/services/FileService';
 import Button from '@/components/common/button.vue';
 import Loading from '@/components/common/loading.vue';
 import { useNotification } from '@kyvg/vue3-notification';
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline';
 
 const router = useRouter();
 const route = useRoute();
@@ -39,25 +40,13 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <div class="relative bg-white p-10 shadow-md rounded">
+  <div class="relative bg-white p-10">
     <div v-if="pdf">
       <h1 class="text-xl font-semibold text-dark-blue-200 text-center">
         {{ fileName }}
       </h1>
-      <div class="flex gap-4 justify-center items-center">
-        <Button
-          btnType="secondary-pill"
-          @click="page = page > 1 ? page - 1 : page"
-          >Prev</Button
-        >
-        <span class="">{{ page }} / {{ pages }}</span>
-        <Button
-          btnType="secondary-pill"
-          @click="page = page < pages ? page + 1 : page"
-          >Next</Button
-        >
-      </div>
-      <div class="flex gap-2 justify-center items-center">
+     
+      <div class="flex gap-2 justify-center items-center mt-2">
         <Button @click="scale = scale > 0.25 ? scale - 0.25 : scale">
           -
         </Button>
@@ -66,6 +55,23 @@ onBeforeMount(() => {
       </div>
       <div class="flex gap-2 justify-center items-center" v-if="pdf">
         <VuePDF :pdf="pdf" :page="page" :scale="scale" />
+      </div>
+      <div class="flex gap-4 justify-center items-center">
+        <Button
+          btnType="secondary-pill"
+          @click="page = page > 1 ? page - 1 : page"
+          >
+          <ArrowLeftIcon class="h-5 w-5" />
+          </Button
+        >
+        <span class="">{{ page }} / {{ pages }}</span>
+        <Button
+        btnType="secondary-pill"
+          @click="page = page < pages ? page + 1 : page"
+          >
+          <ArrowRightIcon class="h-5 w-5" />
+          </Button
+        >
       </div>
     </div>
     <div v-else>
