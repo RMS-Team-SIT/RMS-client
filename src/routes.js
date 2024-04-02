@@ -77,6 +77,9 @@ const adminDashboard = () => import('./pages/admin/dashboard.vue');
 // Renter
 const renterDashboard = () => import('./pages/renter/dashboard.vue');
 const renterBills = () => import('./pages/renter/renter-bills.vue');
+const renterSettings = () => import('./pages/renter/settings.vue');
+const renterInfo = () => import('./pages/renter/info.vue');
+const renterRoomInfo = () => import('./pages/renter/room-info.vue');
 
 // Printable
 const printBillRoom = () => import('./pages/printable/bill-room.vue');
@@ -510,6 +513,30 @@ const routes = [
     },
   },
   {
+    name: 'renter-settings',
+    path: '/renter/settings',
+    component: renterSettings,
+    meta: {
+      title: 'ตั้งค่าผู้เช่า',
+    },
+  },
+  {
+    name: 'renter-info',
+    path: '/renter/info',
+    component: renterInfo,
+    meta: {
+      title: 'ข้อมูลผู้เช่า',
+    },
+  },
+  {
+    name: 'renter-room-info',
+    path: '/renter/room/info',
+    component: renterRoomInfo,
+    meta: {
+      title: 'ข้อมูลห้องพักผู้เช่า',
+    },
+  },
+  {
     path: '/:path(.*)',
     component: NotFound,
     name: 'not-found',
@@ -545,8 +572,9 @@ export const renterRoutes = [
   'renter-dashboard',
   'renter-signin',
   'renter-bills',
-  'signout',
-  'print-bill-room',
+  'renter-settings',
+  'renter-info',
+  'renter-room-info',
 ];
 
 const router = createRouter({
@@ -616,13 +644,17 @@ router.beforeEach(async (to, from, next) => {
     }
 
     // User
-    // User can access all routes except admin routes and restricted routes for logged in users
+    // User can access all routes except admin routes, renter routes  and restricted routes for logged in users
     else if (user && user.role === 'user') {
       if (isAdminRoute) {
         return next({ name: 'manage' });
       }
 
       if (isRestrictedForLoggedIn) {
+        return next({ name: 'manage' });
+      }
+
+      if (isRenterRoute) {
         return next({ name: 'manage' });
       }
 
@@ -682,7 +714,14 @@ router.beforeEach(async (to, from, next) => {
         return next({ name: 'renter-dashboard' });
       }
 
-      if (isRenterRoute) {
+      // Renter can access only renter routes including
+      if (
+        isRenterRoute ||
+        to.name === 'signout' ||
+        to.name === 'print-bill-room' ||
+        to.name === 'unavailable' ||
+        to.name === 'pdf-preview'
+      ) {
         return next();
       }
 

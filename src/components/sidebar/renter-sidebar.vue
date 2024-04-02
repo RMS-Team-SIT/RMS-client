@@ -66,10 +66,10 @@ const toggleSidebar = () => {
       </div>
 
      
-      <div class="divider font-bold divider-start">ผู้เช่า</div>
+      <div class="divider font-bold divider-start">ข้อมูลต่าง ๆ</div>
 
       <div
-        @click="goto('renter')"
+        @click="goto('renter-info')"
         role="button"
         tabindex="0"
         class="flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-blue-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
@@ -80,11 +80,23 @@ const toggleSidebar = () => {
         ข้อมูลผู้เช่า
       </div>
 
+      <div
+        @click="goto('renter-room-info')"
+        role="button"
+        tabindex="0"
+        class="flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-blue-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
+      >
+        <div class="grid place-items-center mr-4">
+          <HomeIcon class="h-5 w-5" />
+        </div>
+        ข้อมูลห้องพัก
+      </div>
+
      
       <div class="divider font-bold divider-start">อื่น ๆ</div>
 
       <div
-        @click="goto('info')"
+        @click="goto('renter-settings')"
         role="button"
         tabindex="0"
         class="flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-blue-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"

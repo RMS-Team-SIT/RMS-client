@@ -9,7 +9,9 @@ import RoomService from '@/services/RoomService';
 import CountUp from 'vue-countup-v3';
 import {
   ArrowTopRightOnSquareIcon,
+  BoltIcon,
   ChartPieIcon,
+  Cog6ToothIcon,
   ShareIcon,
 } from '@heroicons/vue/24/outline';
 import { useNotification } from '@kyvg/vue3-notification';
@@ -26,6 +28,7 @@ import Loading from '@/components/common/loading.vue';
 const router = useRouter();
 const userStore = useUserStore();
 
+const renter = ref(null);
 const room = ref(null);
 const route = useRoute();
 const isLoading = ref(true);
@@ -67,9 +70,11 @@ const fetchRoom = async () => {
 };
 onMounted(async () => {
   userStore.fetchUserData();
-  const renter = userStore.getUser;
-  residenceId.value = renter.residence._id;
-  roomId.value = renter.room._id;
+  renter.value = userStore.getUser;
+  console.log('renter', renter.value);
+  // Set residenceId
+  residenceId.value = renter.value.residence._id;
+  roomId.value = renter.value.room._id;
   await fetchRoom();
 
   isLoading.value = false;
@@ -82,49 +87,36 @@ onMounted(async () => {
     <Breadcrumb
       :pathList="[
         { name: 'หน้าแรก', pathName: 'home' },
-        { name: 'แดชบอร์ด', pathName: 'renter-dashboard' },
+        { name: 'ตั้งค่าผู้เช่า', pathName: 'renter-settings' },
       ]"
     />
-    <h1
+    <!-- <h1
       class="text-xl font-semibold text-dark-blue-200 my-5 flex items-center gap-2"
     >
-      <ChartPieIcon class="h-8 w-8 inline-block" /> แดชบอร์ดผู้เช่า
-    </h1>
+      <ChartPieIcon class="h-8 w-8 inline-block" /> ตั้งค่าผู้เช่า
+    </h1> -->
 
-    <!-- Grid -->
-    <div class="grid grid-cols-4 gap-2">
-      <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
-        <h3 class="text-lg font-semibold mb-2">จำนวนบิลที่ชำระแล้ว</h3>
-        <p class="flex gap-2 items-end">
-          <CountUp :end-val="1" class="text-6xl text-green-400" />
-          บิล
-        </p>
-      </div>
-      <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
-        <h3 class="text-lg font-semibold mb-2">จำนวนบิลค้างชำระ</h3>
-        <p class="flex gap-2 items-end">
-          <CountUp :end-val="1" class="text-6xl text-red-400" />
-          บิล
-        </p>
-      </div>
-      <div
-        class="p-5 bg-white rounded-lg shadow-md border border-gray-200 col-span-2"
-      >
-        <h3 class="text-lg font-semibold mb-2">จำนวนเงินที่ต้องชำระ</h3>
-        <p class="flex gap-2 items-end">
-          <CountUp :end-val="10000" class="text-6xl text-red-400" />
-          บาท
-        </p>
+    <div class="bg-white p-10 shadow rounded-lg border mt-2">
+      <div class="flex justify-between">
+        <h1
+          class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
+        >
+          <Cog6ToothIcon class="w-8 h-8 text-dark-blue-200" />
+          ตั้งค่าผู้เช่า
+        </h1>
       </div>
 
-      <div
-        class="p-5 bg-white rounded-lg shadow-md border border-gray-200 col-span-4"
-      >
-        <h3 class="text-xl font-semibold mb-2 p-5">
-          จำนวนเงินการจ่ายบิลที่ผ่านมา
-        </h3>
-        <IncomeChart :data="[0, 0, 0, 0, 0, 0, 0, 0, 4000, 5000, 6000, 4000]" />
+      <div class="grid grid-cols-2 gap-2 col-span-2 mt-5 w-1/2">
+        <div class="bg-white rounded-lg">
+          <h3 class="text-lg font-semibold mb-2">การรับแจ้งเตือนผ่านอีเมล</h3>
+          <p class="flex gap-2 items-end">
+            <input type="checkbox" class="toggle toggle-success" checked />
+            เปิดใช้งาน
+          </p>
+        </div>
+        
       </div>
+      
     </div>
   </div>
 </template>

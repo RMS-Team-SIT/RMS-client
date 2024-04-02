@@ -116,7 +116,8 @@ const setBgImg = () => {
 </script>
 
 <template>
-  <div class="flex h-screen">
+  <Loading v-if="isLoading" class="min-h-screen w-full" />
+  <div v-else class="flex h-screen">
     <div
       class="flex-1 bg-cover flex flex-row"
       :style="`background-image: url(${bgImg});`"
