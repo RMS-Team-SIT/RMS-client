@@ -110,7 +110,7 @@ onMounted(async () => {
       <div
         class="p-5 bg-white rounded-lg shadow-md border border-gray-200 col-span-2"
       >
-        <h3 class="text-lg font-semibold mb-2">จำนวนเงินที่ต้องชำระ</h3>
+        <h3 class="text-lg font-semibold mb-2">ยอดค้างชำระ</h3>
         <p class="flex gap-2 items-end">
           <CountUp :end-val="10000" class="text-6xl text-red-400" />
           บาท

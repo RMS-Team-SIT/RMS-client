@@ -106,8 +106,8 @@ const uploadPaidEvidence = async (billRoomId) => {
   }
 
   const response = await BillService.updateBillRoomPaidEvidence(
-    residenceId,
-    roomId,
+    residenceId.value,
+    roomId.value,
     billRoomId,
     { paidEvidenceImage: payload.paidEvidenceImage[0] }
   );
@@ -134,8 +134,8 @@ const uploadPaidEvidence = async (billRoomId) => {
 };
 const removePaidEvidence = async (billRoomId) => {
   const response = await BillService.updateBillRoomPaidEvidence(
-    residenceId,
-    roomId,
+    residenceId.value,
+    roomId.value,
     billRoomId,
     { paidEvidenceImage: null }
   );
