@@ -245,8 +245,9 @@ const moveOutRoom = async (roomId) => {
               <router-link
                 v-if="room.currentRenter"
                 class="text-dark-blue-200 underline"
+                target="_blank"
                 :to="{
-                  name: 'update-renter',
+                  name: 'view-renter',
                   params: {
                     residenceId: $route.params.residenceId,
                     renterId: room.currentRenter._id,
