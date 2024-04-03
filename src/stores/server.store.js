@@ -17,6 +17,8 @@ export const useServerStore = defineStore({
         const response = await ServerService.fetchServerStatus();
         if (response.status === 200) {
           this.up = true;
+        } else {
+          this.up = false;
         }
       } catch (error) {
         this.up = false;
