@@ -65,10 +65,12 @@ const fetchRoom = async () => {
     isLoading.value = false;
   }
 };
+
 onMounted(async () => {
   userStore.fetchUserData();
   const renter = userStore.getUser;
   residenceId.value = renter.residence._id;
+  // TODO: Fix some renter not have room
   roomId.value = renter.room._id;
   await fetchRoom();
 

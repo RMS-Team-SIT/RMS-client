@@ -231,7 +231,7 @@ const toggleSelectAllMeterRecordForBillCreation = () => {
               สร้างบิลของห้องที่เลือก
             </Button>
           </div>
-          <p class="">
+          <p class="text-sm">
             * ระบบจะแสดงข้อมูล
             <b>ห้อง</b> ที่ยัง <b>ไม่มีการสร้างบิล</b> จากรอบมิเตอร์นี้เท่านั้น
           </p>

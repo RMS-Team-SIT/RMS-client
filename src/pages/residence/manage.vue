@@ -84,7 +84,7 @@ onBeforeMount(async () => {
       </div> -->
       <div class="relative bg-white space-y-5 rounded">
         <div class="flex flex-row justify-between">
-          <h1 class="text-3xl font-semibold text-dark-blue-200">หอพักของคุณ</h1>
+          <h1 class="text-2xl font-semibold text-dark-blue-200">หอพักของคุณ</h1>
 
           <router-link :to="{ name: 'create-residence' }">
             <Button btn-type="primary"> 

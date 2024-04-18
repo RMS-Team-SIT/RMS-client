@@ -89,14 +89,10 @@ onMounted(async () => {
     <Breadcrumb
       :pathList="[
         { name: 'หน้าแรก', pathName: 'home' },
-        { name: 'ข้อมูลผู้เช่า', pathName: 'renter-info' },
+        { name: 'ข้อมูลห้องพัก', pathName: 'renter-info' },
       ]"
     />
-    <!-- <h1
-      class="text-xl font-semibold text-dark-blue-200 my-5 flex items-center gap-2"
-    >
-      <ChartPieIcon class="h-8 w-8 inline-block" /> ตั้งค่าผู้เช่า
-    </h1> -->
+   
 
     <div class="bg-white p-10 shadow rounded-lg border mt-2">
       <div class="flex justify-between">
@@ -104,7 +100,7 @@ onMounted(async () => {
           class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
         >
           <HomeIcon class="w-8 h-8 text-dark-blue-200" />
-          ข้อมูลห้องพักและหอพัก
+          ข้อมูลห้องพัก
         </h1>
       </div>
 

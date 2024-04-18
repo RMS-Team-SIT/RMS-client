@@ -189,13 +189,13 @@ onMounted(async () => {
     <div class="bg-white p-10 shadow rounded-lg border mt-2">
       <div class="flex justify-between">
         <h1
-          class="text-2xl font-semibold text-dark-blue-200 flex gap-2 items-center"
+          class="text-xl font-semibold text-dark-blue-200 flex gap-2 items-center"
         >
           <BanknotesIcon class="w-8 h-8 text-dark-blue-200" />
           ข้อมูลบิลทั้งหมด
         </h1>
       </div>
-      <div class="mt-5" v-if="!room.billRooms.length">ไม่มีบิลในอดีต</div>
+      <div class="mt-5" v-if="!room.billRooms.length">ยังไม่มีบิลสำหรับคุณ</div>
       <div
         class="collapse collapse-arrow shadow-sm border mt-5"
         v-for="(billRoom, index) in room.billRooms.toReversed()"

@@ -258,11 +258,12 @@ const payload = reactive({
               <th>#</th>
               <th>เลขที่บิล</th>
               <th>เลขที่ห้อง</th>
-              <th>ค่าน้ำ</th>
-              <th>ค่าไฟ</th>
-              <th>ค่าเช่า</th>
-              <th>ค่าอื่นๆ</th>
-              <th>รวม</th>
+              <th>ผู้เช่าที่เรียกเก็บ</th>
+              <!-- <th>ค่าน้ำ</th> -->
+              <!-- <th>ค่าไฟ</th> -->
+              <!-- <th>ค่าเช่า</th> -->
+              <!-- <th>ค่าอื่นๆ</th> -->
+              <th>ค่าใช้จ่ายรวม</th>
               <th>สถานะ</th>
               <th>ดูข้อมูล</th>
               <th>แก้ไขสถานะ</th>
@@ -292,11 +293,29 @@ const payload = reactive({
                   >{{ billRoom.room.name }}</router-link
                 >
               </td>
-              <td>{{ billRoom.waterTotalPrice.toLocaleString() }} บาท</td>
-              <td>{{ billRoom.electricTotalPrice.toLocaleString() }} บาท</td>
-              <td>{{ billRoom.roomRentalPrice.toLocaleString() }} บาท</td>
-              <td>{{ billRoom.totalFeesPrice.toLocaleString() }} บาท</td>
-              <td class="font-bold">{{ billRoom.totalPrice.toLocaleString() }} บาท</td>
+              <td>
+                <router-link
+                  class="cursor-pointer underline"
+                  target="_blank"
+                  :to="{
+                    name: 'view-renter',
+                    params: {
+                      renterId: billRoom.renter._id,
+                      residenceId: residenceId,
+                    },
+                  }"
+                  >{{
+                    billRoom.renter.firstname + ' ' + billRoom.renter.lastname
+                  }}</router-link
+                >
+              </td>
+              <!-- <td>{{ billRoom.waterTotalPrice.toLocaleString() }} บาท</td> -->
+              <!-- <td>{{ billRoom.electricTotalPrice.toLocaleString() }} บาท</td> -->
+              <!-- <td>{{ billRoom.roomRentalPrice.toLocaleString() }} บาท</td> -->
+              <!-- <td>{{ billRoom.totalFeesPrice.toLocaleString() }} บาท</td> -->
+              <td class="font-bold">
+                {{ billRoom.totalPrice.toLocaleString() }} บาท
+              </td>
               <td>
                 <Badge v-if="billRoom.status === 'PAID'">จ่ายแล้ว</Badge>
                 <Badge
