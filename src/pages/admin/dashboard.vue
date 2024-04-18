@@ -157,18 +157,22 @@ onMounted(async () => {
       <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
         <h3 class="text-xl font-semibold mb-2 p-5">ข้อมูลผู้ใช้งาน</h3>
         <UserChart
+          v-if="userStats.totalUsers > 0 || userStats.totalAdmins > 0 || userStats.totalPendingUsers > 0"
           :totalUsers="userStats.totalUsers"
           :totalAdmins="userStats.totalAdmins"
           :totalPendingUsers="userStats.totalPendingUsers"
         />
+        <p v-else class="p-5">ยังไม่มีข้อมูลผู้ใช้ในระบบ</p>
       </div>
 
       <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
         <h3 class="text-xl font-semibold mb-2 p-5">ข้อมูลหอพัก</h3>
         <ResidenceChart
+          v-if="residenceStats.totalApprovedResidences > 0 || residenceStats.totalPendingResidences > 0"
           :totalPendingResidences="residenceStats.totalPendingResidences"
           :totalApprovedResidences="residenceStats.totalApprovedResidences"
         />
+        <p v-else class="p-5">ยังไม่มีหอพักในระบบ</p>
       </div>
     </div>
 

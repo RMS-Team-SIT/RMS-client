@@ -71,7 +71,7 @@ const addFee = () => {
   }
   childData.fees.push({
     _id: generateRandomObjectId(),
-    feename: feeName.value,
+    feename: feeName.value.trim(),
     feeprice: feePrice.value,
   });
   feeName.value = '';
@@ -136,7 +136,7 @@ watch(childData, () => {
         </Button>
       </div>
     </div>
-    <p v-if="!childData.fees.length">ไม่มีค่าบริการเพิ่มเติมที่เรียกเก็บ</p>
+    <p v-if="!childData.fees.length" class="text-sm">ยังไม่มีค่าบริการเพิ่มเติมที่เรียกเก็บ</p>
   </div>
 </template>
 

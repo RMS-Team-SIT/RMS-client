@@ -526,14 +526,13 @@ onMounted(async () => {
             <Button
               v-else-if="currentStep == 9"
               @click="router.push({ name: 'manage' })"
-              
               btnType="primary"
             >
               กลับสู่หน้าหลัก
             </Button>
             <Button
+              btn-type="primary"
               @click="changeStep('next')"
-              
               v-else
               :disabled="!canNexts[currentStep - 1]"
             >

@@ -22,16 +22,10 @@ const handleFormData = async (formData) => {
     router.push({ name: 'signin' });
   } else {
     let data = await response.json();
-    let errorKeys = Object.keys(data.errors || []);
-    console.log(errorKeys);
-    let errorMsg = '';
-    errorKeys.forEach((key) => {
-      errorMsg += data.errors[key] + '\n';
-    });
     notify({
       group: 'tr',
       title: 'เกิดข้อผิดพลาด',
-      text: 'สมัครสมาชิกไม่สำเร็จ, โปรดลองใหม่อีกครั้ง: ' + errorMsg,
+      text: 'สมัครสมาชิกไม่สำเร็จ, โปรดลองใหม่อีกครั้ง: ' + data.message,
       type: 'error',
     });
   }

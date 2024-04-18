@@ -63,7 +63,6 @@ const imageSrc = computed(() => {
             })
           "
         >
-          <!-- <ChartPieIcon class="w-5 h-5" /> -->
           เข้าสู่หน้าแดชบอร์ด
           <ArrowTopRightOnSquareIcon class="w-5 h-5" />
         </Button>
@@ -76,8 +75,9 @@ const imageSrc = computed(() => {
             })
           "
           class="btn"
-          btnType="secondary"
-          >ดูข้อมูล</Button
+          >
+          ดูข้อมูลเพิ่มเติม
+          <ArrowTopRightOnSquareIcon class="w-5 h-5" /></Button
         >
       </div>
     </div>
