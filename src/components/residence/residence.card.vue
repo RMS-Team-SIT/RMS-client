@@ -31,7 +31,7 @@ const imageSrc = computed(() => {
 
 <template>
   <div
-    class="card card-side bg-base-100 border border-gray-200 hover:shadow hover:border-gray-300"
+    class="card card-side bg-base-100 border border-gray-200 hover:shadow hover:border-gray-300 m-1"
   >
     <figure>
       <img class="w-60 h-60 rounded-lg" :src="imageSrc" />
