@@ -61,7 +61,7 @@ const options = {
 const series = [
   {
     name: 'รายได้',
-    data: [...data],
+    data: data,
   },
 ];
 </script>
