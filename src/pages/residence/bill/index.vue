@@ -115,9 +115,9 @@ onMounted(async () => {
               สร้างบิลใหม่</Button>
           </router-link>
         </div>
-        <p class="mt-5" v-if="!bills.length">
+        <!-- <p class="mt-5" v-if="!bills.length">
           ไม่มีบิลในระบบ กรุณาสร้างบิลใหม่
-        </p>
+        </p> -->
 
         <BillListTable
           :isLoading="isLoading"

@@ -41,17 +41,14 @@ const stats = reactive({
   renterCount: 0,
   roomCount: 0,
   roomTypeCount: 0,
-  avaiableRoomCount: 10,
-  notavaiableRoomCount: 30,
-  paidRoomCount: 25,
-  unpaidRoomCount: 5,
-  paidBillCount: 25,
-  unpaidBillCount: 5,
-  uploadedBillCount: 10,
-  income: [
-    24599, 30000, 20000, 15000, 25000, 30000, 20000, 15000, 25000, 30000, 20000,
-    15000,
-  ],
+  avaiableRoomCount: 0,
+  notavaiableRoomCount: 0,
+  paidRoomCount: 0,
+  unpaidRoomCount: 0,
+  paidBillCount: 0,
+  unpaidBillCount: 0,
+  uploadedBillCount: 0,
+  income: new Array(12).fill(0),
 });
 
 const fetchData = async () => {
@@ -77,6 +74,41 @@ const fetchData = async () => {
       (renter) => renter.isActive
     ).length;
     stats.roomTypeCount = result.roomTypes.length;
+
+    // Calculate income in currents year by filter bills
+    const currentYear = new Date().getFullYear();
+    const incomes = new Array(12).fill(0);
+    result.bills
+      .filter(
+        (bill) =>
+          new Date(bill.meterRecord.record_date).getFullYear() === currentYear
+      )
+      .forEach((bill) => {
+        // calculate total bill amount
+        const total = bill.billRooms
+          .filter((billRoom) => billRoom.status === 'PAID')
+          .reduce((acc, billRoom) => acc + billRoom.totalPrice, 0);
+
+        // Fill into incomes by month
+        let monthIndex = new Date(bill.meterRecord.record_date).getMonth();
+        incomes[monthIndex] += total;
+      });
+    // Assign monthly totals to stats.income
+    stats.income = incomes;
+
+    // Calculate bill status
+    if (result.bills.length > 0) {
+      const lastIndex = result.bills.length - 1;
+      stats.paidBillCount = result.bills[lastIndex].billRooms.filter(
+        (bill) => bill.status === 'PAID'
+      ).length;
+      stats.unpaidBillCount = result.bills[lastIndex].billRooms.filter(
+        (bill) => bill.status === 'UNPAID'
+      ).length;
+      stats.uploadedBillCount = result.bills[lastIndex].billRooms.filter(
+        (bill) => bill.status === 'UPLOADED'
+      ).length;
+    }
   } else {
     notify({
       group: 'tr',
@@ -217,19 +249,20 @@ onMounted(async () => {
           <h3 class="text-xl font-semibold mb-2 p-5">
             สถานะการจ่ายบิลของรอบบิลล่าสุด
           </h3>
-          <p v-if="!stats" class="p-5">ไม่มีห้องในระบบ</p>
-          <BillStatusChart
-            v-else
-            class="h-52 mx-auto"
-            :paid="stats.paidBillCount"
-            :uploaded="stats.uploadedBillCount"
-            :unpaid="stats.unpaidBillCount"
-          />
-          <p class="p-5 text-xs">
-            จ่ายแล้ว: {{ stats.paidBillCount }} บิล, ยังไม่จ่าย:
-            {{ stats.unpaidBillCount }} บิล, อัพโหลดแล้ว:
-            {{ stats.uploadedBillCount }} บิล
-          </p>
+          <p v-if="!residence.data.bills.length" class="p-5">ไม่พบบิลในระบบ</p>
+          <div v-else>
+            <BillStatusChart
+              class="h-52 mx-auto"
+              :paid="stats.paidBillCount"
+              :uploaded="stats.uploadedBillCount"
+              :unpaid="stats.unpaidBillCount"
+            />
+            <p class="p-5 text-xs">
+              จ่ายแล้ว: {{ stats.paidBillCount }} บิล, ยังไม่จ่าย:
+              {{ stats.unpaidBillCount }} บิล, อัพโหลดแล้ว:
+              {{ stats.uploadedBillCount }} บิล
+            </p>
+          </div>
         </div>
 
         <div class="grid grid-cols-2 gap-2 col-span-2">

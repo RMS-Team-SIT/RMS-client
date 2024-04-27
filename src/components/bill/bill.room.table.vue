@@ -60,7 +60,7 @@ const visiblePages = computed(() => {
 <template>
   <div class="overflow-x-auto">
     <p class="text-base mt-5" v-if="!props.bills.length">
-      ไม่พบบิลในระบบ กรุณาสร้าง
+      ไม่พบบิลในระบบ กรุณาสร้างบิลใหม่
     </p>
     <div v-else>
       <!-- show number of renter -->

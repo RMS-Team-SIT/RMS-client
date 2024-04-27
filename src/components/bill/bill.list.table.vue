@@ -186,7 +186,7 @@ const payload = reactive({
 <template>
   <div class="overflow-x-auto">
     <p class="text-base mt-5" v-if="!props.bills.length">
-      ไม่พบบิลในระบบ กรุณาสร้าง
+      ไม่พบบิลในระบบ กรุณาสร้างบิลใหม่
     </p>
     <div v-else>
       <div class="w-full flex align-middle items-center justify-start mt-5">
@@ -295,6 +295,7 @@ const payload = reactive({
               </td>
               <td>
                 <router-link
+                  v-if="billRoom.renter"
                   class="cursor-pointer underline"
                   target="_blank"
                   :to="{
@@ -308,6 +309,7 @@ const payload = reactive({
                     billRoom.renter.firstname + ' ' + billRoom.renter.lastname
                   }}</router-link
                 >
+                <span v-else>ไม่มีข้อมูลผู้เช่าที่เรียกเก็บ</span>
               </td>
               <!-- <td>{{ billRoom.waterTotalPrice.toLocaleString() }} บาท</td> -->
               <!-- <td>{{ billRoom.electricTotalPrice.toLocaleString() }} บาท</td> -->
