@@ -208,8 +208,8 @@ onMounted(async () => {
       <!-- Divider -->
       <Divider class="my-5" />
       <div class="grid grid-cols-2 gap-2">
-        <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
-          <h3 class="text-xl font-semibold mb-2 p-5">
+        <div class="p-10 bg-white rounded-lg shadow-md border border-gray-200">
+          <h3 class="text-xl font-semibold mb-2">
             จำนวนเงินการจ่ายบิลที่ผ่านมาในปีนี้
           </h3>
           <IncomeChart :data="stats.paidHistory" seriesName="รายจ่าย" />

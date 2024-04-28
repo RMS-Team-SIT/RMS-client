@@ -45,9 +45,12 @@ const stats = reactive({
   notavaiableRoomCount: 0,
   paidRoomCount: 0,
   unpaidRoomCount: 0,
-  paidBillCount: 0,
-  unpaidBillCount: 0,
-  uploadedBillCount: 0,
+  paidLastBillCount: 0,
+  paidAllBillCount: 0,
+  unpaidLastBillCount: 0,
+  unpaidAllBillCount: 0,
+  uploadedLastBillCount: 0,
+  uploadedAllBillCount: 0,
   income: new Array(12).fill(0),
 });
 
@@ -99,15 +102,34 @@ const fetchData = async () => {
     // Calculate bill status
     if (result.bills.length > 0) {
       const lastIndex = result.bills.length - 1;
-      stats.paidBillCount = result.bills[lastIndex].billRooms.filter(
+      stats.paidLastBillCount = result.bills[lastIndex].billRooms.filter(
         (bill) => bill.status === 'PAID'
       ).length;
-      stats.unpaidBillCount = result.bills[lastIndex].billRooms.filter(
+      stats.unpaidLastBillCount = result.bills[lastIndex].billRooms.filter(
         (bill) => bill.status === 'UNPAID'
       ).length;
-      stats.uploadedBillCount = result.bills[lastIndex].billRooms.filter(
+      stats.uploadedLastBillCount = result.bills[lastIndex].billRooms.filter(
         (bill) => bill.status === 'UPLOADED'
       ).length;
+
+      stats.paidAllBillCount = result.bills.reduce((acc, bill) => {
+        return (
+          acc + bill.billRooms.filter((bill) => bill.status === 'PAID').length
+        );
+      }, 0);
+
+      stats.unpaidAllBillCount = result.bills.reduce((acc, bill) => {
+        return (
+          acc + bill.billRooms.filter((bill) => bill.status === 'UNPAID').length
+        );
+      }, 0);
+
+      stats.uploadedAllBillCount = result.bills.reduce((acc, bill) => {
+        return (
+          acc +
+          bill.billRooms.filter((bill) => bill.status === 'UPLOADED').length
+        );
+      }, 0);
     }
   } else {
     notify({
@@ -153,9 +175,9 @@ onMounted(async () => {
       <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-2">
         <!-- รายได้ของหอพักในปีนี้ -->
         <div
-          class="p-5 bg-white rounded-lg shadow-md border border-gray-200 col-span-2"
+          class="p-10 bg-white rounded-lg shadow-md border border-gray-200 col-span-2"
         >
-          <h3 class="text-xl font-semibold mb-2 p-5">รายได้ของหอพักในปีนี้</h3>
+          <h3 class="text-xl font-semibold mb-2">รายได้ของหอพักในปีนี้</h3>
           <IncomeChart :data="stats.income" />
         </div>
 
@@ -225,23 +247,45 @@ onMounted(async () => {
         </div>
 
         <div
-          class="p-6 bg-white rounded-lg shadow-md border border-gray-200 col-span-2"
+          class="p-6 bg-white rounded-lg shadow-md border border-gray-200 col-span-1"
         >
-          <h3 class="text-xl font-semibold mb-2 p-5">
-            สถานะการจ่ายบิลของรอบบิลล่าสุด
+          <h3 class="text-xl mb-2 p-5">
+            สถานะการจ่ายบิลของรอบบิล<b>ล่าสุด</b>
           </h3>
           <p v-if="!residence.data.bills.length" class="p-5">ไม่พบบิลในระบบ</p>
           <div v-else>
             <BillStatusChart
               class="h-52 mx-auto"
-              :paid="stats.paidBillCount"
-              :uploaded="stats.uploadedBillCount"
-              :unpaid="stats.unpaidBillCount"
+              :paid="stats.paidLastBillCount"
+              :uploaded="stats.uploadedLastBillCount"
+              :unpaid="stats.unpaidLastBillCount"
             />
             <p class="p-5 text-xs">
-              จ่ายแล้ว: {{ stats.paidBillCount }} บิล, ยังไม่จ่าย:
-              {{ stats.unpaidBillCount }} บิล, อัพโหลดแล้ว:
-              {{ stats.uploadedBillCount }} บิล
+              จ่ายแล้ว: {{ stats.paidLastBillCount }} บิล, ยังไม่จ่าย:
+              {{ stats.unpaidLastBillCount }} บิล, อัพโหลดแล้ว:
+              {{ stats.uploadedLastBillCount }} บิล
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="p-6 bg-white rounded-lg shadow-md border border-gray-200 col-span-1"
+        >
+          <h3 class="text-xl mb-2 p-5">
+            สถานะการจ่ายบิลของรอบบิล<b>ทั้งหมด</b>
+          </h3>
+          <p v-if="!residence.data.bills.length" class="p-5">ไม่พบบิลในระบบ</p>
+          <div v-else>
+            <BillStatusChart
+              class="h-52 mx-auto"
+              :paid="stats.paidAllBillCount"
+              :uploaded="stats.uploadedAllBillCount"
+              :unpaid="stats.unpaidAllBillCount"
+            />
+            <p class="p-5 text-xs">
+              จ่ายแล้ว: {{ stats.paidAllBillCount }} บิล, ยังไม่จ่าย:
+              {{ stats.unpaidAllBillCount }} บิล, อัพโหลดแล้ว:
+              {{ stats.uploadedAllBillCount }} บิล
             </p>
           </div>
         </div>
@@ -295,96 +339,6 @@ onMounted(async () => {
         </div>
       </div>
     </section>
-
-    <!-- Quick link Section -->
-    <!-- <section class="mt-5">
-      <div class="divider font-bold divider-start">เข้าถึงระบบจัดการห้อง</div>
-      <div class="grid grid-cols-12 gap-2">
-        <QuickLinkCard
-          class="col-span-4"
-          :router-path="{ name: 'room', params: { residenceId } }"
-          title="จัดการห้อง"
-          text="เข้าสู่ระบบจัดการห้อง"
-          :icon="HomeIcon"
-        />
-        <QuickLinkCard
-          class="col-span-4"
-          :router-path="{ name: 'room-type', params: { residenceId } }"
-          title="จัดการประเภทห้อง"
-          text="เข้าสู่ระบบจัดการประเภทห้อง"
-          :icon="HomeModernIcon"
-        />
-      </div>
-
-      <div class="divider font-bold divider-start">ระบบจัดการผู้เช่า</div>
-      <div class="grid grid-cols-12 gap-2">
-        <QuickLinkCard
-          class="col-span-4"
-          :router-path="{ name: 'renter', params: { residenceId } }"
-          title="จัดการผู้เช่า"
-          text="เข้าสู่ระบบจัดการผู้เช่าในหอพักนี้"
-          :icon="UserIcon"
-        />
-
-        <QuickLinkCard
-          class="col-span-4"
-          :router-path="{ name: 'rent', params: { residenceId } }"
-          title="การย้ายเข้า และย้ายออก"
-          text="เข้าสู่ระบบการย้ายเข้า และย้ายออก"
-          :icons="[UserIcon, ArrowRightCircleIcon, HomeIcon]"
-        />
-      </div>
-
-      <div class="divider font-bold divider-start">
-        การจดมิเตอร์ และสร้างบิล
-      </div>
-      <div class="grid grid-cols-12 gap-2">
-        <QuickLinkCard
-          class="col-span-4"
-          :router-path="{ name: 'fee', params: { residenceId } }"
-          title="จัดการราคาค่าใช้จ่าย"
-          text="เข้าสู่หน้าจัดการราคาค่าใช้จ่าย"
-          :icon="CreditCardIcon"
-        />
-
-        <QuickLinkCard
-          class="col-span-4"
-          :router-path="{ name: 'meter-record', params: { residenceId } }"
-          title="ระบบบันทึกค่าน้ำ ค่าไฟ"
-          text="เข้าสู่หน้าระบบบันทึกค่าน้ำ ค่าไฟ"
-          :icon="AdjustmentsHorizontalIcon"
-        />
-      </div>
-
-      <div class="divider font-bold divider-start">ระบบจัดการชำระเงิน</div>
-      <div class="grid grid-cols-12 gap-2">
-        <QuickLinkCard
-          class="col-span-4"
-          :router-path="{ name: 'bill', params: { residenceId } }"
-          title="จัดการบิล"
-          text="เข้าสู่หน้าจัดการบิล"
-          :icon="BanknotesIcon"
-        />
-
-        <QuickLinkCard
-          class="col-span-4"
-          :router-path="{ name: 'payment', params: { residenceId } }"
-          title="จัดการช่องทางการชำระเงิน"
-          text="เข้าสู่หน้าจัดการข้อมูลช่องทางการชำระเงิน"
-          :icon="CreditCardIcon"
-        />
-      </div>
-
-      <div class="divider font-bold divider-start">อื่น ๆ</div>
-      <div class="grid grid-cols-12 gap-2">
-        <QuickLinkCard
-          class="col-span-4"
-          :router-path="{ name: 'info', params: { residenceId } }"
-          title="จัดการข้อมูลอื่น ๆ"
-          text="เข้าสู่หน้าจัดการข้อมูลอื่น ๆ"
-        />
-      </div>
-    </section> -->
   </div>
 </template>
 
