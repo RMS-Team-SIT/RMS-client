@@ -1,9 +1,14 @@
 <script setup>
-const { data } = defineProps({
+const { data, seriesName } = defineProps({
   data: {
     type: Array,
     required: true,
     default: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  },
+  seriesName: {
+    type: String,
+    required: false,
+    default: 'รายได้',
   },
 });
 const options = {
@@ -60,7 +65,7 @@ const options = {
 };
 const series = [
   {
-    name: 'รายได้',
+    name: seriesName,
     data: data,
   },
 ];

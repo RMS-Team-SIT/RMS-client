@@ -212,7 +212,7 @@ onMounted(async () => {
           <h3 class="text-xl font-semibold mb-2 p-5">
             จำนวนเงินการจ่ายบิลที่ผ่านมาในปีนี้
           </h3>
-          <IncomeChart :data="stats.paidHistory" />
+          <IncomeChart :data="stats.paidHistory" seriesName="รายจ่าย" />
         </div>
         <div class="gap-2 flex-col">
           <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
