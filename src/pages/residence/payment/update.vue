@@ -188,7 +188,7 @@ watch(data, () => {
                   <span class="label-text text-gray-500" v-else>ปิดใช้งานอยู่</span>
                   <input
                     type="checkbox"
-                    class="toggle"
+                    class="toggle toggle-success"
                     v-model="data.isActive"
                   />
                 </label>

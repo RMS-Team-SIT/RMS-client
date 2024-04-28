@@ -97,8 +97,9 @@ const visiblePages = computed(() => {
             <th>ชื่อบัญชี</th>
             <th>หมายเลขบัญชี</th>
             <th>สถานะ</th>
-            <th>สร้างเมื่อ</th>
-            <th>อัปเดตเมื่อ</th>
+            <!-- <th>สร้างเมื่อ</th>
+            <th>อัปเดตเมื่อ</th> -->
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -122,12 +123,12 @@ const visiblePages = computed(() => {
               <Badge v-if="payment.isActive" badgeType="success">เปิดใช้งาน</Badge>
               <Badge v-else badgeType="error">ปิดใช้งาน</Badge>
             </td>
-            <td>
+            <!-- <td>
               {{ dayjs(payment.created_at).format('MM-DD-YYYY HH:mm:ss') }}
             </td>
             <td>
               {{ dayjs(payment.updated_at).format('MM-DD-YYYY HH:mm:ss') }}
-            </td>
+            </td> -->
             <th>
               <Button
                 btnType="ghost-pill"
