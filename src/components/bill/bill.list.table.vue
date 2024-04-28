@@ -262,8 +262,6 @@ const payload = reactive({
               <th>ค่าใช้จ่ายรวม</th>
               <th>สถานะ</th>
               <th></th>
-              <th></th>
-              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -326,8 +324,6 @@ const payload = reactive({
                   @click="selectedBillRoomForModal = billRoom"
                   >ดูข้อมูล</Button
                 >
-              </td>
-              <td>
                 <Button
                   btnType="ghost-pill"
                   onclick="modal_2.showModal()"
@@ -342,8 +338,6 @@ const payload = reactive({
                   "
                   >แก้ไขสถานะ</Button
                 >
-              </td>
-              <td>
                 <router-link
                   v-if="billRoom.status !== 'PAID'"
                   :to="{

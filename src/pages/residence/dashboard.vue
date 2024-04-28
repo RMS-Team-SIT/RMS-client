@@ -224,25 +224,6 @@ onMounted(async () => {
           </div>
         </div>
 
-        <!-- สถานะห้องว่าง -->
-        <!-- <div
-          class="p-6 bg-white rounded-lg shadow-md border border-gray-200 col-span-1"
-        >
-          <h3 class="text-xl font-semibold mb-2 p-5">สถานะห้อง</h3>
-          <p v-if="!stats.avaiableRoomCount" class="p-5">ไม่มีห้องในระบบ</p>
-          <RoomChart
-            v-else
-            class="h-52 mx-auto"
-            :available="stats.avaiableRoomCount"
-            :not-available="stats.notavaiableRoomCount"
-          />
-          <p class="p-5 text-xs" v-if="stats.avaiableRoomCount">
-            ห้องว่าง: {{ stats.avaiableRoomCount }} ห้อง, ไม่ว่าง:
-            {{ stats.notavaiableRoomCount }} ห้อง
-          </p>
-        </div> -->
-
-        <!-- สถานะการจ่ายค่าห้อง -->
         <div
           class="p-6 bg-white rounded-lg shadow-md border border-gray-200 col-span-2"
         >

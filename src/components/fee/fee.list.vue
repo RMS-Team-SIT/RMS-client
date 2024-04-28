@@ -195,16 +195,13 @@ const deleteFee = async () =>{
                 @click="setEditingFee(fee._id)"
                 >แก้ไข</Button
               >
-              <!-- </router-link> -->
-            </th>
-            <th>
               <Button
                 btnType="ghost-pill"
+                class="text-light-red"
                 onclick="deleteFee.showModal()"
                 @click="setEditingFee(fee._id)"
                 >ลบ</Button
               >
-              <!-- </router-link> -->
             </th>
           </tr>
         </tbody>
