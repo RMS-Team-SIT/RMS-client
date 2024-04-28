@@ -1,5 +1,4 @@
-<script setup>
-</script>
+<script setup></script>
 
 <template>
   <!-- component -->
@@ -33,7 +32,7 @@
           <p
             class="mb-2 text-sm font-semibold leading-none text-left text-indigo-600 uppercase"
           >
-            ภาพรวมหอพัก: แดชบอร์ด
+            บริการครอบคลุมทั้งหอพัก
           </p>
           <h3 class="mt-2 text-2xl sm:text-left md:text-4xl">
             ภาพรวมหอพัก: แดชบอร์ด
@@ -57,7 +56,7 @@
           <p
             class="mb-2 text-sm font-semibold leading-none text-left text-indigo-600 uppercase"
           >
-            know your data
+            บันทึกค่าใช้จ่าย ประหยัดเวลา
           </p>
           <h3 class="mt-2 text-2xl sm:text-left md:text-4xl">
             การจดมิเตอร์และจัดการค่าใช้จ่ายต่าง ๆ
@@ -82,7 +81,7 @@
           <p
             class="mb-2 text-sm font-semibold leading-none text-left text-indigo-600 uppercase"
           >
-            Easy to customize
+            บิลออนไลน์ สะดวกรวดเร็ว
           </p>
           <h3 class="mt-2 text-2xl sm:text-left md:text-4xl">
             การจัดการบิล และแจ้งชำระออนไลน์
