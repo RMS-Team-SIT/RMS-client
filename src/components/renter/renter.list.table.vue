@@ -114,7 +114,6 @@ const visiblePages = computed(() => {
             <th>สำเนาบัตรประชาชน</th>
             <th>สัญญาเช่า</th>
             <th></th>
-            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -147,7 +146,8 @@ const visiblePages = computed(() => {
                     },
                   }"
                 >
-                  {{ renter.room.name }} <ArrowTopRightOnSquareIcon class="h-4 w-4" />
+                  {{ renter.room.name }}
+                  <ArrowTopRightOnSquareIcon class="h-4 w-4" />
                 </router-link>
               </div>
               <div v-else>
@@ -207,10 +207,11 @@ const visiblePages = computed(() => {
                   },
                 }"
               >
-                <Button btnType="ghost-pill">ดูข้อมูล</Button>
+                <Button btnType="ghost-pill"
+                  >ดูข้อมูล
+                  <ArrowTopRightOnSquareIcon class="h-4 w-4" />
+                </Button>
               </router-link>
-            </td>
-            <td>
               <router-link
                 :to="{
                   name: 'update-renter',

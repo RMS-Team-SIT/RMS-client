@@ -23,6 +23,7 @@ import IncomeChart from '@/components/residence/charts/income.vue';
 import { useUserStore } from '@/stores/user.store';
 import Loading from '@/components/common/loading.vue';
 import Alert from '@/components/common/alert.vue';
+import NotInRoom from './not-in-room.vue';
 
 const router = useRouter();
 const userStore = useUserStore();
@@ -82,51 +83,53 @@ onMounted(async () => {
   const renter = userStore.getUser;
   residenceId.value = renter.residence._id;
   // TODO: Fix some renter not have room
-  roomId.value = renter.room._id;
-  await fetchRoom();
+  if (renter.room) {
+    roomId.value = renter.room._id;
+    await fetchRoom();
 
-  // Calculate stats (stats can fetch in renter data)
-  console.log('renter', renter);
-  stats.value.paidBills = renter.billRooms.filter(
-    (billRoom) => billRoom.status === 'PAID'
-  ).length;
-  stats.value.uploadedBills = renter.billRooms.filter(
-    (billRoom) => billRoom.status === 'UPLOADED'
-  ).length;
-  stats.value.unpaidBills = renter.billRooms.filter(
-    (billRoom) => billRoom.status === 'UNPAID'
-  ).length;
-  stats.value.totalUnpaidAmount = renter.billRooms
-    .filter((billRoom) => billRoom.status === 'UNPAID')
-    .reduce((acc, billRoom) => acc + billRoom.totalPrice, 0);
+    // Calculate stats (stats can fetch in renter data)
+    console.log('renter', renter);
+    stats.value.paidBills = renter.billRooms.filter(
+      (billRoom) => billRoom.status === 'PAID'
+    ).length;
+    stats.value.uploadedBills = renter.billRooms.filter(
+      (billRoom) => billRoom.status === 'UPLOADED'
+    ).length;
+    stats.value.unpaidBills = renter.billRooms.filter(
+      (billRoom) => billRoom.status === 'UNPAID'
+    ).length;
+    stats.value.totalUnpaidAmount = renter.billRooms
+      .filter((billRoom) => billRoom.status === 'UNPAID')
+      .reduce((acc, billRoom) => acc + billRoom.totalPrice, 0);
 
-  // Calculate history
-  const currentYear = new Date().getFullYear();
-  renter.billRooms
-    // .filter((billRoom) => billRoom.status === 'PAID')
-    .forEach((billRoom) => {
-      const month = new Date(billRoom.meterRecord.record_date).getMonth();
-      const year = new Date(billRoom.meterRecord.record_date).getFullYear();
-      if (year === currentYear) {
-        stats.value.paidHistory[month] += billRoom.totalPrice;
-      }
-    });
+    // Calculate history
+    const currentYear = new Date().getFullYear();
+    renter.billRooms
+      // .filter((billRoom) => billRoom.status === 'PAID')
+      .forEach((billRoom) => {
+        const month = new Date(billRoom.meterRecord.record_date).getMonth();
+        const year = new Date(billRoom.meterRecord.record_date).getFullYear();
+        if (year === currentYear) {
+          stats.value.paidHistory[month] += billRoom.totalPrice;
+        }
+      });
 
-  // Calculate avarages
-  const billCount = renter.billRooms.length;
-  stats.value.avarageElectricityUsage =
-    renter.billRooms.reduce(
-      (acc, billRoom) => acc + billRoom.totalElectricMeterUsage,
-      0
-    ) / billCount;
-  stats.value.avarageWaterUsage =
-    renter.billRooms.reduce(
-      (acc, billRoom) => acc + billRoom.totalWaterMeterUsage,
-      0
-    ) / billCount;
-  stats.value.avaragePrice =
-    renter.billRooms.reduce((acc, billRoom) => acc + billRoom.totalPrice, 0) /
-    billCount;
+    // Calculate avarages
+    const billCount = renter.billRooms.length;
+    stats.value.avarageElectricityUsage =
+      renter.billRooms.reduce(
+        (acc, billRoom) => acc + billRoom.totalElectricMeterUsage,
+        0
+      ) / billCount;
+    stats.value.avarageWaterUsage =
+      renter.billRooms.reduce(
+        (acc, billRoom) => acc + billRoom.totalWaterMeterUsage,
+        0
+      ) / billCount;
+    stats.value.avaragePrice =
+      renter.billRooms.reduce((acc, billRoom) => acc + billRoom.totalPrice, 0) /
+      billCount;
+  }
 
   isLoading.value = false;
 });
@@ -146,106 +149,112 @@ onMounted(async () => {
     >
       <ChartPieIcon class="h-8 w-8 inline-block" /> แดชบอร์ดผู้เช่า
     </h1>
+    <NotInRoom v-if="!roomId" />
+    <div v-else>
+      
+      <!-- Alert -->
+      <Alert v-if="stats.unpaidBills">
+        มีบิลค้างชำระจำนวน
+        {{ stats.unpaidBills }}
+        รายการ
+      </Alert>
 
-    <!-- Alert -->
-
-    <Alert v-if="stats.unpaidBills">
-      มีบิลค้างชำระจำนวน
-      {{ stats.unpaidBills }}
-      รายการ
-    </Alert>
-
-    <!-- Grid -->
-    <div class="grid grid-cols-4 gap-2 mt-2">
-      <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
-        <h3 class="text-lg font-semibold mb-2">จำนวนบิลที่ชำระแล้ว</h3>
-        <p class="flex gap-2 items-end">
-          <CountUp :end-val="stats.paidBills" class="text-6xl text-green-400" />
-          บิล
-        </p>
-      </div>
-      <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
-        <h3 class="text-lg font-semibold mb-2">
-          จำนวนบิลที่อัพโหลดหลักฐานแล้ว
-        </h3>
-        <p class="flex gap-2 items-end">
-          <CountUp
-            :end-val="stats.uploadedBills"
-            class="text-6xl text-dark-blue-200"
-          />
-          บิล
-        </p>
-      </div>
-      <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
-        <h3 class="text-lg font-semibold mb-2">จำนวนบิลค้างชำระทั้งหมด</h3>
-        <p class="flex gap-2 items-end">
-          <CountUp :end-val="stats.unpaidBills" class="text-6xl text-red-400" />
-          บิล
-        </p>
-      </div>
-      <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
-        <h3 class="text-lg font-semibold mb-2">ยอดค้างชำระทั้งหมด</h3>
-        <p class="flex gap-2 items-end">
-          <CountUp
-            :end-val="stats.totalUnpaidAmount"
-            class="text-6xl text-red-400"
-          />
-          บาท
-        </p>
-      </div>
-    </div>
-
-    <!-- Divider -->
-    <Divider class="my-5" />
-    <div class="grid grid-cols-2 gap-2">
-      <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
-        <h3 class="text-xl font-semibold mb-2 p-5">
-          จำนวนเงินการจ่ายบิลที่ผ่านมาในปีนี้
-        </h3>
-        <IncomeChart :data="stats.paidHistory" />
-      </div>
-      <div class="gap-2 flex-col">
-        <div
-          class="p-5 bg-white rounded-lg shadow-md border border-gray-200"
-        >
+      <!-- Grid -->
+      <div class="grid grid-cols-4 gap-2 mt-2">
+        <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
+          <h3 class="text-lg font-semibold mb-2">จำนวนบิลที่ชำระแล้ว</h3>
+          <p class="flex gap-2 items-end">
+            <CountUp
+              :end-val="stats.paidBills"
+              class="text-6xl text-green-400"
+            />
+            บิล
+          </p>
+        </div>
+        <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
           <h3 class="text-lg font-semibold mb-2">
-            ค่าใช้จ่ายโดยเฉลี่ยต่อเดือน
+            จำนวนบิลที่อัพโหลดหลักฐานแล้ว
           </h3>
           <p class="flex gap-2 items-end">
             <CountUp
-              :end-val="stats.avaragePrice"
+              :end-val="stats.uploadedBills"
               class="text-6xl text-dark-blue-200"
+            />
+            บิล
+          </p>
+        </div>
+        <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
+          <h3 class="text-lg font-semibold mb-2">จำนวนบิลค้างชำระทั้งหมด</h3>
+          <p class="flex gap-2 items-end">
+            <CountUp
+              :end-val="stats.unpaidBills"
+              class="text-6xl text-red-400"
+            />
+            บิล
+          </p>
+        </div>
+        <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
+          <h3 class="text-lg font-semibold mb-2">ยอดค้างชำระทั้งหมด</h3>
+          <p class="flex gap-2 items-end">
+            <CountUp
+              :end-val="stats.totalUnpaidAmount"
+              class="text-6xl text-red-400"
             />
             บาท
           </p>
         </div>
-        <div
-          class="p-5 bg-white rounded-lg shadow-md border border-gray-200 mt-2"
-        >
-          <h3 class="text-lg font-semibold mb-2">
-            อัตราการใช้ไฟฟ้าโดยเฉลี่ยต่อเดือน
+      </div>
+
+      <!-- Divider -->
+      <Divider class="my-5" />
+      <div class="grid grid-cols-2 gap-2">
+        <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
+          <h3 class="text-xl font-semibold mb-2 p-5">
+            จำนวนเงินการจ่ายบิลที่ผ่านมาในปีนี้
           </h3>
-          <p class="flex gap-2 items-end">
-            <CountUp
-              :end-val="stats.avarageElectricityUsage"
-              class="text-6xl text-dark-blue-200"
-            />
-            หน่วย
-          </p>
+          <IncomeChart :data="stats.paidHistory" />
         </div>
-        <div
-          class="p-5 bg-white rounded-lg shadow-md border border-gray-200 mt-2"
-        >
-          <h3 class="text-lg font-semibold mb-2">
-            อัตราการใช้น้ำโดยเฉลี่ยต่อเดือน
-          </h3>
-          <p class="flex gap-2 items-end">
-            <CountUp
-              :end-val="stats.avarageWaterUsage"
-              class="text-6xl text-dark-blue-200"
-            />
-            หน่วย
-          </p>
+        <div class="gap-2 flex-col">
+          <div class="p-5 bg-white rounded-lg shadow-md border border-gray-200">
+            <h3 class="text-lg font-semibold mb-2">
+              ค่าใช้จ่ายโดยเฉลี่ยต่อเดือน
+            </h3>
+            <p class="flex gap-2 items-end">
+              <CountUp
+                :end-val="stats.avaragePrice"
+                class="text-6xl text-dark-blue-200"
+              />
+              บาท
+            </p>
+          </div>
+          <div
+            class="p-5 bg-white rounded-lg shadow-md border border-gray-200 mt-2"
+          >
+            <h3 class="text-lg font-semibold mb-2">
+              อัตราการใช้ไฟฟ้าโดยเฉลี่ยต่อเดือน
+            </h3>
+            <p class="flex gap-2 items-end">
+              <CountUp
+                :end-val="stats.avarageElectricityUsage"
+                class="text-6xl text-dark-blue-200"
+              />
+              หน่วย
+            </p>
+          </div>
+          <div
+            class="p-5 bg-white rounded-lg shadow-md border border-gray-200 mt-2"
+          >
+            <h3 class="text-lg font-semibold mb-2">
+              อัตราการใช้น้ำโดยเฉลี่ยต่อเดือน
+            </h3>
+            <p class="flex gap-2 items-end">
+              <CountUp
+                :end-val="stats.avarageWaterUsage"
+                class="text-6xl text-dark-blue-200"
+              />
+              หน่วย
+            </p>
+          </div>
         </div>
       </div>
     </div>

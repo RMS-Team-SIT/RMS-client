@@ -165,7 +165,6 @@ const setBgImg = () => {
               <div>
                 <p
                   class="text-dark-blue-200 hover:underline hover:cursor-pointer"
-                  @click="router.push({ name: 'forget-password' })"
                 >
                   ลืมรหัสผ่าน ?
                 </p>

@@ -41,23 +41,23 @@ const validator = useVuelidate(rules, formData);
 const passwordRules = computed(() => [
   {
     text: 'มีความยาวอย่างน้อย 8 ตัวอักษร',
-    valid: computed(() => formData.password.length >= 8),
+    valid: computed(() => formData.newPassword.length >= 8),
   },
   {
     text: 'มีอักษรตัวพิมพ์ใหญ่',
-    valid: computed(() => new RegExp(`[A-Z]`).test(formData.password)),
+    valid: computed(() => new RegExp(`[A-Z]`).test(formData.newPassword)),
   },
   {
     text: 'มีอักษรตัวพิมพ์เล็ก',
-    valid: computed(() => new RegExp(`[a-z]`).test(formData.password)),
+    valid: computed(() => new RegExp(`[a-z]`).test(formData.newPassword)),
   },
   {
     text: 'มีตัวเลข',
-    valid: computed(() => new RegExp(`[0-9]`).test(formData.password)),
+    valid: computed(() => new RegExp(`[0-9]`).test(formData.newPassword)),
   },
   {
     text: 'มีตัวอักษรพิเศษ',
-    valid: computed(() => new RegExp(`[^A-Za-z0-9]`).test(formData.password)),
+    valid: computed(() => new RegExp(`[^A-Za-z0-9]`).test(formData.newPassword)),
   },
 ]);
 

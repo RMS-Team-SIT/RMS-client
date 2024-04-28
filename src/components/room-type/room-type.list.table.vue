@@ -162,7 +162,6 @@ const visiblePages = computed(() => {
             <th>ขนาดห้อง</th>
             <th>ค่าเช่า</th>
             <th></th>
-            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -183,17 +182,7 @@ const visiblePages = computed(() => {
             </td>
             <td>{{ room.size }} ตร.ม.</td>
             <td>{{ room.price.toLocaleString() }} บาท/เดือน</td>
-
             <th>
-              <!-- <router-link
-                :to="{
-                  name: 'view-room',
-                  params: {
-                    residenceId: $route.params.residenceId,
-                    roomId: room._id,
-                  },
-                }"
-              > -->
               <Button
                 btnType="ghost-pill"
                 @click="
@@ -208,20 +197,7 @@ const visiblePages = computed(() => {
                 >ดูข้อมูล
                 <ArrowTopRightOnSquareIcon class="h-4 w-4" />
               </Button>
-              <!-- </router-link> -->
-            </th>
-            <th>
-              <!-- <router-link
-                :to="{
-                  name: 'update-room',
-                  params: {
-                    residenceId: $route.params.residenceId,
-                    roomId: room._id,
-                  },
-                }"
-              > -->
               <Button btnType="ghost-pill">แก้ไข</Button>
-              <!-- </router-link> -->
             </th>
           </tr>
         </tbody>

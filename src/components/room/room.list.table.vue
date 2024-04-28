@@ -179,7 +179,7 @@ const updateRoom = async () => {
             <th>ค่าเช่า</th>
             <th>สถานะห้อง</th>
             <th>ผู้เช่า</th>
-            <th></th>
+            <!-- <th></th> -->
             <th></th>
           </tr>
         </thead>
@@ -241,8 +241,6 @@ const updateRoom = async () => {
                   <ArrowTopRightOnSquareIcon class="h-4 w-4" />
                 </Button>
               </router-link>
-            </th>
-            <th>
               <Button
                 btnType="ghost-pill"
                 onclick="editRoom.showModal()"

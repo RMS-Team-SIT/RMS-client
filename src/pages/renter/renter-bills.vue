@@ -26,6 +26,7 @@ import { useUserStore } from '@/stores/user.store';
 import Loading from '@/components/common/loading.vue';
 import BillService from '@/services/BillService';
 import BankIcon from '@/components/common/bank-icon.vue';
+import NotInRoom from './not-in-room.vue';
 
 const router = useRouter();
 const userStore = useUserStore();
@@ -169,6 +170,11 @@ onMounted(async () => {
   console.log('renter', renter);
   // Set residenceId
   residenceId.value = renter.residence._id;
+  // Set roomId
+  if (!renter.room) {
+    isLoading.value = false;
+    return;
+  }
   roomId.value = renter.room._id;
   await fetchRoom();
   resetPayload();
@@ -185,8 +191,8 @@ onMounted(async () => {
         { name: 'ข้อมูลบิลทั้งหมด', pathName: 'renter-bills' },
       ]"
     />
-
-    <div class="bg-white p-10 shadow rounded-lg border mt-2">
+    <NotInRoom v-if="!roomId" />
+    <div class="bg-white rounded-lg mt-2" v-else>
       <div class="flex justify-between">
         <h1
           class="text-xl font-semibold text-dark-blue-200 flex gap-2 items-center"
@@ -195,8 +201,10 @@ onMounted(async () => {
           ข้อมูลบิลทั้งหมด
         </h1>
       </div>
+
       <div class="mt-5" v-if="!room.billRooms.length">ยังไม่มีบิลสำหรับคุณ</div>
       <div
+        v-else
         class="collapse collapse-arrow shadow-sm border mt-5"
         v-for="(billRoom, index) in room.billRooms.toReversed()"
         :key="index"

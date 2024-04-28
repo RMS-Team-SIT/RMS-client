@@ -138,6 +138,7 @@ onMounted(async () => {
           </p>
 
           <p>ค่าบริการอื่น ๆ :</p>
+          <p v-if="!room.fees.length">ไม่มีบริการอื่น ๆ</p>
           <li v-for="fee in room.fees" :key="fee._id">
             {{ fee.feename }}: {{ fee.feeprice.toLocaleString() }} บาท
           </li>

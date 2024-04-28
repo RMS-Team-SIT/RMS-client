@@ -259,15 +259,11 @@ const payload = reactive({
               <th>เลขที่บิล</th>
               <th>เลขที่ห้อง</th>
               <th>ผู้เช่าที่เรียกเก็บ</th>
-              <!-- <th>ค่าน้ำ</th> -->
-              <!-- <th>ค่าไฟ</th> -->
-              <!-- <th>ค่าเช่า</th> -->
-              <!-- <th>ค่าอื่นๆ</th> -->
               <th>ค่าใช้จ่ายรวม</th>
               <th>สถานะ</th>
-              <th>ดูข้อมูล</th>
-              <th>แก้ไขสถานะ</th>
-              <th>พิมพ์ใบแจ้งหนี้/ใบเสร็จ</th>
+              <th></th>
+              <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -311,10 +307,6 @@ const payload = reactive({
                 >
                 <span v-else>ไม่มีข้อมูลผู้เช่าที่เรียกเก็บ</span>
               </td>
-              <!-- <td>{{ billRoom.waterTotalPrice.toLocaleString() }} บาท</td> -->
-              <!-- <td>{{ billRoom.electricTotalPrice.toLocaleString() }} บาท</td> -->
-              <!-- <td>{{ billRoom.roomRentalPrice.toLocaleString() }} บาท</td> -->
-              <!-- <td>{{ billRoom.totalFeesPrice.toLocaleString() }} บาท</td> -->
               <td class="font-bold">
                 {{ billRoom.totalPrice.toLocaleString() }} บาท
               </td>
