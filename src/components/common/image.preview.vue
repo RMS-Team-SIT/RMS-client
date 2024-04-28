@@ -93,6 +93,7 @@ onMounted(() => {
   <div
     v-if="isModalOpen"
     class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    style="margin-top: 0px;"
   >
     <div @click="closeModal" class="absolute inset-0"></div>
     <div class="relative max-w-full max-h-full">
